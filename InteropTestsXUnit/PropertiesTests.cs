@@ -63,6 +63,27 @@ public class PropertiesTests
     }
 
     [Fact]
+    public void OptionalProperty()
+    {
+        // SequenceChangedNetworkEventData has : HotspotSequenceChangedNetworkEventData? HotspotData property
+
+        // Test behavior
+        SequenceChangedNetworkEventData eventData = new SequenceChangedNetworkEventData();
+        HotspotSequenceChangedNetworkEventData? optHotspotData = eventData.HotspotData;
+        Assert.Null(optHotspotData);
+
+        optHotspotData = new HotspotSequenceChangedNetworkEventData();
+        Assert.NotNull(optHotspotData);
+        Assert.Null(eventData.HotspotData);
+
+        eventData.HotspotData = optHotspotData;
+        Assert.NotNull(eventData.HotspotData);
+
+        eventData.HotspotData = null;
+        Assert.Null(eventData.HotspotData);
+    }
+
+    [Fact]
     public void MapProperty()
     {
         //SettingsCollection.Settings is an IDictionary<string, string>
