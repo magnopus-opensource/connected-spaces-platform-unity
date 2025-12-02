@@ -36,7 +36,7 @@ jobs:
 
       - name: TestB1
         run: |
-          dotnet test --filter "FullyQualifiedName~MapTests"
+          dotnet test --filter "FullyQualifiedName~MapTests|FullyQualifiedName~OptionalTest"
         working-directory: ./InteropTestsXUnit
 
       - name: TestB2
