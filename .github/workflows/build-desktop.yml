@@ -34,14 +34,19 @@ jobs:
       - name: Install
         run: cmake --install build --config ${{ matrix.build_type }}
 
-      - name: TestB1
+      - name: JustMap
         run: |
-          dotnet test --filter "FullyQualifiedName~MapTests|FullyQualifiedName~OptionalTest"
+          dotnet test --filter "FullyQualifiedName~MapTests"
         working-directory: ./InteropTestsXUnit
 
-      - name: TestB2
+      - name: JustOptional
         run: |
-          dotnet test --filter "FullyQualifiedName~OptionalTest|FullyQualifiedName~PropertiesTests|FullyQualifiedName~StaticTests"
+          dotnet test --filter "FullyQualifiedName~OptionalTest"
+        working-directory: ./InteropTestsXUnit
+
+      - name: MapAndOptional
+        run: |
+          dotnet test --filter "FullyQualifiedName~MapTests|FullyQualifiedName~OptionalTest"
         working-directory: ./InteropTestsXUnit
 
       - name: Upload build artifacts
