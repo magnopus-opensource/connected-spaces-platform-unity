@@ -36,7 +36,7 @@ jobs:
 
       - name: Test
         run: |
-          dotnet test -c ${{ matrix.build_type }} -v detailed
+          dotnet test -c ${{ matrix.build_type }} -v detailed -- --parallel none
         working-directory: ./InteropTestsXUnit
 
       - name: Upload build artifacts
