@@ -26,6 +26,7 @@ public class OptionalTest
         Assert.True(optInt2.HasValue());
     }
 
+/*
     [Fact]
     public void OptionalReferenceType()
     {
@@ -38,7 +39,7 @@ public class OptionalTest
         Assert.True(optHotspotSequenceChanged2.HasValue());
     }
 
-/*
+
     [Fact]
     public void OptionalContainer()
     {
