@@ -15,6 +15,8 @@ public class OptionalTest
      * in CSP.
      */
 
+
+
     [Fact]
     public void OptionalValueType()
     {
@@ -25,7 +27,7 @@ public class OptionalTest
         OptionalInt optInt2 = new OptionalInt(2);
         Assert.True(optInt2.HasValue());
     }
-
+    
 /*
     [Fact]
     public void OptionalReferenceType()
@@ -38,7 +40,7 @@ public class OptionalTest
         OptionalHotspotSequenceChangedNetworkEventData optHotspotSequenceChanged2 = new OptionalHotspotSequenceChangedNetworkEventData(data);
         Assert.True(optHotspotSequenceChanged2.HasValue());
     }
-
+*/
 
     [Fact]
     public void OptionalContainer()
@@ -58,5 +60,5 @@ public class OptionalTest
         OptArray = null;
         Assert.Null(OptArray);
     }
-*/
+
 }
