@@ -36,7 +36,7 @@ jobs:
 
       - name: Test
         run: |
-          dotnet test -c ${{ matrix.build_type }}
+          dotnet test -c ${{ matrix.build_type }} --logger "console;verbosity=detailed"
         working-directory: ./InteropTestsXUnit
 
       - name: Upload build artifacts
