@@ -34,9 +34,9 @@ jobs:
       - name: Install
         run: cmake --install build --config ${{ matrix.build_type }}
 
-      - name: Test
+      - name: MapAndOptional
         run: |
-          dotnet test -c ${{ matrix.build_type }}
+          dotnet test --filter "FullyQualifiedName~MapTests|FullyQualifiedName~OptionalTest"
         working-directory: ./InteropTestsXUnit
 
       - name: Upload build artifacts

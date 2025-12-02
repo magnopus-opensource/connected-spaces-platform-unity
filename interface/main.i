@@ -1,4 +1,4 @@
-/* Important to enable directors for anything that has callbacks, as that's the special 
+/* Important to enable directors for anything that has callbacks, as that's the special
  * SWIG magic that lets client code be called from inside C++.
  * The module name here should match the standard base name of the .dll */
 %module(directors="1") ConnectedSpacesPlatform
@@ -16,15 +16,17 @@
 %include "swigutils/typemaps/Csp_Map.i"
 %include "swigutils/typemaps/Csp_List.i"
 %include "swigutils/typemaps/Csp_Array.i"
+%include "swigutils/typemaps/Csp_Optional.i"
 
 
 %include "swigutils/CallbackAdapters.i"
 %include "swigutils/AsyncAdapters.i"
 
+/* Declare optional typemaps */
+%include "swigutils/OptionalDeclarations.i"
 
-/* CSP non-exported symbols */
+/* CSP non-exported symbols. Special exclusions that are too hard to fix upstream right this second. */
 %ignore ToJson;
-
 
 /* Declare the api */
 
@@ -43,20 +45,18 @@
 %include "CSP/Common/Systems/Log/LogSystem.i"
 %include "CSP/Common/Systems/Log/LogLevels.i"
 
-/* CSP/Systems*/
-%include "CSP/Systems/SystemBase.i"
 
 /* CSP/Common/Systems/Spaces */
 %include "CSP/Systems/Spaces/UserRoles.i"
 
+/* CSP/Systems*/
+%include "CSP/Systems/SystemBase.i"
+%include "CSP/Systems/WebService.i"
+
+/* CSP/Systems/ECommerce */
+%include "CSP/Systems/ECommerce/ECommerce.i"
+%include "CSP/Systems/ECommerce/ECommerceSystem.i"
+
 /* CSP/Multiplayer */
 
-/* Generics declarations */
-%template(StringDict) csp::common::Map<csp::common::String, csp::common::String>;
-
-/* Generics declarations */
-// Note. This "ValueList/ValueArray" standard is sort of temporary during the migration,
-// we need to take an evaluation once we've got the fullness of the ratios between value/non-value arrays,
-// and decide on a strategy.
-%template(ApplicationSettingsValueList) csp::common::List<csp::common::ApplicationSettings>;
-%template(SpaceUserRoleValueArray) csp::common::Array<csp::systems::SpaceUserRole>;
+%include "swigutils/TemplateDeclarations.i"
