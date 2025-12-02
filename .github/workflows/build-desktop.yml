@@ -34,9 +34,14 @@ jobs:
       - name: Install
         run: cmake --install build --config ${{ matrix.build_type }}
 
-      - name: Test
+      - name: TestA
         run: |
-          dotnet test -c ${{ matrix.build_type }} -v detailed -- --parallel none
+          dotnet test --filter "FullyQualifiedName~ArrayTests|FullyQualifiedName~CallbackTests|FullyQualifiedName~EnumTests|FullyQualifiedName~ListTests"
+        working-directory: ./InteropTestsXUnit
+
+      - name: TestB
+        run: |
+          dotnet test --filter "FullyQualifiedName~MapTests|FullyQualifiedName~OptionalTest|FullyQualifiedName~PropertiesTests|FullyQualifiedName~StaticTests"
         working-directory: ./InteropTestsXUnit
 
       - name: Upload build artifacts
