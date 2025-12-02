@@ -34,16 +34,6 @@ jobs:
       - name: Install
         run: cmake --install build --config ${{ matrix.build_type }}
 
-      - name: JustMap
-        run: |
-          dotnet test --filter "FullyQualifiedName~MapTests"
-        working-directory: ./InteropTestsXUnit
-
-      - name: JustOptional
-        run: |
-          dotnet test --filter "FullyQualifiedName~OptionalTest"
-        working-directory: ./InteropTestsXUnit
-
       - name: MapAndOptional
         run: |
           dotnet test --filter "FullyQualifiedName~MapTests|FullyQualifiedName~OptionalTest"

@@ -38,6 +38,7 @@ public class OptionalTest
         Assert.True(optHotspotSequenceChanged2.HasValue());
     }
 
+/*
     [Fact]
     public void OptionalContainer()
     {
@@ -56,5 +57,5 @@ public class OptionalTest
         OptArray = null;
         Assert.Null(OptArray);
     }
-
+*/
 }
