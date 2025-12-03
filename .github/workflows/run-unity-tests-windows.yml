@@ -1,0 +1,87 @@
+﻿name: run-unity-tests.yml
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  unity-tests:
+    name: Test in ${{ matrix.testMode }} for ${{ matrix.projectPath }} on ${{ matrix.os }} [${{ matrix.build_type }}]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest]
+        build_type: [Debug, Release]
+        projectPath:
+          - UnityProject/CspUnityTests
+        testMode:
+          - playmode
+    env:
+      GH_TOKEN: ${{ github.token }}
+      UNITY_VERSION: 6000.0.58f2
+      # Changeset from https://unity.com/releases/editor/whats-new/6000.0.58f2#installs
+      UNITY_CHANGESET: 92dee566b325
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Configure
+        run: cmake -S . -B build
+
+      - name: Build
+        run: cmake --build build --config ${{ matrix.build_type }}
+        env:
+          CMAKE_BUILD_PARALLEL_LEVEL: ${{ runner.job_count }}
+
+      - name: Install
+        run: cmake --install build --config ${{ matrix.build_type }}
+          
+      - name: Cache Library folder
+        uses: actions/cache@v3
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}
+          restore-keys: |
+            Library-
+            
+      # -----------------------------------------------------------------
+      # WINDOWS SECTION (GameCI Test Runner) - No need to install Unity
+      # -----------------------------------------------------------------
+      - name: Run Unity Tests on Windows
+        if: matrix.os == 'windows-latest'
+        uses: game-ci/unity-test-runner@v4
+        id: windows_tests
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: ${{ matrix.projectPath }}
+          testMode: ${{ matrix.testMode }}
+          artifactsPath: ${{ matrix.testMode }}-artifacts
+          checkName: Windows Test Results
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          coverageOptions: >
+            generateAdditionalMetrics;
+            generateHtmlReport;
+            generateBadgeReport;
+            assemblyFilters:+my.assembly.*
+
+      - name: Upload Windows Artifacts
+        if: matrix.os == 'windows-latest' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-${{ matrix.testMode }}-results
+          path: ${{ steps.windows_tests.outputs.artifactsPath }}
+
+      - name: Upload Windows Coverage
+        if: matrix.os == 'windows-latest' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-${{ matrix.testMode }}-coverage
+          path: ${{ steps.windows_tests.outputs.coveragePath }}

@@ -1,0 +1,121 @@
+﻿name: run-unity-tests.yml
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  unity-tests:
+    name: Test on macOS Unity ${{ matrix.testMode }} [${{ matrix.build_type }}]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        build_type: [Debug, Release]
+        projectPath:
+          - UnityProject/CspUnityTests
+        testMode:
+          - playmode
+    env:
+      GH_TOKEN: ${{ github.token }}
+      UNITY_VERSION: 6000.0.58f2
+      # Changeset from https://unity.com/releases/editor/whats-new/6000.0.58f2#installs
+      UNITY_CHANGESET: 92dee566b325
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Configure
+        run: cmake -S . -B build
+
+      - name: Build
+        run: cmake --build build --config ${{ matrix.build_type }}
+        env:
+          CMAKE_BUILD_PARALLEL_LEVEL: ${{ runner.job_count }}
+
+      - name: Install
+        run: cmake --install build --config ${{ matrix.build_type }}
+
+      - name: Cache Library folder
+        uses: actions/cache@v3
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}
+          restore-keys: |
+            Library-
+
+      # ============================================================
+      # UNITY CACHE (RESTORE)
+      # ============================================================
+
+      - name: Restore Unity installation cache
+        id: unity_cache
+        uses: actions/cache@v3
+        with:
+          path: /Applications/Unity
+          key: Unity-${{ env.UNITY_VERSION }}-${{ env.UNITY_CHANGESET }}
+
+      # ============================================================
+      # INSTALL UNITY (ONLY ON CACHE MISS)
+      # ============================================================
+
+      - name: Download Unity Editor (macOS)
+        if: steps.unity_cache.outputs.cache-hit != 'true'
+        run: |
+          echo "Downloading Unity $UNITY_VERSION ($UNITY_CHANGESET)"
+          curl -o Unity.pkg "https://download.unity3d.com/download_unity/$UNITY_CHANGESET/MacEditorInstaller/Unity.pkg"
+
+      - name: Install Unity Editor (macOS)
+        if: steps.unity_cache.outputs.cache-hit != 'true'
+        run: |
+          sudo installer -pkg Unity.pkg -target /
+
+      # ============================================================
+      # UNITY ACTIVATION (ALWAYS REQUIRED)
+      # ============================================================
+
+      - name: Activate Unity License (macOS)
+        run: |
+          UNITY_APP="/Applications/Unity/Unity.app/Contents/MacOS/Unity"
+          "$UNITY_APP" -quit -batchmode \
+            -logFile - \
+            -serial "${{ secrets.UNITY_LICENSE }}" \
+            -username "${{ secrets.UNITY_EMAIL }}" \
+            -password "${{ secrets.UNITY_PASSWORD }}"
+
+      # ============================================================
+      # RUN TESTS
+      # ============================================================
+
+      - name: Run Unity Tests on macOS
+        run: |
+          UNITY="/Applications/Unity/Unity.app/Contents/MacOS/Unity"
+          "$UNITY" \
+            -projectPath "${{ matrix.projectPath }}" \
+            -runTests \
+            -testPlatform "${{ matrix.testMode }}" \
+            -logFile "macos-unity.log" \
+            -testResults "macos-tests.xml" \
+            -enableCodeCoverage \
+            -coverageResultsPath "Coverage" \
+            -coverageOptions "generateHtmlReport;generateAdditionalMetrics"
+
+      - name: Upload macOS Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.testMode }}-results
+          path: macos-tests.xml
+
+      - name: Upload macOS Coverage Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.testMode }}-coverage
+          path: Coverage
