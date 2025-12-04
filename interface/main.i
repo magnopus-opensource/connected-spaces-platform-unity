@@ -36,6 +36,7 @@
 %include "CSP/Common/LoginState.i"
 %include "CSP/Common/Settings.i"
 %include "CSP/Common/NetworkEventData.h"
+%include "CSP/Common/Vector.i"
 
 /* CSP/Common/Interfaces */
 

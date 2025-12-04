@@ -29,6 +29,17 @@ set(_GEN_CS_DIR  "${CMAKE_BINARY_DIR}/generated/cs")
 set(_WRAPPER_MODULE_NAME "ConnectedSpacesPlatformDotNet")
 set(_CPP_WRAPPER_OUT "${_GEN_CPP_DIR}/${_WRAPPER_MODULE_NAME}_wrap.cxx")
 
+# Only set a default if the user has not provided one
+if(NOT DEFINED CMAKE_OSX_ARCHITECTURES OR CMAKE_OSX_ARCHITECTURES STREQUAL "")
+    message(WARNING
+        "CMAKE_OSX_ARCHITECTURES was not set.\n"
+        "Defaulting to 'arm64'. You may override this by setting it explicitly."
+    )
+    set(CMAKE_OSX_ARCHITECTURES "arm64")
+endif()
+
+
+message(STATUS "CMAKE_OSX_ARCHITECTURES ='${CMAKE_OSX_ARCHITECTURES}'")
 message(STATUS "_GEN_CPP_DIR='${_GEN_CPP_DIR}'")
 message(STATUS "_GEN_CS_DIR='${_GEN_CS_DIR}'")
 message(STATUS "_WRAPPER_MODULE_NAME='${_WRAPPER_MODULE_NAME}'")
@@ -40,6 +51,13 @@ message(STATUS "_ROOT_I_FILE='${_ROOT_I_FILE}'")
 set(_INTERNAL_SWG_SEARCH_PATH_GLOBAL "${_SWIG_BINARY_DIR}/share/swig/4.4.0")
 set(_INTERNAL_SWG_SEARCH_PATH_CSHARP "${_SWIG_BINARY_DIR}/share/swig/4.4.0/csharp")
 
+# Check if we want to enable unity extensions
+set(SWIG_UNITY_FLAG "")
+if(ENABLE_UNITY_EXTENSIONS)
+    message(STATUS "Enabling SWIG Unity Extensions")
+    set(SWIG_UNITY_FLAG "-DSWIG_UNITY_EXTENSIONS=1")
+endif()
+
 # Setup SWIG invocation
 add_custom_command(
   OUTPUT "${_CPP_WRAPPER_OUT}"
@@ -50,13 +68,14 @@ add_custom_command(
           -I${_CSP_INCLUDE_DIR} # So we can #include CSP's .h files.
           -I${ROOT_I_DIR} # So we can %include our own .i files.
           -I${_INTERNAL_SWG_SEARCH_PATH_CSHARP} # C# search path for SWIG .i lib files. (This should be first as some are named the same)
-          -I${_INTERNAL_SWG_SEARCH_PATH_GLOBAL} # Global seach path for SWIG .i lib files.
+          -I${_INTERNAL_SWG_SEARCH_PATH_GLOBAL} # Global search path for SWIG .i lib files.
           -c++ -csharp
           -module ${_WRAPPER_MODULE_NAME}
           -dllimport ${_WRAPPER_MODULE_NAME}
           -outdir "${_GEN_CS_DIR}"
           -o "${_CPP_WRAPPER_OUT}"
           -namespace ${CSHARP_CSP_NAMESPACE}
+          ${SWIG_UNITY_FLAG} # Optionally enable unity extensions
           -v # Still could be verboser ... There's other options if you need them
           "${_ROOT_I_FILE}"
   DEPENDS "${_ROOT_I_FILE}"
@@ -103,5 +122,5 @@ include(cmake/PackageInstall.cmake)
 # If desired, automatically copy the generated code and libs into the Unity test project.
 if(COPY_OUTPUT_TO_UNITY_TEST_PROJECT)
   message(STATUS "\nStarting the copy of latest generated C# code and libraries to the Unity test project...")
-  include(cmake/CopyToUnity.cmake)
+  include(cmake/InstallToUnityProject.cmake)
 endif()

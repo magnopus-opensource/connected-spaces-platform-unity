@@ -14,6 +14,7 @@ jobs:
       matrix:
         os: [windows-latest, macos-latest]
         build_type: [Debug, Release]
+        build_with_unity_extensions: [true, false]
 
     runs-on: ${{ matrix.os }}
     env:
@@ -24,7 +25,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure
-        run: cmake -S . -B build
+        run: cmake -S . -B build ${{ matrix.build_with_unity_extensions && '-DENABLE_UNITY_EXTENSIONS=ON' || '' }}
 
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }}
@@ -35,6 +36,8 @@ jobs:
         run: cmake --install build --config ${{ matrix.build_type }}
 
       - name: Test
+        # We cannot run XUnit tests with Unity extensions enabled because Unity classes would not be found causing a build failure.
+        if: ${{ matrix.build_with_unity_extensions == false }}
         run: |
           dotnet test -c ${{ matrix.build_type }}
         working-directory: ./InteropTestsXUnit
@@ -42,6 +45,6 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: desktop-${{ matrix.os }}-${{ matrix.build_type }}
+          name: desktop-${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.build_with_unity_extensions && '-UnityExtensions' || '' }}
           path: install/**
           if-no-files-found: error

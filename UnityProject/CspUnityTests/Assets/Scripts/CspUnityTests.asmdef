@@ -2,12 +2,10 @@
     "name": "CspUnityTests",
     "rootNamespace": "",
     "references": [
-        "GUID:d8d5e9696295d5f489fa1770d11b8fc0"
+        "GUID:5777c376da03949009c590c121784665"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [
-        "WindowsStandalone64"
-    ],
+    "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
