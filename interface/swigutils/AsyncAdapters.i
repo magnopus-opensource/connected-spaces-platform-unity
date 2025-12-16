@@ -77,6 +77,10 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
     METHODNAME(FUNCTION_TYPELIST_ONLY_NAMES, new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
     {
+        if (featureLimitResult is ResultBase)
+        {
+            ((ResultBase)featureLimitResult).ThrowIfNeeded(nameof(METHODNAME##Async));
+        }
         tcs.SetResult(CALLBACK_TYPELIST_ONLY_NAMES);
     }));
     return tcs.Task;
