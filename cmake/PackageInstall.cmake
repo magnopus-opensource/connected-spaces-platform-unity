@@ -34,6 +34,21 @@ install(
   DESTINATION "${INSTALL_DIR}/include"
 )
 
+# Extra C# files to install
+cmake_path(APPEND _tmp_extra_cs_path
+    "${CMAKE_BINARY_DIR}"
+    ".."
+    "extra"
+    "cs"
+)
+set(CSP_EXTRA_CS_PATH "${_tmp_extra_cs_path}"
+    CACHE PATH "Path to extra C# files to install"
+)
+install(
+  DIRECTORY "${CSP_EXTRA_CS_PATH}/"
+  DESTINATION "${INSTALL_DIR}/include"
+)
+
 # The actual underlying CSP library, needs to sit alongside the bindings.
 # Including this makes this a complete artifact.
 if (BUILD_SHARED_LIBS)
