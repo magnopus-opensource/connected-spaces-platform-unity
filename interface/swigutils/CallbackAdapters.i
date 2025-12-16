@@ -33,6 +33,7 @@ public:
 
 %{
 #include "CSP/Common/Systems/Log/LogSystem.h"
+#include "CSP/Systems/Quota/Quota.h"
 #include "CSP/Systems/Quota/QuotaSystem.h"
 %}
 
@@ -74,7 +75,6 @@ MAKE_CALLBACK_ADAPTER(QuotaSystem_FeatureLimitCallbackCSharpAdapter, ARGLIST(con
  * This is clearer in the generated code */
 %typemap(in) CALLBACK_CPP_SYMBOL {
   $1 = [$input](ARG_LIST_WITH_TYPES) {
-    // This is Alessio's test!
     return $input->Call(ARG_LIST_WITHOUT_TYPES);
   };
 }
@@ -99,7 +99,7 @@ MAKE_CALLBACK_TYPEMAP(csp::common::LogSystem::EndMarkerCallbackHandler,
                       ARGLIST(irrelevantArg))
 
 /* QuotaSystem Callback Typemaps */
-MAKE_CALLBACK_TYPEMAP(csp::systems::QuotaSystem::FeatureLimitCallbackHandler,
+MAKE_CALLBACK_TYPEMAP(csp::systems::FeatureLimitCallback,
                         QuotaSystem_FeatureLimitCallbackCSharpAdapter,
                         ARGLIST(const csp::systems::FeatureLimitResult& result),
                         ARGLIST(result))

@@ -23,7 +23,7 @@
 
 /*
  * If it's a method like `SetXCallback(Callback)`, then you just want to stamp MAKE_ACTION_CALLBACK"
- * It it's a full on Async method you want to await, like `await EnterSpace(spaceID...)`, then 
+ * If it's a full on Async method you want to await, like `await EnterSpace(spaceID...)`, then 
  * stamp with MAKE_ASYNC, which makes an action callback but also wraps in an awaitable. 
  * At the moment (2025), CALLBACKT is generally a csharp adapter defined in CallbackAdapters.i
  */
@@ -40,8 +40,19 @@
 %}
 %enddef
 
-%define MAKE_ASYNC(FULLY_NAMESPACED_CLASST, METHODNAME, ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITHOUT_NAMES, ACTION_TYPELIST_WITH_NAMES, ACTION_TYPELIST_ONLY_NAMES)
-MAKE_ACTION_CALLBACK(ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITH_NAMES, ACTION_TYPELIST_WITHOUT_NAMES, ACTION_TYPELIST_ONLY_NAMES)
+%define MAKE_ASYNC(
+    FULLY_NAMESPACED_CLASST, 
+    METHODNAME, 
+    CALLBACK_TYPENAME,
+    CALLBACKT,
+    CALLBACK_TYPELIST_WITH_NAMES,
+    CALLBACK_TYPELIST_WITHOUT_NAMES,
+    CALLBACK_TYPELIST_ONLY_NAMES,
+    FUNCTION_TYPELIST_WITH_NAMES,
+    FUNCTION_TYPELIST_ONLY_NAMES
+)
+    
+MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, CALLBACK_TYPELIST_WITHOUT_NAMES, CALLBACK_TYPELIST_ONLY_NAMES)
 
 /* 
  * Note: here we can add the ResultBase check to throw exceptions on failure. Ideally, the better place would be even 
@@ -50,17 +61,46 @@ MAKE_ACTION_CALLBACK(ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITH_N
  */
 %extend FULLY_NAMESPACED_CLASST {
 %proxycode %{
-  public System.Threading.Tasks.Task<ACTION_TYPELIST_WITHOUT_NAMES> METHODNAME##Async(ACTION_TYPELIST_WITH_NAMES)
+  public System.Threading.Tasks.Task<CALLBACK_TYPELIST_WITHOUT_NAMES> METHODNAME##Async(FUNCTION_TYPELIST_WITH_NAMES)
   {
-    System.Threading.Tasks.TaskCompletionSource<ACTION_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<ACTION_TYPELIST_WITHOUT_NAMES>();
-    METHODNAME(ACTION_TYPELIST_ONLY_NAMES, new CspSwigProto.ACTION_CALLBACK_TYPENAME(ACTION_TYPELIST_ONLY_NAMES => 
+    System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
+    METHODNAME(FUNCTION_TYPELIST_ONLY_NAMES, new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
     {
-        tcs.SetResult(ACTION_TYPELIST_ONLY_NAMES);
+        tcs.SetResult(CALLBACK_TYPELIST_ONLY_NAMES);
     }));
     return tcs.Task;
   }
 %}
 }
+%enddef
+
+
+%define MAKE_ASYNC_ZERO(
+    FULLY_NAMESPACED_CLASST, 
+    METHODNAME, 
+    CALLBACK_TYPENAME,
+    CALLBACKT,
+    CALLBACK_TYPELIST_WITH_NAMES,
+    CALLBACK_TYPELIST_WITHOUT_NAMES,
+    CALLBACK_TYPELIST_ONLY_NAMES
+)
+    
+MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, CALLBACK_TYPELIST_WITHOUT_NAMES, CALLBACK_TYPELIST_ONLY_NAMES)
+
+%extend FULLY_NAMESPACED_CLASST {
+%proxycode %{
+  public System.Threading.Tasks.Task<CALLBACK_TYPELIST_WITHOUT_NAMES> METHODNAME##Async()
+  {
+    System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
+    METHODNAME(new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
+    {
+        tcs.SetResult(CALLBACK_TYPELIST_ONLY_NAMES);
+    }));
+    return tcs.Task;
+  }
+%}
+}
+
 %enddef
 
 /* 
@@ -92,18 +132,14 @@ MAKE_ACTION_CALLBACK(EndMarkerCallback,
                      ARGLIST(System.IntPtr),
                      ARGLIST(irrelevant));
 
- /*
-MAKE_ASYNC(csp::common::IRealtimeEngine, 
-           CreateEntity, 
-           EntityCreatedCallbackAdapter, 
-           SpaceEntity, 
-           ARGLIST(string name, SpaceTransform tx, ulong? parentId),
-           ARGLIST(name, tx, parentId))
-           
-MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine, 
-           MakeAnIntOffThreadVerySlowly, 
-           LongRunningOperationToMakeAnIntCallback, 
-           int, 
-           ARGLIST(int secondsToTake),
-           ARGLIST(secondsToTake))
-*/
+
+/* QuotaSystem Callback */
+
+MAKE_ASYNC_ZERO(csp::systems::QuotaSystem,
+           GetTotalSpacesOwnedByUser,
+           FeatureLimitCallback,
+           QuotaSystem_FeatureLimitCallbackCSharpAdapter,
+           ARGLIST(csp.systems.FeatureLimitResult featureLimitResult),
+           ARGLIST(csp.systems.FeatureLimitResult),
+           ARGLIST(featureLimitResult)
+)
