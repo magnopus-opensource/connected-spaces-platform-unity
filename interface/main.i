@@ -1,4 +1,4 @@
-/* Important to enable directors for anything that has callbacks, as that's the special
+/* Important to enable directors for anything that has callbacks, as that's the special 
  * SWIG magic that lets client code be called from inside C++.
  * The module name here should match the standard base name of the .dll */
 %module(directors="1") ConnectedSpacesPlatform
@@ -61,6 +61,8 @@
 /* CSP/Systems*/
 %include "CSP/Systems/SystemBase.i"
 %include "CSP/Systems/WebService.i"
+%include "CSP/Systems/Quota/Quota.i"
+%include "CSP/Systems/Quota/QuotaSystem.i"
 
 /* CSP/Systems/ECommerce */
 %include "CSP/Systems/ECommerce/ECommerce.i"
