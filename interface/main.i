@@ -54,13 +54,14 @@
 %include "CSP/Common/Systems/Log/LogSystem.i"
 %include "CSP/Common/Systems/Log/LogLevels.i"
 
+/* CSP/Systems*/
 %include "CSP/Systems/WebService.i"
+%include "CSP/Systems/SystemBase.i"
 
 /* CSP/Common/Systems/Spaces */
 %include "CSP/Systems/Spaces/UserRoles.i"
 
-/* CSP/Systems*/
-%include "CSP/Systems/SystemBase.i"
+/* CSP/Common/Systems/Quota */
 %include "CSP/Systems/Quota/Quota.i"
 %include "CSP/Systems/Quota/QuotaSystem.i"
 
