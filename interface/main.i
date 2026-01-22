@@ -41,24 +41,45 @@
 
 /* Declare the api */
 
-/* CSP/ */
+/* CSP */
 %include "CSP/CSPFoundation.i"
+
+////////// COMMON /////////////////////////////////////////////////////////////
 
 /* CSP/Common */
 %include "CSP/Common/CancellationToken.i"
-%include "CSP/Common/LoginState.i"
 %include "CSP/Common/Hash.i"
+%include "CSP/Common/LoginState.i"
+%include "CSP/Common/MimeTypeHelper.i"
+%include "CSP/Common/NetworkEventData.i"
+%include "CSP/Common/ReplicatedValue.i"
 %include "CSP/Common/Settings.i"
-%include "CSP/Common/NetworkEventData.h"
+%include "CSP/Common/SharedConstants.i"
+%include "CSP/Common/SharedEnums.i"
 %include "CSP/Common/Vector.i"
 
 /* CSP/Common/Interfaces */
+/* If we ever want to implement interfaces in Csharp, rather than just using
+ * C++ defined ones, we will need/want to declare these as %interface.
+ * The following link is java doc, but the C# SWIG library is practically
+ * identical : https://www.swig.org/Doc4.4/SWIGDocumentation.html#Java_interfaces 
+ * This will absolutely matter in the case of multiple-inheritance, as non-interface
+ * multi-inheritance is not supported in C#, unlike C++.
+ * Currently, the specific implementation of these don't really matter very much
+ * to C# users from an API perspective */
+%include "CSP/Common/Interfaces/IAuthContext.i"
+%include "CSP/Common/Interfaces/IJSScriptRunner.i"
+%include "CSP/Common/Interfaces/InvalidInterfaceUserError.i"
+%include "CSP/Common/Interfaces/IRealtimeEngine.i"
+%include "CSP/Common/Interfaces/IScriptBinding.i"
 
 /* CSP/Common/Systems/Log */
 %include "CSP/Common/Systems/Log/LogSystem.i"
 %include "CSP/Common/Systems/Log/LogLevels.i"
 
-/* CSP/Common/Systems/Spaces */
+////////// SYSTEMS ////////////////////////////////////////////////////////////
+
+/* CSP/Systems/Spaces */
 %include "CSP/Systems/Spaces/UserRoles.i"
 
 /* CSP/Systems*/
@@ -73,6 +94,8 @@
 %include "CSP/Systems/ECommerce/ECommerce.i"
 %include "CSP/Systems/ECommerce/ECommerceSystem.i"
 
-/* CSP/Multiplayer */
+////////// MULTIPLAYER  ///////////////////////////////////////////////////////
+
+
 
 %include "swigutils/TemplateDeclarations.i"
