@@ -158,6 +158,19 @@
 // all features attached to the type before dealing with it.
 %naturalvar csp::common::Optional< TYPE >;
 
+// Ignore constructors and operators that expose raw TYPE* pointers
+// SWIG converts a lot of C++ specific constructs to T*.
+// None of these are useful from C#, and cause noisy (albeit harmless)
+// SWIGTYPE_p_* wrapper files to be generated.
+// This is only a thing for arithmetic types because other types will
+// have typemaps that handle this properly ... I think.
+%ignore csp::common::Optional< TYPE >::Optional(TYPE *);
+%ignore csp::common::Optional< TYPE >::Optional(TYPE *, std::function<void(TYPE *)>);
+%ignore csp::common::Optional< TYPE >::Optional(TYPE &&);
+%ignore csp::common::Optional< TYPE >::Optional(std::nullptr_t);
+%ignore csp::common::Optional< TYPE >::operator->;
+%ignore csp::common::Optional< TYPE >::operator*;
+
 // Even although we're not going to really use them, we must still name the
 // exported template instantiation, otherwise SWIG would give it an
 // auto-generated name starting with SWIGTYPE which would be even uglier.
