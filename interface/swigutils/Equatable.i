@@ -82,5 +82,8 @@ SWIG_STD_VECTOR_ENHANCED(CLASS_FULLY_NAMESPACED)
 MAKE_VALUE_EQUATABLE(csp::common::Vector2)
 MAKE_VALUE_EQUATABLE(csp::common::Vector3)
 MAKE_VALUE_EQUATABLE(csp::common::Vector4)
+MAKE_VALUE_EQUATABLE(csp::common::ReplicatedValue)
+MAKE_VALUE_EQUATABLE(csp::common::SettingsCollection)
+MAKE_VALUE_EQUATABLE(csp::common::ApplicationSettings)
 
 // TODO, Build the full list of all the other types.
