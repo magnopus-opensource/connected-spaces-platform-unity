@@ -24,10 +24,10 @@
 
 %optional_arithmetic(std::int8_t, OptSignedByte)
 %optional_arithmetic(std::int16_t, OptSignedShort)
-%optional_arithmetic(std::int32_t, OptSignedInt)
+%optional_arithmetic(std::int32_t, OptSignedInt32)
+%optional_arithmetic(std::uint32_t, OptUnsignedInt32)
 %optional_arithmetic(std::uint8_t, OptUnsignedByte)
 %optional_arithmetic(std::uint16_t, OptUnsignedShort)
-%optional_arithmetic(std::uint32_t, OptUnsignedInt)
 %optional_arithmetic(std::int64_t, OptSignedInt64)
 %optional_arithmetic(std::uint64_t, OptUnsignedInt64)
 
