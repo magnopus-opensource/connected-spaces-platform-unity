@@ -34,6 +34,10 @@
    Anything here is a CSP mistake. They have types in their public interface that cannot be
    used downstream because they reference internal types/implementations. */
 %ignore ToJson;
+%ignore TierNameEnumToString;
+%ignore TierFeatureEnumToString;
+%ignore StringToTierNameEnum;
+%ignore StringToTierFeatureEnum;
 
 /* Declare the api */
 
