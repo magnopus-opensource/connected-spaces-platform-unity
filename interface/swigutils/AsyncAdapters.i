@@ -77,12 +77,12 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
     METHODNAME(FUNCTION_TYPELIST_ONLY_NAMES, new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
     {
-        if (featureLimitResult is ResultBase)
-        {
-            ((ResultBase)featureLimitResult).ThrowIfNeeded(nameof(METHODNAME##Async));
-        }
+        // Set the result on the task completion source
         tcs.SetResult(CALLBACK_TYPELIST_ONLY_NAMES);
     }));
+
+   	// Before returning the result, we check if we need to throw an exception
+   	((ResultBase)tcs.Task.Result).ThrowIfNeeded(nameof(METHODNAME##Async));
     return tcs.Task;
   }
 %}
@@ -122,9 +122,13 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
     METHODNAME(new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
     {
+		// Set the result on the task completion source
         tcs.SetResult(CALLBACK_TYPELIST_ONLY_NAMES);
     }));
-    return tcs.Task;
+
+   	// Before returning the result, we check if we need to throw an exception
+   	((ResultBase)tcs.Task.Result).ThrowIfNeeded(nameof(METHODNAME##Async));
+   	return tcs.Task;
   }
 %}
 }
