@@ -9,14 +9,14 @@ namespace Magnopus.Extra.Exceptions
     /// <summary>
     /// Base exception for the OKO Founation Unity package. All exceptions will inherit from this.
     /// </summary>
-    public class FoundationException : Exception
+    public class CspResultException : Exception
     {
-        public FoundationException(string message)
+        public CspResultException(string message)
             : base(message)
         {
         }
 
-        public FoundationException(string message, Exception innerException)
+        public CspResultException(string message, Exception innerException)
             : base(message, innerException)
         {
         }

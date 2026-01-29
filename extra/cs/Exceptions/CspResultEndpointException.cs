@@ -10,7 +10,7 @@ namespace Magnopus.Extra.Exceptions
     /// <summary>
     /// A custom exception to store the Web Status Code along with a message.
     /// </summary>
-    public class FoundationEndpointException : FoundationException
+    public class CspResultEndpointException : CspResultException
     {
         public ushort StatusCode { get; private set; }
 
@@ -18,7 +18,7 @@ namespace Magnopus.Extra.Exceptions
 
         public csp.systems.ERequestFailureReason FailureReason { get; private set; }
 
-        public FoundationEndpointException(string message, ushort statusCode, string responseBody = null, csp.systems.ERequestFailureReason failureReason = 0)
+        public CspResultEndpointException(string message, ushort statusCode, string responseBody = null, csp.systems.ERequestFailureReason failureReason = 0)
             : base(message)
         {
             StatusCode = statusCode;
@@ -26,7 +26,7 @@ namespace Magnopus.Extra.Exceptions
             FailureReason = failureReason;
         }
 
-        public FoundationEndpointException(string message, ushort statusCode, Exception innerException, string responseBody = null, csp.systems.ERequestFailureReason failureReason = 0)
+        public CspResultEndpointException(string message, ushort statusCode, Exception innerException, string responseBody = null, csp.systems.ERequestFailureReason failureReason = 0)
             : base(message, innerException)
         {
             StatusCode = statusCode;
@@ -34,7 +34,7 @@ namespace Magnopus.Extra.Exceptions
             FailureReason = failureReason;
         }
 
-        public FoundationEndpointException(string message, HttpStatusCode statusCode, string responseBody = null, csp.systems.ERequestFailureReason failureReason = 0)
+        public CspResultEndpointException(string message, HttpStatusCode statusCode, string responseBody = null, csp.systems.ERequestFailureReason failureReason = 0)
             : base(message)
         {
             StatusCode = (ushort)statusCode;
@@ -42,7 +42,7 @@ namespace Magnopus.Extra.Exceptions
             FailureReason = failureReason;
         }
 
-        public FoundationEndpointException(string message, HttpStatusCode statusCode, Exception innerException, string responseBody = null, csp.systems.ERequestFailureReason failureReason = 0)
+        public CspResultEndpointException(string message, HttpStatusCode statusCode, Exception innerException, string responseBody = null, csp.systems.ERequestFailureReason failureReason = 0)
             : base(message, innerException)
         {
             StatusCode = (ushort)statusCode;
