@@ -100,9 +100,9 @@ MAKE_CALLBACK_TYPEMAP(csp::common::LogSystem::EndMarkerCallbackHandler,
 
 /* QuotaSystem Callback Typemaps */
 MAKE_CALLBACK_TYPEMAP(csp::systems::FeatureLimitCallback,
-                        QuotaSystem_FeatureLimitCallbackCSharpAdapter,
-                        ARGLIST(const csp::systems::FeatureLimitResult& result),
-                        ARGLIST(result))
+                      QuotaSystem_FeatureLimitCallbackCSharpAdapter,
+                      ARGLIST(const csp::systems::FeatureLimitResult& result),
+                      ARGLIST(result))
 
 /*********** CALLBACK NAMESPACE ADAPTATION **********/
 /* First, know that callbacks (std::functions) are going through the Fulton transform (https://swig.org/Doc1.3/SWIGPlus.html)
@@ -118,5 +118,4 @@ MAKE_CALLBACK_TYPEMAP(csp::systems::FeatureLimitCallback,
  * Careful here, potential cause of collisions. */
 using csp::common::String;
 using csp::common::LogLevel;
-using csp::systems::FeatureLimitResult;
 %}
