@@ -8,7 +8,7 @@
 %proxycode %{
 #region EXCEPTIONS HANDLING
     /// <summary>
-    /// Throws a <seealso cref="FoundationEndpointException"/> if something went wrong. The exception contains the error code.
+    /// Throws a <seealso cref="CspResultEndpointException"/> if something went wrong. The exception contains the error code.
     /// </summary>
     /// <param name="callingMethodName"> The name of the method that called this extension method. It is used to help log the message of the exception if there is one. </param>
     public void ThrowIfNeeded(string callingMethodName)
@@ -26,7 +26,7 @@
                 failureReason = this.GetFailureReason();
             }
 
-            throw new Magnopus.Extra.Exceptions.FoundationEndpointException(
+            throw new Magnopus.Extra.Exceptions.CspResultEndpointException(
               $"{callingMethodName} failed.", statusCode, responseBody: responseBody, 
               failureReason: failureReason);
         }
