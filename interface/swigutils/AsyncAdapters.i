@@ -74,7 +74,20 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
 }
 %enddef
 
-
+/*
+ * Variant of MAKE_ASYNC for zero-argument functions
+ * Use this for things like `GetTotalSpacesOwnedByUser(Action<FeatureLimitResult> callback)`, where the calling
+ * function takes no arguments other than the callback.
+ *
+ * Note:
+ * FULLY_NAMESPACED_CLASST is the full namespaced C++ class name, e.g. csp::systems::QuotaSystem
+ * METHODNAME is the method name, e.g. GetTotalSpacesOwnedByUser
+ * CALLBACK_TYPENAME is the type of the callback adapter class, for example FeatureLimitCallback
+ * CALLBACKT is the C# adapter class that extends the callback type, for example QuotaSystem_FeatureLimitCallbackCSharpAdapter
+ * CALLBACK_TYPELIST_WITH_NAMES is the full argument list with types, e.g. ARGLIST(const csp::systems::FeatureLimitResult& result)
+ * CALLBACK_TYPELIST_WITHOUT_NAMES is the argument list without types, e.g. ARGLIST(const csp::systems::FeatureLimitResult)
+ * CALLBACK_TYPELIST_ONLY_NAMES is just the argument names, e.g. ARGLIST(result)
+ */
 %define MAKE_ASYNC_ZERO(
     FULLY_NAMESPACED_CLASST, 
     METHODNAME, 
