@@ -31,7 +31,7 @@
 %define MAKE_VALUE_EQUATABLE(CLASS_FULLY_NAMESPACED)
 SWIG_STD_VECTOR_ENHANCED(CLASS_FULLY_NAMESPACED)
 
-%typemap(csinterfaces) CLASS_FULLY_NAMESPACED "IEquatable<$csclassname>"
+%typemap(csinterfaces) CLASS_FULLY_NAMESPACED "System.IEquatable<$csclassname>"
 
 %typemap(cscode) CLASS_FULLY_NAMESPACED %{
 
