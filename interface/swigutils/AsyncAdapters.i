@@ -26,18 +26,29 @@
  * If it's a full on Async method you want to await, like `await EnterSpace(spaceID...)`, then 
  * stamp with MAKE_ASYNC, which makes an action callback but also wraps in an awaitable. 
  * At the moment (2025), CALLBACKT is generally a csharp adapter defined in CallbackAdapters.i
+ *
+ * Note: MAKE_ACTION_CALLBACK is used by both MAKE_ASYNC_ZERO and MAKE_ASYNC macros, in order to define the related
+ * callback type that is used by the async function. 
+ *
+ * Important note: some async functions might use the same callback type. This means that we needed a way to ensure
+ * the same callback type would not be re-defined causing a compilation error. To do that, whenever a new callback
+ * type is defined, a SWIG #define declaration is generated and used as reference to check for re-definitions.
  */
- 
 
 %define MAKE_ACTION_CALLBACK(ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITH_NAMES, ACTION_TYPELIST_WITHOUT_NAMES, ACTION_TYPELIST_ONLY_NAMES)
-%pragma(csharp) modulecode=%{
+#ifdef SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
+  %warn "MAKE_ACTION_CALLBACK: callback '" #ACTION_CALLBACK_TYPENAME "' already defined, skipping"
+#else
+  #define SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
+  %pragma(csharp) modulecode=%{
     public sealed class ACTION_CALLBACK_TYPENAME: CALLBACKT
     {
       private readonly System.Action<ACTION_TYPELIST_WITHOUT_NAMES> CallbackHandler;
       public ACTION_CALLBACK_TYPENAME(System.Action<ACTION_TYPELIST_WITHOUT_NAMES> handler) => CallbackHandler = handler;
       public override void Call(ACTION_TYPELIST_WITH_NAMES) => CallbackHandler(ACTION_TYPELIST_ONLY_NAMES);
     }
-%}
+  %}
+#endif
 %enddef
 
 %define MAKE_ASYNC(
@@ -155,4 +166,15 @@ MAKE_ASYNC_ZERO(csp::systems::QuotaSystem,
            ARGLIST(csp.systems.FeatureLimitResult featureLimitResult),
            ARGLIST(csp.systems.FeatureLimitResult),
            ARGLIST(featureLimitResult)
+)
+
+MAKE_ASYNC(csp::systems::QuotaSystem,
+          GetConcurrentUsersInSpace,
+          FeatureLimitCallback,
+          QuotaSystem_FeatureLimitCallbackCSharpAdapter,
+          ARGLIST(csp.systems.FeatureLimitResult featureLimitResult),
+          ARGLIST(csp.systems.FeatureLimitResult),
+          ARGLIST(featureLimitResult),
+		  ARGLIST(string spaceID),
+		  ARGLIST(spaceID)
 )
