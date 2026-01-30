@@ -43,9 +43,6 @@ cmake_path(SET CSP_EXTRA_CS_PATH
     NORMALIZE
 )
 
-set(CSP_EXTRA_CS_PATH "${CSP_EXTRA_CS_PATH}"
-    CACHE PATH "Path to extra C# files to install"
-)
 install(
   DIRECTORY "${CSP_EXTRA_CS_PATH}/"
   DESTINATION "${INSTALL_DIR}/include"
