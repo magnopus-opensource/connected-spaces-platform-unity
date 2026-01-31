@@ -26,7 +26,11 @@
 namespace csp::common
 {
 
-
+#ifndef SWIG
+class ReplicatedValue;
+using ReplicatedValueImplType = std::variant<bool, float, int64_t, csp::common::String, csp::common::Vector2, csp::common::Vector3,
+    csp::common::Vector4, csp::common::Map<csp::common::String, ReplicatedValue>>;
+#endif
 
 /// @brief Enum representing the type of a replicated value.
 /// These values are serialized and stored as integers.
@@ -53,7 +57,33 @@ public:
     /// This constuctor will create the value in an invalid state. Do not use unless you know what you are doing!
     ReplicatedValue();
 
-    
+    #ifndef SWIG
+
+    // Internal templated constructor
+#ifndef SWIG
+    CSP_NO_EXPORT template <class T>
+    inline ReplicatedValue(const T& InValue)
+        : Value { InValue }
+#endif
+    {
+    }
+
+    // These are great for certain scenarios such as serialization/deserialization, as we can avoid conditionals.
+    // Internal templated setter.
+#ifndef SWIG
+    CSP_NO_EXPORT template <class T> inline void Set(const T& InValue) { Value = InValue; }
+#endif
+    // Internal templated setter.
+#ifndef SWIG
+    CSP_NO_EXPORT template <class T> inline const T& Get() const { return std::get<T>(Value); }
+#endif
+
+    // Internal getter for variant.
+#ifndef SWIG
+    CSP_NO_EXPORT const ReplicatedValueImplType& GetValue() const { return Value; };
+#endif
+
+    #endif
 
     /// @brief Construct a ReplicatedValue based on a bool type.
     /// @param InBoolValue bool : Initial value.
@@ -69,6 +99,9 @@ public:
 
     /// @brief Construct a ReplicatedValue based on a csp::common::String type derived from the given char*.
     /// @param InLongValue int64_t : Initial value.
+#ifndef SWIG
+    CSP_NO_EXPORT ReplicatedValue(const char* InStringValue);
+#endif
 
     /// @brief Construct a ReplicatedValue based on an csp::common::String type.
     /// @param InStringValue csp::common::String : Initial value.
@@ -95,21 +128,39 @@ public:
 
     /// @brief Copy constructor
     /// @param Other csp::common::ReplicatedValue& : The value to copy.
+#ifndef SWIG
+    CSP_NO_EXPORT ReplicatedValue(const ReplicatedValue& Other);
+#endif
 
     /// @brief Move constructor
     /// @param Other csp::common::ReplicatedValue& : The value to move.
+#ifndef SWIG
+    CSP_NO_EXPORT ReplicatedValue(ReplicatedValue&& Other);
+#endif
 
     /// @brief Copy assignment operator overload.
     /// @param InValue ReplicatedValue : Other replicated value to set from.
+#ifndef SWIG
+    CSP_NO_EXPORT ReplicatedValue& operator=(const ReplicatedValue& Other);
+#endif
 
     /// @brief Move assignment operator overload.
     /// @param InValue ReplicatedValue : Other replicated value to move from.
+#ifndef SWIG
+    CSP_NO_EXPORT ReplicatedValue& operator=(ReplicatedValue&& Other);
+#endif
 
     /// @brief Equality operator overload.
     /// @param ReplicatedValue : Other value to compare to.
+#ifndef SWIG
+    CSP_NO_EXPORT bool operator==(const ReplicatedValue& OtherValue) const;
+#endif
 
     /// @brief Inequality operator overload.
     /// @param ReplicatedValue : Other value to compare to.
+#ifndef SWIG
+    CSP_NO_EXPORT bool operator!=(const ReplicatedValue& OtherValue) const;
+#endif
 
     /// @brief Gets the type of replicated value.
     /// @return ReplicatedValueType: Enum representing all supported replication base types.
@@ -140,6 +191,9 @@ public:
     int64_t GetInt() const;
 
     /// @brief Set a string value for this replicated value from a const char*, will overwrite and previous value.
+#ifndef SWIG
+    CSP_NO_EXPORT void SetString(const char* InValue);
+#endif
 
     ///@brief Set a string value for this replicated value from a csp::common::String&, will overwrite and previous value.
     void SetString(const csp::common::String& InValue);
@@ -150,6 +204,9 @@ public:
 
     /// @brief Get a generic default string.
     /// @return The default string.
+#ifndef SWIG
+    CSP_NO_EXPORT static const csp::common::String& GetDefaultString();
+#endif
 
     /// @brief Set a Vector2 value for this replicated value from a csp::common::Vector2, will overwrite and previous value.
     void SetVector2(const csp::common::Vector2& InValue);
@@ -160,6 +217,9 @@ public:
 
     /// @brief Get a generic default Vector2.
     /// @return The default Vector2.
+#ifndef SWIG
+    CSP_NO_EXPORT static const csp::common::Vector2& GetDefaultVector2();
+#endif
 
     /// @brief Set a Vector3 value for this replicated value from a csp::common::Vector3, will overwrite and previous value.
     void SetVector3(const csp::common::Vector3& InValue);
@@ -170,6 +230,9 @@ public:
 
     /// @brief Get a generic default Vector3.
     /// @return The default Vector3.
+#ifndef SWIG
+    CSP_NO_EXPORT static const csp::common::Vector3& GetDefaultVector3();
+#endif
 
     /// @brief Set a Vector4 value for this replicated value from a csp::common::Vector4, will overwrite and previous value.
     void SetVector4(const csp::common::Vector4& InValue);
@@ -180,6 +243,9 @@ public:
 
     /// @brief Get a generic default Vector4.
     /// @return The default Vector4.
+#ifndef SWIG
+    CSP_NO_EXPORT static const csp::common::Vector4& GetDefaultVector4();
+#endif
 
     /// @brief Get a csp::common::Map value with a string value as the key.
     /// This will assert if not a csp::common::Map type with a string value as the key.
@@ -191,9 +257,14 @@ public:
 
     /// @brief Get a generic default StringMap.
     /// @return The default StringMap.
+#ifndef SWIG
+    CSP_NO_EXPORT static const csp::common::Map<csp::common::String, ReplicatedValue>& GetDefaultStringMap();
+#endif
 
 private:
-    
+    #ifndef SWIG
+    ReplicatedValueImplType Value;
+    #endif
 
     ReplicatedValueType ReplicatedType;
 };

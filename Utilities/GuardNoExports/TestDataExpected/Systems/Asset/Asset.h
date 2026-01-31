@@ -37,7 +37,9 @@ namespace csp::services
 
 class ApiResponseBase;
 
-
+#ifndef SWIG
+template <typename T, typename U, typename V, typename W> class ApiResponseHandler;
+#endif
 
 } // namespace csp::services
 
@@ -125,6 +127,11 @@ public:
     /// @param InMimeType The mime type to set.
     virtual void SetMimeType(const csp::common::String& InMimeType) = 0;
 
+#ifndef SWIG
+    CSP_NO_EXPORT virtual void SetUploadContent(
+        csp::web::WebClient* InWebClient, csp::web::HttpPayload* InPayload, const csp::systems::Asset& InAsset) const
+        = 0;
+#endif
 
 protected:
     virtual ~AssetDataSource() = default;
@@ -189,7 +196,9 @@ class CSP_API AssetResult : public csp::systems::ResultBase
     /** @cond DO_NOT_DOCUMENT */
     friend class AssetSystem;
 
-    
+    #ifndef SWIG
+    template <typename T, typename U, typename V, typename W> friend class csp::services::ApiResponseHandler;
+    #endif
     /** @endcond */
 
 public:
@@ -201,8 +210,19 @@ public:
     /// @return Asset : const ref of asset class.
     const Asset& GetAsset() const;
 
+#ifndef SWIG
+    CSP_NO_EXPORT void SetAsset(const csp::systems::Asset& Asset);
+#endif
 
+#ifndef SWIG
+    CSP_NO_EXPORT AssetResult(csp::systems::EResultCode ResCode, uint16_t HttpResCode)
+        : csp::systems::ResultBase(ResCode, HttpResCode) {};
+#endif
 
+#ifndef SWIG
+    CSP_NO_EXPORT AssetResult(csp::systems::EResultCode ResCode, csp::web::EResponseCodes HttpResCode, csp::systems::ERequestFailureReason Reason)
+        : csp::systems::ResultBase(ResCode, static_cast<std::underlying_type<csp::web::EResponseCodes>::type>(HttpResCode), Reason) {};
+#endif
 
 protected:
     AssetResult() = delete;
@@ -211,6 +231,10 @@ protected:
 private:
     void OnResponse(const csp::services::ApiResponseBase* ApiResponse) override;
 
+#ifndef SWIG
+    CSP_NO_EXPORT AssetResult(const csp::systems::ResultBase& InResult)
+        : csp::systems::ResultBase(InResult.GetResultCode(), InResult.GetHttpResultCode()) {};
+#endif
 
     Asset Asset;
 };
@@ -220,7 +244,9 @@ private:
 class CSP_API AssetsResult : public csp::systems::ResultBase
 {
     /** @cond DO_NOT_DOCUMENT */
-    
+    #ifndef SWIG
+    template <typename T, typename U, typename V, typename W> friend class csp::services::ApiResponseHandler;
+    #endif
     /** @endcond */
 
 public:
@@ -232,7 +258,15 @@ public:
     /// @return csp::common::Array<Asset> : pointer to asset array being stored.
     const csp::common::Array<Asset>& GetAssets() const;
 
+#ifndef SWIG
+    CSP_NO_EXPORT AssetsResult(csp::systems::EResultCode ResCode, uint16_t HttpResCode)
+        : csp::systems::ResultBase(ResCode, HttpResCode) {};
+#endif
 
+#ifndef SWIG
+    CSP_NO_EXPORT AssetsResult(csp::systems::EResultCode ResCode, csp::web::EResponseCodes HttpResCode, csp::systems::ERequestFailureReason Reason)
+        : csp::systems::ResultBase(ResCode, static_cast<std::underlying_type<csp::web::EResponseCodes>::type>(HttpResCode), Reason) {};
+#endif
 
 protected:
     AssetsResult() = delete;
@@ -249,7 +283,11 @@ private:
 class CSP_API UriResult : public csp::systems::ResultBase
 {
     /** @cond DO_NOT_DOCUMENT */
-    
+    #ifndef SWIG
+    friend class SpaceSystem;
+    friend class SettingsSystem;
+    template <typename T, typename U, typename V, typename W> friend class csp::services::ApiResponseHandler;
+    #endif
     /** @endcond */
 
 public:
@@ -263,7 +301,15 @@ public:
 
     void SetUri(const csp::common::String& Value);
 
+#ifndef SWIG
+    CSP_NO_EXPORT UriResult(csp::systems::EResultCode ResCode, uint16_t HttpResCode)
+        : csp::systems::ResultBase(ResCode, HttpResCode) {};
+#endif
 
+#ifndef SWIG
+    CSP_NO_EXPORT UriResult(csp::systems::EResultCode ResCode, csp::web::EResponseCodes HttpResCode, csp::systems::ERequestFailureReason Reason)
+        : csp::systems::ResultBase(ResCode, static_cast<std::underlying_type<csp::web::EResponseCodes>::type>(HttpResCode), Reason) {};
+#endif
 
 protected:
     UriResult() = delete;
@@ -283,7 +329,9 @@ private:
 class CSP_API AssetDataResult : public csp::systems::ResultBase
 {
     /** @cond DO_NOT_DOCUMENT */
-    
+    #ifndef SWIG
+    template <typename T, typename U, typename V, typename W> friend class csp::services::ApiResponseHandler;
+    #endif
     /** @endcond */
 
 public:
