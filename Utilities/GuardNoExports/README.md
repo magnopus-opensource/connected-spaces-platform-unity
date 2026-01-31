@@ -6,9 +6,12 @@ around these things.
 
 Having these guards is mandatory. Builds will fail without them.
 
-This tool previously just deleted them from the headers, but that caused ABI breaks because of course it did. This way,
-the symbols are still visible to the C++ compiler, but not to the SWIG parser, meaning SWIG won't generate public functions
-for these things. This crucially avoids the C++ compile referencing the inappropriately public internal types
+This tool previously just deleted them from the headers, but that caused ABI breaks due to that also removing methods
+from the SWIG C++ compile, including virtual methods. When put this way it is obvious this would break ABI, as the specific
+layout of virtual methods is vital for ABI compatibility, and this created a mismatch between the CSP source and what SWIG
+was compiling.
+This way, the symbols are still visible to the C++ compiler, but not to the SWIG parser, meaning SWIG won't generate public
+functions for these things. This crucially avoids the C++ compile referencing the inappropriately public internal types
 that are sometimes contained within these blocks, which would cause us to fail to compile because we don't have (or want!)
 the internal libs that provide these types (like async++) linked. 
 
