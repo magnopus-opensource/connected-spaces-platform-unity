@@ -87,11 +87,11 @@ else()
   message(STATUS "Using CSP_ROOT_DIR=${CSP_ROOT_DIR}, CSP download skipped.")
 endif()
 
-if(TRIM_CSP_NO_EXPORTS)
+if(GUARD_CSP_NO_EXPORTS)
     # Trim the CSP_NO_EXPORT stuff off so SWIG dosen't try to generate it
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
-    message("Trimming CSP include dir of NO_EXPORT sections")
+    message("Guarding CSP include dir files from NO_EXPORT sections")
 
     # Move the old include dir aside, since we want the trimmed dir to be called that.
     file(RENAME "${CSP_ROOT_DIR}/include" "${CSP_ROOT_DIR}/include_orig")
@@ -99,7 +99,7 @@ if(TRIM_CSP_NO_EXPORTS)
     # Perform the strip using the utility python script.
     execute_process(
         COMMAND "${Python3_EXECUTABLE}"
-                "${CMAKE_SOURCE_DIR}/Utilities/StripNoExport/StripNoExport.py"
+                "${CMAKE_SOURCE_DIR}/Utilities/GuardNoExports/GuardNoExports.py"
                 "${CSP_ROOT_DIR}/include_orig"
                 "${CSP_ROOT_DIR}/include"
         COMMAND_ERROR_IS_FATAL ANY)

@@ -504,13 +504,9 @@ Firstly, we undefine all the macros so SWIG, if it does encounter one, views it 
 
 However, that is not enough as CSP has multiple modes of annotation, including annotations that ignore entire swathes of code as a hacky way to prevent it hitting the legacy wrapper generator. These swathes of code can cause SWIG to be unable to compile at all if left alone, as CSP was not written with the intent of being consumed that way.
 
-To deal with this, we preprocess all of CSP as part of the build step, and remove these chunks wholesale. This is done via calling [Utilities/StripNoExport/StripNoExport.py](../Utilities/StripNoExport/).
+To deal with this, we preprocess all of CSP as part of the build step, and guard these chunks in ifdef flags, to stop the SWIG parser seeing them. This is done via calling [Utilities/GuardNoExports/GuardNoExports.py](../Utilities/GuardNoExports/).
 
 If CSP makes a change that is unusual/out of pattern, this is a potential point of breakage. There are no rules here, just patterns.
-
-> [!Warning]
-> 
-> Some files are ignored in the export stripping, because we need bits of them! These tend to be the things that the legacy wrapper generator had hard-coded support for. You can find the list of ignored files in the python file linked above.
 
 ### Ordering can matter
 
