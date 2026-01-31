@@ -13,7 +13,7 @@ def test_directory_diff():
     
     # Run your script across the test data 
     subprocess.run(
-        ["python", "./StripNoExport.py", str(input_dir), str(output_dir)],
+        ["python", "./GuardNoExports.py", str(input_dir), str(output_dir)],
         check=True,
     )
 
