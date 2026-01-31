@@ -37,7 +37,11 @@
 
 namespace async
 {
-
+#ifndef SWIG
+template <typename T> class task;
+template <typename T> class shared_task;
+template <typename T> class event_task;
+#endif
 }
 
 namespace signalr
@@ -80,7 +84,16 @@ class NetworkEventBus;
 /// react appropriately.
 class CSP_API OnlineRealtimeEngine : public csp::common::IRealtimeEngine
 {
-    
+    #ifndef SWIG
+    /** @cond DO_NOT_DOCUMENT */
+    friend class CSPEngine_OnlineRealtimeEngineTests_TestErrorInRemoteGenerateNewAvatarId_Test;
+    friend class CSPEngine_OnlineRealtimeEngineTests_TestSuccessInRemoteGenerateNewAvatarId_Test;
+    friend class CSPEngine_OnlineRealtimeEngineTests_TestErrorInSendNewAvatarObjectMessage_Test;
+    friend class CSPEngine_OnlineRealtimeEngineTests_TestSuccessInSendNewAvatarObjectMessage_Test;
+    friend class CSPEngine_OnlineRealtimeEngineTests_TestSuccessInCreateNewLocalAvatar_Test;
+    friend class CSPEngine_MultiplayerTests_ManyEntitiesTest_Test;
+    /** @endcond */
+    #endif
 
 public:
     /// @brief OnlineRealtimeEngine constructor
@@ -93,6 +106,9 @@ public:
         csp::multiplayer::NetworkEventBus& NetworkEventBus, csp::common::IJSScriptRunner& RemoteScriptRunner);
 
     /// @brief OnlineRealtimeEngine destructor
+#ifndef SWIG
+    CSP_NO_EXPORT ~OnlineRealtimeEngine();
+#endif
 
     /********************** REALTIME ENGINE INTERFACE ************************/
     /*************************************************************************/
@@ -134,10 +150,16 @@ public:
     /// @brief Adds an entity to the set of selected entities
     /// @param Entity csp::multiplayer::SpaceEntity* Entity to set as selected
     /// @return True if the entity was succesfully added, false if the entity already existed in the selection and thus could not be added.
+#ifndef SWIG
+    CSP_NO_EXPORT virtual bool AddEntityToSelectedEntities(csp::multiplayer::SpaceEntity* Entity) override;
+#endif
 
     /// @brief Removes an entity to the set of selected entities
     /// @param Entity csp::multiplayer::SpaceEntity* Entity to set as selected
     /// @return True if the entity was succesfully removed, false if the entity did not exist in the selection and thus could not be removed.
+#ifndef SWIG
+    CSP_NO_EXPORT virtual bool RemoveEntityFromSelectedEntities(csp::multiplayer::SpaceEntity* Entity) override;
+#endif
 
     /***** ENTITY ACCESS *****************************************************/
 
@@ -203,6 +225,9 @@ public:
     /// @brief "Resolves" the entity heirarchy for the given entity, setting all internal parent/child buffers correctly.
     /// This method is called whenever parent/child relationships are changed for a given entity, including when one is first created.
     /// @param Entity csp::multiplayer::SpaceEntity* : The Entity to resolve
+#ifndef SWIG
+    CSP_NO_EXPORT virtual void ResolveEntityHierarchy(csp::multiplayer::SpaceEntity* Entity) override;
+#endif
 
     /***** ENTITY PROCESSING *************************************************/
 
@@ -220,18 +245,34 @@ public:
      * @post FetchStartedCallback will be called. The csp::common::EntityFetchCompleteCallback passed in the constructor will be called async
      * once all the entities are fetched.
      */
+#ifndef SWIG
+    CSP_NO_EXPORT void FetchAllEntitiesAndPopulateBuffers(
+        const csp::common::String& SpaceId, csp::common::EntityFetchStartedCallback FetchStartedCallback) override;
+#endif
 
     /// @brief Lock a mutex that guards against any changes to the entity list.
     /// If the mutex is already locked, will wait until it is able to acquire the lock. May cause deadlocks.
+#ifndef SWIG
+    CSP_NO_EXPORT virtual void LockEntityUpdate() override;
+#endif
 
     /// @brief Lock a mutex that guards against any changes to the entity list.
     /// @return Whether the mutex successfully locked. The mutex will fail to lock if already locked in order to avoid deadlocks.
+#ifndef SWIG
+    CSP_NO_EXPORT virtual bool TryLockEntityUpdate() override;
+#endif
 
     /// @brief Unlock a mutex that guards against any changes to the entity list.
+#ifndef SWIG
+    CSP_NO_EXPORT virtual void UnlockEntityUpdate() override;
+#endif
 
     /// @brief Creates the state patcher to use for space entities created with this engine
     /// @param SpaceEntity cs::multiplayer::SpaceEntity The SpaceEntity to create the patcher for.
     /// @return A pointer to a new statepatcher. Pointer ownership is transferred to the caller.
+#ifndef SWIG
+    CSP_NO_EXPORT virtual csp::multiplayer::SpaceEntityStatePatcher* MakeStatePatcher(csp::multiplayer::SpaceEntity& SpaceEntity) const override;
+#endif
 
     /***** IREALTIMEENGINE INTERFACE IMPLEMENTAITON END *************************************************/
 
@@ -294,26 +335,54 @@ public:
     /// @param SpaceId csp::Common:String& : The Id of the space to refresh
     /// @param RefreshMultiplayerContinuationEvent : std::shared_ptr<async::event_task<std::optional<csp::multiplayer::ErrorCode>>> Continuation event
     /// that populates an optional error code on failure. Error is empty on success.
+#ifndef SWIG
+    CSP_NO_EXPORT void RefreshMultiplayerConnectionToEnactScopeChange(csp::common::String SpaceId,
+        std::shared_ptr<async::event_task<std::optional<csp::multiplayer::ErrorCode>>> RefreshMultiplayerContinuationEvent);
+#endif
 
     /// @brief Checks whether we should run scripts locally
     /// @return bool
+#ifndef SWIG
+    CSP_NO_EXPORT bool CheckIfWeShouldRunScriptsLocally() const;
+#endif
 
     /// @brief Runs the provided script remotely
     /// @param ContextId int64_t : the ID of the context on which to run the script
     /// @param ScriptText csp::common::String& : the text of the script to run
+#ifndef SWIG
+    CSP_NO_EXPORT void RunScriptRemotely(int64_t ContextId, const csp::common::String& ScriptText);
+#endif
 
     /// @brief Getter for the pending adds
     /// @return: SpaceEntityQueue*
+#ifndef SWIG
+    CSP_NO_EXPORT std::deque<csp::multiplayer::SpaceEntity*>* GetPendingAdds();
+#endif
 
     /// @brief Getter for the multiplayer connection instance
     /// @return: MultiplayerConnection*
+#ifndef SWIG
+    CSP_NO_EXPORT MultiplayerConnection* GetMultiplayerConnectionInstance() const;
+#endif
 
     // @brief Ticks all entities and scripts, processing any pending local and remote updates
     // Will only tick scrips if EnableEntityTick is enabled, which it should be if entity fetch has completed.
+#ifndef SWIG
+    CSP_NO_EXPORT void TickEntities();
+#endif
 
     /*
      * Called when MultiplayerConnection recieved signalR events.
      */
+#ifndef SWIG
+    CSP_NO_EXPORT void OnObjectMessage(const signalr::value& Params);
+#endif
+#ifndef SWIG
+    CSP_NO_EXPORT void OnObjectPatch(const signalr::value& Params);
+#endif
+#ifndef SWIG
+    CSP_NO_EXPORT void OnRequestToSendObject(const signalr::value& Params);
+#endif
 
 protected:
     csp::common::List<SpaceEntity*> Entities;
@@ -376,7 +445,15 @@ private:
     SpaceEntity* CreateRemotelyRetrievedEntity(const signalr::value& EntityMessage);
 
     // CreateAvatar Continuations
-    
+    #ifndef SWIG
+    async::shared_task<uint64_t> RemoteGenerateNewAvatarId();
+    std::function<async::task<std::tuple<signalr::value, std::exception_ptr>>(uint64_t)> SendNewAvatarObjectMessage(const csp::common::String& Name,
+        const csp::common::String& UserId, const SpaceTransform& Transform, bool IsVisible, const csp::common::String& AvatarId,
+        AvatarState AvatarState, AvatarPlayMode AvatarPlayMode);
+    std::function<void(std::tuple<async::shared_task<uint64_t>, async::task<void>>)> CreateNewLocalAvatar(const csp::common::String& Name,
+        const csp::common::String& UserId, const SpaceTransform& Transform, bool IsVisible, const csp::common::String& AvatarId,
+        AvatarState AvatarState, AvatarPlayMode AvatarPlayMode, EntityCreatedCallback Callback);
+    #endif
 
     class EntityScriptBinding* ScriptBinding;
     class SpaceEntityEventHandler* EventHandler;

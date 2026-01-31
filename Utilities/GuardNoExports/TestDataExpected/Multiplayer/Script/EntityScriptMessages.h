@@ -17,6 +17,17 @@
 
 namespace csp::multiplayer
 {
+#ifndef SWIG
+// Entity script messages
 
+/// @brief Mouse click or touch press.
+constexpr const char* SCRIPT_MSG_ENTITY_CLICK = "entityClick";
+
+/// @brief Called once per frame.
+constexpr const char* SCRIPT_MSG_ENTITY_TICK = "entityTick";
+
+/// @brief Called once all entities in a scene have been created on entering a space.
+constexpr const char* SCRIPT_MSG_ENTITIES_LOADED = "entitiesLoaded";
+#endif
 
 } // namespace csp::multiplayer

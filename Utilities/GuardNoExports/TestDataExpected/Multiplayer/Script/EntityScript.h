@@ -48,7 +48,10 @@ class CSP_API EntityScript
 
 public:
     // Don't want to be constructable by public users.
-    
+    #ifndef SWIG
+    EntityScript(SpaceEntity* InEntity, csp::common::IRealtimeEngine* InRealtimeEngine, csp::common::IJSScriptRunner* ScriptRunner,
+        csp::common::LogSystem* LogSystem);
+    #endif
 
     /// @brief Destroy the instance of EntityScript.
     ~EntityScript();
@@ -98,10 +101,16 @@ public:
     /// @param ComponentId int32_t : The ID of the component that the property belongs to.
     /// @param PropertyKey int32_t : The key of the component property to subscribe to changes of.
     /// @param Message csp::common::String : The message that will be posted to the script when a change occurs to the property.
+#ifndef SWIG
+    CSP_NO_EXPORT void SubscribeToPropertyChange(int32_t ComponentId, int32_t PropertyKey, csp::common::String Message);
+#endif
 
     /// @brief Sets up a subscription where the given callback in the script will be run when given message is posted to the script.
     /// @param Message csp::common::String : The message to subscribe to.
     /// @param OnMessageCallback csp::common::String : The callback that will be run in the script.
+#ifndef SWIG
+    CSP_NO_EXPORT void SubscribeToMessage(const csp::common::String Message, const csp::common::String OnMessageCallback);
+#endif
 
     /// @brief Runs the callback associated with the given message, if a subscription has been setup, and passes the given params.
     /// @param Message csp::common::String : The message to use.

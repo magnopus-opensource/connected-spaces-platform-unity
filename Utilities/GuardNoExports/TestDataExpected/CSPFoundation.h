@@ -61,6 +61,9 @@ public:
     int32_t GetVersion() const { return Version; }
     /// @brief Sets the current Version for the service endpoint.
     /// @param InVersion const uint32_t : Version for service endpoint.
+#ifndef SWIG
+    CSP_NO_EXPORT void SetVersion(const uint32_t InVersion) { Version = InVersion; }
+#endif
 
     /// @brief Compares the service definition against services deployment status to evaluate state differences.
     /// This function analyzes the provided `ServiceDefinition` and compares it with the corresponding
@@ -69,6 +72,9 @@ public:
     /// @param ServicesDeploymentStatus const csp::systems::ServicesDeploymentStatus& : The current status information against which the service
     /// definition is compared.
     /// @return bool : true if all services are available, false otherwise
+#ifndef SWIG
+    CSP_NO_EXPORT bool CheckPrerequisites(const csp::systems::ServicesDeploymentStatus& ServicesDeploymentStatus) const;
+#endif
 
 private:
     csp::common::String URI;
@@ -129,6 +135,10 @@ public:
     // Hidden function for testing. Lets us pass in state that would otherwise be injected in a set way in the SystemsManager.
     // In a different, perhaps better api, this wouldn't be necessary as constructors would inject this at client level and the configurability would
     // be there by default
+#ifndef SWIG
+    CSP_NO_EXPORT static bool InitialiseWithInject(const csp::common::String& EndpointRootURI, const csp::common::String& Tenant,
+        const csp::ClientUserAgent& ClientUserAgentHeader, csp::multiplayer::ISignalRConnection* SignalRInject);
+#endif
 
     /// @brief This should be used at the end of the application lifecycle.
     /// Clears event queues and destroys foundation systems.

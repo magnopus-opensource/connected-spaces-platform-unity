@@ -27,9 +27,9 @@
 namespace csp::common
 {
 
-CSP_START_IGNORE
+#ifndef SWIG
 template <typename T> class Array;
-CSP_END_IGNORE
+#endif
 
 const auto LIST_DEFAULT_SIZE = 4;
 
@@ -101,6 +101,7 @@ public:
         }
     }
 
+#ifndef SWIG
     CSP_NO_EXPORT List(List<T>&& Other)
         : CurrentSize(0)
         , MaximumSize(0)
@@ -119,9 +120,11 @@ public:
 
         Other.ObjectArray = nullptr;
     }
+#endif
 
     /// @brief Constructs a list from an initializer_list.
     /// @param List std::initializer_list : Elements to construct the list from
+#ifndef SWIG
     CSP_NO_EXPORT List(std::initializer_list<T> List)
         : CurrentSize(0)
         , MaximumSize(0)
@@ -145,6 +148,7 @@ public:
             ObjectArray[i] = *(List.begin() + i);
         }
     }
+#endif
 
     /// @brief Destructor.
     /// Frees list memory.
@@ -152,20 +156,36 @@ public:
 
     /// @brief Returns a pointer to the start of the list.
     /// @return T*
+#ifndef SWIG
     CSP_NO_EXPORT T* Data() { return CurrentSize > 0 ? &ObjectArray[0] : nullptr; }
+#endif
 
     /// @brief Returns a const pointer to the start of the list.
     /// @return const T*
+#ifndef SWIG
     CSP_NO_EXPORT const T* Data() const { return CurrentSize > 0 ? &ObjectArray[0] : nullptr; }
+#endif
 
     // Iterators
+#ifndef SWIG
     CSP_NO_EXPORT T* begin() { return Data(); }
+#endif
+#ifndef SWIG
     CSP_NO_EXPORT const T* begin() const { return Data(); }
+#endif
+#ifndef SWIG
     CSP_NO_EXPORT const T* cbegin() const { return Data(); }
+#endif
 
+#ifndef SWIG
     CSP_NO_EXPORT T* end() { return Data() + Size(); }
+#endif
+#ifndef SWIG
     CSP_NO_EXPORT const T* end() const { return Data() + Size(); }
+#endif
+#ifndef SWIG
     CSP_NO_EXPORT const T* cend() const { return Data() + Size(); }
+#endif
 
     /// @brief Copy assignment.
     /// @param Other const List<T>&
@@ -236,6 +256,7 @@ public:
 
     /// @brief Appends an element to the end of the list.
     /// @param Item T&&
+#ifndef SWIG
     CSP_NO_EXPORT void Append(T&& Item)
     {
         if (CurrentSize == MaximumSize)
@@ -249,6 +270,7 @@ public:
         new (ObjectPtr) T;
         ObjectArray[CurrentSize++] = std::move(Item);
     }
+#endif
 
     /// @brief Appends an element at the given index of the list.
     /// @param Index size_t
@@ -338,6 +360,7 @@ public:
 
     /// @brief Returns a copy of this List as an Array
     /// @return Array<T>
+#ifndef SWIG
     CSP_NO_EXPORT Array<T> ToArray() const
     {
         Array<T> Result(CurrentSize);
@@ -349,6 +372,7 @@ public:
 
         return std::move(Result);
     }
+#endif
 
 private:
     /// @brief Allocates memory for the list.
