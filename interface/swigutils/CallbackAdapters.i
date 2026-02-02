@@ -33,8 +33,18 @@ public:
 
 %{
 #include "CSP/Common/Systems/Log/LogSystem.h"
+#include "CSP/Systems/SystemsResult.h"
 #include "CSP/Systems/Quota/Quota.h"
 #include "CSP/Systems/Quota/QuotaSystem.h"
+%}
+
+// Forward declarations for types used in callbacks, which due to the order of swig interface includes could be needed.
+%inline %{
+namespace extra {
+    namespace test {
+        class TestBooleanResult;  // forward declaration
+    }
+}
 %}
 
 /* LogSystem Callback */
@@ -42,6 +52,7 @@ MAKE_CALLBACK_ADAPTER(LogSystem_LogCallbackHandlerCSharpAdapter, ARGLIST(csp::co
 MAKE_CALLBACK_ADAPTER(LogSystem_EventCallbackHandlerCSharpAdapter, ARGLIST(const csp::common::String&), void)
 MAKE_CALLBACK_ADAPTER(LogSystem_BeginMarkerCallbackHandlerCSharpAdapter, ARGLIST(const csp::common::String&), void)
 MAKE_CALLBACK_ADAPTER(LogSystem_EndMarkerCallbackHandlerCSharpAdapter, ARGLIST(void*), void)
+MAKE_CALLBACK_ADAPTER(LogSystem_TestBooleanResultCallbackCSharpAdapter, ARGLIST(const extra::test::TestBooleanResult&), void)
 
 /* QuotaSystem Callback */
 MAKE_CALLBACK_ADAPTER(QuotaSystem_FeatureLimitCallbackCSharpAdapter, ARGLIST(const csp::systems::FeatureLimitResult&), void)
@@ -97,6 +108,10 @@ MAKE_CALLBACK_TYPEMAP(csp::common::LogSystem::EndMarkerCallbackHandler,
                       LogSystem_EndMarkerCallbackHandlerCSharpAdapter, 
                       ARGLIST(void* irrelevantArg /* Legacy wrapper gen implication, ignore */),
                       ARGLIST(irrelevantArg))
+MAKE_CALLBACK_TYPEMAP(extra::test::TestBooleanResultCallback,
+                      LogSystem_TestBooleanResultCallbackCSharpAdapter, 
+                      ARGLIST(const extra::test::TestBooleanResult& result),
+                      ARGLIST(result))
 
 /* QuotaSystem Callback Typemaps */
 MAKE_CALLBACK_TYPEMAP(csp::systems::FeatureLimitCallback,
