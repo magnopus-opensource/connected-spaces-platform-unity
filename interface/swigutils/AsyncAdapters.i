@@ -51,6 +51,19 @@
 #endif
 %enddef
 
+/*
+ * Note:
+ * FULLY_NAMESPACED_CLASST is the full namespaced C++ class name, e.g. csp::systems::QuotaSystem
+ * METHODNAME is the method name, e.g. GetTotalSpacesOwnedByUser
+ * CALLBACK_TYPENAME is the type of the callback adapter class, for example FeatureLimitCallback. Note that we should not include
+ * any namespace here, as the C# adapter class is always in the ConnectedSpacesPlatformDotNet namespace.
+ * CALLBACKT is the C# adapter class that extends the callback type, for example QuotaSystem_FeatureLimitCallbackCSharpAdapter
+ * CALLBACK_TYPELIST_WITH_NAMES is the full argument list with types, e.g. ARGLIST(const csp::systems::FeatureLimitResult& result)
+ * CALLBACK_TYPELIST_WITHOUT_NAMES is the argument list without types, e.g. ARGLIST(const csp::systems::FeatureLimitResult)
+ * CALLBACK_TYPELIST_ONLY_NAMES is just the argument names, e.g. ARGLIST(result)
+ * FUNCTION_TYPELIST_WITH_NAMES is the full argument list with types for the function being wrapped, e.g. ARGLIST(const csp::common::String& userId, int someValue)
+ * FUNCTION_TYPELIST_ONLY_NAMES is just the argument names for the function being wrapped, e.g. ARGLIST(userId, someValue)
+ */
 %define MAKE_ASYNC(
     FULLY_NAMESPACED_CLASST, 
     METHODNAME, 
@@ -77,7 +90,7 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
     METHODNAME(FUNCTION_TYPELIST_ONLY_NAMES, new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
     {
-        if(CALLBACK_TYPELIST_ONLY_NAMES is ResultBase)
+        if(CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase)
         {
         	// Before returning the result, we check if we need to throw an exception
    	    	CALLBACK_TYPELIST_ONLY_NAMES.ThrowIfNeeded(nameof(METHODNAME##Async));
@@ -171,9 +184,7 @@ MAKE_ACTION_CALLBACK(EndMarkerCallback,
                      ARGLIST(System.IntPtr),
                      ARGLIST(irrelevant));
 
-
-/* QuotaSystem Callback */
-
+/* QuotaSystem Async functions */
 MAKE_ASYNC_ZERO(csp::systems::QuotaSystem,
            GetTotalSpacesOwnedByUser,
            FeatureLimitCallback,

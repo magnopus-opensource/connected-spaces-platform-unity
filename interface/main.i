@@ -85,6 +85,7 @@
 /* CSP/Systems*/
 %include "CSP/Systems/SystemBase.i"
 %include "CSP/Systems/WebService.i"
+%include "CSP/Systems/SystemsResult.i"
 
 /* CSP/Common/Systems/Quota */
 %include "CSP/Systems/Quota/Quota.i"
