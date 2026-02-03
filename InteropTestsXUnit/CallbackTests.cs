@@ -1,6 +1,10 @@
 namespace InteropTestsXUnit;
 
 using csp.common;
+using csp.multiplayer;
+using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 public class CallbackTests
 {
@@ -83,4 +87,92 @@ public class CallbackTests
         Assert.Equal("Second call.", capturedMessage);
         Assert.Equal(2, timesCalled);
     }
+
+    [Fact]
+    public async Task SpaceEntityCallbacks()
+    {
+        /* Arguably this isn't a neccesary mechanism test, as the log callbacks above prove this out.
+         * However I want a little bit of confidence in callbacks firing based on other actions.
+         */
+
+        TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
+        LogSystem LogSystem = new LogSystem();
+        OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
+
+        SpaceTransform NewEntityTransform = new SpaceTransform(new Vector3(1, 2, 3), new Vector4(0, 0, 0, 1), new Vector3(2, 3, 4));
+        SpaceEntity SpaceEntity = await RealtimeEngine.CreateEntityAsync("SpaceEntity", NewEntityTransform, null);
+
+        TaskCompletionSource<bool> UpdateTCS = new TaskCompletionSource<bool>();
+        TaskCompletionSource<bool> DestroyTCS = new TaskCompletionSource<bool>();
+
+        SpaceEntity.SetUpdateCallback(new ConnectedSpacesPlatformDotNet.UpdateCallback((UpdatedSpaceEntity, UpdateFlags, UpdatedComponentInfoArray) => { UpdateTCS.TrySetResult(true); }));
+        SpaceEntity.SetDestroyCallback(new ConnectedSpacesPlatformDotNet.DestroyCallback(x => { DestroyTCS.TrySetResult(true); }));
+
+        SpaceEntity.SetPosition(new Vector3(0, 1, 2));
+        Assert.True(await UpdateTCS.Task);
+        Assert.False(DestroyTCS.Task.IsCompleted);
+
+        await RealtimeEngine.DestroyEntityAsync(SpaceEntity);
+        Assert.True(await DestroyTCS.Task);
+    }
+
+    [Fact]
+    public async Task ComplexCallbackValues()
+    {
+        TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
+        LogSystem LogSystem = new LogSystem();
+        OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
+
+        SpaceTransform NewEntityTransform = new SpaceTransform(new Vector3(1, 2, 3), new Vector4(0, 0, 0, 1), new Vector3(2, 3, 4));
+        SpaceEntity SpaceEntity = await RealtimeEngine.CreateEntityAsync("SpaceEntity", NewEntityTransform, null);
+
+        ComponentBase CollisionComponent = SpaceEntity.AddComponent(ComponentType.Collision);
+
+        TaskCompletionSource<SpaceEntity> CallbackSpaceEntityTCS = new TaskCompletionSource<SpaceEntity>();
+        TaskCompletionSource<SpaceEntityUpdateFlags> CallbackUpdateFlagsTCS = new TaskCompletionSource<SpaceEntityUpdateFlags>();
+        TaskCompletionSource<List<ComponentUpdateInfo>> CallbackComponentUpdateInfoArrayTCS = new TaskCompletionSource<List<ComponentUpdateInfo>>();
+
+        SpaceEntity.SetUpdateCallback(new ConnectedSpacesPlatformDotNet.UpdateCallback((UpdatedSpaceEntity, UpdateFlags, UpdatedComponentInfoArray) =>
+        {
+            CallbackSpaceEntityTCS.TrySetResult(UpdatedSpaceEntity);
+            CallbackUpdateFlagsTCS.TrySetResult(UpdateFlags);
+
+            // I wonder if we can do something about this? What terrible ergonomics.
+            // If you don't copy, CSP releases the memory under you for reference arguments. This is just an api design bug straight up.
+
+            if (!UpdatedComponentInfoArray.IsEmpty()) // Not catastrophic, but an annoying quirk for writing capturing callbacks like this.
+            {                                         // Even actions that don't impact the components will give you an empty list, so can't just set the TCS.
+                CallbackComponentUpdateInfoArrayTCS.TrySetResult(UpdatedComponentInfoArray.ToList());
+            }
+        }));
+
+        //Trigger behavior
+        SpaceEntity.SetPosition(new Vector3(5, 5, 5));
+
+        SpaceEntity CallbackSpaceEntity = await CallbackSpaceEntityTCS.Task;
+        SpaceEntityUpdateFlags CallbackUpdateFlags = await CallbackUpdateFlagsTCS.Task;
+
+        Assert.NotNull(CallbackSpaceEntity);
+
+        Assert.True((CallbackUpdateFlags & SpaceEntityUpdateFlags.UPDATE_FLAGS_POSITION) != 0);
+        Assert.False((CallbackUpdateFlags & SpaceEntityUpdateFlags.UPDATE_FLAGS_NAME) != 0);
+        Assert.False(CallbackComponentUpdateInfoArrayTCS.Task.IsCompleted);
+
+        CollisionSpaceComponent CollisionComp = CollisionSpaceComponent.FromBaseCast(CollisionComponent);
+        Assert.NotNull(CollisionComp);
+
+        // Trigger a component update
+        CollisionComp.SetCollisionShape(CollisionShape.Capsule);
+
+        List<ComponentUpdateInfo> CallbackComponentUpdateInfoArray = await CallbackComponentUpdateInfoArrayTCS.Task;
+
+        Assert.True(CallbackComponentUpdateInfoArray.Count == 1);
+        Assert.Equal(ComponentUpdateType.Update, CallbackComponentUpdateInfoArray[0].UpdateType);
+
+        // Is this always 0? Or do we expect clients to set this explicitly. Component update api could really use some work.
+        Assert.Equal(0, CallbackComponentUpdateInfoArray[0].ComponentId);
+    }
+
+    // Still nervous about testing these with the online engine when that's possible, with complex off-thread items in callbacks.
+    // Mostly nervous about separating "normal" CSP threading issues from issues with the wrapper.
 }
