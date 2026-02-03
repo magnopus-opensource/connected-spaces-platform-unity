@@ -50,6 +50,8 @@ namespace extra
     }
 }
 %}
+
+%feature("director") extra::test::TestBooleanResultCallback;
 // END: This section injects code to allow us to test async functions in LogSystem.
 
 %include "CSP/Common/Systems/Log/LogSystem.h"

@@ -87,18 +87,34 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
 %proxycode %{
   public System.Threading.Tasks.Task<CALLBACK_TYPELIST_WITHOUT_NAMES> METHODNAME##Async(FUNCTION_TYPELIST_WITH_NAMES)
   {
-    System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
-    METHODNAME(FUNCTION_TYPELIST_ONLY_NAMES, new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
+    // Create a TaskCompletionSource to represent the async operation.
+    System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = 
+        new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
+
+    // Define the callback that will be called by the C++ code
+    var callback = new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
     {
-        if(CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase)
+        try
         {
-        	// Before returning the result, we check if we need to throw an exception
-   	    	CALLBACK_TYPELIST_ONLY_NAMES.ThrowIfNeeded(nameof(METHODNAME##Async));
+            if(CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase)
+            {
+        	    // Before returning the result, we check if we need to throw an exception
+   	    	    CALLBACK_TYPELIST_ONLY_NAMES.ThrowIfNeeded(nameof(METHODNAME##Async));
+            }
+
+            // Set the result on the task completion source
+            tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
+        }
+        catch (Exception ex)
+        {
+            // If any other exception occurs, we set it on the task completion source
+            tcs.TrySetException(ex);
         }
 
-        // Set the result on the task completion source
-        tcs.SetResult(CALLBACK_TYPELIST_ONLY_NAMES);
-    }));
+    });
+
+    // Run the method with the provided arguments and the callback
+    METHODNAME(FUNCTION_TYPELIST_ONLY_NAMES, callback);
 
     return tcs.Task;
   }
