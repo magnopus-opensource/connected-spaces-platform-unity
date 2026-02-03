@@ -226,23 +226,392 @@ MAKE_ACTION_CALLBACK(EndMarkerCallback,
                      ARGLIST(System.IntPtr),
                      ARGLIST(irrelevant));
 
+/* SpaceEntity Callbacks */
+// NOTE TO SELF. Should we namespace the names of the action adapters? I think I got it wrong above, the callback adapters shouldn't be namespaced, the action ones should be.
+MAKE_ACTION_CALLBACK(UpdateCallback,
+                     SpaceEntityUpdatedCallbackAdapter,
+                     ARGLIST(csp.multiplayer.SpaceEntity spaceEntity, csp.multiplayer.SpaceEntityUpdateFlags updateFlags, csp.common.ComponentUpdateInfoArray componentUpdateInfos),
+                     ARGLIST(csp.multiplayer.SpaceEntity, csp.multiplayer.SpaceEntityUpdateFlags, csp.common.ComponentUpdateInfoArray),
+                     ARGLIST(spaceEntity, updateFlags, componentUpdateInfos));
+
+MAKE_ACTION_CALLBACK(DestroyCallback,
+                     BoolCallbackAdapter,
+                     ARGLIST(bool destroyed),
+                     ARGLIST(bool),
+                     ARGLIST(destroyed));
+
+MAKE_ACTION_CALLBACK(PatchSentCallback,
+                     BoolCallbackAdapter,
+                     ARGLIST(bool patchSent),
+                     ARGLIST(bool),
+                     ARGLIST(patchSent));
+
+/* MultiplayerConnection Callbacks */
+MAKE_ACTION_CALLBACK(DisconnectionCallback,
+                     StringCallbackAdapter,
+                     ARGLIST(string disconnectReason),
+                     ARGLIST(string),
+                     ARGLIST(disconnectReason));
+
+MAKE_ACTION_CALLBACK(ConnectionCallback,
+                     StringCallbackAdapter,
+                     ARGLIST(string connectionStatus),
+                     ARGLIST(string),
+                     ARGLIST(connectionStatus));
+
+MAKE_ACTION_CALLBACK(NetworkInterruptionCallback,
+                     StringCallbackAdapter,
+                     ARGLIST(string interruptReason),
+                     ARGLIST(string),
+                     ARGLIST(interruptReason));
+
+/* OnlineRealtimeEngine Callbacks */
+MAKE_ACTION_CALLBACK(RemoteEntityCreatedCallback,
+                     EntityCreatedCallbackAdapter,
+                     ARGLIST(csp.multiplayer.SpaceEntity spaceEntity),
+                     ARGLIST(csp.multiplayer.SpaceEntity),
+                     ARGLIST(spaceEntity));
+
+MAKE_ACTION_CALLBACK(ScriptLeaderReadyCallback,
+                     BoolCallbackAdapter,
+                     ARGLIST(bool ready),
+                     ARGLIST(bool),
+                     ARGLIST(ready));
+
+MAKE_ACTION_CALLBACK(ScopeLeaderCallback,
+                     StringStringCallbackAdapter,
+                     ARGLIST(string scopeId, string userId),
+                     ARGLIST(string, string),
+                     ARGLIST(scopeId, userId));
+
+/* ConversationSpaceComponent Callbacks */
+MAKE_ACTION_CALLBACK(ConversationUpdateCallback,
+                     ConversationNetworkEventCallbackAdapter,
+                     ARGLIST(csp.common.ConversationNetworkEventData eventData),
+                     ARGLIST(csp.common.ConversationNetworkEventData),
+                     ARGLIST(eventData));
+
+
 /* QuotaSystem Async functions */
+
 MAKE_ASYNC_ZERO(csp::systems::QuotaSystem,
-           GetTotalSpacesOwnedByUser,
+                GetTotalSpacesOwnedByUser,
+                FeatureLimitCallback,
+                QuotaSystem_FeatureLimitCallbackCSharpAdapter,
+                ARGLIST(csp.systems.FeatureLimitResult featureLimitResult),
+                ARGLIST(csp.systems.FeatureLimitResult),
+                ARGLIST(featureLimitResult)
+)
+
+MAKE_ASYNC(csp::systems::QuotaSystem,
+           GetConcurrentUsersInSpace,
            FeatureLimitCallback,
            QuotaSystem_FeatureLimitCallbackCSharpAdapter,
            ARGLIST(csp.systems.FeatureLimitResult featureLimitResult),
            ARGLIST(csp.systems.FeatureLimitResult),
-           ARGLIST(featureLimitResult)
+           ARGLIST(featureLimitResult),
+           ARGLIST(string spaceID),
+           ARGLIST(spaceID)
 )
 
-MAKE_ASYNC(csp::systems::QuotaSystem,
-          GetConcurrentUsersInSpace,
-          FeatureLimitCallback,
-          QuotaSystem_FeatureLimitCallbackCSharpAdapter,
-          ARGLIST(csp.systems.FeatureLimitResult featureLimitResult),
-          ARGLIST(csp.systems.FeatureLimitResult),
-          ARGLIST(featureLimitResult),
-		  ARGLIST(string spaceID),
-		  ARGLIST(spaceID)
+/* Multiplayer Async Adapters */
+
+/* SpaceEntity */
+MAKE_ASYNC(csp::multiplayer::SpaceEntity,
+           CreateChildEntity,
+           EntityCreatedCallback,
+           EntityCreatedCallbackAdapter,
+           ARGLIST(csp.multiplayer.SpaceEntity spaceEntity),
+           ARGLIST(csp.multiplayer.SpaceEntity),
+           ARGLIST(spaceEntity),
+           ARGLIST(string name, csp.multiplayer.SpaceTransform spaceTransform),
+           ARGLIST(name, spaceTransform)
+)
+
+MAKE_ASYNC_ZERO(csp::multiplayer::SpaceEntity,
+                Destroy,
+                DestroyCallback,
+                BoolCallbackAdapter,
+                ARGLIST(bool success),
+                ARGLIST(bool),
+                ARGLIST(success)
+)
+
+/* MultiplayerConnection */
+MAKE_ASYNC(csp::multiplayer::MultiplayerConnection,
+           SetAllowSelfMessagingFlag,
+           ErrorCodeCallback,
+           ErrorCodeCallbackAdapter,
+           ARGLIST(csp.multiplayer.ErrorCode errorCode),
+           ARGLIST(csp.multiplayer.ErrorCode),
+           ARGLIST(errorCode),
+           ARGLIST(bool allowSelfMessaging),
+           ARGLIST(allowSelfMessaging)
+)
+
+/* OnlineRealtimeEngine */
+MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
+           CreateAvatar,
+           EntityCreatedCallback,
+           EntityCreatedCallbackAdapter,
+           ARGLIST(csp.multiplayer.SpaceEntity spaceEntity),
+           ARGLIST(csp.multiplayer.SpaceEntity),
+           ARGLIST(spaceEntity),
+           ARGLIST(string name, string userId, csp.multiplayer.SpaceTransform spaceTransform, bool isVisible, csp.multiplayer.AvatarState state, string avatarId, csp.multiplayer.AvatarPlayMode avatarPlayMode),
+           ARGLIST(name, userId, spaceTransform, isVisible, state, avatarId, avatarPlayMode)
+)
+
+MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
+           CreateEntity,
+           EntityCreatedCallback,
+           EntityCreatedCallbackAdapter,
+           ARGLIST(csp.multiplayer.SpaceEntity spaceEntity),
+           ARGLIST(csp.multiplayer.SpaceEntity),
+           ARGLIST(spaceEntity),
+           ARGLIST(string name, csp.multiplayer.SpaceTransform spaceTransform, ulong? parentId),
+           ARGLIST(name, spaceTransform, parentId)
+)
+
+MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
+           DestroyEntity,
+           DestroyCallback,
+           BoolCallbackAdapter,
+           ARGLIST(bool success),
+           ARGLIST(bool),
+           ARGLIST(success),
+           ARGLIST(csp.multiplayer.SpaceEntity entity),
+           ARGLIST(entity)
+)
+
+/* OfflineRealtimeEngine */
+MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
+           CreateAvatar,
+           EntityCreatedCallback,
+           EntityCreatedCallbackAdapter,
+           ARGLIST(csp.multiplayer.SpaceEntity spaceEntity),
+           ARGLIST(csp.multiplayer.SpaceEntity),
+           ARGLIST(spaceEntity),
+           ARGLIST(string name, string userId, csp.multiplayer.SpaceTransform transform, bool isVisible, csp.multiplayer.AvatarState state, string avatarId, csp.multiplayer.AvatarPlayMode avatarPlayMode),
+           ARGLIST(name, userId, transform, isVisible, state, avatarId, avatarPlayMode)
+)
+
+MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
+           CreateEntity,
+           EntityCreatedCallback,
+           EntityCreatedCallbackAdapter,
+           ARGLIST(csp.multiplayer.SpaceEntity spaceEntity),
+           ARGLIST(csp.multiplayer.SpaceEntity),
+           ARGLIST(spaceEntity),
+           ARGLIST(string name, csp.multiplayer.SpaceTransform transform, ulong? parentId),
+           ARGLIST(name, transform, parentId)
+)
+
+MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
+           DestroyEntity,
+           DestroyCallback,
+           BoolCallbackAdapter,
+           ARGLIST(bool success),
+           ARGLIST(bool),
+           ARGLIST(success),
+           ARGLIST(csp.multiplayer.SpaceEntity entity),
+           ARGLIST(entity)
+)
+
+/* NetworkEventBus */
+MAKE_ASYNC(csp::multiplayer::NetworkEventBus,
+           SendNetworkEvent,
+           ErrorCodeCallback,
+           ErrorCodeCallbackAdapter,
+           ARGLIST(csp.multiplayer.ErrorCode errorCode),
+           ARGLIST(csp.multiplayer.ErrorCode),
+           ARGLIST(errorCode),
+           ARGLIST(string eventName, csp.common.ReplicatedValueArray args),
+           ARGLIST(eventName, args)
+)
+
+MAKE_ASYNC(csp::multiplayer::NetworkEventBus,
+           SendNetworkEventToClient,
+           ErrorCodeCallback,
+           ErrorCodeCallbackAdapter,
+           ARGLIST(csp.multiplayer.ErrorCode errorCode),
+           ARGLIST(csp.multiplayer.ErrorCode),
+           ARGLIST(errorCode),
+           ARGLIST(string eventName, csp.common.ReplicatedValueArray args, ulong targetClientId),
+           ARGLIST(eventName, args, targetClientId)
+)
+
+/* ConversationSpaceComponent */
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+           CreateConversation,
+           StringResultCallback,
+           StringResultCallbackAdapter,
+           ARGLIST(csp.systems.StringResult result),
+           ARGLIST(csp.systems.StringResult),
+           ARGLIST(result),
+           ARGLIST(string message),
+           ARGLIST(message)
+)
+
+MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+                DeleteConversation,
+                NullResultCallback,
+                NullResultCallbackAdapter,
+                ARGLIST(csp.systems.NullResult result),
+                ARGLIST(csp.systems.NullResult),
+                ARGLIST(result)
+) 
+
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+           AddMessage,
+           MessageResultCallback,
+           MessageResultCallbackAdapter,
+           ARGLIST(csp.multiplayer.MessageResult result),
+           ARGLIST(csp.multiplayer.MessageResult),
+           ARGLIST(result),
+           ARGLIST(string message),
+           ARGLIST(message)
+)
+
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+           DeleteMessage,
+           NullResultCallback,
+           NullResultCallbackAdapter,
+           ARGLIST(csp.systems.NullResult result),
+           ARGLIST(csp.systems.NullResult),
+           ARGLIST(result),
+           ARGLIST(string messageId),
+           ARGLIST(messageId)
+)
+
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+           GetMessagesFromConversation,
+           MessageCollectionResultCallback,
+           MessageCollectionResultCallbackAdapter,
+           ARGLIST(csp.multiplayer.MessageCollectionResult result),
+           ARGLIST(csp.multiplayer.MessageCollectionResult),
+           ARGLIST(result),
+           ARGLIST(int? resultsSkipNumber, int? resultsMaxNumber),
+           ARGLIST(resultsSkipNumber, resultsMaxNumber)
+)
+
+MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+                GetConversationInfo,
+                ConversationResultCallback,
+                ConversationResultCallbackAdapter,
+                ARGLIST(csp.multiplayer.ConversationResult result),
+                ARGLIST(csp.multiplayer.ConversationResult),
+                ARGLIST(result)
+)
+
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+           UpdateConversation,
+           ConversationResultCallback,
+           ConversationResultCallbackAdapter,
+           ARGLIST(csp.multiplayer.ConversationResult result),
+           ARGLIST(csp.multiplayer.ConversationResult),
+           ARGLIST(result),
+           ARGLIST(csp.multiplayer.MessageUpdateParams newData),
+           ARGLIST(newData)
+)
+
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+           GetMessageInfo,
+           MessageResultCallback,
+           MessageResultCallbackAdapter,
+           ARGLIST(csp.multiplayer.MessageResult result),
+           ARGLIST(csp.multiplayer.MessageResult),
+           ARGLIST(result),
+           ARGLIST(string messageId),
+           ARGLIST(messageId)
+)
+
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+           UpdateMessage,
+           MessageResultCallback,
+           MessageResultCallbackAdapter,
+           ARGLIST(csp.multiplayer.MessageResult result),
+           ARGLIST(csp.multiplayer.MessageResult),
+           ARGLIST(result),
+           ARGLIST(string messageId, csp.multiplayer.MessageUpdateParams newData),
+           ARGLIST(messageId, newData)
+)
+
+MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+                GetNumberOfReplies,
+                NumberOfRepliesResultCallback,
+                NumberOfRepliesResultCallbackAdapter,
+                ARGLIST(csp.multiplayer.NumberOfRepliesResult result),
+                ARGLIST(csp.multiplayer.NumberOfRepliesResult),
+                ARGLIST(result)
+)
+
+MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+                GetConversationAnnotation,
+                AnnotationResultCallback,
+                AnnotationResultCallbackAdapter,
+                ARGLIST(csp.multiplayer.AnnotationResult result),
+                ARGLIST(csp.multiplayer.AnnotationResult),
+                ARGLIST(result)
+)
+
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+           SetConversationAnnotation,
+           AnnotationResultCallback,
+           AnnotationResultCallbackAdapter,
+           ARGLIST(csp.multiplayer.AnnotationResult result),
+           ARGLIST(csp.multiplayer.AnnotationResult),
+           ARGLIST(result),
+           ARGLIST(csp.multiplayer.AnnotationUpdateParams annotationParams, csp.systems.BufferAssetDataSource annotation, csp.systems.BufferAssetDataSource annotationThumbnail),
+           ARGLIST(annotationParams, annotation, annotationThumbnail)
+)
+
+MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+                DeleteConversationAnnotation,
+                NullResultCallback,
+                NullResultCallbackAdapter,
+                ARGLIST(csp.systems.NullResult result),
+                ARGLIST(csp.systems.NullResult),
+                ARGLIST(result)
+) 
+
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+           GetAnnotation,
+           AnnotationResultCallback,
+           AnnotationResultCallbackAdapter,
+           ARGLIST(csp.multiplayer.AnnotationResult result),
+           ARGLIST(csp.multiplayer.AnnotationResult),
+           ARGLIST(result),
+           ARGLIST(string messageId),
+           ARGLIST(messageId)
+)
+
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+          SetAnnotation,
+          AnnotationResultCallback,
+          AnnotationResultCallbackAdapter,
+          ARGLIST(csp.multiplayer.AnnotationResult result),
+          ARGLIST(csp.multiplayer.AnnotationResult),
+          ARGLIST(result),
+          ARGLIST(string messageId, csp.multiplayer.AnnotationUpdateParams updateParams, csp.systems.BufferAssetDataSource annotation, csp.systems.BufferAssetDataSource annotationThumbnail),
+          ARGLIST(messageId, updateParams, annotation, annotationThumbnail)
+)
+
+MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+           DeleteAnnotation,
+           NullResultCallback,
+           NullResultCallbackAdapter,
+           ARGLIST(csp.systems.NullResult result),
+           ARGLIST(csp.systems.NullResult),
+           ARGLIST(result),
+           ARGLIST(string messageId),
+           ARGLIST(messageId)
+)
+
+MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+                GetAnnotationThumbnailsForConversation,
+                AnnotationThumbnailCollectionResultCallback,
+                AnnotationThumbnailCollectionResultCallbackAdapter,
+                ARGLIST(csp.multiplayer.AnnotationThumbnailCollectionResult result),
+                ARGLIST(csp.multiplayer.AnnotationThumbnailCollectionResult),
+                ARGLIST(result)
 )
