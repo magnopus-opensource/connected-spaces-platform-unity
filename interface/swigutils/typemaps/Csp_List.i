@@ -25,7 +25,7 @@
 %include <std_common.i>
 
 // MACRO for use within the csp::common::List class body
-%define SWIG_STD_VECTOR_MINIMUM_INTERNAL(CSINTERFACE, CONST_REFERENCE, CTYPE...)
+%define SWIG_STD_VECTOR_MINIMUM_INTERNAL(CSINTERFACE, CTYPE_REF_RETURN, CTYPE...)
 %typemap(csinterfaces) csp::common::List< CTYPE > "global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.CSINTERFACE<$typemap(cstype, CTYPE)>\n"
 %proxycode %{
   public $csclassname(global::System.Collections.IEnumerable c) : this() {
@@ -206,10 +206,10 @@
     List(const List &other);
 
     size_t Size() const;
-    void Insert(size_t Index, const CTYPE& item);
+    void Insert(size_t Index, CTYPE item);
     void Clear();
     %rename(Add) Append;
-    void Append(CTYPE const& x);
+    void Append(CTYPE x);
 
     %extend {
       List(int capacity) throw (std::out_of_range) {
@@ -227,7 +227,7 @@
         else
           throw std::out_of_range("index");
       }
-      CONST_REFERENCE getitem(int index) throw (std::out_of_range) {
+      CTYPE_REF_RETURN getitem(int index) throw (std::out_of_range) {
         if (index>=0 && index<(int)$self->Size())
           return (*$self)[index];
         else
@@ -338,7 +338,7 @@ namespace csp::common {
   };
   // specialization for pointers
   template<class T> class List<T *> {
-    SWIG_STD_VECTOR_MINIMUM_INTERNAL(IList, const CTYPE&, T *)
+    SWIG_STD_VECTOR_MINIMUM_INTERNAL(IList, CTYPE, T *)
     SWIG_STD_VECTOR_EXTRA_OP_EQUALS_EQUALS(T *)
   };
 }
