@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "InteropTestsXUnit": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
