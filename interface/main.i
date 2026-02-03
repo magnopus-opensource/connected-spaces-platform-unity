@@ -15,6 +15,8 @@
 %include "typemaps.i"
 %include "stdint.i"
 %include "enums.swg"
+%include "std_except.i"
+%include "swiginterface.i"
 %include "swigutils/typemaps/Csp_String.i"
 %include "swigutils/typemaps/Csp_Map.i"
 %include "swigutils/typemaps/Csp_List.i"
@@ -32,12 +34,17 @@
 
 /* CSP non-exported symbols. Special exclusions that are too hard to fix upstream right this second.
    Anything here is a CSP mistake. They have types in their public interface that cannot be
-   used downstream because they reference internal types/implementations. */
+   used downstream because they reference internal types/implementations. Not to mention that they
+   don't export free function symbols as a rule. */
 %ignore ToJson;
 %ignore TierNameEnumToString;
 %ignore TierFeatureEnumToString;
 %ignore StringToTierNameEnum;
 %ignore StringToTierFeatureEnum;
+%ignore ConvertDTOAssetDetailType;
+%ignore ConvertStringToAssetPlatform;
+%ignore ConvertAssetPlatformToString;
+%ignore AssetDetailDtoToAsset;
 
 /* Declare the api */
 
@@ -66,7 +73,8 @@
  * This will absolutely matter in the case of multiple-inheritance, as non-interface
  * multi-inheritance is not supported in C#, unlike C++.
  * Currently, the specific implementation of these don't really matter very much
- * to C# users from an API perspective */
+ * to C# users from an API perspective, and due to legacy wrapper gen constraints,
+ * most of these arn't true interfaces anyway. */
 %include "CSP/Common/Interfaces/IAuthContext.i"
 %include "CSP/Common/Interfaces/IJSScriptRunner.i"
 %include "CSP/Common/Interfaces/InvalidInterfaceUserError.i"
@@ -87,6 +95,9 @@
 %include "CSP/Systems/WebService.i"
 %include "CSP/Systems/SystemsResult.i"
 
+/* CSP/systems/Assets*/
+%include "CSP/Systems/Assets/Asset.h"
+
 /* CSP/Common/Systems/Quota */
 %include "CSP/Systems/Quota/Quota.i"
 %include "CSP/Systems/Quota/QuotaSystem.i"
@@ -97,6 +108,67 @@
 
 ////////// MULTIPLAYER  ///////////////////////////////////////////////////////
 
+/* CSP/Multiplayer/Script*/
+// Put these first, CSP doesn't fully qualify the EntityScript typename in SpaceEntity,
+// so if these aren't already declared, it won't be fully qualified in the output.
+// Could alternatively forward declare if you were precious about the include ordering.
+// You can move these if you don't get a build error, probably CSP has changed under you to make this fine.
+%include "CSP/Multiplayer/Script/EntityScript.i"
+%include "CSP/Multiplayer/Script/EntityScriptMessages.i"
+
+/* CSP/Multiplayer*/
+%include "CSP/Multiplayer/ComponentBase.i"
+%include "CSP/Multiplayer/CSPSceneDescription.i"
+%include "CSP/Multiplayer/MultiplayerConnection.i"
+%include "CSP/Multiplayer/NetworkEventBus.i"
+%include "CSP/Multiplayer/OfflineRealtimeEngine.i"
+%include "CSP/Multiplayer/OnlineRealtimeEngine.i"
+%include "CSP/Multiplayer/PatchTypes.i"
+%include "CSP/Multiplayer/SpaceEntity.i"
+%include "CSP/Multiplayer/SpaceTransform.i"
+
+/* CSP/Multiplayer/Conversation*/
+%include "CSP/Multiplayer/Conversation/Conversation.i"
+
+/* CSP/Multiplayer/Components/Interfaces*/
+%include "CSP/Multiplayer/Components/Interfaces/IEnableableComponent.i"
+%include "CSP/Multiplayer/Components/Interfaces/IExternalResourceComponent.i"
+%include "CSP/Multiplayer/Components/Interfaces/IPositionComponent.i"
+%include "CSP/Multiplayer/Components/Interfaces/IRenderBehaviourComponent.i"
+%include "CSP/Multiplayer/Components/Interfaces/IRotationComponent.i"
+%include "CSP/Multiplayer/Components/Interfaces/IScaleComponent.i"
+%include "CSP/Multiplayer/Components/Interfaces/IShadowCasterComponent.i"
+%include "CSP/Multiplayer/Components/Interfaces/IThirdPartyComponentRef.i"
+%include "CSP/Multiplayer/Components/Interfaces/ITransformComponent.i"
+%include "CSP/Multiplayer/Components/Interfaces/IVisibleComponent.i"
+
+/* CSP/Multiplayer/Components*/
+%include "CSP/Multiplayer/Components/AIChatbotComponent.i"
+%include "CSP/Multiplayer/Components/AnimatedModelSpaceComponent.i"
+%include "CSP/Multiplayer/Components/AudioSpaceComponent.i"
+%include "CSP/Multiplayer/Components/AvatarSpaceComponent.i"
+%include "CSP/Multiplayer/Components/BillBoardModeEnum.i"
+%include "CSP/Multiplayer/Components/ButtonSpaceComponent.i"
+%include "CSP/Multiplayer/Components/CinematicCameraSpaceComponent.i"
+%include "CSP/Multiplayer/Components/CollisionSpaceComponent.i"
+%include "CSP/Multiplayer/Components/ConversationSpaceComponent.i"
+%include "CSP/Multiplayer/Components/CustomSpaceComponent.i"
+%include "CSP/Multiplayer/Components/ECommerceSpaceComponent.i"
+%include "CSP/Multiplayer/Components/ExternalLinkSpaceComponent.i"
+%include "CSP/Multiplayer/Components/FiducialMarkerSpaceComponent.i"
+%include "CSP/Multiplayer/Components/FogSpaceComponent.i"
+%include "CSP/Multiplayer/Components/GaussianSplatSpaceComponent.i"
+%include "CSP/Multiplayer/Components/HotspotSpaceComponent.i"
+%include "CSP/Multiplayer/Components/ImageSpaceComponent.i"
+%include "CSP/Multiplayer/Components/LightSpaceComponent.i"
+%include "CSP/Multiplayer/Components/PortalSpaceComponent.i"
+%include "CSP/Multiplayer/Components/ReflectionSpaceComponent.i"
+%include "CSP/Multiplayer/Components/ScreenSharingSpaceComponent.i"
+%include "CSP/Multiplayer/Components/ScriptSpaceComponent.i"
+%include "CSP/Multiplayer/Components/SplineSpaceComponent.i"
+%include "CSP/Multiplayer/Components/StaticModelSpaceComponent.i"
+%include "CSP/Multiplayer/Components/TextSpaceComponent.i"
+%include "CSP/Multiplayer/Components/VideoPlayerSpaceComponent.i"
 
 
 %include "swigutils/TemplateDeclarations.i"
