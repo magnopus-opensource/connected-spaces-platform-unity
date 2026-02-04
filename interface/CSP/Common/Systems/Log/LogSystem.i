@@ -46,7 +46,11 @@ namespace extra
         };
 
         // Custom callback we can use for our async function testing.
-        typedef std::function<void(const TestBooleanResult&)> TestBooleanResultCallback;
+        // Note: we pass result by value, not by reference, because C++ does not have a way
+        // to know when C# will stop using the result, and C++ is responsible for the memory
+        // deallocation for it. So, to avoid crashes due to access violation to the
+        // memory of result we pass a copy of it to be safer.
+        typedef std::function<void(TestBooleanResult)> TestBooleanResultCallback;
     }
 }
 %}
