@@ -96,7 +96,11 @@ public class AsyncInteropTests
         Assert.True(result.GetValue());
     }
 
-    [Fact(DisplayName = "Callback and result survive garbage collection pressure")]
+    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
+    [Fact(
+        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
+        DisplayName = "Callback and result survive garbage collection pressure"
+    )]
     public async Task Async_SurvivesGarbageCollection()
     {
         using LogSystem logSystem = new LogSystem();

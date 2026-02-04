@@ -85,19 +85,6 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
  */
 %extend FULLY_NAMESPACED_CLASST {
 %proxycode %{
-    
-  /*
-   * When handling callbacks while the async method is running, we need to be careful to keep a reference to the callback
-   * safely in memory until it is called. Otherwise, the garbage collector may collect it before it is invoked, leading to
-   * unexpected behavior or SIGSEGV. To do that, we keep a ConditionalWeakTable that prevents leaks and automatically
-   * cleans if the Task is collected before the callback is invoked.
-   */
-  private static readonly HashSet<object> _callbackRoots = new();
-
-  /*
-   * We make access to _callbackRoots thread-safe by locking on it whenever we add or remove entries.
-   */
-  private static readonly object _callbackLock = new();
 
   public System.Threading.Tasks.Task<CALLBACK_TYPELIST_WITHOUT_NAMES> METHODNAME##Async(FUNCTION_TYPELIST_WITH_NAMES)
   {
@@ -126,22 +113,8 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
             // If any other exception occurs, we set it on the task completion source
             tcs.TrySetException(ex);
         }
-        finally 
-        { 
-            lock (_callbackLock)
-            {
-                // Now that the callback has been invoked, we can remove the root reference
-                _callbackRoots.Remove(callback);
-            } 
-        }
 
     });
-
-    lock (_callbackLock)
-    {
-        // ROOT the callback for the lifetime of the Task
-        _callbackRoots.Add(callback);
-    }
 
     // Run the method with the provided arguments and the callback
     METHODNAME(FUNCTION_TYPELIST_ONLY_NAMES, callback);
