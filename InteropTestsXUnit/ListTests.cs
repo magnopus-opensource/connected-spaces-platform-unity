@@ -183,11 +183,37 @@ public class ListTests
         list.Add(one);
         list.Add(two);
 
-        ApplicationSettings[] arrayFromToArray = list.ToArray();
+        ApplicationSettings[] arrayFromToArray = list.DeepCopyToArray();
         Assert.Equal(arrayFromToArray.Length, list.Count);
         Assert.Equal(arrayFromToArray[0].ApplicationName, list[0].ApplicationName);
         Assert.Equal(arrayFromToArray[1].ApplicationName, list[1].ApplicationName);
+
+        // Assert that the underlying pointers are different, as we should have made new ApplicationSettings in deep copy.
+        Assert.NotEqual(ApplicationSettings.getCPtr(list[0]), ApplicationSettings.getCPtr(arrayFromToArray[0]));
     }
+
+    [Fact]
+    public void CopyToListHappyPath()
+    {
+        var list = new ApplicationSettingsValueList();
+
+        ApplicationSettings one = new ApplicationSettings();
+        one.ApplicationName = "One";
+        ApplicationSettings two = new ApplicationSettings();
+        two.ApplicationName = "Two";
+
+        list.Add(one);
+        list.Add(two);
+
+        List<ApplicationSettings> listFromToList = list.DeepCopyToList();
+        Assert.Equal(listFromToList.Count, list.Count);
+        Assert.Equal(listFromToList[0].ApplicationName, list[0].ApplicationName);
+        Assert.Equal(listFromToList[1].ApplicationName, list[1].ApplicationName);
+
+        // Assert that the underlying pointers are different, as we should have made new ApplicationSettings in deep copy.
+        Assert.NotEqual(ApplicationSettings.getCPtr(list[0]), ApplicationSettings.getCPtr(listFromToList[0]));
+    }
+
 
     [Fact]
     public void CopyTo()

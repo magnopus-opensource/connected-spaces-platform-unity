@@ -136,12 +136,12 @@ public class CallbackTests
             CallbackSpaceEntityTCS.TrySetResult(UpdatedSpaceEntity);
             CallbackUpdateFlagsTCS.TrySetResult(UpdateFlags);
 
-            // I wonder if we can do something about this? What terrible ergonomics.
-            // If you don't copy, CSP releases the memory under you for reference arguments. This is just an api design bug straight up.
-
+            // If you don't copy, CSP releases the memory under you for certain reference arguments. This is just an api design bug straight up.
+            // I tried to fix this at the CSP level, but wouldn't you know legacy wrapper generator makes it somewhat impossible to naively switch
+            // to a value argument in the callback.
             if (!UpdatedComponentInfoArray.IsEmpty()) // Not catastrophic, but an annoying quirk for writing capturing callbacks like this.
             {                                         // Even actions that don't impact the components will give you an empty list, so can't just set the TCS.
-                CallbackComponentUpdateInfoArrayTCS.TrySetResult(UpdatedComponentInfoArray.ToList());
+                CallbackComponentUpdateInfoArrayTCS.TrySetResult(UpdatedComponentInfoArray.DeepCopyToList());
             }
         }));
 

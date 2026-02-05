@@ -27,6 +27,17 @@ public class ArrayTests
         return array;
     }
 
+    static ReplicatedValue[] MakeManyReplicatedValues()
+    {
+        var array = new ReplicatedValue[4];
+        array[0] = new ReplicatedValue(1.0f);
+        array[1] = new ReplicatedValue(1);
+        array[2] = new ReplicatedValue("One");
+        array[3] = new ReplicatedValue(true);
+        return array;
+    }
+
+
     [Fact]
     public void NewArrayIsEmpty()
     {
@@ -82,16 +93,37 @@ public class ArrayTests
     [Fact]
     public void CopyToArrayHappyPath()
     {
-        var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var items = MakeManyReplicatedValues();
+        var array = new ReplicatedValueArray(items);
         Assert.Equal(4, array.Count);
 
-        SpaceUserRole[] arrayFromToArray = array.ToArray();
+        ReplicatedValue[] arrayFromToArray = array.DeepCopyToArray();
         Assert.Equal(arrayFromToArray.Length, array.Count);
         Assert.Equal(arrayFromToArray[0], array[0]);
         Assert.Equal(arrayFromToArray[1], array[1]);
         Assert.Equal(arrayFromToArray[2], array[2]);
         Assert.Equal(arrayFromToArray[3], array[3]);
+
+        // Assert that the underlying pointers are different, as we should have made new ApplicationSettings in deep copy.
+        Assert.NotEqual(ReplicatedValue.getCPtr(array[0]), ReplicatedValue.getCPtr(arrayFromToArray[0]));
+    }
+
+    [Fact]
+    public void CopyToListHappyPath()
+    {
+        var items = MakeManyReplicatedValues();
+        var array = new ReplicatedValueArray(items);
+        Assert.Equal(4, array.Count);
+
+        List<ReplicatedValue> listFromToArray = array.DeepCopyToList();
+        Assert.Equal(listFromToArray.Count, array.Count);
+        Assert.Equal(listFromToArray[0], array[0]);
+        Assert.Equal(listFromToArray[1], array[1]);
+        Assert.Equal(listFromToArray[2], array[2]);
+        Assert.Equal(listFromToArray[3], array[3]);
+
+        // Assert that the underlying pointers are different, as we should have made new ApplicationSettings in deep copy.
+        Assert.NotEqual(ReplicatedValue.getCPtr(array[0]), ReplicatedValue.getCPtr(listFromToArray[0]));
     }
 
     [Fact]
