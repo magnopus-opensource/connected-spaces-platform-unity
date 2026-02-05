@@ -47,7 +47,16 @@ SWIG_STD_VECTOR_ENHANCED(CLASS_FULLY_NAMESPACED)
   }
 
   public override int GetHashCode() {
-    return (int)GetStdHashCode();
+
+    //GetStdHashCode is size_t, may be different lengths on different platforms
+    long hash = (long)GetStdHashCode();
+
+    // GetHashCode wants a 32 bit int, XOR the ptr with itself, shifting the upper part down, so we
+    // avoid collisions with values that have the same lower bits but different higher bits.
+    // In the case of a 32 bit system, we just shift 0's so this is a no-op.
+    // In checked contexts, this cast from long to int can trigger overflow exceptions.
+    // `unchecked` prevents this, overflow is well defined in C#, so hashes remain stable.
+    return unchecked((int)(hash ^ (hash >> 32)));
   }
 
   public static bool operator ==($csclassname left, $csclassname right)
@@ -79,11 +88,65 @@ SWIG_STD_VECTOR_ENHANCED(CLASS_FULLY_NAMESPACED)
 }
 %enddef
 
+/* Pointer equatability checks if the underlying C-pointer is the same.
+ * This is what you want for things like SpaceEntities, where even if you
+ * have duplicates that are identical in every way, they are still 
+ * conceptually "different things". 
+ *
+ * Adding pointer equality is easier than value equality, because you don't
+ * require underlying C++ operators. However, please hesitate to do this
+ * if you need value equality. Improving the platform generally is important,
+ * get CSP to add operators if you need them
+ */
+%define MAKE_POINTER_EQUATABLE(CLASS_FULLY_NAMESPACED)
+%typemap(csinterfaces) CLASS_FULLY_NAMESPACED "System.IEquatable<$csclassname>"
+
+%typemap(cscode) CLASS_FULLY_NAMESPACED %{
+
+  public bool Equals($csclassname? obj)
+  {
+    if (ReferenceEquals(this, obj)) return true; // The same proxy object
+    if (obj is null) return false;
+    return $csclassname.getCPtr(this).Handle == $csclassname.getCPtr(obj).Handle;
+  }
+
+  public override bool Equals(object? obj) {
+    return Equals(obj as $csclassname);
+  }
+
+  public override int GetHashCode() {
+    //On 32 bit platforms, the additional bits are filled with 0's, making the below cast harmless.
+    long ptr = (long)$csclassname.getCPtr(this);
+
+    // GetHashCode wants a 32 bit int, XOR the ptr with itself, shifting the upper part down, so we
+    // avoid collisions with values that have the same lower bits but different higher bits.
+    // In the case of a 32 bit system, we just shift 0's so this is a no-op.
+    // In checked contexts, this cast from long to int can trigger overflow exceptions.
+    // `unchecked` prevents this, overflow is well defined in C#, so hashes remain stable.
+    return unchecked((int)(ptr ^ (ptr >> 32)));
+  }
+
+  public static bool operator ==($csclassname left, $csclassname right)
+  {
+    return left.Equals(right);
+  }
+
+  public static bool operator !=($csclassname left, $csclassname right)
+  {
+    return !(left == right);
+  }
+
+%}
+
+%enddef
+
 MAKE_VALUE_EQUATABLE(csp::common::Vector2)
 MAKE_VALUE_EQUATABLE(csp::common::Vector3)
 MAKE_VALUE_EQUATABLE(csp::common::Vector4)
 MAKE_VALUE_EQUATABLE(csp::common::ReplicatedValue)
 MAKE_VALUE_EQUATABLE(csp::common::SettingsCollection)
 MAKE_VALUE_EQUATABLE(csp::common::ApplicationSettings)
+
+MAKE_POINTER_EQUATABLE(csp::multiplayer::SpaceEntity)
 
 // TODO, Build the full list of all the other types.
