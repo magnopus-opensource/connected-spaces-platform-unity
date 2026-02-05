@@ -47,6 +47,14 @@ if(ENABLE_UNITY_EXTENSIONS)
     set(SWIG_UNITY_FLAG "-DSWIG_UNITY_EXTENSIONS=1")
 endif()
 
+# Check if we want to automatically generate ThrowOnFailure code when ResultBase returns a failure status code.
+set(THROW_EXCEPTION_ON_RESULTBASE_FAILURE_FLAG "")
+if(ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE)
+    message(STATUS "Enabling generation of ThrowOnFailure code for ResultBase failure status codes. 
+    This will throw a C# exception when a ResultBase returns a failure status code, instead of just returning the ResultBase with the failure code.")
+    set(THROW_EXCEPTION_ON_RESULTBASE_FAILURE_FLAG "-DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=1")
+endif()
+
 # Setup SWIG invocation
 add_custom_command(
   OUTPUT "${_CPP_WRAPPER_OUT}"
@@ -64,6 +72,7 @@ add_custom_command(
           -outdir "${_GEN_CS_DIR}"
           -o "${_CPP_WRAPPER_OUT}"
           ${SWIG_UNITY_FLAG} # Optionally enable unity extensions
+          ${THROW_EXCEPTION_ON_RESULTBASE_FAILURE_FLAG} # Optionally generate ThrowOnFailure code when ResultBase is returned with failure status code.
           -v # Still could be verboser ... There's other options if you need them
           "${_ROOT_I_FILE}"
   DEPENDS "${_ROOT_I_FILE}"

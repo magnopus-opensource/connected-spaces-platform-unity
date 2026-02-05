@@ -4,6 +4,12 @@
 
 %include "CSP/Systems/WebService.h"
 
+/************************************************************
+ * THROW ON FAILURE SECTION — ENABLED WITH:
+ *   cmake -DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
+ ************************************************************/
+#ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
+
 %extend csp::systems::ResultBase {
 %proxycode %{
 #region EXCEPTIONS HANDLING
@@ -34,3 +40,5 @@
 #endregion
 %}
 }
+
+#endif

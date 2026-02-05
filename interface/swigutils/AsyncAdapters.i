@@ -99,12 +99,23 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     {
         try
         {
+%}
+
+/************************************************************
+ * THROW ON FAILURE SECTION — ENABLED WITH:
+ *   cmake -DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
+ ************************************************************/
+#ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
+%proxycode %{
             if(CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase)
             {
         	    // Before returning the result, we check if we need to throw an exception
    	    	    CALLBACK_TYPELIST_ONLY_NAMES.ThrowOnFailure(nameof(METHODNAME##Async));
             }
+%}
+#endif
 
+%proxycode %{
             // Set the result on the task completion source
             tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
         }
@@ -158,11 +169,23 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
     METHODNAME(new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
     {
-		if(CALLBACK_TYPELIST_ONLY_NAMES is ResultBase)
-        {
-        	// Before returning the result, we check if we need to throw an exception
-   	    	CALLBACK_TYPELIST_ONLY_NAMES.ThrowOnFailure(nameof(METHODNAME##Async));
-        }
+%}
+
+/************************************************************
+ * THROW ON FAILURE SECTION — ENABLED WITH:
+ *   cmake -DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
+ ************************************************************/
+#ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
+%proxycode %{
+            if(CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase)
+            {
+        	    // Before returning the result, we check if we need to throw an exception
+   	    	    CALLBACK_TYPELIST_ONLY_NAMES.ThrowOnFailure(nameof(METHODNAME##Async));
+            }
+%}
+#endif
+
+%proxycode %{
 
 		// Set the result on the task completion source
         tcs.SetResult(CALLBACK_TYPELIST_ONLY_NAMES);
