@@ -26,7 +26,7 @@ public class PointerEquatableTests
            Don't need to do every type, just check the typemapping is working */
 
         SpaceEntity SpaceEntity = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
-        Assert.True(SpaceEntity is IEquatable<SpaceEntity>);
+        Assert.IsAssignableFrom<IEquatable<SpaceEntity>>(SpaceEntity);
     }
 
     [Fact]
