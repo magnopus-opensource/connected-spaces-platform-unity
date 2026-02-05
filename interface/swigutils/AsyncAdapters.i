@@ -81,7 +81,7 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
 /* 
  * Note: here we can add the ResultBase check to throw exceptions on failure. Ideally, the better place would be even 
  * callbacks instead of the async code. This is just a reminder that we have this option to replace the ugly 
- * "ThrowIfNeeded" mechanism we currently have in place in Unity. 
+ * "ThrowOnFailure" mechanism we currently have in place in Unity. 
  */
 %extend FULLY_NAMESPACED_CLASST {
 %proxycode %{
@@ -102,13 +102,13 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
             if(CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase)
             {
         	    // Before returning the result, we check if we need to throw an exception
-   	    	    CALLBACK_TYPELIST_ONLY_NAMES.ThrowIfNeeded(nameof(METHODNAME##Async));
+   	    	    CALLBACK_TYPELIST_ONLY_NAMES.ThrowOnFailure(nameof(METHODNAME##Async));
             }
 
             // Set the result on the task completion source
             tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             // If any other exception occurs, we set it on the task completion source
             tcs.TrySetException(ex);
@@ -161,7 +161,7 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
 		if(CALLBACK_TYPELIST_ONLY_NAMES is ResultBase)
         {
         	// Before returning the result, we check if we need to throw an exception
-   	    	CALLBACK_TYPELIST_ONLY_NAMES.ThrowIfNeeded(nameof(METHODNAME##Async));
+   	    	CALLBACK_TYPELIST_ONLY_NAMES.ThrowOnFailure(nameof(METHODNAME##Async));
         }
 
 		// Set the result on the task completion source

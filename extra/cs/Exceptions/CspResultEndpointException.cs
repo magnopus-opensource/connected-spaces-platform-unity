@@ -4,6 +4,7 @@
 
 using System;
 using System.Net;
+using System.Text;
 
 namespace Magnopus.Extra.Exceptions
 {
@@ -58,27 +59,36 @@ namespace Magnopus.Extra.Exceptions
         /// <returns>String representation of the exception.</returns>
         public override string ToString()
         {
-            string result;
-            if (string.IsNullOrWhiteSpace(Message))
+            var sb = new StringBuilder();
+
+            sb.Append(GetType());
+
+            if (!string.IsNullOrWhiteSpace(Message))
             {
-                result = $"{GetType()}{Environment.NewLine}Status Code:{StatusCode}{Environment.NewLine}Failure Reason:{FailureReason}{Environment.NewLine}Response Body:{Environment.NewLine}{(string.IsNullOrWhiteSpace(ResponseBody) ? "(Empty)" : ResponseBody)}";
+                sb.Append(": ").Append(Message);
             }
-            else
-            {
-                result = $"{GetType()}: {Message}{Environment.NewLine}Status Code:{StatusCode}{Environment.NewLine}Failure Reason:{FailureReason}{Environment.NewLine}Response Body:{Environment.NewLine}{(string.IsNullOrWhiteSpace(ResponseBody) ? "(Empty)" : ResponseBody)}";
-            }
+
+            sb.AppendLine()
+                .Append("Status Code:").AppendLine(StatusCode.ToString())
+                .Append("Failure Reason:").AppendLine(FailureReason.ToString())
+                .AppendLine("Response Body:")
+                .AppendLine(string.IsNullOrWhiteSpace(ResponseBody) ? "(Empty)" : ResponseBody);
 
             if (InnerException != null)
             {
-                result = $"{result}{ Environment.NewLine} ---> { InnerException} { Environment.NewLine}   ---End of inner exception stack trace ---";
+                sb.AppendLine()
+                    .Append(" ---> ").Append(InnerException)
+                    .AppendLine()
+                    .Append("   --- End of inner exception stack trace ---");
             }
 
             if (StackTrace != null)
             {
-                result = $"{result}{Environment.NewLine}{StackTrace}";
+                sb.AppendLine()
+                    .Append(StackTrace);
             }
 
-            return result;
+            return sb.ToString();
         }
     }
 }
