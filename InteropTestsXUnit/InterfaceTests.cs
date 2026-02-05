@@ -1,6 +1,3 @@
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
-
-
 namespace InteropTestsXUnit;
 
 using csp.common;
