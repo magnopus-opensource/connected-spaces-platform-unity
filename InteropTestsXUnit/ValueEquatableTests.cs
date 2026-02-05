@@ -1,6 +1,7 @@
 namespace InteropTestsXUnit;
 
 using csp.common;
+using csp.multiplayer;
 using System;
 using System.Diagnostics;
 
@@ -16,13 +17,13 @@ public class ValueEquatableTest
            Don't need to do every type, just check the typemapping is working */
 
         Vector2 EquatableVec2 = new Vector2(1.0f, 2.0f);
-        Assert.True(EquatableVec2 is IEquatable<Vector2>);
+        Assert.IsAssignableFrom<IEquatable<Vector2>>(EquatableVec2);
 
         Vector3 EquatableVec3 = new Vector3(1.0f, 2.0f, 3.0f);
-        Assert.True(EquatableVec3 is IEquatable<Vector3>);
+        Assert.IsAssignableFrom<IEquatable<Vector3>>(EquatableVec3);
 
         Vector4 EquatableVec4 = new Vector4(1.0f, 2.0f, 3.0f, 4.0f);
-        Assert.True(EquatableVec4 is IEquatable<Vector4>);
+        Assert.IsAssignableFrom<IEquatable<Vector4>>(EquatableVec4);
     }
 
     [Fact]

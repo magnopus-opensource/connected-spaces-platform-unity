@@ -27,18 +27,19 @@ public class InterfaceTests
     {
         // Don't need to actually instantiate to test this.
         StaticModelSpaceComponent StaticModelSpaceComponent = new StaticModelSpaceComponent(0, false);
-        Assert.True(StaticModelSpaceComponent is ComponentBase);
+
+        Assert.IsAssignableFrom<ComponentBase>(StaticModelSpaceComponent);
 
         // Look at all these interfaces!
-        Assert.True(StaticModelSpaceComponent is IExternalResourceComponent);
-        Assert.True(StaticModelSpaceComponent is IShadowCasterComponent);
-        Assert.True(StaticModelSpaceComponent is IThirdPartyComponentRef);
-        Assert.True(StaticModelSpaceComponent is ITransformComponent);
-        Assert.True(StaticModelSpaceComponent is IPositionComponent);
-        Assert.True(StaticModelSpaceComponent is IRotationComponent);
-        Assert.True(StaticModelSpaceComponent is IScaleComponent);
-        Assert.True(StaticModelSpaceComponent is IVisibleComponent);
-        Assert.True(StaticModelSpaceComponent is IRenderBehaviourComponent);
+        Assert.IsAssignableFrom<IExternalResourceComponent>(StaticModelSpaceComponent);
+        Assert.IsAssignableFrom<IShadowCasterComponent>(StaticModelSpaceComponent);
+        Assert.IsAssignableFrom<IThirdPartyComponentRef>(StaticModelSpaceComponent);
+        Assert.IsAssignableFrom<ITransformComponent>(StaticModelSpaceComponent);
+        Assert.IsAssignableFrom<IPositionComponent>(StaticModelSpaceComponent);
+        Assert.IsAssignableFrom<IRotationComponent>(StaticModelSpaceComponent);
+        Assert.IsAssignableFrom<IScaleComponent>(StaticModelSpaceComponent);
+        Assert.IsAssignableFrom<IVisibleComponent>(StaticModelSpaceComponent);
+        Assert.IsAssignableFrom<IRenderBehaviourComponent>(StaticModelSpaceComponent);
     }
 
     [Fact]
