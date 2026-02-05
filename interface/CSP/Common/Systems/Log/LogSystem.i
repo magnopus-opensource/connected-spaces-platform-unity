@@ -42,7 +42,7 @@ namespace extra
 
             private:
 
-             bool Value;            
+            bool Value;            
         };
 
         // Custom callback we can use for our async function testing.
