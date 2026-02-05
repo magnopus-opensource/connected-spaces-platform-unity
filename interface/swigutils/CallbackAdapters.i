@@ -83,8 +83,6 @@ public:
 /// </remarks>
 internal static class CallbackLifetime
 {
-    private static readonly object _lock = new();
-    
     /// <summary>
     /// HashSet to hold references to callbacks. This ensures that callbacks are not garbage collected while they are
     /// still needed. Callbacks should be added to this set when they are created, and removed once they have been invoked.
@@ -103,7 +101,7 @@ internal static class CallbackLifetime
             return;
         }
     
-        lock (_lock)
+        lock (_roots)
         {
             _roots.Add(callback);
         }
@@ -121,7 +119,7 @@ internal static class CallbackLifetime
             return;
         }
     
-        lock (_lock)
+        lock (_roots)
         {
             _roots.Remove(callback);
         }
