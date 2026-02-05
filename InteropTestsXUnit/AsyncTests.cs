@@ -6,10 +6,7 @@ namespace InteropTestsXUnit;
 
 public class AsyncInteropTests
 {
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Async success path completes and returns managed result")]
+    [Fact(DisplayName = "Async success path completes and returns managed result")]
     public async Task Async_Success_CompletesAndReturnsResult()
     {
         using LogSystem logSystem = new LogSystem();
@@ -19,10 +16,7 @@ public class AsyncInteropTests
         Assert.True(result.GetValue());
     }
 
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Native failure propagates as managed exception via ThrowOnFailure")]
+    [Fact(DisplayName = "Native failure propagates as managed exception via ThrowOnFailure")]
     public async Task Async_Failure_ThrowsManagedException()
     {
         using LogSystem logSystem = new LogSystem();
@@ -33,10 +27,7 @@ public class AsyncInteropTests
         Assert.Equal(500, ex.StatusCode);
     }
 
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Async call is non-blocking and does not complete synchronously")]
+    [Fact(DisplayName = "Async call is non-blocking and does not complete synchronously")]
     public async Task Async_IsTrulyAsynchronous()
     {
         using LogSystem logSystem = new LogSystem();
@@ -48,10 +39,7 @@ public class AsyncInteropTests
         await task;
     }
 
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Native delay is respected and not bypassed by managed wrapper")]
+    [Fact(DisplayName = "Native delay is respected and not bypassed by managed wrapper")]
     public async Task Async_RespectsNativeTiming()
     {
         using LogSystem logSystem = new LogSystem();
@@ -63,10 +51,7 @@ public class AsyncInteropTests
         Assert.True(sw.ElapsedMilliseconds >= 900);
     }
 
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Native callback executes on a background thread")]
+    [Fact(DisplayName = "Native callback executes on a background thread")]
     public async Task Callback_ExecutesOffCallingThread()
     {
         using LogSystem logSystem = new LogSystem();
@@ -84,10 +69,7 @@ public class AsyncInteropTests
         Assert.NotEqual(callingThread, callbackThread);
     }
 
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Multiple concurrent async calls do not interfere with each other")]
+    [Fact(DisplayName = "Multiple concurrent async calls do not interfere with each other")]
     public async Task ConcurrentCalls_DoNotInterfere()
     {
         using LogSystem logSystem = new LogSystem();
@@ -101,10 +83,7 @@ public class AsyncInteropTests
         Assert.All(results, r => Assert.True(r.GetValue()));
     }
 
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Failure in one async call does not poison subsequent calls")]
+    [Fact(DisplayName = "Failure in one async call does not poison subsequent calls")]
     public async Task Failure_DoesNotPoisonSubsequentCalls()
     {
         using LogSystem logSystem = new LogSystem();
@@ -117,10 +96,7 @@ public class AsyncInteropTests
         Assert.True(result.GetValue());
     }
 
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Callback and result survive garbage collection pressure")]
+    [Fact(DisplayName = "Callback and result survive garbage collection pressure")]
     public async Task Async_SurvivesGarbageCollection()
     {
         using LogSystem logSystem = new LogSystem();
@@ -138,10 +114,7 @@ public class AsyncInteropTests
     }
 
 
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Disposing managed wrapper before callback does not crash or deadlock")]
+    [Fact(DisplayName = "Disposing managed wrapper before callback does not crash or deadlock")]
     public async Task Dispose_BeforeCallback_IsSafe()
     {
         LogSystem logSystem = new LogSystem();
@@ -153,10 +126,7 @@ public class AsyncInteropTests
         await task;
     }
 
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Async call completes under thread pool pressure")]
+    [Fact(DisplayName = "Async call completes under thread pool pressure")]
     public async Task Async_CompletesUnderThreadPoolPressure()
     {
         using LogSystem logSystem = new LogSystem();
@@ -171,10 +141,7 @@ public class AsyncInteropTests
         await asyncTask;
     }
 
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Async task follows valid lifecycle and reaches completion state")]
+    [Fact(DisplayName = "Async task follows valid lifecycle and reaches completion state")]
     public async Task Task_Lifecycle_IsValid()
     {
         using LogSystem logSystem = new LogSystem();
@@ -191,10 +158,7 @@ public class AsyncInteropTests
     }
 
     
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Concurrent async calls on separate LogSystem instances run in parallel")]
+    [Fact(DisplayName = "Concurrent async calls on separate LogSystem instances run in parallel")]
     public async Task ConcurrentCalls_OnDifferentInstances_DoNotBlock()
     {
         using var a = new LogSystem();
@@ -213,10 +177,7 @@ public class AsyncInteropTests
     }
 
     
-    // TODO (OPE-3089): Do not skip this test once we have a strategy to keep the callback delegate alive
-    [Fact(
-        Skip = "This test will fail until we have a strategy to ensure the callback is kept in memory by C# until the C++ async operation completes.",
-        DisplayName = "Callback is invoked exactly once per async call")]
+    [Fact(DisplayName = "Callback is invoked exactly once per async call")]
     public async Task Callback_IsInvokedExactlyOnce()
     {
         using var logSystem = new LogSystem();
