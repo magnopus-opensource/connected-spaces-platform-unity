@@ -111,12 +111,25 @@
       outArray.SetValue(getitemcopy(srcStartIndex+i), outStartIndex+i);
   }
 
-  public $typemap(cstype, CTYPE)[] ToArray() {
-    $typemap(cstype, CTYPE)[] array = new $typemap(cstype, CTYPE)[this.Count];
-    this.CopyTo(array);
-    return array;
+  public $typemap(cstype, CTYPE)[] DeepCopyToArray()
+  {
+    int count = this.Count;
+    $typemap(cstype, CTYPE)[] result = new $typemap(cstype, CTYPE)[count];
+    for (int i = 0; i < count; i++)
+      result[i] = getitemcopy(i);
+    return result;
   }
-
+  
+  public global::System.Collections.Generic.List<$typemap(cstype, CTYPE)> DeepCopyToList()
+  {
+    int count = this.Count;
+    global::System.Collections.Generic.List<$typemap(cstype, CTYPE)> result = 
+      new global::System.Collections.Generic.List<$typemap(cstype, CTYPE)>(count);
+    for (int i = 0; i < count; i++)
+      result.Add(getitemcopy(i));
+    return result;
+  }
+  
   global::System.Collections.Generic.IEnumerator<$typemap(cstype, CTYPE)> global::System.Collections.Generic.IEnumerable<$typemap(cstype, CTYPE)>.GetEnumerator() {
     return new $csclassnameEnumerator(this);
   }
