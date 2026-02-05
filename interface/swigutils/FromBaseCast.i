@@ -2,7 +2,7 @@
 /* Make a FromBaseCast() method that takes a base proxy object, and gives you a fully derived one.
  * The most obvious use of this is casting from ComponentBase -> A fully derived component, since
  * CSP tends to give you back ComponentBase pointers. Remember that you can't just cast a proxy object using `as`
- * as they're related in that way. they just manage opaque pointers, they're quite dumb wrappers.
+ * as they're not related in that way. They just manage opaque pointers, they're quite dumb wrappers.
  * Requires std_except.i to be included to do the exception conversion, can be caught as ArgumentException in C#. */
 %define MAKE_FROM_BASE_CAST(DERIVED_TYPE, BASE_TYPE)
 
