@@ -92,8 +92,7 @@ public class CallbackTests
     public async Task SpaceEntityCallbacks()
     {
         /* Arguably this isn't a neccesary mechanism test, as the log callbacks above prove this out.
-         * However I want a little bit of confidence in callbacks firing based on other actions.
-         */
+         * However I want a little bit of confidence in callbacks firing based on other actions. */
 
         TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
         LogSystem LogSystem = new LogSystem();

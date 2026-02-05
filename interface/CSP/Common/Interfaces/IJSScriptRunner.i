@@ -3,9 +3,8 @@
 %}
 
 %interface_impl(csp::common::IJSScriptRunner);
+
 %include "CSP/Common/Interfaces/IJSScriptRunner.h"
-
-
 
 // A temporary empty IJSScriptRunner implementation such that we can test things.
 // Normally you just get the script system and use that as you IJSScriptRunner.
@@ -20,7 +19,7 @@ namespace csp
             {
                 return true;
             }
-            void RegisterScriptBinding (csp::common::IScriptBinding* /*ScriptBinding*/) override {}
+            void RegisterScriptBinding(csp::common::IScriptBinding* /*ScriptBinding*/) override {}
             void UnregisterScriptBinding(csp::common::IScriptBinding* /*ScriptBinding*/) override {}
 
             bool BindContext(int64_t /*ContextID*/) override {return true;}
