@@ -9,11 +9,11 @@ public class PointerEquatableTests
 {
     TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
     LogSystem LogSystem = new LogSystem();
-    OfflineRealtimeEngine _RealtimeEngine;
+    OfflineRealtimeEngine RealtimeEngine;
 
     public PointerEquatableTests()
     {
-        _RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
+        RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
     }
 
     /*
@@ -25,14 +25,14 @@ public class PointerEquatableTests
         /* Check that types marked as equatable inherit the interface 
            Don't need to do every type, just check the typemapping is working */
 
-        SpaceEntity SpaceEntity = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
         Assert.IsAssignableFrom<IEquatable<SpaceEntity>>(SpaceEntity);
     }
 
     [Fact]
     public void EqualsReflexiveSameInstance()
     {
-        SpaceEntity SpaceEntity = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
 
         Assert.True(SpaceEntity.Equals(SpaceEntity));
         Assert.True(SpaceEntity == SpaceEntity);
@@ -41,7 +41,7 @@ public class PointerEquatableTests
     [Fact]
     public void EqualsWithNull()
     {
-        SpaceEntity SpaceEntity = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
 
         Assert.False(SpaceEntity.Equals(null));
     }
@@ -51,8 +51,8 @@ public class PointerEquatableTests
     {
         // The proxy objects we have will be different, but they will still compare equal
         // due to holding pointers to the same C++ memory.
-        SpaceEntity SpaceEntity1 = await _RealtimeEngine.CreateEntityAsync("Name", new SpaceTransform(), null);
-        SpaceEntity SpaceEntity2 = _RealtimeEngine.GetEntityByIndex(0);
+        SpaceEntity SpaceEntity1 = await RealtimeEngine.CreateEntityAsync("Name", new SpaceTransform(), null);
+        SpaceEntity SpaceEntity2 = RealtimeEngine.GetEntityByIndex(0);
 
         Assert.True(SpaceEntity1.Equals(SpaceEntity2));
         Assert.True(SpaceEntity1 == SpaceEntity2);
@@ -63,8 +63,8 @@ public class PointerEquatableTests
     public void NotEqual()
     {
         // Any two pointer unique equatable types are not equal, even if they have the same values
-        SpaceEntity SpaceEntity1 = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
-        SpaceEntity SpaceEntity2 = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity1 = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity2 = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
 
         Assert.False(SpaceEntity1.Equals(SpaceEntity2));
         Assert.False(SpaceEntity1 == SpaceEntity2);
@@ -76,8 +76,8 @@ public class PointerEquatableTests
     {
         // Hash codes for pointer equality is just the pointer value itself. So the same underlying
         // C++ memory should have the same hash
-        SpaceEntity SpaceEntity1 = await _RealtimeEngine.CreateEntityAsync("Name", new SpaceTransform(), null);
-        SpaceEntity SpaceEntity2 = _RealtimeEngine.GetEntityByIndex(0);
+        SpaceEntity SpaceEntity1 = await RealtimeEngine.CreateEntityAsync("Name", new SpaceTransform(), null);
+        SpaceEntity SpaceEntity2 = RealtimeEngine.GetEntityByIndex(0);
 
         Assert.Equal(SpaceEntity1, SpaceEntity2);
         Assert.Equal(SpaceEntity1.GetHashCode(), SpaceEntity2.GetHashCode());
@@ -87,8 +87,8 @@ public class PointerEquatableTests
     public void NotEqualHashCodes()
     {
         //Different pointers, different hashes
-        SpaceEntity SpaceEntity1 = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
-        SpaceEntity SpaceEntity2 = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity1 = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity2 = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
 
         Assert.NotEqual(SpaceEntity1, SpaceEntity2);
         Assert.NotEqual(SpaceEntity1.GetHashCode(), SpaceEntity2.GetHashCode());
@@ -98,8 +98,8 @@ public class PointerEquatableTests
     public async Task DeferToTypedEquals()
     {
         //Boxed comparison should defer to the typed one
-        SpaceEntity SpaceEntity1 = await _RealtimeEngine.CreateEntityAsync("Name", new SpaceTransform(), null);
-        SpaceEntity SpaceEntity2 = _RealtimeEngine.GetEntityByIndex(0);
+        SpaceEntity SpaceEntity1 = await RealtimeEngine.CreateEntityAsync("Name", new SpaceTransform(), null);
+        SpaceEntity SpaceEntity2 = RealtimeEngine.GetEntityByIndex(0);
 
         Assert.True(SpaceEntity1.Equals((object)SpaceEntity2));
     }

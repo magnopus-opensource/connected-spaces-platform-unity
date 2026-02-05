@@ -10,11 +10,11 @@ public class PointerTests
 {
     TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
     LogSystem LogSystem = new LogSystem();
-    OfflineRealtimeEngine _RealtimeEngine;
+    OfflineRealtimeEngine RealtimeEngine;
 
     public PointerTests()
     {
-        _RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
+        RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
     }
 
     [Fact]
@@ -23,13 +23,13 @@ public class PointerTests
 
         SpaceTransform NewEntityTransform = new SpaceTransform(new Vector3(1, 2, 3), new Vector4(0, 0, 0, 1), new Vector3(2, 3, 4));
 
-        SpaceEntity OriginalEntity = await _RealtimeEngine.CreateEntityAsync("OriginalEntity", NewEntityTransform, null);
+        SpaceEntity OriginalEntity = await RealtimeEngine.CreateEntityAsync("OriginalEntity", NewEntityTransform, null);
 
         Assert.Equal("OriginalEntity", OriginalEntity.GetName());
         Assert.Equal(new Vector3(1, 2, 3), OriginalEntity.GetPosition());
 
         // Get the same entity, check that they are equal.
-        SpaceEntity SameEntity = _RealtimeEngine.GetEntityByIndex(0);
+        SpaceEntity SameEntity = RealtimeEngine.GetEntityByIndex(0);
 
         //Space entities are pointer equatable
         Assert.Equal(OriginalEntity, SameEntity);
@@ -49,7 +49,7 @@ public class PointerTests
     {
         SpaceTransform NewEntityTransform = new SpaceTransform(new Vector3(1, 2, 3), new Vector4(0, 0, 0, 1), new Vector3(2, 3, 4));
 
-        SpaceEntity OriginalEntity = await _RealtimeEngine.CreateEntityAsync("OriginalName", NewEntityTransform, null);
+        SpaceEntity OriginalEntity = await RealtimeEngine.CreateEntityAsync("OriginalName", NewEntityTransform, null);
 
         TaskCompletionSource<SpaceEntity> CallbackSpaceEntityTCS = new TaskCompletionSource<SpaceEntity>();
         OriginalEntity.SetUpdateCallback(new ConnectedSpacesPlatformDotNet.UpdateCallback((UpdatedSpaceEntity, UpdateFlags, UpdatedComponentInfoArray) =>
@@ -79,8 +79,8 @@ public class PointerTests
     {
         SpaceTransform NewEntityTransform = new SpaceTransform(new Vector3(1, 2, 3), new Vector4(0, 0, 0, 1), new Vector3(2, 3, 4));
 
-        SpaceEntity Entity1 = await _RealtimeEngine.CreateEntityAsync("SameName", NewEntityTransform, null);
-        SpaceEntity Entity2 = await _RealtimeEngine.CreateEntityAsync("SameName", NewEntityTransform, null);
+        SpaceEntity Entity1 = await RealtimeEngine.CreateEntityAsync("SameName", NewEntityTransform, null);
+        SpaceEntity Entity2 = await RealtimeEngine.CreateEntityAsync("SameName", NewEntityTransform, null);
 
         //Check that the underlying swig pointers are different
         var SwigCPtrField = typeof(SpaceEntity)
@@ -97,12 +97,12 @@ public class PointerTests
     {
         SpaceTransform NewEntityTransform = new SpaceTransform(new Vector3(1, 2, 3), new Vector4(0, 0, 0, 1), new Vector3(2, 3, 4));
 
-        SpaceEntity CreatedByCpp = await _RealtimeEngine.CreateEntityAsync("SameName", NewEntityTransform, null);
+        SpaceEntity CreatedByCpp = await RealtimeEngine.CreateEntityAsync("SameName", NewEntityTransform, null);
 
         // The injection of the RealtimeEngine is suspicious here. I'm not convinced CSP is designed with this
         // sort of instantiation in mind. Not a concern for the CSharp wrapper, but CSP should break this 
         // dependency as it creates dangerous assumptions around memory ownership.
-        SpaceEntity CreatedByCSharp = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity CreatedByCSharp = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
 
         //Check underlying memory ownership
         var SwigCMemOwnField = typeof(SpaceEntity)
