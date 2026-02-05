@@ -10,17 +10,17 @@ public class BaseCastTests
 {
     TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
     LogSystem LogSystem = new LogSystem();
-    OfflineRealtimeEngine _RealtimeEngine;
+    OfflineRealtimeEngine RealtimeEngine;
 
     public BaseCastTests()
     {
-        _RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
+        RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
     }
 
     [Fact]
     public void ComponentCast()
     {
-        SpaceEntity SpaceEntity = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
         ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
 
         Assert.NotNull(Component);
@@ -36,7 +36,7 @@ public class BaseCastTests
     [Fact]
     public void InvalidComponentCastThrows()
     {
-        SpaceEntity SpaceEntity = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
         ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
 
         Assert.NotNull(Component);
@@ -50,7 +50,7 @@ public class BaseCastTests
     [Fact]
     public void InvalidComponentCastTryIsNull()
     {
-        SpaceEntity SpaceEntity = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
         ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
 
         Assert.NotNull(Component);
