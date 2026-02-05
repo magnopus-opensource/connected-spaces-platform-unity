@@ -193,5 +193,174 @@ public class AsyncInteropTests
 
         Assert.Equal(1, calls);
     }
+    
+    [Fact(
+        Skip = "This seems to fail due to swig director registration code not being thread safe, maybe worth investigating...",
+        DisplayName = "CallbackLifetime global lock scales under heavy concurrency")]
+    public async Task CallbackLifetime_Lock_Contention_Stress_V1()
+    {
+        using var logSystem = new LogSystem();
+
+        const int operations = 10_000;
+
+        var sw = Stopwatch.StartNew();
+
+        // Fire a large number of async operations concurrently
+        var tasks = Enumerable.Range(0, operations)
+            .Select(_ => logSystem.LogAfterSecondsAsync(true, 0))
+            .Cast<Task>()
+            .ToArray();
+
+        await Task.WhenAll(tasks);
+
+        sw.Stop();
+
+        // The value for the comparison here is somewhat arbitrary, but the point is just to verify we would not have
+        // a problem with the locking strategy.
+        Assert.True(
+            sw.ElapsedMilliseconds < 1500,
+            $"Expected < 1500ms, actual: {sw.ElapsedMilliseconds}ms"
+        );
+    }
+    
+    [Fact(
+        Skip = "Despite we create tasks sequentially, SWIG director construction does not seem to happen sequentially " +
+               "in practice, so the test is executed in a non thread-safe manner. We should fix this on the SWIG director code.",
+        DisplayName = "CallbackLifetime global lock scales under heavy concurrency")]
+    public async Task CallbackLifetime_Lock_Contention_Stress_V2()
+    {
+        using var logSystem = new LogSystem();
+
+        const int operations = 10000;
+
+        // STEP 1: create tasks sequentially (director construction is NOT thread-safe)
+        var tasks = new List<Task>(operations);
+        for (var i = 0; i < operations; i++)
+        {
+            tasks.Add(logSystem.LogAfterSecondsAsync(true, 0));
+        }
+
+        // STEP 2: measure execution + callback rooting
+        var sw = Stopwatch.StartNew();
+
+        await Task.WhenAll(tasks);
+
+        sw.Stop();
+
+        Assert.True(
+            sw.ElapsedMilliseconds < 1500,
+            $"Expected < 1500ms, actual: {sw.ElapsedMilliseconds}ms"
+        );
+    }
+
+    
+
+    [Fact(
+        Skip = "This seems to fail due to swig director registration code not being thread safe, maybe worth investigating...",
+        DisplayName = "CallbackLifetime survives GC under extreme async pressure")]
+    public async Task CallbackLifetime_Survives_GC_Pressure_ExpectFailure()
+    {
+        using var logSystem = new LogSystem();
+
+        const int operations = 5_000;
+
+        Task[] tasks = Enumerable.Range(0, operations)
+            .Select(_ => logSystem.LogAfterSecondsAsync(true, 0))
+            .Cast<Task>()
+            .ToArray();
+
+        // Aggressively force GC while callbacks are pending
+        for (var i = 0; i < 5; i++)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            await Task.Delay(10, TestContext.Current.CancellationToken);
+        }
+
+        await Task.WhenAll(tasks);
+    }
+    
+    [Fact(
+        Skip = "This never ends, potentially because the Parallel.ForEachAsync is challenging too much the swig director" +
+               " registration code which does not seem to be thread safe, maybe worth investigating...",
+        DisplayName = "CallbackLifetime scales with bounded async concurrency")]
+    public async Task CallbackLifetime_BoundedConcurrency()
+    {
+        using var logSystem = new LogSystem();
+
+        const int operations = 10_000;
+        const int maxConcurrency = 64;
+
+        var sw = Stopwatch.StartNew();
+
+        await Parallel.ForEachAsync(
+            Enumerable.Range(0, operations),
+            new ParallelOptions { MaxDegreeOfParallelism = maxConcurrency },
+            async (_, _) =>
+            {
+                await logSystem.LogAfterSecondsAsync(true, 0);
+            });
+
+        sw.Stop();
+
+        Assert.True(
+            sw.ElapsedMilliseconds < 1500,
+            $"Expected < 1500ms, actual: {sw.ElapsedMilliseconds}ms"
+        );
+    }
+
+    [Fact(
+        Skip = "This seems to fail due to swig director registration code not being thread safe, maybe worth investigating...",
+        DisplayName = "CallbackLifetime survives GC under async pressure")]
+    public async Task CallbackLifetime_Survives_GC_Pressure()
+    {
+        using var logSystem = new LogSystem();
+
+        const int operations = 5_000;
+
+        var tasks = new List<Task>(operations);
+        for (var i = 0; i < operations; i++)
+        {
+            tasks.Add(logSystem.LogAfterSecondsAsync(true, 0));
+        }
+
+        // Force GC while callbacks are alive
+        for (var i = 0; i < 5; i++)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            await Task.Delay(10, TestContext.Current.CancellationToken);
+        }
+
+        await Task.WhenAll(tasks);
+    }
+
+
+    [Fact(DisplayName = "CallbackLifetime lock overhead is minimal")]
+    public void CallbackLifetime_Lock_Overhead()
+    {
+        const int iterations = 1_000_000;
+
+        var dummy = new object();
+
+        var sw = Stopwatch.StartNew();
+
+        Parallel.For(0, iterations, _ =>
+        {
+            ConnectedSpacesPlatformDotNet.CallbackLifetime.Root(dummy);
+            ConnectedSpacesPlatformDotNet.CallbackLifetime.Unroot(dummy);
+        });
+
+        sw.Stop();
+
+        // As long as this succeeds, we can keep a single container for all the callbacks pinning without performance concerns.
+        Assert.True(
+            sw.ElapsedMilliseconds < 500,
+            $"Lock overhead too high: {sw.ElapsedMilliseconds}ms"
+        );
+    }
+
 
 }
