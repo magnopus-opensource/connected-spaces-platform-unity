@@ -66,15 +66,8 @@
 %include "CSP/Common/Vector.i"
 
 /* CSP/Common/Interfaces */
-/* If we ever want to implement interfaces in Csharp, rather than just using
- * C++ defined ones, we will need/want to declare these as %interface.
- * The following link is java doc, but the C# SWIG library is practically
- * identical : https://www.swig.org/Doc4.4/SWIGDocumentation.html#Java_interfaces 
- * This will absolutely matter in the case of multiple-inheritance, as non-interface
- * multi-inheritance is not supported in C#, unlike C++.
- * Currently, the specific implementation of these don't really matter very much
- * to C# users from an API perspective, and due to legacy wrapper gen constraints,
- * most of these arn't true interfaces anyway. */
+/* Note: Interfaces tend to be defined with %interface_impl such that they
+ * are generated as true C# interfaces. See the individual .i files. */
 %include "CSP/Common/Interfaces/IAuthContext.i"
 %include "CSP/Common/Interfaces/IJSScriptRunner.i"
 %include "CSP/Common/Interfaces/InvalidInterfaceUserError.i"
