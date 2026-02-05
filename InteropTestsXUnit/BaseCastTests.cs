@@ -8,15 +8,19 @@ using System.Runtime.InteropServices;
 
 public class BaseCastTests
 {
+    TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
+    LogSystem LogSystem = new LogSystem();
+    OfflineRealtimeEngine _RealtimeEngine;
+
+    public BaseCastTests()
+    {
+        _RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
+    }
 
     [Fact]
     public void ComponentCast()
     {
-        TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
-        LogSystem LogSystem = new LogSystem();
-        OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
-
-        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
         ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
 
         Assert.NotNull(Component);
@@ -32,11 +36,7 @@ public class BaseCastTests
     [Fact]
     public void InvalidComponentCastThrows()
     {
-        TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
-        LogSystem LogSystem = new LogSystem();
-        OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
-
-        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
         ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
 
         Assert.NotNull(Component);
@@ -50,11 +50,7 @@ public class BaseCastTests
     [Fact]
     public void InvalidComponentCastTryIsNull()
     {
-        TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
-        LogSystem LogSystem = new LogSystem();
-        OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
-
-        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
+        SpaceEntity SpaceEntity = new SpaceEntity(_RealtimeEngine, MockScriptRunner, LogSystem);
         ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
 
         Assert.NotNull(Component);
