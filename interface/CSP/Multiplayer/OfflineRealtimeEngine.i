@@ -7,5 +7,4 @@
 using csp.common;
 %}
 
-
 %include "CSP/Multiplayer/OfflineRealtimeEngine.h"
