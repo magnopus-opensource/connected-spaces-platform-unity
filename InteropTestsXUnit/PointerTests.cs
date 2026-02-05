@@ -26,8 +26,8 @@ public class PointerTests
         // Get the same entity, check that they are equal.
         SpaceEntity SameEntity = RealtimeEngine.GetEntityByIndex(0);
 
-        //The proxy classes are not equal. If we made SpaceEntity equatable (totally could), this could change.
-        Assert.NotEqual(OriginalEntity, SameEntity);
+        //Space entities are pointer equatable
+        Assert.Equal(OriginalEntity, SameEntity);
 
         //However, the underlying swigCPtr should be the same. Do some reflection dark arts to check
         var SwigCPtrField = typeof(SpaceEntity)
@@ -119,5 +119,11 @@ public class PointerTests
         Assert.True(SwigCMemOwnCreatedByCSharp);
     }
 
+    [Fact]
+    public void PointerListsImplementIList()
+    {
+        // Check that pointer lists get the IList interface by default, as all pointers should provide semantics to satisfy it.
+        Assert.True(typeof(IList<SpaceEntity>).IsAssignableFrom(typeof(SpaceEntityPtrList)));
+    }
 
 }

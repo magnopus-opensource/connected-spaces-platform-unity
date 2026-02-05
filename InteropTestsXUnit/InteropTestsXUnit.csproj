@@ -4,6 +4,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<RootNamespace>InteropTestsXUnit</RootNamespace>
+        <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
 		<TargetFramework>net8.0</TargetFramework>
 		 <ExternalRoot>..\install</ExternalRoot>
 	</PropertyGroup>
