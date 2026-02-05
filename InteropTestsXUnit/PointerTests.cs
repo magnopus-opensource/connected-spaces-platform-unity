@@ -42,8 +42,6 @@ public class PointerTests
     [Fact]
     public async Task UpdateChangesPropagateToOriginalProxyObject()
     {
-        //Leveraging the fact that offline engines are single threaded to keep the test simple.
-
         TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
         LogSystem LogSystem = new LogSystem();
         OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
@@ -52,9 +50,14 @@ public class PointerTests
 
         SpaceEntity OriginalEntity = await RealtimeEngine.CreateEntityAsync("OriginalName", NewEntityTransform, null);
 
-        SpaceEntity? CallbackEntity = null;
-        OriginalEntity.SetUpdateCallback(new ConnectedSpacesPlatformDotNet.UpdateCallback((UpdatedSpaceEntity, UpdateFlags, UpdatedComponentInfoArray) => { CallbackEntity = UpdatedSpaceEntity; }));
+        TaskCompletionSource<SpaceEntity> CallbackSpaceEntityTCS = new TaskCompletionSource<SpaceEntity>();
+        OriginalEntity.SetUpdateCallback(new ConnectedSpacesPlatformDotNet.UpdateCallback((UpdatedSpaceEntity, UpdateFlags, UpdatedComponentInfoArray) =>
+        {
+            CallbackSpaceEntityTCS.TrySetResult(UpdatedSpaceEntity);
+        }));
+
         OriginalEntity.SetPosition(new Vector3(2, 3, 4));
+        SpaceEntity CallbackEntity = await CallbackSpaceEntityTCS.Task;
 
         //Now we have two proxy objects, each point to the same memory and have the same data
 
