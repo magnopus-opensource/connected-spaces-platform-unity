@@ -407,6 +407,133 @@ I won't paste in the type here, as it does essentially the same thing as the cal
 The compromise we have here is that we are declaring brand new wrapper methods, so they need different names. Currently, we just append `Async` to awaitable methods that return `Task<T>`. This is the only compromise as far as C# semantics are concerned, and async methods imbued with `MAKE_ASYNC` are able to be called thusly,
 `var Result = await MySystem.MyMethodAsync(args)`, without having to worry about providing or managing callbacks at all.
 
+##### Example implementation: from C++ function with callback to C# awaitable function
+When C++ exports a function that makes use of a callback for asynchronous behavior, we can use the macros MAKE_ASYNC (or MAKE_ASYNC_ZERO if the function callback does not have parameters) to generate the related C# async awaitable counterpart.
+An example of this is the 'LogAfterSeconds' function in the LogSystem, which has the following signature in C++:
+
+```cpp
+/// <summary>
+/// Logs a boolean value after a delay of a specified number of seconds.
+/// If true is passed, completes successfully.
+/// If false is passed, throws via ResultBase.
+/// </summary>
+void LogAfterSeconds(bool value, int seconds, extra::test::TestBooleanResultCallback callback)
+{
+    std::thread([value, seconds, callback]() mutable {
+
+        std::this_thread::sleep_for(
+            std::chrono::seconds(seconds)
+        );
+
+        // Construct *test-only* result, which derives from ResultBase
+        extra::test::TestBooleanResult result(
+            value ? csp::systems::EResultCode::Success
+                  : csp::systems::EResultCode::Failed,
+            value ? 200 : 500
+        );
+
+        result.SetValue(value);
+
+        // Invoke callback (director-safe)
+        callback(result);
+
+    }).detach();
+}
+```
+
+We injected this function via swig into the C++ layer using the "%extend csp::common::LogSystem" directive for demonstration purposes.
+Since we have a callback as parameter of this function, we can generate a C# awaitable version of it by using the `MAKE_ASYNC` macro.
+This will allow us for example to achieve the following C# code, which is much more natural for C# developers to work with than the callback based original version:
+
+```csharp
+public async Task Async_Success_CompletesAndReturnsResult()
+{
+    using LogSystem logSystem = new LogSystem();
+
+    var result = await logSystem.LogAfterSecondsAsync(true, 1);
+
+    Assert.True(result.GetValue());
+}
+```
+
+Keep in mind the definition of the macro, following for your convenience:
+
+```csharp
+/*
+ * Note:
+ * FULLY_NAMESPACED_CLASST is the full namespaced C++ class name, e.g. csp::systems::QuotaSystem
+ * METHODNAME is the method name, e.g. GetTotalSpacesOwnedByUser
+ * CALLBACK_TYPENAME is the type of the callback adapter class, for example FeatureLimitCallback. Note that we should not include
+ * any namespace here, as the C# adapter class is always in the ConnectedSpacesPlatformDotNet namespace.
+ * CALLBACKT is the C# adapter class that extends the callback type, for example QuotaSystem_FeatureLimitCallbackCSharpAdapter
+ * CALLBACK_TYPELIST_WITH_NAMES is the full argument list with types, e.g. ARGLIST(const csp::systems::FeatureLimitResult& result)
+ * CALLBACK_TYPELIST_WITHOUT_NAMES is the argument list without types, e.g. ARGLIST(const csp::systems::FeatureLimitResult)
+ * CALLBACK_TYPELIST_ONLY_NAMES is just the argument names, e.g. ARGLIST(result)
+ * FUNCTION_TYPELIST_WITH_NAMES is the full argument list with types for the function being wrapped, e.g. ARGLIST(const csp::common::String& userId, int someValue)
+ * FUNCTION_TYPELIST_ONLY_NAMES is just the argument names for the function being wrapped, e.g. ARGLIST(userId, someValue)
+ */
+%define MAKE_ASYNC(
+    FULLY_NAMESPACED_CLASST,
+    METHODNAME,
+    CALLBACK_TYPENAME,
+    CALLBACKT,
+    CALLBACK_TYPELIST_WITH_NAMES,
+    CALLBACK_TYPELIST_WITHOUT_NAMES,
+    CALLBACK_TYPELIST_ONLY_NAMES,
+    FUNCTION_TYPELIST_WITH_NAMES,
+    FUNCTION_TYPELIST_ONLY_NAMES
+)
+```  
+
+Following that definition, we can write the 'MAKE_ASYNC' macro for this specific C++ function looks like below:
+
+```csharp
+MAKE_ASYNC( csp::common::LogSystem,
+            LogAfterSeconds,
+            TestBooleanResultCallback,
+            LogSystem_TestBooleanResultCallbackCSharpAdapter,
+            ARGLIST(extra.test.TestBooleanResult result),
+            ARGLIST(extra.test.TestBooleanResult),
+            ARGLIST(result),
+            ARGLIST(bool boolValue, int seconds),
+            ARGLIST(boolValue, seconds)
+)
+```
+
+A variant of the MAKE_ASYNC for zero-argument functions also exists, called MAKE_ASYNC_ZERO, defined as follows:
+
+```csharp
+/*
+ * Variant of MAKE_ASYNC for zero-argument functions
+ * Use this for things like `GetTotalSpacesOwnedByUser(Action<FeatureLimitResult> callback)`, where the calling
+ * function takes no arguments other than the callback.
+ *
+ * Note:
+ * FULLY_NAMESPACED_CLASST is the full namespaced C++ class name, e.g. csp::systems::QuotaSystem
+ * METHODNAME is the method name, e.g. GetTotalSpacesOwnedByUser
+ * CALLBACK_TYPENAME is the type of the callback adapter class, for example FeatureLimitCallback
+ * CALLBACKT is the C# adapter class that extends the callback type, for example QuotaSystem_FeatureLimitCallbackCSharpAdapter
+ * CALLBACK_TYPELIST_WITH_NAMES is the full argument list with types, e.g. ARGLIST(const csp::systems::FeatureLimitResult& result)
+ * CALLBACK_TYPELIST_WITHOUT_NAMES is the argument list without types, e.g. ARGLIST(const csp::systems::FeatureLimitResult)
+ * CALLBACK_TYPELIST_ONLY_NAMES is just the argument names, e.g. ARGLIST(result)
+ */
+%define MAKE_ASYNC_ZERO(
+    FULLY_NAMESPACED_CLASST, 
+    METHODNAME, 
+    CALLBACK_TYPENAME,
+    CALLBACKT,
+    CALLBACK_TYPELIST_WITH_NAMES,
+    CALLBACK_TYPELIST_WITHOUT_NAMES,
+    CALLBACK_TYPELIST_ONLY_NAMES
+)
+```
+
+##### Async and ThrowOnFailure when returning ResultBase with failed result code
+For convenience, we can enable a flag on cmake to automatically enforce an exception of type Magnopus.Extra.Exceptions.CspResultEndpointException whenever an async function returns an object deriving from ResultBase that reports a csp::systems::EResultCode::Failed status.
+
+The flag is called 'ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE', and is enabled by default.
+
+
 ## Build System
 
 The build system is Cmake, refer to [CMakeLists.txt](../CMakeLists.txt) as your entry point.
