@@ -297,7 +297,9 @@ Any type that is deemed to be a "value type" should declare `MAKE_VALUE_EQUATABL
 
 > [!Note]
 > 
-> Implementing `IEquatable` requires specific implementation of the equality and hash operators at the CSP level. It will not work out of the box for most types. Kick CSP and make them add these operators for you if you need them, or do it yourself!
+> Implementing `IEquatable` for value types requires specific implementation of the equality and hash operators at the CSP level. It will not work out of the box for most types. Kick CSP and make them add these operators for you if you need them, or do it yourself!
+
+Any type that is deemed to be a pointer or reference type should declare `MAKE_POINTER_EQUATABLE` instead. You should only use this for types that are truly reference equatable in the platform, such as SpaceEntities. Two different space entities can share all the same properties exactly, and yet are still conceptually different objects. Pointer equatability does not require any specific CSP operators, and builds the equality operators and the hash based on the underlying C pointers instead.
 
 See [Equatable.i](../interface/swigutils/Equatable.i) for more.
 
@@ -318,6 +320,23 @@ These container typemaps implement DotNet interfaces in order to conform to stan
 Containers are exposed in the C# interfaces via their concrete name (the name declared in the `%template` declaration). You may work with them as their interfaces however, which some C# devs may find more natural.
 
 Containers are not equatable, they retain reference semantics even if the types contained within them *are* equatable. Whilst this does simplify implementation, the actual reason we chose to do this was that C# developers felt, after consultation, that this is a more expectable behavior.
+
+#### Base Pointer Casts
+
+Polymorphic types that come out of CSP interfaces cannot simply be cast with `as`. This casts the proxy object, but not the underlying C-pointer.
+
+Instead, the project provides `MAKE_FROM_BASE_CAST`, which adds two static methods to any given type
+
+  - `DerivedType? TryFromBaseCase(BaseType baseObj)`
+  - `DerivedType FromBaseCast(BaseType baseObj)`
+
+These perform a C++ `dynamic_cast`, and returns a correctly typed object. In the case of an invalid cast, the `try` formulation will return null, whereas the direct formulation will throw an `ArgumentException`.
+
+See [FromBaseCast.i](../interface/swigutils/FromBaseCast.i) for more.
+
+> [!Note]
+> 
+> It's possible we might be able to adapt this sort of casting into something that works naturally with `as`. I don't know if it's possible, but maybe you do!
 
 #### Async
 
