@@ -20,9 +20,9 @@ endif()
 # The URL for the swig release zip, cmake will extract and use this for you.
 # Expects the release format from the custom Magnopus IL2CPP fork.
 if (CMAKE_HOST_WIN32)
-    set(SWIG_RELEASE_URL  "https://github.com/MAG-ElliotMorris/swig-il2cpp-directors/releases/download/0.0.1/swig-windows-cmake.zip")
+    set(SWIG_RELEASE_URL  "https://github.com/MAG-ElliotMorris/swig-il2cpp-directors/releases/download/0.0.2/swig-windows-cmake.zip")
 elseif(CMAKE_HOST_APPLE)
-    set(SWIG_RELEASE_URL  "https://github.com/MAG-ElliotMorris/swig-il2cpp-directors/releases/download/0.0.1/swig-macos-autotools.zip")
+    set(SWIG_RELEASE_URL  "https://github.com/MAG-ElliotMorris/swig-il2cpp-directors/releases/download/0.0.2/swig-macos-autotools.zip")
 else()
    message(FATAL_ERROR "Custom SWIG cut has not been built for this platform. You might be able to add it, check out https://github.com/MAG-ElliotMorris/swig-il2cpp-directors")
 endif()
