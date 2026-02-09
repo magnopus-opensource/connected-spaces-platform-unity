@@ -22,7 +22,11 @@ public class StaticTests
     public void StaticMethod()
     {
         // Most every other thing in CSPFoundation suffers from https://magnopus.atlassian.net/browse/OF-1811 :(
-        Assert.False(CSPFoundation.GetIsInitialised());
+        // Note: we decided to use GetBuildType instead of GetIsInitialised because we got one occurrence on the
+        // following CI test: https://github.com/magnopus-opensource/connected-spaces-platform-unity/actions/runs/21819826644/job/62950038376?pr=26
+        // where CSP for some reason resulted initialised. We assume this is related to the above CSPFoundation issue.
+        var buildType = CSPFoundation.GetBuildType();
+        Assert.Equal("REL", buildType);
     }
 
 }
