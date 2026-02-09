@@ -15,7 +15,6 @@ jobs:
         os: [windows-latest, macos-latest]
         build_type: [Debug, Release]
         build_with_unity_extensions: [true, false]
-        build_with_throw_on_resultbase_failure: [true, false]
 
     runs-on: ${{ matrix.os }}
     env:
@@ -26,7 +25,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure
-        run: cmake -S . -B build ${{ matrix.build_with_unity_extensions && '-DENABLE_UNITY_EXTENSIONS=ON' || '' }} ${{ matrix.build_with_throw_on_resultbase_failure && '' || '-DENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE=OFF' }}
+        run: cmake -S . -B build ${{ matrix.build_with_unity_extensions && '-DENABLE_UNITY_EXTENSIONS=ON' || '' }}
 
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }}
@@ -40,7 +39,7 @@ jobs:
         # We cannot run XUnit tests with Unity extensions enabled because Unity classes would not be found causing a build failure.
         if: ${{ matrix.build_with_unity_extensions == false }}
         run: |
-          dotnet test -c ${{ matrix.build_type }} --logger "console;verbosity=detailed"
+          dotnet test -c ${{ matrix.build_type }} --logger "console;verbosity=detailed" --blame-hang --blame-hang-timeout 90s
         working-directory: ./InteropTestsXUnit
 
       - name: Upload build artifacts

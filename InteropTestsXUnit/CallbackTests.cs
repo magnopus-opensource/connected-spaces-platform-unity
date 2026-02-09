@@ -94,9 +94,9 @@ public class CallbackTests
         /* Arguably this isn't a neccesary mechanism test, as the log callbacks above prove this out.
          * However I want a little bit of confidence in callbacks firing based on other actions. */
 
-        TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
-        LogSystem LogSystem = new LogSystem();
-        OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
+        using TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
+        using LogSystem LogSystem = new LogSystem();
+        using OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
 
         SpaceTransform NewEntityTransform = new SpaceTransform(new Vector3(1, 2, 3), new Vector4(0, 0, 0, 1), new Vector3(2, 3, 4));
         SpaceEntity SpaceEntity = await RealtimeEngine.CreateEntityAsync("SpaceEntity", NewEntityTransform, null);
@@ -118,9 +118,9 @@ public class CallbackTests
     [Fact]
     public async Task ComplexCallbackValues()
     {
-        TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
-        LogSystem LogSystem = new LogSystem();
-        OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
+        using TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
+        using LogSystem LogSystem = new LogSystem();
+        using OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
 
         SpaceTransform NewEntityTransform = new SpaceTransform(new Vector3(1, 2, 3), new Vector4(0, 0, 0, 1), new Vector3(2, 3, 4));
         SpaceEntity SpaceEntity = await RealtimeEngine.CreateEntityAsync("SpaceEntity", NewEntityTransform, null);

@@ -45,23 +45,25 @@ public class InterfaceTests
     [Fact]
     public void CanUseAsInterface()
     {
-        TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
-        LogSystem LogSystem = new LogSystem();
-        OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
+        using (TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner())
+        {
+            using LogSystem LogSystem = new LogSystem();
+            using OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
 
-        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
+            using SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
 
-        StaticModelSpaceComponent StaticModelSpaceComponent = new StaticModelSpaceComponent(LogSystem, SpaceEntity);
+            StaticModelSpaceComponent StaticModelSpaceComponent = new StaticModelSpaceComponent(LogSystem, SpaceEntity);
 
-        Assert.Equal(StaticModelSpaceComponent.GetPosition(), new Vector3(0, 0, 0));
-        StaticModelSpaceComponent.SetPosition(new Vector3(1, 2, 3));
-        Assert.Equal(StaticModelSpaceComponent.GetPosition(), new Vector3(1, 2, 3));
+            Assert.Equal(StaticModelSpaceComponent.GetPosition(), new Vector3(0, 0, 0));
+            StaticModelSpaceComponent.SetPosition(new Vector3(1, 2, 3));
+            Assert.Equal(StaticModelSpaceComponent.GetPosition(), new Vector3(1, 2, 3));
 
-        // Get the component as an interface, try to do the same thing
-        IPositionComponent PositionComponentInterface = StaticModelSpaceComponent;
-        Assert.Equal(PositionComponentInterface.GetPosition(), new Vector3(1, 2, 3));
-        StaticModelSpaceComponent.SetPosition(new Vector3(2, 4, 6));
-        Assert.Equal(StaticModelSpaceComponent.GetPosition(), new Vector3(2, 4, 6));
+            // Get the component as an interface, try to do the same thing
+            IPositionComponent PositionComponentInterface = StaticModelSpaceComponent;
+            Assert.Equal(PositionComponentInterface.GetPosition(), new Vector3(1, 2, 3));
+            StaticModelSpaceComponent.SetPosition(new Vector3(2, 4, 6));
+            Assert.Equal(StaticModelSpaceComponent.GetPosition(), new Vector3(2, 4, 6));
+        }
     }
 
 

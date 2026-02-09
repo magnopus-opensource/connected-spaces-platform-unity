@@ -51,6 +51,20 @@
 #endif
 %enddef
 
+// Used inside MAKE_ASYNC to add throwing behaviour on ResultBase.
+// Tbh this is rather messy, this file needs cleaned up.
+%define ADD_THROW_ON_RESULTBASE(CALLBACK_TYPELIST_ONLY_NAMES, METHODNAME)
+#ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
+
+            //Not every type is resultbase, make a fully typed object if we can
+            if((object)CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase _resultBase)
+            {
+        	    // Before returning the result, we check if we need to throw an exception
+   	    	    _resultBase.ThrowOnFailure(nameof(METHODNAME##Async));
+            }
+#endif
+%enddef
+
 /*
  * Note:
  * FULLY_NAMESPACED_CLASST is the full namespaced C++ class name, e.g. csp::systems::QuotaSystem
@@ -99,23 +113,13 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     {
         try
         {
-%}
 
-/************************************************************
- * THROW ON FAILURE SECTION — ENABLED WITH:
- *   cmake -DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
- ************************************************************/
-#ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
-%proxycode %{
-            if(CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase)
-            {
-        	    // Before returning the result, we check if we need to throw an exception
-   	    	    CALLBACK_TYPELIST_ONLY_NAMES.ThrowOnFailure(nameof(METHODNAME##Async));
-            }
-%}
-#endif
+            /************************************************************
+            * THROW ON FAILURE SECTION — ENABLED WITH:
+            *   cmake -DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
+            ************************************************************/
+            ADD_THROW_ON_RESULTBASE(CALLBACK_TYPELIST_ONLY_NAMES, METHODNAME)
 
-%proxycode %{
             // Set the result on the task completion source
             tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
         }
@@ -169,23 +173,12 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
     METHODNAME(new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
     {
-%}
 
-/************************************************************
- * THROW ON FAILURE SECTION — ENABLED WITH:
- *   cmake -DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
- ************************************************************/
-#ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
-%proxycode %{
-            if(CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase)
-            {
-        	    // Before returning the result, we check if we need to throw an exception
-   	    	    CALLBACK_TYPELIST_ONLY_NAMES.ThrowOnFailure(nameof(METHODNAME##Async));
-            }
-%}
-#endif
-
-%proxycode %{
+    /************************************************************
+    * THROW ON FAILURE SECTION — ENABLED WITH:
+    *   cmake -DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
+    ************************************************************/
+    ADD_THROW_ON_RESULTBASE(CALLBACK_TYPELIST_ONLY_NAMES, METHODNAME)
 
 		// Set the result on the task completion source
         tcs.SetResult(CALLBACK_TYPELIST_ONLY_NAMES);
