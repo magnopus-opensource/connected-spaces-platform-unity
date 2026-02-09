@@ -8,54 +8,63 @@ using System.Runtime.InteropServices;
 
 public class BaseCastTests
 {
-    TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner();
-    LogSystem LogSystem = new LogSystem();
-    OfflineRealtimeEngine RealtimeEngine;
-
-    public BaseCastTests()
-    {
-        RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
-    }
-
     [Fact]
     public void ComponentCast()
     {
-        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
-        ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
+        using (TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner())
+        {
+            using LogSystem LogSystem = new LogSystem();
+            using OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
 
-        Assert.NotNull(Component);
+            using SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
+            using ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
 
-        // Cast to the correct subtype
-        TextSpaceComponent TextComponent = TextSpaceComponent.FromBaseCast(Component);
-        Assert.NotNull(TextComponent);
+            Assert.NotNull(Component);
 
-        TextSpaceComponent? TextComponentTry = TextSpaceComponent.TryFromBaseCast(Component);
-        Assert.NotNull(TextComponentTry);
+            // Cast to the correct subtype
+            TextSpaceComponent TextComponent = TextSpaceComponent.FromBaseCast(Component);
+            Assert.NotNull(TextComponent);
+
+            TextSpaceComponent? TextComponentTry = TextSpaceComponent.TryFromBaseCast(Component);
+            Assert.NotNull(TextComponentTry);
+        }
     }
 
     [Fact]
     public void InvalidComponentCastThrows()
     {
-        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
-        ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
+        using (TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner())
+        {
+            using LogSystem LogSystem = new LogSystem();
+            using OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
 
-        Assert.NotNull(Component);
+            using SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
+            using ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
 
-        // Attempt to cast to the wrong subtype
-        var exception = Assert.Throws<ArgumentException>(() => CollisionSpaceComponent.FromBaseCast(Component));
-        Assert.Contains("Failed to cast", exception.Message);
-        Assert.Equal("baseObj", exception.ParamName);
+            Assert.NotNull(Component);
+
+            // Attempt to cast to the wrong subtype
+            var exception = Assert.Throws<ArgumentException>(() => CollisionSpaceComponent.FromBaseCast(Component));
+            Assert.Contains("Failed to cast", exception.Message);
+            Assert.Equal("baseObj", exception.ParamName);
+        }
     }
 
     [Fact]
     public void InvalidComponentCastTryIsNull()
     {
-        SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
-        ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
+        using (TempMockScriptRunner MockScriptRunner = new TempMockScriptRunner())
+        {
+            using LogSystem LogSystem = new LogSystem();
+            using OfflineRealtimeEngine RealtimeEngine = new OfflineRealtimeEngine(LogSystem, MockScriptRunner);
 
-        Assert.NotNull(Component);
+            using SpaceEntity SpaceEntity = new SpaceEntity(RealtimeEngine, MockScriptRunner, LogSystem);
+            using ComponentBase Component = SpaceEntity.AddComponent(ComponentType.Text);
 
-        // Attempt to cast to the wrong subtype
-        Assert.Null(CollisionSpaceComponent.TryFromBaseCast(Component));
+            Assert.NotNull(Component);
+
+            // Attempt to cast to the wrong subtype
+            Assert.Null(CollisionSpaceComponent.TryFromBaseCast(Component));
+        }
     }
 }
