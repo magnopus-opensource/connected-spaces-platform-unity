@@ -44,6 +44,8 @@ jobs:
         working-directory: ./InteropTestsXUnit
 
       - name: Upload build artifacts
+        # We decide to just upload artifacts inclusive of the throw_on_resultbase_failure option for convenience.
+        if: ${{ matrix.build_with_throw_on_resultbase_failure == true }}
         uses: actions/upload-artifact@v4
         with:
           name: desktop-${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.build_with_unity_extensions && '-UnityExtensions' || '' }}
