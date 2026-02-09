@@ -194,9 +194,7 @@ public class AsyncInteropTests
         Assert.Equal(1, calls);
     }
     
-    [Fact(
-        Skip = "This seems to fail due to swig director registration code not being thread safe, maybe worth investigating...",
-        DisplayName = "CallbackLifetime global lock scales under heavy concurrency")]
+    [Fact(DisplayName = "CallbackLifetime global lock scales under heavy concurrency")]
     public async Task CallbackLifetime_Lock_Contention_Stress_V1()
     {
         using var logSystem = new LogSystem();
@@ -223,10 +221,7 @@ public class AsyncInteropTests
         );
     }
     
-    [Fact(
-        Skip = "Despite we create tasks sequentially, SWIG director construction does not seem to happen sequentially " +
-               "in practice, so the test is executed in a non thread-safe manner. We should fix this on the SWIG director code.",
-        DisplayName = "CallbackLifetime global lock scales under heavy concurrency")]
+    [Fact(DisplayName = "CallbackLifetime global lock scales under heavy concurrency")]
     public async Task CallbackLifetime_Lock_Contention_Stress_V2()
     {
         using var logSystem = new LogSystem();
@@ -255,9 +250,7 @@ public class AsyncInteropTests
 
     
 
-    [Fact(
-        Skip = "This seems to fail due to swig director registration code not being thread safe, maybe worth investigating...",
-        DisplayName = "CallbackLifetime survives GC under extreme async pressure")]
+    [Fact(DisplayName = "CallbackLifetime survives GC under extreme async pressure")]
     public async Task CallbackLifetime_Survives_GC_Pressure_ExpectFailure()
     {
         using var logSystem = new LogSystem();
@@ -281,10 +274,7 @@ public class AsyncInteropTests
         await Task.WhenAll(tasks);
     }
     
-    [Fact(
-        Skip = "This never ends, potentially because the Parallel.ForEachAsync is challenging too much the swig director" +
-               " registration code which does not seem to be thread safe, maybe worth investigating...",
-        DisplayName = "CallbackLifetime scales with bounded async concurrency")]
+    [Fact(DisplayName = "CallbackLifetime scales with bounded async concurrency")]
     public async Task CallbackLifetime_BoundedConcurrency()
     {
         using var logSystem = new LogSystem();
@@ -310,9 +300,7 @@ public class AsyncInteropTests
         );
     }
 
-    [Fact(
-        Skip = "This seems to fail due to swig director registration code not being thread safe, maybe worth investigating...",
-        DisplayName = "CallbackLifetime survives GC under async pressure")]
+    [Fact(DisplayName = "CallbackLifetime survives GC under async pressure")]
     public async Task CallbackLifetime_Survives_GC_Pressure()
     {
         using var logSystem = new LogSystem();
