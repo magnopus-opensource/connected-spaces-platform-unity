@@ -16,17 +16,6 @@ public class AsyncInteropTests
         Assert.True(result.GetValue());
     }
 
-    [Fact(DisplayName = "Native failure propagates as managed exception via ThrowOnFailure")]
-    public async Task Async_Failure_ThrowsManagedException()
-    {
-        using LogSystem logSystem = new LogSystem();
-
-        var ex = await Assert.ThrowsAsync<CspResultEndpointException>(() =>
-            logSystem.LogAfterSecondsAsync(false, 1));
-
-        Assert.Equal(500, ex.StatusCode);
-    }
-
     [Fact(DisplayName = "Async call is non-blocking and does not complete synchronously")]
     public async Task Async_IsTrulyAsynchronous()
     {
@@ -83,6 +72,7 @@ public class AsyncInteropTests
         Assert.All(results, r => Assert.True(r.GetValue()));
     }
 
+    // Note: this test only makes sense if ThrowOnFailure is defined
     [Fact(DisplayName = "Failure in one async call does not poison subsequent calls")]
     public async Task Failure_DoesNotPoisonSubsequentCalls()
     {
@@ -94,6 +84,18 @@ public class AsyncInteropTests
         var result = await logSystem.LogAfterSecondsAsync(true, 1);
 
         Assert.True(result.GetValue());
+    }
+    
+    // Note: this test only makes sense if ThrowOnFailure is defined
+    [Fact(DisplayName = "Native failure propagates as managed exception via ThrowOnFailure")]
+    public async Task Async_Failure_ThrowsManagedException()
+    {
+        using LogSystem logSystem = new LogSystem();
+
+        var ex = await Assert.ThrowsAsync<CspResultEndpointException>(() =>
+            logSystem.LogAfterSecondsAsync(false, 1));
+
+        Assert.Equal(500, ex.StatusCode);
     }
 
     [Fact(DisplayName = "Callback and result survive garbage collection pressure")]
