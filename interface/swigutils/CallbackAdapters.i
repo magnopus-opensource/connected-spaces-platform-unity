@@ -84,10 +84,10 @@ public:
 internal static class CallbackLifetime
 {
     /// <summary>
-    /// HashSet to hold references to callbacks. This ensures that callbacks are not garbage collected while they are
+    /// ConcurrentDictionary to hold references to callbacks. This ensures that callbacks are not garbage collected while they are
     /// still needed. Callbacks should be added to this set when they are created, and removed once they have been invoked.
     /// </summary>
-    private static readonly System.Collections.Generic.HashSet<object> _roots = new();
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<object, byte> _roots = new();
     
     /// <summary>
     /// Roots the callback, preventing it from being garbage collected. This should be called when the callback is created,
@@ -101,9 +101,11 @@ internal static class CallbackLifetime
             return;
         }
     
-        lock (_roots)
+        // Atomic, thread-safe add
+        if (!_roots.TryAdd(callback, 0))
         {
-            _roots.Add(callback);
+          // This should never happen
+          System.Diagnostics.Debug.Fail($"Attempted to root a callback that was already rooted: {callback}");
         }
     }
     
@@ -119,9 +121,11 @@ internal static class CallbackLifetime
             return;
         }
     
-        lock (_roots)
+        // Atomic, thread-safe remove
+        if (!_roots.TryRemove(callback, out _))
         {
-            _roots.Remove(callback);
+          // This should never happen
+          System.Diagnostics.Debug.Fail($"Attempted to unroot a callback that was not rooted: {callback}");
         }
     }
 }

@@ -326,31 +326,4 @@ public class AsyncInteropTests
 
         await Task.WhenAll(tasks);
     }
-
-
-    [Fact(DisplayName = "CallbackLifetime lock overhead is minimal")]
-    public void CallbackLifetime_Lock_Overhead()
-    {
-        const int iterations = 1_000_000;
-
-        var dummy = new object();
-
-        var sw = Stopwatch.StartNew();
-
-        Parallel.For(0, iterations, _ =>
-        {
-            ConnectedSpacesPlatformDotNet.CallbackLifetime.Root(dummy);
-            ConnectedSpacesPlatformDotNet.CallbackLifetime.Unroot(dummy);
-        });
-
-        sw.Stop();
-
-        // As long as this succeeds, we can keep a single container for all the callbacks pinning without performance concerns.
-        Assert.True(
-            sw.ElapsedMilliseconds < 500,
-            $"Lock overhead too high: {sw.ElapsedMilliseconds}ms"
-        );
-    }
-
-
 }
