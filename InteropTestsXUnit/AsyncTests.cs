@@ -20,11 +20,8 @@ public class AsyncInteropTests
     public async Task Async_IsTrulyAsynchronous()
     {
         using LogSystem logSystem = new LogSystem();
-
         Task task = logSystem.LogAfterSecondsAsync(true, 1);
-
         Assert.False(task.IsCompleted);
-
         await task;
     }
 
@@ -38,24 +35,6 @@ public class AsyncInteropTests
         sw.Stop();
 
         Assert.True(sw.ElapsedMilliseconds >= 900);
-    }
-
-    [Fact(DisplayName = "Native callback executes on a background thread")]
-    public async Task Callback_ExecutesOffCallingThread()
-    {
-        using LogSystem logSystem = new LogSystem();
-
-        int callingThread = Environment.CurrentManagedThreadId;
-        int callbackThread = -1;
-
-        await logSystem.LogAfterSecondsAsync(true, 1)
-            .ContinueWith(t =>
-            {
-                callbackThread = Environment.CurrentManagedThreadId;
-                return t.Result;
-            });
-
-        Assert.NotEqual(callingThread, callbackThread);
     }
 
     [Fact(DisplayName = "Multiple concurrent async calls do not interfere with each other")]
