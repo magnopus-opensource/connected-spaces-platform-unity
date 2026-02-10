@@ -54,8 +54,11 @@
 #endif
 %enddef
 
-// Used inside MAKE_ASYNC to add throwing behaviour on ResultBase.
-// Tbh this is rather messy, this file needs cleaned up.
+/* Used inside MAKE_ASYNC to add throwing behaviour on ResultBase.
+ * Tbh this is rather messy, this file needs cleaned up.
+ * Footgun note: See how this has been implemented using CALLBACK_TYPELIST_ONLY_NAMES,
+ * in the case of an async return that is multiple types, this will generate invalid C#.
+ * I don't believe there's any of that pattern currently in the api, but watch out. */
 %define ADD_THROW_ON_RESULTBASE(CALLBACK_TYPELIST_ONLY_NAMES, METHODNAME)
 #ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
 
