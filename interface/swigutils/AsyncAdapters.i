@@ -33,11 +33,14 @@
  * Important note: some async functions might use the same callback type. This means that we needed a way to ensure
  * the same callback type would not be re-defined causing a compilation error. To do that, whenever a new callback
  * type is defined, a SWIG #define declaration is generated and used as reference to check for re-definitions.
+ * Uniqueness is ensured based on name. It's possible to register identical types but with different
+ * names. This is fine, but redundant, sort of up to you if you want your exposed action interfaces
+ * to all be unique, or the same for action adapters that have the same types. I'd favour the latter.
  */
 
 %define MAKE_ACTION_CALLBACK(ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITH_NAMES, ACTION_TYPELIST_WITHOUT_NAMES, ACTION_TYPELIST_ONLY_NAMES)
 #ifdef SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
-  %warn "MAKE_ACTION_CALLBACK: callback '" #ACTION_CALLBACK_TYPENAME "' already defined, skipping"
+  %echo "MAKE_ACTION_CALLBACK: action wrapper '" #ACTION_CALLBACK_TYPENAME "' already defined, skipping"
 #else
   #define SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
   %pragma(csharp) modulecode=%{

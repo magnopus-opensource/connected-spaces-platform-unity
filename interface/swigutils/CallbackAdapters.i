@@ -25,9 +25,18 @@
  
 %include "swigutils/GeneralUtils.i" 
 
-/*********** CALLBACK ADAPTERS **********/
-
+/* 
+ * Make the actual director object that goes into CSP. This gets captures into CSP's std::function
+ * interfaces via lambda capture. We're calling this a "Callback Adapter"
+ * Ensures uniqueness based on name. It's possible to register identical types but with different
+ * names. This is fine, but redundant, sort of up to you if you want your exposed callback interfaces
+ * to all be unique, or the same for callbacks that have the same types. I'd favour the latter.
+ */
 %define MAKE_CALLBACK_ADAPTER(CALLBACK_ADAPTER_NAME, CALL_ARG_LIST_WITH_TYPES, CALL_RETURN_T)
+#ifdef SWIG_CALLBACK_ADAPTER_##CALLBACK_ADAPTER_NAME##_DEFINED
+  %echo "MAKE_CALLBACK_ADAPTER: callback '" #CALLBACK_ADAPTER_NAME "' already defined, skipping"
+#else
+#define SWIG_CALLBACK_ADAPTER_##CALLBACK_ADAPTER_NAME##_DEFINED
 %feature("director") CALLBACK_ADAPTER_NAME;
 %inline %{
 class CALLBACK_ADAPTER_NAME
@@ -37,6 +46,7 @@ public:
     virtual CALL_RETURN_T Call(CALL_ARG_LIST_WITH_TYPES) = 0;
 };
 %}
+#endif
 %enddef
 
 /* This include listing should be exhaustive, but I wouldn't put it past us to 
@@ -60,6 +70,8 @@ public:
 %}
 
 // Forward declarations for types used in callbacks, which due to the order of swig interface includes could be needed.
+// These are like this because test stuff like this is declared in .i files, so the C++ #include list above is not
+// appropriate.
 %inline %{
 namespace extra {
     namespace test {
@@ -67,44 +79,6 @@ namespace extra {
     }
 }
 %}
-
-MAKE_CALLBACK_ADAPTER(BoolCallbackAdapter, ARGLIST(bool), void)
-MAKE_CALLBACK_ADAPTER(UInt32CallbackAdapter, ARGLIST(std::uint32_t), void)
-MAKE_CALLBACK_ADAPTER(StringCallbackAdapter, ARGLIST(const csp::common::String&), void)
-MAKE_CALLBACK_ADAPTER(StringStringCallbackAdapter, ARGLIST(const csp::common::String&, const csp::common::String&), void)
-
-/* LogSystem Callback Adapters */
-
-MAKE_CALLBACK_ADAPTER(LogSystem_LogCallbackHandlerCSharpAdapter, ARGLIST(csp::common::LogLevel, const csp::common::String&), void)
-MAKE_CALLBACK_ADAPTER(LogSystem_EventCallbackHandlerCSharpAdapter, ARGLIST(const csp::common::String&), void)
-MAKE_CALLBACK_ADAPTER(LogSystem_BeginMarkerCallbackHandlerCSharpAdapter, ARGLIST(const csp::common::String&), void)
-MAKE_CALLBACK_ADAPTER(LogSystem_EndMarkerCallbackHandlerCSharpAdapter, ARGLIST(void*), void)
-MAKE_CALLBACK_ADAPTER(LogSystem_TestBooleanResultCallbackCSharpAdapter, ARGLIST(extra::test::TestBooleanResult), void)
-
-/* Systems Callback Adapters */
-MAKE_CALLBACK_ADAPTER(QuotaSystem_FeatureLimitCallbackCSharpAdapter, ARGLIST(const csp::systems::FeatureLimitResult&), void)
-MAKE_CALLBACK_ADAPTER(NullResultCallbackAdapter, ARGLIST(const csp::systems::NullResult&), void)
-MAKE_CALLBACK_ADAPTER(StringResultCallbackAdapter, ARGLIST(const csp::systems::StringResult&), void)
- 
-/* Multiplayer Callback Adapters */
-MAKE_CALLBACK_ADAPTER(SpaceEntityUpdatedCallbackAdapter, 
-                      ARGLIST(csp::multiplayer::SpaceEntity*,
-                      csp::multiplayer::SpaceEntityUpdateFlags,
-                      csp::common::Array<csp::multiplayer::ComponentUpdateInfo>), void)
-MAKE_CALLBACK_ADAPTER(EntityCreatedCallbackAdapter, ARGLIST(csp::multiplayer::SpaceEntity*), void)
-MAKE_CALLBACK_ADAPTER(ErrorCodeCallbackAdapter, ARGLIST(csp::multiplayer::ErrorCode), void)
-MAKE_CALLBACK_ADAPTER(NetworkEventCallbackAdapter, ARGLIST(const csp::common::NetworkEventData&), void)
-MAKE_CALLBACK_ADAPTER(EntityActionCallbackAdapter, ARGLIST(csp::multiplayer::ComponentBase*, const csp::common::String&, const csp::common::String&), void)
-
-/* Conversation Callback Adapters */
-MAKE_CALLBACK_ADAPTER(MessageResultCallbackAdapter, ARGLIST(const csp::multiplayer::MessageResult&), void)
-MAKE_CALLBACK_ADAPTER(MessageCollectionResultCallbackAdapter, ARGLIST(const csp::multiplayer::MessageCollectionResult&), void)
-MAKE_CALLBACK_ADAPTER(ConversationResultCallbackAdapter, ARGLIST(const csp::multiplayer::ConversationResult&), void)
-MAKE_CALLBACK_ADAPTER(NumberOfRepliesResultCallbackAdapter, ARGLIST(const csp::multiplayer::NumberOfRepliesResult&), void)
-MAKE_CALLBACK_ADAPTER(AnnotationResultCallbackAdapter, ARGLIST(const csp::multiplayer::AnnotationResult&), void)
-MAKE_CALLBACK_ADAPTER(AnnotationThumbnailCollectionResultCallbackAdapter, ARGLIST(const csp::multiplayer::AnnotationThumbnailCollectionResult&), void)
-MAKE_CALLBACK_ADAPTER(ConversationNetworkEventCallbackAdapter, ARGLIST(const csp::common::ConversationNetworkEventData&), void)
-
 
 /*********** CALLBACK TYPEMAPS **********/
 
@@ -124,7 +98,20 @@ MAKE_CALLBACK_ADAPTER(ConversationNetworkEventCallbackAdapter, ARGLIST(const csp
 #x ".getCPtr($csinput)"
 %enddef
 
-%define MAKE_CALLBACK_TYPEMAP(CALLBACK_CPP_SYMBOL, ADAPTER_NAME, ARG_LIST_WITH_TYPES, ARG_LIST_WITHOUT_TYPES)
+
+/* Make a CSP callback such that it can be called from C#
+ * What this does it make a callback adapter (a director object),
+ * and inject it into CSP's std::function interfaces via a lambda capture.
+ * We also setup all the typemaps such that when SWIG sees a CSP function
+ * with a callback argument, it inserts this injection.
+ *
+ * This is good enough to use callbacks in C#. But you probably want to further
+ * wrap these with actions adapters and async adapters to get nicer C# semantics.
+ * See AsyncAdapters.i */
+%define MAKE_CALLBACK(CALLBACK_CPP_SYMBOL, ADAPTER_NAME, ARG_LIST_WITH_TYPES, ARG_LIST_WITHOUT_TYPES)
+
+// Presume void as the return type, because all the CSP callbacks return void currently.
+MAKE_CALLBACK_ADAPTER(ADAPTER_NAME, ARGLIST(ARG_LIST_WITH_TYPES), void)
 
 %typemap(ctype) CALLBACK_CPP_SYMBOL QUOTED_STRSTAR_HELPER(ADAPTER_NAME) // Declared type in C
 %typemap(cstype) CALLBACK_CPP_SYMBOL #ADAPTER_NAME // Declared type in C#
@@ -140,145 +127,146 @@ MAKE_CALLBACK_ADAPTER(ConversationNetworkEventCallbackAdapter, ARGLIST(const csp
 }
 %enddef
 
+
 /* LogSystem Callback Typemaps */
-MAKE_CALLBACK_TYPEMAP(csp::common::LogSystem::LogCallbackHandler,
+MAKE_CALLBACK(csp::common::LogSystem::LogCallbackHandler,
                       LogSystem_LogCallbackHandlerCSharpAdapter, 
                       ARGLIST(csp::common::LogLevel logLevel, const csp::common::String& message),
                       ARGLIST(logLevel, message))
-MAKE_CALLBACK_TYPEMAP(csp::common::LogSystem::EventCallbackHandler,
+MAKE_CALLBACK(csp::common::LogSystem::EventCallbackHandler,
                       LogSystem_EventCallbackHandlerCSharpAdapter, 
                       ARGLIST(const csp::common::String& eventMessage),
                       ARGLIST(eventMessage))
-MAKE_CALLBACK_TYPEMAP(csp::common::LogSystem::BeginMarkerCallbackHandler,
+MAKE_CALLBACK(csp::common::LogSystem::BeginMarkerCallbackHandler,
                       LogSystem_BeginMarkerCallbackHandlerCSharpAdapter, 
                       ARGLIST(const csp::common::String& beginMarker),
                       ARGLIST(beginMarker))
-MAKE_CALLBACK_TYPEMAP(csp::common::LogSystem::EndMarkerCallbackHandler,
+MAKE_CALLBACK(csp::common::LogSystem::EndMarkerCallbackHandler,
                       LogSystem_EndMarkerCallbackHandlerCSharpAdapter, 
                       ARGLIST(void* irrelevantArg /* Legacy wrapper gen implication, ignore */),
                       ARGLIST(irrelevantArg))
-MAKE_CALLBACK_TYPEMAP(extra::test::TestBooleanResultCallback,
+MAKE_CALLBACK(extra::test::TestBooleanResultCallback,
                       LogSystem_TestBooleanResultCallbackCSharpAdapter, 
                       ARGLIST(extra::test::TestBooleanResult result),
                       ARGLIST(result))
 
 /* Systems Callback Typemaps */
-MAKE_CALLBACK_TYPEMAP(csp::systems::FeatureLimitCallback,
+MAKE_CALLBACK(csp::systems::FeatureLimitCallback,
                       QuotaSystem_FeatureLimitCallbackCSharpAdapter,
                       ARGLIST(const csp::systems::FeatureLimitResult& result),
                       ARGLIST(result))
-MAKE_CALLBACK_TYPEMAP(csp::systems::NullResultCallback,
+MAKE_CALLBACK(csp::systems::NullResultCallback,
                       NullResultCallbackAdapter,
                       ARGLIST(const csp::systems::NullResult& result),
                       ARGLIST(result))
-MAKE_CALLBACK_TYPEMAP(csp::systems::StringResultCallback,
+MAKE_CALLBACK(csp::systems::StringResultCallback,
                       StringResultCallbackAdapter,
                       ARGLIST(const csp::systems::StringResult& result),
                       ARGLIST(result))
 
 /* Multiplayer Callback Typemaps */
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::CallbackHandler,
+MAKE_CALLBACK(csp::multiplayer::CallbackHandler,
                       BoolCallbackAdapter,
                       ARGLIST(bool success),
                       ARGLIST(success))
 
 // This is a bit of a mess on CSP's part, duplicate callbacks in multiplayer and multiplayer::SpaceEntity.
 // No reason for these to be different.
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::EntityCreatedCallback,
+MAKE_CALLBACK(csp::multiplayer::EntityCreatedCallback,
                       EntityCreatedCallbackAdapter,
                       ARGLIST(csp::multiplayer::SpaceEntity* spaceEntity),
                       ARGLIST(spaceEntity))
 
 //SpaceEntity
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::SpaceEntity::UpdateCallback,
+MAKE_CALLBACK(csp::multiplayer::SpaceEntity::UpdateCallback,
                       SpaceEntityUpdatedCallbackAdapter,
                       ARGLIST(csp::multiplayer::SpaceEntity* spaceEntity,
                               csp::multiplayer::SpaceEntityUpdateFlags updateFlags,
                               csp::common::Array<csp::multiplayer::ComponentUpdateInfo> componentUpdateInfos),
                       ARGLIST(spaceEntity, updateFlags, componentUpdateInfos))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::SpaceEntity::DestroyCallback,
+MAKE_CALLBACK(csp::multiplayer::SpaceEntity::DestroyCallback,
                       BoolCallbackAdapter,
                       ARGLIST(bool success),
                       ARGLIST(success))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::SpaceEntity::CallbackHandler,
+MAKE_CALLBACK(csp::multiplayer::SpaceEntity::CallbackHandler,
                       BoolCallbackAdapter,
                       ARGLIST(bool success),
                       ARGLIST(success))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::SpaceEntity::EntityCreatedCallback,
+MAKE_CALLBACK(csp::multiplayer::SpaceEntity::EntityCreatedCallback,
                       EntityCreatedCallbackAdapter,
                       ARGLIST(csp::multiplayer::SpaceEntity* spaceEntity),
                       ARGLIST(spaceEntity))
 
 //RealtimeEngine
-MAKE_CALLBACK_TYPEMAP(csp::common::EntityFetchCompleteCallback,
+MAKE_CALLBACK(csp::common::EntityFetchCompleteCallback,
                       UInt32CallbackAdapter,
                       ARGLIST(std::uint32_t numEntitiesFetched),
                       ARGLIST(numEntitiesFetched))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::OnlineRealtimeEngine::ScopeLeaderCallback,
+MAKE_CALLBACK(csp::multiplayer::OnlineRealtimeEngine::ScopeLeaderCallback,
                       StringStringCallbackAdapter,
                       ARGLIST(const csp::common::String& scopeId, const csp::common::String& userId),
                       ARGLIST(scopeId, userId))
 
 //MultiplayerConnection
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::MultiplayerConnection::ErrorCodeCallbackHandler,
+MAKE_CALLBACK(csp::multiplayer::MultiplayerConnection::ErrorCodeCallbackHandler,
                       ErrorCodeCallbackAdapter,
                       ARGLIST(csp::multiplayer::ErrorCode errorCode),
                       ARGLIST(errorCode))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::MultiplayerConnection::DisconnectionCallbackHandler,
+MAKE_CALLBACK(csp::multiplayer::MultiplayerConnection::DisconnectionCallbackHandler,
                       StringCallbackAdapter,
                       ARGLIST(const csp::common::String& disconnectReason),
                       ARGLIST(disconnectReason))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::MultiplayerConnection::ConnectionCallbackHandler,
+MAKE_CALLBACK(csp::multiplayer::MultiplayerConnection::ConnectionCallbackHandler,
                       StringCallbackAdapter,
                       ARGLIST(const csp::common::String& connectionStatus),
                       ARGLIST(connectionStatus))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::MultiplayerConnection::NetworkInterruptionCallbackHandler,
+MAKE_CALLBACK(csp::multiplayer::MultiplayerConnection::NetworkInterruptionCallbackHandler,
                       StringCallbackAdapter,
                       ARGLIST(const csp::common::String& interruptReason),
                       ARGLIST(interruptReason))
 
 //NetworkEventBus
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::NetworkEventCallback,
+MAKE_CALLBACK(csp::multiplayer::NetworkEventCallback,
                       NetworkEventCallbackAdapter,
                       ARGLIST(const csp::common::NetworkEventData& networkEventData),
                       ARGLIST(networkEventData))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::NetworkEventBus::ErrorCodeCallbackHandler,
+MAKE_CALLBACK(csp::multiplayer::NetworkEventBus::ErrorCodeCallbackHandler,
                       ErrorCodeCallbackAdapter,
                       ARGLIST(csp::multiplayer::ErrorCode errorCode),
                       ARGLIST(errorCode))
 
 //ComponentBase
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::ComponentBase::EntityActionHandler,
+MAKE_CALLBACK(csp::multiplayer::ComponentBase::EntityActionHandler,
                       EntityActionCallbackAdapter,
                       ARGLIST(csp::multiplayer::ComponentBase* component, const csp::common::String& actionName, const csp::common::String& actionParams),
                       ARGLIST(component, actionName, actionParams))
 
 //Conversation
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::MessageResultCallback,
+MAKE_CALLBACK(csp::multiplayer::MessageResultCallback,
                       MessageResultCallbackAdapter,
                       ARGLIST(const csp::multiplayer::MessageResult& result),
                       ARGLIST(result))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::MessageCollectionResultCallback,
+MAKE_CALLBACK(csp::multiplayer::MessageCollectionResultCallback,
                       MessageCollectionResultCallbackAdapter,
                       ARGLIST(const csp::multiplayer::MessageCollectionResult& result),
                       ARGLIST(result))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::ConversationResultCallback,
+MAKE_CALLBACK(csp::multiplayer::ConversationResultCallback,
                       ConversationResultCallbackAdapter,
                       ARGLIST(const csp::multiplayer::ConversationResult& result),
                       ARGLIST(result))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::NumberOfRepliesResultCallback,
+MAKE_CALLBACK(csp::multiplayer::NumberOfRepliesResultCallback,
                       NumberOfRepliesResultCallbackAdapter,
                       ARGLIST(const csp::multiplayer::NumberOfRepliesResult& result),
                       ARGLIST(result))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::AnnotationResultCallback,
+MAKE_CALLBACK(csp::multiplayer::AnnotationResultCallback,
                       AnnotationResultCallbackAdapter,
                       ARGLIST(const csp::multiplayer::AnnotationResult& result),
                       ARGLIST(result))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::AnnotationThumbnailCollectionResultCallback,
+MAKE_CALLBACK(csp::multiplayer::AnnotationThumbnailCollectionResultCallback,
                       AnnotationThumbnailCollectionResultCallbackAdapter,
                       ARGLIST(const csp::multiplayer::AnnotationThumbnailCollectionResult& result),
                       ARGLIST(result))
-MAKE_CALLBACK_TYPEMAP(csp::multiplayer::ConversationSpaceComponent::ConversationUpdateCallbackHandler,
+MAKE_CALLBACK(csp::multiplayer::ConversationSpaceComponent::ConversationUpdateCallbackHandler,
                       ConversationNetworkEventCallbackAdapter,
                       ARGLIST(const csp::common::ConversationNetworkEventData& eventData),
                       ARGLIST(eventData))
