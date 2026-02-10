@@ -28,6 +28,7 @@
 %include "swigutils/OptionalDeclarations.i"
 
 %include "swigutils/CallbackAdapters.i"
+%include "swigutils/CallbackLifetime.i"
 %include "swigutils/AsyncAdapters.i"
 %include "swigutils/Operators.i"
 %include "swigutils/Equatable.i"
