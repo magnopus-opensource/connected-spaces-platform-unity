@@ -31,6 +31,8 @@
 %define MAKE_VALUE_EQUATABLE(CLASS_FULLY_NAMESPACED)
 SWIG_STD_VECTOR_ENHANCED(CLASS_FULLY_NAMESPACED)
 
+/* Footgun note: I think this replaces the entire inheritance list, which will be a problem if used
+ * on types with their own bases. Fixable, but watch out. */
 %typemap(csinterfaces) CLASS_FULLY_NAMESPACED "global::System.IDisposable, System.IEquatable<$csclassname>"
 
 %typemap(cscode) CLASS_FULLY_NAMESPACED %{
