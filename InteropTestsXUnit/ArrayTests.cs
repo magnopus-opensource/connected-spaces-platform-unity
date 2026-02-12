@@ -6,7 +6,7 @@ using Xunit.Sdk;
 
 public class ArrayTests
 {
-    /* We use FeatureFlagValueArray to test this, just cause it was the first one exposed.
+    /* We use FeatureFlagArray to test this, just cause it was the first one exposed.
      * The point of this test is to test the Array typemap from csp::common::Array -> C# IReadOnlyList
      * This whole test suite should go away once we migrate away from the CSP common types, this
      * is sort of redundant work just to support a migration :(
@@ -41,7 +41,7 @@ public class ArrayTests
     [Fact]
     public void NewArrayIsEmpty()
     {
-        var array = new SpaceUserRoleValueArray();
+        var array = new SpaceUserRoleArray();
         Assert.Equal(0, array.Count);
         Assert.Empty(array);
     }
@@ -50,7 +50,7 @@ public class ArrayTests
     public void ArrayIsInSequence()
     {
         var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var array = new SpaceUserRoleArray(items);
         Assert.Equal(4, array.Count);
 
         Assert.Equal(SpaceUserRole.Invalid, array[0]);
@@ -62,14 +62,14 @@ public class ArrayTests
     [Fact]
     public void NullConstructionThrows()
     {
-        Assert.Throws<ArgumentNullException>(() => new SpaceUserRoleValueArray(null));
+        Assert.Throws<ArgumentNullException>(() => new SpaceUserRoleArray(null));
     }
 
     [Fact]
     public void ArrayCount()
     {
         var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var array = new SpaceUserRoleArray(items);
         Assert.Equal(4, array.Count);
     }
 
@@ -77,7 +77,7 @@ public class ArrayTests
     public void GetSetAccessOperatorOnValueArray()
     {
         var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var array = new SpaceUserRoleArray(items);
         Assert.Equal(4, array.Count);
 
         var gotInvalid = array[0];
@@ -134,7 +134,7 @@ public class ArrayTests
          * all the other overloads defer to it
          */
         var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var array = new SpaceUserRoleArray(items);
         Assert.Equal(4, array.Count);
 
         SpaceUserRole[] newArray = new SpaceUserRole[4];
@@ -155,7 +155,7 @@ public class ArrayTests
          * all the other overloads defer to it
          */
         var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var array = new SpaceUserRoleArray(items);
         Assert.Equal(4, array.Count);
 
         SpaceUserRole[] newArray = new SpaceUserRole[10];
@@ -174,7 +174,7 @@ public class ArrayTests
     public void CopyToArrayExceptions()
     {
         var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var array = new SpaceUserRoleArray(items);
         Assert.Equal(4, array.Count);
 
         var newArray = new SpaceUserRole[10];
@@ -199,7 +199,7 @@ public class ArrayTests
          */
 
         var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var array = new SpaceUserRoleArray(items);
         Assert.Equal(4, array.Count);
 
         var SelectOneAndTwoWithWhere = array.Where(x => x == SpaceUserRole.User || x == SpaceUserRole.Moderator);
@@ -211,7 +211,7 @@ public class ArrayTests
     public void EnumeratorTest()
     {
         var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var array = new SpaceUserRoleArray(items);
         Assert.Equal(4, array.Count);
 
         HashSet<SpaceUserRole> foundRoles = new HashSet<SpaceUserRole>();
@@ -236,7 +236,7 @@ public class ArrayTests
     public void Reverse()
     {
         var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var array = new SpaceUserRoleArray(items);
         Assert.Equal(SpaceUserRole.Invalid, array[0]);
         Assert.Equal(SpaceUserRole.User, array[1]);
         Assert.Equal(SpaceUserRole.Owner, array[2]);
@@ -254,7 +254,7 @@ public class ArrayTests
     public void ReverseSubset()
     {
         var items = MakeManySpaceUserRoles();
-        var array = new SpaceUserRoleValueArray(items);
+        var array = new SpaceUserRoleArray(items);
         Assert.Equal(SpaceUserRole.Invalid, array[0]);
         Assert.Equal(SpaceUserRole.User, array[1]);
         Assert.Equal(SpaceUserRole.Owner, array[2]);
@@ -271,7 +271,7 @@ public class ArrayTests
     [Fact]
     public void Fill()
     {
-        SpaceUserRoleValueArray array = new SpaceUserRoleValueArray(10);
+        SpaceUserRoleArray array = new SpaceUserRoleArray(10);
         array.Fill(SpaceUserRole.User);
 
         Assert.Equal(10, array.Count);
