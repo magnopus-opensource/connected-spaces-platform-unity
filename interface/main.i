@@ -38,6 +38,7 @@
    used downstream because they reference internal types/implementations. Not to mention that they
    don't export free function symbols as a rule. */
 %ignore ToJson;
+%ignore FromJson;
 %ignore TierNameEnumToString;
 %ignore TierFeatureEnumToString;
 %ignore StringToTierNameEnum;
@@ -46,6 +47,10 @@
 %ignore ConvertStringToAssetPlatform;
 %ignore ConvertAssetPlatformToString;
 %ignore AssetDetailDtoToAsset;
+%ignore PrototypeDtoToAssetCollection;
+%ignore SequenceDtoToSequence;
+%ignore AnchorDtoToAnchor;
+%ignore SortMaintenanceInfos;
 
 /* Declare the api */
 
@@ -163,6 +168,59 @@
 %include "CSP/Multiplayer/Components/StaticModelSpaceComponent.i"
 %include "CSP/Multiplayer/Components/TextSpaceComponent.i"
 %include "CSP/Multiplayer/Components/VideoPlayerSpaceComponent.i"
+
+/* CSP/Systems */
+
+%include "CSP/Systems/CSPSceneData.i"
+%include "CSP/Systems/ServiceStatus.i"
+%include "CSP/Systems/SystemBase.i"
+%include "CSP/Systems/SystemsManager.i"
+%include "CSP/Systems/SystemsResult.i"
+%include "CSP/Systems/WebService.i"
+%include "CSP/Systems/Analytics/AnalyticsSystem.i"
+%include "CSP/Systems/Assets/TextureInfo.i"
+%include "CSP/Systems/Assets/Material.i"
+%include "CSP/Systems/Assets/AlphaVideoMaterial.i"
+%include "CSP/Systems/Assets/Asset.i"
+%include "CSP/Systems/Assets/AssetCollection.i"
+%include "CSP/Systems/Assets/LOD.i"
+%include "CSP/Systems/Assets/AssetSystem.i"
+%include "CSP/Systems/Assets/GLTFMaterial.i"
+%include "CSP/Systems/ECommerce/ECommerce.i"
+%include "CSP/Systems/ECommerce/ECommerceSystem.i"
+%include "CSP/Systems/EventTicketing/EventTicketing.i"
+%include "CSP/Systems/EventTicketing/EventTicketingSystem.i"
+%include "CSP/Systems/ExternalServices/ExternalServiceInvocation.i"
+%include "CSP/Systems/ExternalServices/ExternalServiceProxySystem.i"
+%include "CSP/Systems/GraphQL/GraphQL.i"
+%include "CSP/Systems/GraphQL/GraphQLSystem.i"
+%include "CSP/Systems/HotspotSequence/HotspotGroup.i"
+%include "CSP/Systems/HotspotSequence/HotspotSequenceSystem.i"
+%include "CSP/Systems/Maintenance/Maintenance.i"
+%include "CSP/Systems/Maintenance/MaintenanceSystem.i"
+%include "CSP/Systems/Quota/Quota.i"
+%include "CSP/Systems/Quota/QuotaSystem.i"
+%include "CSP/Systems/Script/ScriptSystem.i"
+%include "CSP/Systems/Sequence/Sequence.i"
+%include "CSP/Systems/Sequence/SequenceSystem.i"
+%include "CSP/Systems/Settings/ApplicationSettings.i"
+%include "CSP/Systems/Settings/ApplicationSettingsSystem.i"
+%include "CSP/Systems/Settings/SettingsCollection.i"
+%include "CSP/Systems/Settings/SettingsSystem.i"
+%include "CSP/Systems/Spatial/SpatialDataTypes.i"
+%include "CSP/Systems/Spaces/Site.i"
+%include "CSP/Systems/Spaces/Space.i"
+%include "CSP/Systems/Spaces/SpaceSystem.i"
+%include "CSP/Systems/Spaces/UserRoles.i"
+%include "CSP/Systems/Spatial/Anchor.i"
+%include "CSP/Systems/Spatial/AnchorSystem.i"
+%include "CSP/Systems/Spatial/PointOfInterest.i"
+%include "CSP/Systems/Spatial/PointOfInterestSystem.i"
+%include "CSP/Systems/Users/Authentication.i"
+%include "CSP/Systems/Users/Profile.i"
+%include "CSP/Systems/Users/ThirdPartyAuthentication.i"
+%include "CSP/Systems/Users/UserSystem.i"
+%include "CSP/Systems/Voip/VoipSystem.i"
 
 
 %include "swigutils/TemplateDeclarations.i"
