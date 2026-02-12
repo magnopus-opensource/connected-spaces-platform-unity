@@ -55,6 +55,8 @@
 %template(TierFeaturesArray) csp::common::Array<csp::systems::TierFeatures>;
 %template(VariantOptionInfoArray) csp::common::Array<csp::systems::VariantOptionInfo>;
 %template(VersionMetadataArray) csp::common::Array<csp::systems::VersionMetadata>;
+%template(EAssetTypeArray) csp::common::Array<csp::systems::EAssetType>;
+%template(EAssetCollectionTypeArray) csp::common::Array<csp::systems::EAssetCollectionType>;
 
 // ========== Maps ==========
 %template(StringDict) csp::common::Map<csp::common::String, csp::common::String>;

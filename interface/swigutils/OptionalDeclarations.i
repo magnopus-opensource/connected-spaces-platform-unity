@@ -34,6 +34,21 @@
 %optional_arithmetic(float, OptFloat)
 %optional_arithmetic(double, OptDouble)
 
+//Enums
+%optional_arithmetic(csp::systems::SpaceAttributes, OptSpaceAttributes)
+%optional_arithmetic(csp::systems::EventTicketingVendor, OptEventTicketingVendor)
+%optional_arithmetic(csp::systems::EPointOfInterestType, OptEPointOfInterestType)
+%optional_arithmetic(csp::systems::EThirdPartyPlatform, OptEThirdPartyPlatform)
+
 %optional_string()
 
+%optional(csp::systems::TokenOptions)
+%optional(csp::systems::FileAssetDataSource)
+%optional(csp::systems::GeoLocation)
+%optional(csp::systems::InviteUserRoleInfoCollection)
 %optional(csp::common::Array<csp::FeatureFlag>)
+%optional(csp::common::Array<csp::common::String>)
+%optional(csp::common::Array<csp::systems::EAssetCollectionType>)
+%optional(csp::common::Array<csp::systems::EAssetType>)
+%optional(csp::common::Array<csp::systems::GeoLocation>)
+%optional(%arg(csp::common::Map<csp::common::String, csp::common::String>))
