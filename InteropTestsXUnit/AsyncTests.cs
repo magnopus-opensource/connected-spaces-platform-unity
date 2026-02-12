@@ -206,8 +206,8 @@ public class AsyncInteropTests
         Assert.Equal(totalOps, tasks.Length);
     }
     
-    [Fact(DisplayName = "CallbackLifetime global lock scales under heavy concurrency")]
-    public async Task CallbackLifetime_Lock_Contention_Stress_V2()
+    [Fact(DisplayName = "CallbackLifetime global concurrency scales under heavy concurrency")]
+    public async Task CallbackLifetime_Concurrency_Contention_Stress_V2()
     {
         using var logSystem = new LogSystem();
 
