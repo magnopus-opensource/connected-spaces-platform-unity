@@ -5,7 +5,7 @@ using Xunit.Sdk;
 
 public class ListTests
 {
-    /* We use ApplicationSettingsValueList to test this, just cause it was the first one exposed.
+    /* We use ApplicationSettingsList to test this, just cause it was the first one exposed.
      * The point of this test is to test the List typemap from csp::common::List -> C# IEnumerable
      * This whole test suite should go away once we migrate away from the CSP common types, this
      * is sort of redundant work just to support a migration :(
@@ -26,7 +26,7 @@ public class ListTests
     [Fact]
     public void NewListIsEmptyAndWriteable()
     {
-        var list = new ApplicationSettingsValueList();
+        var list = new ApplicationSettingsList();
         Assert.False(list.IsReadOnly);
         Assert.Equal(0, list.Count);
         Assert.Empty(list);
@@ -36,7 +36,7 @@ public class ListTests
     public void ListIsInSequence()
     {
         var items = MakeManyApplicationSettings(5);
-        var list = new ApplicationSettingsValueList(items);
+        var list = new ApplicationSettingsList(items);
         Assert.Equal(5, list.Count);
 
         int i = 0;
@@ -50,13 +50,13 @@ public class ListTests
     [Fact]
     public void NullConstructionThrows()
     {
-        Assert.Throws<ArgumentNullException>(() => new ApplicationSettingsValueList(null));
+        Assert.Throws<ArgumentNullException>(() => new ApplicationSettingsList(null));
     }
 
     [Fact]
     public void AddAppends()
     {
-        var list = new ApplicationSettingsValueList();
+        var list = new ApplicationSettingsList();
 
         ApplicationSettings one = new ApplicationSettings();
         one.ApplicationName = "One";
@@ -74,7 +74,7 @@ public class ListTests
     [Fact]
     public void InsertAddsBefore()
     {
-        var list = new ApplicationSettingsValueList();
+        var list = new ApplicationSettingsList();
         ApplicationSettings one = new ApplicationSettings();
         one.ApplicationName = "One";
         ApplicationSettings three = new ApplicationSettings();
@@ -132,7 +132,7 @@ public class ListTests
          *  when mapping from general-purpose native code.
          */
 
-        var list = new ApplicationSettingsValueList();
+        var list = new ApplicationSettingsList();
         ApplicationSettings one = new ApplicationSettings();
         one.ApplicationName = "One";
         list.Add(one);
@@ -150,7 +150,7 @@ public class ListTests
     [Fact]
     public void EmptyListIsEmpty()
     {
-        var list = new ApplicationSettingsValueList();
+        var list = new ApplicationSettingsList();
         Assert.True(list.IsEmpty);
 
         list.Add(new ApplicationSettings());
@@ -160,7 +160,7 @@ public class ListTests
     [Fact]
     public void ListCount()
     {
-        var list = new ApplicationSettingsValueList();
+        var list = new ApplicationSettingsList();
         Assert.Equal(0, list.Count);
 
         list.Add(new ApplicationSettings());
@@ -173,7 +173,7 @@ public class ListTests
     [Fact]
     public void CopyToArrayHappyPath()
     {
-        var list = new ApplicationSettingsValueList();
+        var list = new ApplicationSettingsList();
 
         ApplicationSettings one = new ApplicationSettings();
         one.ApplicationName = "One";
@@ -195,7 +195,7 @@ public class ListTests
     [Fact]
     public void CopyToListHappyPath()
     {
-        var list = new ApplicationSettingsValueList();
+        var list = new ApplicationSettingsList();
 
         ApplicationSettings one = new ApplicationSettings();
         one.ApplicationName = "One";
@@ -223,7 +223,7 @@ public class ListTests
          * all the other overloads defer to it
          */
 
-        var list = new ApplicationSettingsValueList();
+        var list = new ApplicationSettingsList();
 
         ApplicationSettings one = new ApplicationSettings();
         one.ApplicationName = "One";
@@ -254,7 +254,7 @@ public class ListTests
          */
 
         var items = MakeManyApplicationSettings(5);
-        var list = new ApplicationSettingsValueList(items);
+        var list = new ApplicationSettingsList(items);
         Assert.Equal(5, list.Count);
 
         ApplicationSettings[] newArray = new ApplicationSettings[10];
@@ -277,7 +277,7 @@ public class ListTests
     public void CopyToArrayExceptions()
     {
         var items = MakeManyApplicationSettings(5);
-        var list = new ApplicationSettingsValueList(items);
+        var list = new ApplicationSettingsList(items);
 
         var newArray = new ApplicationSettings[10];
 
@@ -301,7 +301,7 @@ public class ListTests
          */
 
         var items = MakeManyApplicationSettings(5);
-        var list = new ApplicationSettingsValueList(items);
+        var list = new ApplicationSettingsList(items);
 
         var SelectOneAndTwoWithWhere = list.Where(x => x.ApplicationName == "1" || x.ApplicationName == "2");
         Assert.Equal("1", SelectOneAndTwoWithWhere.First().ApplicationName);
@@ -312,7 +312,7 @@ public class ListTests
     public void EnumeratorTest()
     {
         var items = MakeManyApplicationSettings(5);
-        var list = new ApplicationSettingsValueList(items);
+        var list = new ApplicationSettingsList(items);
         using (var e = list.GetEnumerator())
         {
             int i = 0;

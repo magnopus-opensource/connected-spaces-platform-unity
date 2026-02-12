@@ -50,7 +50,7 @@ public class PropertiesTests
         Assert.Equal(2, loginState.DefaultApplicationSettings.Count);
 
         //Set a brand new list.
-        ApplicationSettingsValueList newList = new ApplicationSettingsValueList();
+        ApplicationSettingsList newList = new ApplicationSettingsList();
         ApplicationSettings newSettings = new ApplicationSettings();
         newSettings.ApplicationName = "TestName";
         newList.Add(newSettings);

@@ -40,14 +40,14 @@ public class OptionalTest : IDisposable
     [Fact]
     public void OptionalContainer()
     {
-        //Initialise has an Optional<Array<FeatureFlag>> (FeatureFlagValueArray? in C#) interface that we can use to at least check the interface accepts the type.
+        //Initialise has an Optional<Array<FeatureFlag>> (FeatureFlagArray? in C#) interface that we can use to at least check the interface accepts the type.
 
         ClientUserAgent agent = new ClientUserAgent();
-        FeatureFlagValueArray? OptArray = null;
+        FeatureFlagArray? OptArray = null;
         Assert.Null(OptArray);
         CSPFoundation.Initialise("", "", agent, OptArray);
 
-        OptArray = new FeatureFlagValueArray(1);
+        OptArray = new FeatureFlagArray(1);
         OptArray[0] = new FeatureFlag(EFeatureFlag.Invalid, true);
         Assert.Single(OptArray);
         Assert.NotNull(OptArray);
