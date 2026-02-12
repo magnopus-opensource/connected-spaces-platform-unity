@@ -364,8 +364,8 @@ MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
            ARGLIST(csp.multiplayer.SpaceEntity spaceEntity),
            ARGLIST(csp.multiplayer.SpaceEntity),
            ARGLIST(spaceEntity),
-           ARGLIST(string name, string userId, csp.multiplayer.SpaceTransform spaceTransform, bool isVisible, csp.multiplayer.AvatarState state, string avatarId, csp.multiplayer.AvatarPlayMode avatarPlayMode),
-           ARGLIST(name, userId, spaceTransform, isVisible, state, avatarId, avatarPlayMode)
+           ARGLIST(string name, string userId, csp.multiplayer.SpaceTransform spaceTransform, bool isVisible, csp.multiplayer.AvatarState state, string avatarId, csp.multiplayer.AvatarPlayMode avatarPlayMode, csp.multiplayer.LocomotionModel locomotionModel),
+           ARGLIST(name, userId, spaceTransform, isVisible, state, avatarId, avatarPlayMode, locomotionModel)
 )
 
 MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
@@ -398,8 +398,8 @@ MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
            ARGLIST(csp.multiplayer.SpaceEntity spaceEntity),
            ARGLIST(csp.multiplayer.SpaceEntity),
            ARGLIST(spaceEntity),
-           ARGLIST(string name, string userId, csp.multiplayer.SpaceTransform transform, bool isVisible, csp.multiplayer.AvatarState state, string avatarId, csp.multiplayer.AvatarPlayMode avatarPlayMode),
-           ARGLIST(name, userId, transform, isVisible, state, avatarId, avatarPlayMode)
+           ARGLIST(string name, string userId, csp.multiplayer.SpaceTransform transform, bool isVisible, csp.multiplayer.AvatarState state, string avatarId, csp.multiplayer.AvatarPlayMode avatarPlayMode, csp.multiplayer.LocomotionModel locomotionModel),
+           ARGLIST(name, userId, transform, isVisible, state, avatarId, avatarPlayMode, locomotionModel)
 )
 
 MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
