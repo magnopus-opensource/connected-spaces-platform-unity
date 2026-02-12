@@ -24,7 +24,7 @@
   {
     DERIVED_TYPE_CSHARP? derived = TryFromBaseCast(baseObj);
     if (derived == null){
-      throw new ArgumentException("Failed to cast " + nameof(BASE_TYPE_CSHARP) + " to " + nameof(DERIVED_TYPE_CSHARP), "baseObj");
+      throw new System.ArgumentException("Failed to cast " + nameof(BASE_TYPE_CSHARP) + " to " + nameof(DERIVED_TYPE_CSHARP), "baseObj");
     }
     return derived;
   }

@@ -118,7 +118,8 @@ SWIG_STD_VECTOR_ENHANCED(CLASS_FULLY_NAMESPACED)
 
   public override int GetHashCode() {
     //On 32 bit platforms, the additional bits are filled with 0's, making the below cast harmless.
-    long ptr = (long)$csclassname.getCPtr(this);
+    var href = $csclassname.getCPtr(this);
+    long ptr = href.Handle.ToInt64();
 
     // GetHashCode wants a 32 bit int, XOR the ptr with itself, shifting the upper part down, so we
     // avoid collisions with values that have the same lower bits but different higher bits.
