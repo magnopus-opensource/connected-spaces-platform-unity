@@ -129,7 +129,7 @@ namespace extra
 MAKE_ASYNC(csp::common::LogSystem,
           LogAfterSeconds,
           TestBooleanResultCallback,
-          LogSystem_TestBooleanResultCallbackCSharpAdapter,
+          TestBooleanResultCallbackAdapter,
           ARGLIST(extra.test.TestBooleanResult result),
           ARGLIST(extra.test.TestBooleanResult),
           ARGLIST(result),
