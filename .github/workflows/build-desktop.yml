@@ -38,7 +38,9 @@ jobs:
       - name: Test
         # We cannot run XUnit tests with Unity extensions enabled because Unity classes would not be found causing a build failure.
         if: ${{ matrix.build_with_unity_extensions == false }}
-        run: |
+        env:
+          RUN_LONG_RUNNING_TESTS: 1
+        run: | #TODO: Upload the .dmp file when this test fails for easier debugging.
           dotnet test -c ${{ matrix.build_type }} --logger "console;verbosity=detailed" --blame-hang --blame-hang-timeout 90s
         working-directory: ./InteropTestsXUnit
 
