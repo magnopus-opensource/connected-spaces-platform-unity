@@ -484,7 +484,7 @@ Keep in mind the definition of the macro, following for your convenience:
  * METHODNAME is the method name, e.g. GetTotalSpacesOwnedByUser
  * CALLBACK_TYPENAME is the type of the callback adapter class, for example FeatureLimitCallback. Note that we should not include
  * any namespace here, as the C# adapter class is always in the ConnectedSpacesPlatformDotNet namespace.
- * CALLBACKT is the C# adapter class that extends the callback type, for example QuotaSystem_FeatureLimitCallbackCSharpAdapter
+ * CALLBACKT is the C# adapter class that extends the callback type, for example FeatureLimitCallbackAdapter
  * CALLBACK_TYPELIST_WITH_NAMES is the full argument list with types, e.g. ARGLIST(const csp::systems::FeatureLimitResult& result)
  * CALLBACK_TYPELIST_WITHOUT_NAMES is the argument list without types, e.g. ARGLIST(const csp::systems::FeatureLimitResult)
  * CALLBACK_TYPELIST_ONLY_NAMES is just the argument names, e.g. ARGLIST(result)
@@ -510,7 +510,7 @@ Following that definition, we can write the 'MAKE_ASYNC' macro for this specific
 MAKE_ASYNC( csp::common::LogSystem,
             LogAfterSeconds,
             TestBooleanResultCallback,
-            LogSystem_TestBooleanResultCallbackCSharpAdapter,
+            TestBooleanResultCallbackAdapter,
             ARGLIST(extra.test.TestBooleanResult result),
             ARGLIST(extra.test.TestBooleanResult),
             ARGLIST(result),
@@ -531,7 +531,7 @@ A variant of the MAKE_ASYNC for zero-argument functions also exists, called MAKE
  * FULLY_NAMESPACED_CLASST is the full namespaced C++ class name, e.g. csp::systems::QuotaSystem
  * METHODNAME is the method name, e.g. GetTotalSpacesOwnedByUser
  * CALLBACK_TYPENAME is the type of the callback adapter class, for example FeatureLimitCallback
- * CALLBACKT is the C# adapter class that extends the callback type, for example QuotaSystem_FeatureLimitCallbackCSharpAdapter
+ * CALLBACKT is the C# adapter class that extends the callback type, for example FeatureLimitCallbackAdapter
  * CALLBACK_TYPELIST_WITH_NAMES is the full argument list with types, e.g. ARGLIST(const csp::systems::FeatureLimitResult& result)
  * CALLBACK_TYPELIST_WITHOUT_NAMES is the argument list without types, e.g. ARGLIST(const csp::systems::FeatureLimitResult)
  * CALLBACK_TYPELIST_ONLY_NAMES is just the argument names, e.g. ARGLIST(result)
