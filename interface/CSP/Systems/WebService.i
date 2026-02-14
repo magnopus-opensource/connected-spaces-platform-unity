@@ -20,7 +20,7 @@
     public void ThrowOnFailure(string callingMethodName)
     {
         var resultCode = GetResultCode();
-        if (resultCode != EResultCode.Success || swigCPtr.Handle == System.IntPtr.Zero)
+        if (resultCode == EResultCode.Failed || swigCPtr.Handle == System.IntPtr.Zero)
         {
             ushort statusCode = 500;
             string responseBody = null;

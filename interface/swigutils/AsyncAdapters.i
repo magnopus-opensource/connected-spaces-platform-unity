@@ -54,21 +54,63 @@
 #endif
 %enddef
 
-/* Used inside MAKE_ASYNC to add throwing behaviour on ResultBase.
- * Tbh this is rather messy, this file needs cleaned up.
- * Footgun note: See how this has been implemented using CALLBACK_TYPELIST_ONLY_NAMES,
- * in the case of an async return that is multiple types, this will generate invalid C#.
- * I don't believe there's any of that pattern currently in the api, but watch out. */
-%define ADD_THROW_ON_RESULTBASE(CALLBACK_TYPELIST_ONLY_NAMES, METHODNAME)
-#ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
 
-            //Not every type is resultbase, make a fully typed object if we can
-            if((object)CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase _resultBase)
+/*
+ * Below you'll note we have MAKE_ASYNC and MAKE_ASYNC_ZERO, and unfortunate compromise
+ * for working in macrotown.
+ * The bulk of these macros are the same, we only need to change whether or not we're providing an argument list.
+ * This is the callback body that is shared between both async macros, such that we can avoid duplicating it.
+ */
+%define MAKE_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES)
+ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME callback = null;
+    
+    // Define the callback that will be called by the C++ code
+    callback = new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
+    {
+        try
+        {
+            /* This is a bit jank. Due to the desire to use passthrough macros between async
+             * and actions, we have this CALLBACK_TYPELIST_ONLY_NAMES param which yes, can be
+             * a comma separated list for action style callbacks, but in async (awaitable) functions,
+             * it's only ever a single name.
+             * It ISNT always a ResultBase type (although that would simplify things if CSP would do that...)
+             * Sometime's it's just a space entity, or a bool, or something else. */
+
+            if((object)CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase _result)
             {
-        	    // Before returning the result, we check if we need to throw an exception
-   	    	    _resultBase.ThrowOnFailure(nameof(METHODNAME##Async));
+              // It's a result base
+              #ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
+              // Convert the failing result to a throw if we have that option enabled
+              _result.ThrowOnFailure(nameof(METHODNAME##Async));
+              #endif
+              
+              // Use _result here because we need to call ResultBase api, but we still pass the fully specified type in the TrySetResult
+              // Remember that callbacks also have `init` and `inProgress` status's. We will often receive this callback more than once,
+              // only finish when we get a final status.
+              if (_result.GetResultCode() == csp.systems.EResultCode.Success || _result.GetResultCode() == csp.systems.EResultCode.Failed)
+              {
+                tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
+                // Now that the callback has been invoked, we can remove the root reference
+                ConnectedSpacesPlatformDotNet.CallbackLifetime.Unroot(callback);
+              }
             }
-#endif
+            else {
+              // It's something else
+              tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
+              // Now that the callback has been invoked, we can remove the root reference
+              ConnectedSpacesPlatformDotNet.CallbackLifetime.Unroot(callback);
+            }
+        }
+        catch (System.Exception ex)
+        {
+            // If any other exception occurs, we set it on the task completion source. Failsafe.
+            tcs.TrySetException(ex);
+        }
+
+    });
+
+    // ROOT the callback for the lifetime of the Task
+    ConnectedSpacesPlatformDotNet.CallbackLifetime.Root(callback);
 %enddef
 
 /*
@@ -112,40 +154,10 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
 
-    ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME callback = null;
-    
-    // Define the callback that will be called by the C++ code
-    callback = new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
-    {
-        try
-        {
-
-            /************************************************************
-            * THROW ON FAILURE SECTION — ENABLED WITH:
-            *   cmake -DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
-            ************************************************************/
-            ADD_THROW_ON_RESULTBASE(CALLBACK_TYPELIST_ONLY_NAMES, METHODNAME)
-
-            // Set the result on the task completion source
-            tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
-        }
-        catch (System.Exception ex)
-        {
-            // If any other exception occurs, we set it on the task completion source
-            tcs.TrySetException(ex);
-        }
-        finally 
-        { 
-            // Now that the callback has been invoked, we can remove the root reference
-            ConnectedSpacesPlatformDotNet.CallbackLifetime.Unroot(callback);
-        }
-
-    });
-
-    // ROOT the callback for the lifetime of the Task
-    ConnectedSpacesPlatformDotNet.CallbackLifetime.Root(callback);
+    MAKE_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES);
 
     // Run the method with the provided arguments and the callback
+    // callback is defined in MAKE_ASYNC_CALLBACK_BODY
     METHODNAME(FUNCTION_TYPELIST_ONLY_NAMES, callback);
 
     return tcs.Task;
@@ -183,21 +195,18 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
 %extend FULLY_NAMESPACED_CLASST {
 %proxycode %{
   public System.Threading.Tasks.Task<CALLBACK_TYPELIST_WITHOUT_NAMES> METHODNAME##Async()
-  {
-    System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
-    METHODNAME(new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
-    {
+  {  
+    // Create a TaskCompletionSource to represent the async operation.
+    System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = 
+        new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>();
 
-    /************************************************************
-    * THROW ON FAILURE SECTION — ENABLED WITH:
-    *   cmake -DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
-    ************************************************************/
-    ADD_THROW_ON_RESULTBASE(CALLBACK_TYPELIST_ONLY_NAMES, METHODNAME)
+    MAKE_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES);
 
-		// Set the result on the task completion source
-        tcs.SetResult(CALLBACK_TYPELIST_ONLY_NAMES);
-    }));
-   	return tcs.Task;
+    // Run the method with the provided arguments and the callback
+    METHODNAME(callback);
+
+    return tcs.Task;
+
   }
 %}
 }
