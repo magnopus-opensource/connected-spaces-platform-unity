@@ -101,8 +101,8 @@ public class CallbackTests
         SpaceTransform NewEntityTransform = new SpaceTransform(new Vector3(1, 2, 3), new Vector4(0, 0, 0, 1), new Vector3(2, 3, 4));
         SpaceEntity SpaceEntity = await RealtimeEngine.CreateEntityAsync("SpaceEntity", NewEntityTransform, null);
 
-        TaskCompletionSource<bool> UpdateTCS = new TaskCompletionSource<bool>();
-        TaskCompletionSource<bool> DestroyTCS = new TaskCompletionSource<bool>();
+        TaskCompletionSource<bool> UpdateTCS = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        TaskCompletionSource<bool> DestroyTCS = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         SpaceEntity.SetUpdateCallback(new ConnectedSpacesPlatformDotNet.UpdateCallback((UpdatedSpaceEntity, UpdateFlags, UpdatedComponentInfoArray) => { UpdateTCS.TrySetResult(true); }));
         SpaceEntity.SetDestroyCallback(new ConnectedSpacesPlatformDotNet.DestroyCallback(x => { DestroyTCS.TrySetResult(true); }));
@@ -127,9 +127,9 @@ public class CallbackTests
 
         ComponentBase CollisionComponent = SpaceEntity.AddComponent(ComponentType.Collision);
 
-        TaskCompletionSource<SpaceEntity> CallbackSpaceEntityTCS = new TaskCompletionSource<SpaceEntity>();
-        TaskCompletionSource<SpaceEntityUpdateFlags> CallbackUpdateFlagsTCS = new TaskCompletionSource<SpaceEntityUpdateFlags>();
-        TaskCompletionSource<List<ComponentUpdateInfo>> CallbackComponentUpdateInfoArrayTCS = new TaskCompletionSource<List<ComponentUpdateInfo>>();
+        TaskCompletionSource<SpaceEntity> CallbackSpaceEntityTCS = new TaskCompletionSource<SpaceEntity>(TaskCreationOptions.RunContinuationsAsynchronously);
+        TaskCompletionSource<SpaceEntityUpdateFlags> CallbackUpdateFlagsTCS = new TaskCompletionSource<SpaceEntityUpdateFlags>(TaskCreationOptions.RunContinuationsAsynchronously);
+        TaskCompletionSource<List<ComponentUpdateInfo>> CallbackComponentUpdateInfoArrayTCS = new TaskCompletionSource<List<ComponentUpdateInfo>>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         SpaceEntity.SetUpdateCallback(new ConnectedSpacesPlatformDotNet.UpdateCallback((UpdatedSpaceEntity, UpdateFlags, UpdatedComponentInfoArray) =>
         {
