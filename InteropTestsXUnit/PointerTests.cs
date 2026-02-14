@@ -58,7 +58,7 @@ public class PointerTests
 
             using SpaceEntity OriginalEntity = await RealtimeEngine.CreateEntityAsync("OriginalName", NewEntityTransform, null);
 
-            TaskCompletionSource<SpaceEntity> CallbackSpaceEntityTCS = new TaskCompletionSource<SpaceEntity>();
+            TaskCompletionSource<SpaceEntity> CallbackSpaceEntityTCS = new TaskCompletionSource<SpaceEntity>(TaskCreationOptions.RunContinuationsAsynchronously);
             OriginalEntity.SetUpdateCallback(new ConnectedSpacesPlatformDotNet.UpdateCallback((UpdatedSpaceEntity, UpdateFlags, UpdatedComponentInfoArray) =>
             {
                 CallbackSpaceEntityTCS.TrySetResult(UpdatedSpaceEntity);
