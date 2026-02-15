@@ -1,3 +1,8 @@
+/* This file pins callbacks used in awaitable functions.
+ * This is used in AsyncAdapters, and keeps callbacks used in await X(); calls alive.
+ * It does NOT pin every callback, registerable callbacks used outside of await still
+ * need to be kept safe from the GC explicitly by the client developer. */
+
 // Callbacks pinning to avoid premature GC collection.
 %pragma(csharp) modulecode=%{
 /// <summary>
@@ -10,7 +15,7 @@
 /// unexpected behavior or SIGSEGV. To do that, we use this custom class that holds all the callbacks inside an
 /// HashSet that prevents leaks due to premature garbage collection.
 /// </remarks>
-internal static class CallbackLifetime
+internal static class AsyncLifetime
 {
     /// <summary>
     /// ConcurrentDictionary to hold references to callbacks. This ensures that callbacks are not garbage collected while they are
