@@ -175,8 +175,8 @@ public class AsyncInteropTests
         Assert.Equal(1, calls);
     }
 
-    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "CallbackLifetime global lock scales under heavy concurrency V1")]
-    public async Task CallbackLifetime_Lock_Contention_Stress_V1()
+    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "AsyncLifetime global lock scales under heavy concurrency V1")]
+    public async Task AsyncLifetime_Lock_Contention_Stress_V1()
     {
         using var logSystem = new LogSystem();
 
@@ -206,8 +206,8 @@ public class AsyncInteropTests
         Assert.Equal(totalOps, tasks.Length);
     }
 
-    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "CallbackLifetime global lock scales under heavy concurrency V2")]
-    public async Task CallbackLifetime_Lock_Contention_Stress_V2()
+    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "AsyncLifetime global lock scales under heavy concurrency V2")]
+    public async Task AsyncLifetime_Lock_Contention_Stress_V2()
     {
         using var logSystem = new LogSystem();
 
@@ -230,8 +230,8 @@ public class AsyncInteropTests
 
 
 
-    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "CallbackLifetime survives GC under extreme async pressure")]
-    public async Task CallbackLifetime_Survives_GC_Pressure_ExpectFailure()
+    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "AsyncLifetime survives GC under extreme async pressure")]
+    public async Task AsyncLifetime_Survives_GC_Pressure_ExpectFailure()
     {
         using var logSystem = new LogSystem();
 
@@ -254,8 +254,8 @@ public class AsyncInteropTests
         await Task.WhenAll(tasks);
     }
 
-    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "CallbackLifetime scales with bounded async concurrency")]
-    public async Task CallbackLifetime_BoundedConcurrency()
+    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "AsyncLifetime scales with bounded async concurrency")]
+    public async Task AsyncLifetime_BoundedConcurrency()
     {
         using var logSystem = new LogSystem();
 
@@ -290,8 +290,8 @@ public class AsyncInteropTests
         );
     }
 
-    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "CallbackLifetime survives GC under async pressure")]
-    public async Task CallbackLifetime_Survives_GC_Pressure()
+    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "AsyncLifetime survives GC under async pressure")]
+    public async Task AsyncLifetime_Survives_GC_Pressure()
     {
         using var logSystem = new LogSystem();
 
