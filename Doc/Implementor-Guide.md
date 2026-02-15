@@ -270,7 +270,7 @@ This optional array is used in `Initialize`, and enabling the typemap with the a
 public static bool Initialise(string EndpointRootURI, string Tenant, csp.ClientUserAgent ClientUserAgentHeader, csp.common.FeatureFlagValueArray? FeatureFlagOverrides) {
 ```
 
-See [OptionalDeclarations.i](../interface/swigutils/OptionalDeclarations.i) for more.
+See [OptionalDeclarations.i](../interface/Declarations/OptionalDeclarations.i) for more.
 
 
 #### Equatability
@@ -307,7 +307,7 @@ See [Equatable.i](../interface/swigutils/Equatable.i) for more.
 
 Containers rely heavily on typemapping, see [interface/swigutils/typemaps](../interface/swigutils/typemaps/).
 
-All containers are template types, and thus must be declared as described [above](#templates). See [interface/swigutils/TemplateDeclarations.i](../interface/swigutils/TemplateDeclarations.i)
+All containers are template types, and thus must be declared as described [above](#templates). See [TemplateDeclarations.i](../interface/Declarations/TemplateDeclarations.i)
 
 The relevant containers at time of writing are `Array`, `List`, and `Map`.
 

@@ -1,3 +1,5 @@
+%include "swigutils/typemaps/Csp_Optional.i"
+
 /*
  * Enable nullable reference type annotations for generated C# code
  * Important because we want to use `?` syntax for all Optional<T>
