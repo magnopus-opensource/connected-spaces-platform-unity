@@ -60,33 +60,6 @@ namespace extra
 
 %include "CSP/Common/Systems/Log/LogSystem.h"
 
-// Helper macro to wrap director callbacks in try/catch blocks to convert native exceptions into C# exceptions, 
-// since C# won't be able to catch native exceptions thrown across the async boundary.
-// NOTE: THIS NEEDS TO BE DECLARED BEFORE THE FUNCTION DECLARATION, OTHERWISE SWIG DOES NOT WRAP THE FUNCTION IN A TRY/CATCH BLOCK!
-%exception csp::common::LogSystem::LogAndThrow {
-    try {
-        $action
-    }
-    catch (const std::exception& e) {
-        SWIG_CSharpSetPendingException(
-            SWIG_CSharpApplicationException,
-            e.what()
-        );
-    }
-}
-
-%exception csp::common::LogSystem::ThrowImmediately {
-    try {
-        $action
-    }
-    catch (const std::exception& e) {
-        SWIG_CSharpSetPendingException(
-            SWIG_CSharpApplicationException,
-            e.what()
-        );
-    }
-}
-
 %extend csp::common::LogSystem 
 {
     /// <summary>
@@ -119,6 +92,10 @@ namespace extra
 
     /// <summary> 
 	/// Throws an exception to test that it is properly propagated to C#.
+    /// Note: SWIG cannot catch this exception because the thread is detached and the callback is not invoked. This is
+    /// a limitation in SWIG. We should not have this case on any of the CSP functions (they all should return
+    /// ResultBase and handle exceptions via the result status code), but it is good to keep this in mind in case
+    /// of possible CSP inconsistencies in async operations. Leaving this code just to remember this edge case.
 	/// </summary>
     void LogAndThrow(extra::test::TestBooleanResultCallback callback)
 	{

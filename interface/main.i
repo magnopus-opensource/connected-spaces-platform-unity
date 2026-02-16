@@ -30,6 +30,7 @@
 %include "swigutils/CallbackAdapters.i"
 %include "swigutils/CallbackLifetime.i"
 %include "swigutils/AsyncAdapters.i"
+%include "swigutils/Exceptions.i"
 %include "swigutils/Operators.i"
 %include "swigutils/Equatable.i"
 
