@@ -56,7 +56,7 @@
 
 
 /*
- * Below you'll note we have MAKE_ASYNC and MAKE_ASYNC_ZERO, and unfortunate compromise
+ * Below you'll note we have MAKE_ASYNC and MAKE_ASYNC_ZERO, an unfortunate compromise
  * for working in macrotown.
  * The bulk of these macros are the same, we only need to change whether or not we're providing an argument list.
  * This is the callback body that is shared between both async macros, such that we can avoid duplicating it.
