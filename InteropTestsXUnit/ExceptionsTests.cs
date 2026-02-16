@@ -4,7 +4,7 @@ namespace InteropTestsXUnit;
 
 public class ExceptionsTests
 {
-    [Fact(Skip="This test is expected to fail until SWIG exceptions are properly propagated through async calls")]
+    [Fact(Skip="This test is expected to fail. We'd want some sort of failsafe handler for when the CSP api contract is broken")]
     public async Task AsyncCppException_IsObservedInCSharp()
     {
         using var logSystem = new LogSystem();
@@ -16,7 +16,7 @@ public class ExceptionsTests
         Assert.Contains("Native async exception from SWIG", ex.Message);
     }
     
-    [Fact(Skip="This test is expected to fail until SWIG exceptions are properly propagated through async calls", 
+    [Fact(Skip="This test is expected to fail. We'd want some sort of failsafe handler for when the CSP api contract is broken", 
         DisplayName = "Native async failure surfaces as C# exception")]
     public async Task AsyncFailure_IsCatchable()
     {
