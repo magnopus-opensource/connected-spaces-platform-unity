@@ -93,9 +93,14 @@ namespace extra
     /// <summary> 
 	/// Throws an exception to test that it is properly propagated to C#.
     /// Note: SWIG cannot catch this exception because the thread is detached and the callback is not invoked. This is
-    /// a limitation in SWIG. We should not have this case on any of the CSP functions (they all should return
-    /// ResultBase and handle exceptions via the result status code), but it is good to keep this in mind in case
-    /// of possible CSP inconsistencies in async operations. Leaving this code just to remember this edge case.
+    /// not a scenario expected / handled by SWIG by design. We should not have this case on any of the CSP functions 
+    /// (they all should return ResultBase and handle exceptions via the result status code), but it is good to keep 
+    /// this in mind in case of possible CSP inconsistencies in async operations (which means CSP has made an error and 
+    /// has allowed an unmanaged exception to be thrown on an off-thread. This would be a violation of api contract 
+    /// that CSP should address).
+    /// Note: SWIG_CSharpSetPendingException is threadlocal, there is no magic that crosses threads for you. 
+    /// That's what callbacks are for.
+    /// Leaving this code just to remember this edge case.
 	/// </summary>
     void LogAndThrow(extra::test::TestBooleanResultCallback callback)
 	{
