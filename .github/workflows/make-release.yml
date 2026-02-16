@@ -1,0 +1,48 @@
+name: Make Release
+on:
+  workflow_dispatch:
+    inputs:
+      releaseName:
+        description: 'Name of the release'
+        required: true
+      releaseTag:
+        description: 'Git tag to make for this release'
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts from Desktop CI
+        uses: dawidd6/action-download-artifact@v13
+        with:
+          workflow: build-desktop.yml
+          branch: main
+          workflow_conclusion: success
+          path: artifacts/desktop
+
+      - name: Download artifacts from Android CI
+        uses: dawidd6/action-download-artifact@v13
+        with:
+          workflow: build-android.yml
+          branch: main
+          workflow_conclusion: success
+          path: artifacts/android
+
+      - name: Download artifacts from iOS CI
+        uses: dawidd6/action-download-artifact@v13
+        with:
+          workflow: build-ios.yml
+          branch: main
+          workflow_conclusion: success
+          path: artifacts/ios
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ inputs.releaseName }}
+          tag_name: ${{ inputs.releaseTag }}
+          files: artifacts/**
+          generate_release_notes: true
