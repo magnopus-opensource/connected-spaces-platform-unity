@@ -30,6 +30,12 @@
  * Note: MAKE_ACTION_CALLBACK is used by both MAKE_ASYNC_ZERO and MAKE_ASYNC macros, in order to define the related
  * callback type that is used by the async function. 
  *
+ * Whilst action adapters such as these are used in both Async (awaitable) formulations (see MAKE_ASYNC, it calls this),
+ * and registerable callbacks, using this to expose a registerable "SetXCallback" style callback DOES NOT perform
+ * the automatic rooting that the async style does. You can think of this as, because the async/await style creates the
+ * callback we pass to CSP automatically, it also takes on responsibility for rooting it. Here, that callback is created
+ * directly by the C# user, so they have a handle to it, and are expected to keep it alive. 
+ *
  * Important note: some async functions might use the same callback type. This means that we needed a way to ensure
  * the same callback type would not be re-defined causing a compilation error. To do that, whenever a new callback
  * type is defined, a SWIG #define declaration is generated and used as reference to check for re-definitions.
@@ -56,12 +62,15 @@
 
 
 /*
- * Below you'll note we have MAKE_ASYNC and MAKE_ASYNC_ZERO, an unfortunate compromise
- * for working in macrotown.
+ * Below you'll note we have MAKE_ASYNC and MAKE_ASYNC_ZERO, an unfortunate compromise for working in macrotown.
  * The bulk of these macros are the same, we only need to change whether or not we're providing an argument list.
  * This is the callback body that is shared between both async macros, such that we can avoid duplicating it.
+ *
+ * Performs automatic rooting of the callback into a global rooting container, to protect it from GC. 
+ * It unroots itself when the callback is completed. Users should not have to concern themselves with this
+ * and should be able to call var x = await MyXAsync(); without fear.
  */
-%define MAKE_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES)
+%define MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES)
 ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME callback = null;
     
     // Define the callback that will be called by the C++ code
@@ -154,7 +163,7 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    MAKE_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES);
+    MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES);
 
     // Run the method with the provided arguments and the callback
     // callback is defined in MAKE_ASYNC_CALLBACK_BODY
@@ -200,7 +209,7 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    MAKE_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES);
+    MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES);
 
     // Run the method with the provided arguments and the callback
     METHODNAME(callback);
