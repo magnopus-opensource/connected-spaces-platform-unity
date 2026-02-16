@@ -175,7 +175,7 @@ public class AsyncInteropTests
         Assert.Equal(1, calls);
     }
 
-    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "AsyncLifetime global lock scales under heavy concurrency V1")]
+    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "AsyncLifetime concurrency handles high concurrency")]
     public async Task AsyncLifetime_Lock_Contention_Stress_V1()
     {
         using var logSystem = new LogSystem();
@@ -206,13 +206,13 @@ public class AsyncInteropTests
         Assert.Equal(totalOps, tasks.Length);
     }
 
-    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "AsyncLifetime global lock scales under heavy concurrency V2")]
+    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "AsyncLifetime global concurrency scales under heavy concurrency")]
     public async Task AsyncLifetime_Lock_Contention_Stress_V2()
     {
         using var logSystem = new LogSystem();
 
         const int operations = 10000;
-        
+
         var tasks = new List<Task>(operations);
         for (var i = 0; i < operations; i++)
         {
