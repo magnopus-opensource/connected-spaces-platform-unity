@@ -11,6 +11,7 @@ namespace Magnopus.Csp.Unity.Tests
 {
     public class UserSchemaTests
     {
+#if UNITY_EDITOR
         [Test]
         public void CreateLoginState()
         {
@@ -28,5 +29,6 @@ namespace Magnopus.Csp.Unity.Tests
             Assert.IsTrue(loginState.DeviceId == deviceId);
             Assert.IsTrue(loginState.State == state);
         }
+#endif
     }
 }

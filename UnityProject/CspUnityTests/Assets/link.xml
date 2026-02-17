@@ -1,0 +1,16 @@
+<linker>
+    <!-- Preserve all code in the main Assembly-CSharp -->
+    <assembly fullname="Assembly-CSharp">
+        <type fullname="*" preserve="all"/>
+    </assembly>
+
+    <!-- Preserve UnityEngine core types often used via reflection -->
+    <assembly fullname="UnityEngine.CoreModule">
+        <type fullname="*" preserve="all"/>
+    </assembly>
+
+    <!-- Preserve System types commonly used by native plugins -->
+    <assembly fullname="System">
+        <type fullname="*" preserve="all"/>
+    </assembly>
+</linker>

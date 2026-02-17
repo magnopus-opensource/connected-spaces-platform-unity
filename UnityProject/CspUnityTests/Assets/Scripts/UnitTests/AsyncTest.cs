@@ -14,6 +14,7 @@ namespace Magnopus.Csp.Unity.Tests
 {
     public static class AsyncTest
     {
+#if UNITY_EDITOR
         /// <summary>
         /// Runs an async Task method as a Unity coroutine.
         /// </summary>
@@ -249,5 +250,6 @@ namespace Magnopus.Csp.Unity.Tests
                 await Task.WhenAll(tasks);
             });
         }
+#endif
     }
 }

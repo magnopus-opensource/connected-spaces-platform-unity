@@ -57,6 +57,14 @@ if (BUILD_SHARED_LIBS)
   )
 endif()
 
+if(APPLE)
+    if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "visionOS")
+        # Copy the original CSP libraries alongside the one we created via SWIG
+        install(DIRECTORY "${_CSP_LIB_DIR}/"
+                DESTINATION "${INSTALL_DIR}/lib")
+    endif()
+endif()
+
 # Finally the underlying CSP's debug symbols on windows platforms (no pdb equivalent on unix).
 # TARGET_PDB_FILE is not available for imported targets (why though?)
 # So do it more explicitly.
