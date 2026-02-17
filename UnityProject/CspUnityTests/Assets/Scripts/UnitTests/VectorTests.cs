@@ -9,6 +9,7 @@ namespace Magnopus.Csp.Unity.Tests
 {
     public class VectorTests
     {
+#if UNITY_EDITOR
         [Test]
         public void CreateVector()
         {
@@ -45,5 +46,6 @@ namespace Magnopus.Csp.Unity.Tests
             Assert.AreEqual(2.0f, cspVector.y, "Y component conversion is incorrect.");
             Assert.AreEqual(3.0f, cspVector.z, "Z component conversion is incorrect.");
         }
+#endif
     }
 }
