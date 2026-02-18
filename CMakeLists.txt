@@ -55,6 +55,18 @@ if(ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE)
     set(THROW_EXCEPTION_ON_RESULTBASE_FAILURE_FLAG "-DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=1")
 endif()
 
+# Decide SWIG dllimport name per platform.
+set(SWIG_DLLIMPORT_NAME "${_WRAPPER_MODULE_NAME}")
+
+if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+    # Note: on iOS we need __Internal on the DllImport of the PInvoke, or it won't find the symbols.
+    # This is because on iOS, the code gets statically linked into the final executable, and __Internal tells the 
+    # runtime to look for symbols in the main executable binary itself, rather than looking for a separate dynamic library.
+    # More info on the issue here: https://gitlab.com/rdi-eg/docs/-/wikis/Targeting-iOS-on-Unity3D-using-C%23-swig-generated-code---pitfalls-and-gotchas/diff?version_id=130894855efdab4f0cbd9882e7dc35554fea92bd&view=inline
+    message(STATUS "Configuring SWIG for iOS / visionOS (__Internal)")
+    set(SWIG_DLLIMPORT_NAME "__Internal")
+endif()
+
 # Setup SWIG invocation
 add_custom_command(
   OUTPUT "${_CPP_WRAPPER_OUT}"
@@ -68,7 +80,7 @@ add_custom_command(
           -I${_INTERNAL_SWG_SEARCH_PATH_GLOBAL} # Global search path for SWIG .i lib files.
           -c++ -csharp
           -module ${_WRAPPER_MODULE_NAME}
-          -dllimport ${_WRAPPER_MODULE_NAME}
+          -dllimport ${SWIG_DLLIMPORT_NAME}
           -outdir "${_GEN_CS_DIR}"
           -o "${_CPP_WRAPPER_OUT}"
           ${SWIG_UNITY_FLAG} # Optionally enable unity extensions
@@ -97,6 +109,12 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
 
 # Add CSP Target to our output library, this produces a final API that can use CSP.
 target_link_libraries(${_WRAPPER_MODULE_NAME} PRIVATE _CSP)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+    # Additionally, on iOS we have to force load the CSP static library because the dynamic lookup doesn't work with 
+    # static libraries, and we don't have a choice but to use static libs on iOS.
+    target_link_options(${_WRAPPER_MODULE_NAME} PRIVATE "-Wl,-force_load,$<TARGET_FILE:_CSP>")
+endif()
 
 # Force /MD (Release runtime) to match CSP DLL runtime library settings
 # This is an unexpected choice from CSP's end. I hope this changes.
