@@ -188,7 +188,7 @@ If there is no release automation written by the time I have left the project, w
 ## Wrapping brand new API
 As best as I can remember, here's the checklist for when you are wrapping brand new API. I'm going to try to be exhaustive, most API won't need all of this.
 
-Much of this can just be vibed once you have added the api declaration by running the generator and figuring out why there are SWIGTYPE files being generated. But if you'd prefer something more formal, here you go.
+Much of this can just be vibed once you have added the api declaration by running the generator and figuring out why there are SWIGTYPE files being generated. It can also realistically be vibed in the other meaning, with an LLM, as it's pretty rote, although be sure you're verifying and understand what is happening.
 
 - If it is a completely new file, add a new `.i` file to `interface/CSP`. Use the same pattern as the other `.i` files, these are almost all identical.
     - If the file contains a type that is an interface, declare that in the `.i` file using `%interface_impl(csp::namespace::IMyType);`
