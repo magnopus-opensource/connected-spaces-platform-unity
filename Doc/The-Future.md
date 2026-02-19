@@ -9,6 +9,10 @@ The motivation here is that I am moving off the project full-time, and leaving i
 
 There's no narrative here, just segments of thought. Enjoy. :D
 
+> [!NOTE]
+>
+> The things I say here arn't "Project Policy" or anything like that. I know some collaborators have valid disagreements to some of my takes here. This is a personal brain-dump, so take it with a grain of salt.
+
 ## Pushing SWIG Unity adaptations upstream
 
 In order to work in all Unity compilation modes, (specifically IL2CPP), we use a custom SWIG forks that inserts the `[MonoPInvokeCallback]` attribute.
