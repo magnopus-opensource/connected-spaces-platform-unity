@@ -24,7 +24,15 @@ if(MSVC)
   install(
     FILES $<TARGET_PDB_FILE:${_WRAPPER_MODULE_NAME}>
     DESTINATION "${INSTALL_DIR}/bin"
+    CONFIGURATIONS Debug
+    OPTIONAL
+  )
+elseif(APPLE)
+  install(
+    DIRECTORY "$<TARGET_FILE:${_WRAPPER_MODULE_NAME}>.dSYM"
+    DESTINATION "${INSTALL_DIR}/bin"
     CONFIGURATIONS Debug RelWithDebInfo #RelWithDebInfo doesn't exist, but it'll want to be here when it does.
+    OPTIONAL
   )
 endif()
 
@@ -48,35 +56,28 @@ install(
   DESTINATION "${INSTALL_DIR}/include"
 )
 
-# The actual underlying CSP library, needs to sit alongside the bindings.
-# Including this makes this a complete artifact.
-if (BUILD_SHARED_LIBS)
+# ---------------- CSP Runtime (only if shared) ----------------
+
+get_target_property(_CSP_TYPE _CSP TYPE)
+
+if(_CSP_TYPE STREQUAL "SHARED_LIBRARY")
+  message(STATUS "Installing CSP as shared runtime dependency")
+
   install(
-    FILES $<TARGET_FILE:_CSP>
-    DESTINATION ${INSTALL_DIR}/bin
+    TARGETS _CSP
+    RUNTIME DESTINATION "${INSTALL_DIR}/bin"
+    LIBRARY DESTINATION "${INSTALL_DIR}/lib"
   )
-endif()
 
-if(APPLE)
-    if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "visionOS")
-        # Copy the original CSP libraries alongside the one we created via SWIG
-        install(DIRECTORY "${_CSP_LIB_DIR}/"
-                DESTINATION "${INSTALL_DIR}/lib")
-    endif()
-endif()
+  if(MSVC)
+    install(FILES "${_CSP_LIB_DIR}/ConnectedSpacesPlatform_D.pdb"
+            DESTINATION "${INSTALL_DIR}/bin"
+            CONFIGURATIONS Debug)
 
-# Finally the underlying CSP's debug symbols on windows platforms (no pdb equivalent on unix).
-# TARGET_PDB_FILE is not available for imported targets (why though?)
-# So do it more explicitly.
-if(MSVC AND BUILD_SHARED_LIBS)
-  install(FILES "${_CSP_LIB_DIR}/ConnectedSpacesPlatform_D.pdb"
-          DESTINATION "${INSTALL_DIR}/bin"
-          CONFIGURATIONS Debug)
-
-  install(FILES "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.pdb"
-          DESTINATION "${INSTALL_DIR}/bin"
-          CONFIGURATIONS RelWithDebInfo)
-elseif(APPLE AND BUILD_SHARED_LIBS)
+    install(FILES "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.pdb"
+            DESTINATION "${INSTALL_DIR}/bin"
+            CONFIGURATIONS RelWithDebInfo)
+  elseif(APPLE)
     # This is redundant I think, CSP could build DWARF with debug symbols embedded, I don't think dSYMs are the norm?
     install(DIRECTORY "${_CSP_LIB_DIR}/libConnectedSpacesPlatform_D.dylib.dSYM"
             DESTINATION "${INSTALL_DIR}/bin"
@@ -85,4 +86,7 @@ elseif(APPLE AND BUILD_SHARED_LIBS)
     install(DIRECTORY "${_CSP_LIB_DIR}/libConnectedSpacesPlatform.dylib.dSYM"
             DESTINATION "${INSTALL_DIR}/bin"
             CONFIGURATIONS RelWithDebInfo)
+  endif()
+else()
+  message(STATUS "CSP is static and embedded — not installing CSP separately")
 endif()

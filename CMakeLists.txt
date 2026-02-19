@@ -55,18 +55,6 @@ if(ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE)
     set(THROW_EXCEPTION_ON_RESULTBASE_FAILURE_FLAG "-DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=1")
 endif()
 
-# Decide SWIG dllimport name per platform.
-set(SWIG_DLLIMPORT_NAME "${_WRAPPER_MODULE_NAME}")
-
-if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "visionOS")
-    # Note: on iOS and visionOS we need __Internal on the DllImport of the PInvoke, or it won't find the symbols.
-    # This is because on iOS, the code gets statically linked into the final executable, and __Internal tells the 
-    # runtime to look for symbols in the main executable binary itself, rather than looking for a separate dynamic library.
-    # More info on the issue here: https://gitlab.com/rdi-eg/docs/-/wikis/Targeting-iOS-on-Unity3D-using-C%23-swig-generated-code---pitfalls-and-gotchas/diff?version_id=130894855efdab4f0cbd9882e7dc35554fea92bd&view=inline
-    message(STATUS "Configuring SWIG for iOS / visionOS (__Internal)")
-    set(SWIG_DLLIMPORT_NAME "__Internal")
-endif()
-
 # Setup SWIG invocation
 add_custom_command(
   OUTPUT "${_CPP_WRAPPER_OUT}"
@@ -100,6 +88,7 @@ if (BUILD_SHARED_LIBS)
 else()
   add_library(${_WRAPPER_MODULE_NAME} STATIC "${_CPP_WRAPPER_OUT}")
 endif()
+
 set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
   CXX_STANDARD 17
   CXX_STANDARD_REQUIRED YES
@@ -110,10 +99,11 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
 # Add CSP Target to our output library, this produces a final API that can use CSP.
 target_link_libraries(${_WRAPPER_MODULE_NAME} PRIVATE _CSP)
 
+# iOS / visionOS static-force-load
 if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "visionOS")
-    # Additionally, on iOS and visionOS we have to force load the CSP static library because the dynamic lookup doesn't 
-    # work with static libraries, and we don't have a choice but to use static libs on iOS.
-    target_link_options(${_WRAPPER_MODULE_NAME} PRIVATE "-Wl,-force_load,$<TARGET_FILE:_CSP>")
+  target_link_options(${_WRAPPER_MODULE_NAME}
+    PRIVATE "-Wl,-force_load,$<TARGET_FILE:_CSP>"
+  )
 endif()
 
 # Force /MD (Release runtime) to match CSP DLL runtime library settings
@@ -126,23 +116,26 @@ if(MSVC)
   )
 endif()
 
+# macOS rpath
 # Ensure the wrapper can resolve @rpath by looking in its own folder at runtime.
 # This makes the dependent lookup land on the sibling dylib.
 set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
-    MACOSX_RPATH ON
-    INSTALL_RPATH "@loader_path"
-    BUILD_RPATH   "@loader_path"
-    BUILD_WITH_INSTALL_RPATH TRUE
+  MACOSX_RPATH ON
+  INSTALL_RPATH "@loader_path"
+  BUILD_RPATH "@loader_path"
 )
 
+# iOS signing disabled
 # When building for ios, it will complain, but we don't need to sign (I think...) because we're just a static library
 # (Dynamic would need to be signed ... is this why we don't support dynamic on ios?)
 set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
-    XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED "NO"
-    XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO"
-    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+  XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED "NO"
+  XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO"
 )
 
+# Diagnostics
+get_target_property(_CSP_TYPE _CSP TYPE)
+message(STATUS "CSP target type: ${_CSP_TYPE}")
 
 include(cmake/PackageInstall.cmake)
 
