@@ -142,7 +142,7 @@ CSharp has some [pleasant looking ways](https://learn.microsoft.com/en-us/visual
 
 ## Autogenerating Declarations
 
-This is not a fully automatic code generator, it requires explicit declarations for some element, in particular async interfaces. This provides a fair amount of flexibility, you can see how we use this to invoke copy constructors for callback results, removing ownership concerns for reference types.
+This is not a fully automatic code generator, it requires explicit declarations for some elements, in particular async interfaces. This provides a fair amount of flexibility, you can see how we use this to invoke copy constructors for callback results, removing ownership concerns for reference types.
 
 There will be an instinct to automate many of these declarations as they are so rote. This isn't inherently unvirtuous, but I invite you to reflect on this before you do it.
 
