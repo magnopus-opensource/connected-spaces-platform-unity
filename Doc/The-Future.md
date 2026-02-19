@@ -126,7 +126,7 @@ Tbh, I don't disagree with this stance, although it is becoming stark that we ne
 
 This is a declarative project, the main API declarations are [here.](../interface/Declarations/APIDeclarations.i)
 
-Do you actually want all this API? Unity is a unique SKU with unique needs. It would be virtuous to only expose the API you actually care about. This is totally doable and not that much effort, just don't include the `.i` files you don't care about.
+Do you actually want all this API? Unity is a unique SKU with unique needs. It would be virtuous to only expose the API you actually care about. This is totally doable and not that much effort, just don't include the `.i` files you don't care about. You'd want to do this behind some sort of guard or configuration variable, because you still want the whole API available to general consumers. A utility to only include subsets of API seems appealing ... although I wonder if that's a patch-job over CSP modularization. 
 
 Keep in mind there may be dependencies between different pieces of API, but the compiler will tell you about this.
 
