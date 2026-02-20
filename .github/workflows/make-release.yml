@@ -23,6 +23,7 @@ jobs:
           workflow_conclusion: success
           path: artifacts/desktop
           skip_unpack: true
+          check_artifacts: true
 
       - name: Download artifacts from Android CI
         uses: dawidd6/action-download-artifact@v13
@@ -32,6 +33,7 @@ jobs:
           workflow_conclusion: success
           path: artifacts/android
           skip_unpack: true
+          check_artifacts: true
 
       - name: Download artifacts from iOS CI
         uses: dawidd6/action-download-artifact@v13
@@ -41,6 +43,7 @@ jobs:
           workflow_conclusion: success
           path: artifacts/ios
           skip_unpack: true
+          check_artifacts: true
 
       - name: Create release
         uses: softprops/action-gh-release@v2
