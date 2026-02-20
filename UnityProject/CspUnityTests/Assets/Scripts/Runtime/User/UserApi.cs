@@ -153,7 +153,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                using FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(string.Empty, email,
+                FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(string.Empty, email,
                     password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions?.ToCspTokenOptions());
 
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
@@ -211,7 +211,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                using FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(username, string.Empty,
+                FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(username, string.Empty,
                     password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions?.ToCspTokenOptions());
 
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
@@ -255,7 +255,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                using FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsGuestAsync(
+                FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsGuestAsync(
                     createMultiplayerConnection,
                     guestHasVerifiedAge, tokenOptions?.ToCspTokenOptions());
 
@@ -300,7 +300,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                using FoundationSystems.LoginStateResult loginResult =
+                FoundationSystems.LoginStateResult loginResult =
                     await userSystem.LoginAsGuestWithDeferredProfileCreationAsync(guestHasVerifiedAge);
 
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
@@ -356,7 +356,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                using FoundationSystems.LoginStateResult loginResult = await userSystem.LoginWithRefreshTokenAsync(userId,
+                FoundationSystems.LoginStateResult loginResult = await userSystem.LoginWithRefreshTokenAsync(userId,
                     token,
                     createMultiplayerConnection, tokenOptions?.ToCspTokenOptions());
 
@@ -452,7 +452,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                using FoundationSystems.ProfileResult result = await userSystem.CreateUserAsync(username, displayName,
+                FoundationSystems.ProfileResult result = await userSystem.CreateUserAsync(username, displayName,
                     email, password, receiveNewsletter, userHasVerifiedAge, redirectUrl, inviteToken);
 
                 var responseBody = result.GetResponseBody();
@@ -529,7 +529,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                using FoundationSystems.ProfileResult result = await userSystem.GetProfileByUserIdAsync(userId);
+                FoundationSystems.ProfileResult result = await userSystem.GetProfileByUserIdAsync(userId);
 
                 Debug.Log($"Got profile for userId: {userId} ...");
 
@@ -584,7 +584,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                using FoundationSystems.BasicProfilesResult result =
+                FoundationSystems.BasicProfilesResult result =
                     await userSystem.GetBasicProfilesByUserIdAsync(profileArray);
 
                 var profiles = result.GetProfiles();
@@ -635,7 +635,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                using FoundationSystems.ProfileResult result =
+                FoundationSystems.ProfileResult result =
                     await userSystem.UpgradeGuestAccountAsync(userName, displayName, email, password);
 
                 FoundationSystems.Profile profile = result.GetProfile();
