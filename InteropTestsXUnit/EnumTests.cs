@@ -1,6 +1,7 @@
 namespace InteropTestsXUnit;
 
 using csp.web;
+using System.Runtime.InteropServices;
 
 public class EnumTests
 {
@@ -12,6 +13,11 @@ public class EnumTests
     [Fact]
     public void TestEnumUnderlyingType()
     {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            Assert.Equal(1,2);
+        }
+        
         Type enumType = Enum.GetUnderlyingType(typeof(EResponseCodes));
         Assert.Equal("UInt16", enumType.Name);
     }
