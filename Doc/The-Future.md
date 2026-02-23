@@ -11,7 +11,7 @@ There's no narrative here, just segments of thought. Enjoy. :D
 
 > [!NOTE]
 >
-> The things I say here arn't "Project Policy" or anything like that. I know some collaborators have valid disagreements to some of my takes here. This is a personal brain-dump, so take it with a grain of salt.
+> The things I say here aren’t "Project Policy" or anything like that. I know some collaborators have valid disagreements to some of my takes here. This is a personal brain-dump, so take it with a grain of salt.
 
 ## Pushing SWIG Unity adaptations upstream
 
