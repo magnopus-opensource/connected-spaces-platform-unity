@@ -119,7 +119,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
 
                 // Assert:
                 Assert.AreEqual((ushort)value.ExpectedCode, profileResult.ReturnCode);
-                Assert.AreEqual(!string.IsNullOrWhiteSpace(profileResult.ReturnData.UserId), value.ExpectedReturnValue);
+                Assert.AreEqual(!string.IsNullOrWhiteSpace(profileResult.ReturnData?.UserId), value.ExpectedReturnValue);
                 FoundationSystems.Profile profile = profileResult.ReturnData;
 
                 if (TestHelper.IsSuccessCase(value.ExpectedCode))
@@ -155,7 +155,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
 
                 // Assert:
                 Assert.AreEqual((ushort)value.ExpectedCode, profileResult.ReturnCode);
-                Assert.AreEqual(!string.IsNullOrWhiteSpace(profileResult.ReturnData.UserId), value.ExpectedReturnValue);
+                Assert.AreEqual(!string.IsNullOrWhiteSpace(profileResult.ReturnData?.UserId), value.ExpectedReturnValue);
 
                 // Min wait between endpoint calls
                 await Task.Delay(ConfigSettings.MinWaitBetweenEndpointsMilliseconds);
@@ -238,7 +238,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
 
                 // Assert:
                 Assert.AreEqual((ushort)value.ExpectedCode, profileResult.ReturnCode);
-                Assert.AreEqual(!string.IsNullOrWhiteSpace(profileResult.ReturnData.UserId), value.ExpectedReturnValue);
+                Assert.AreEqual(!string.IsNullOrWhiteSpace(profileResult.ReturnData?.UserId), value.ExpectedReturnValue);
 
                 // Min wait between endpoint calls
                 await Task.Delay(ConfigSettings.MinWaitBetweenEndpointsMilliseconds);
@@ -303,7 +303,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
 
                     // Assert:
                     Assert.AreEqual((ushort)value.ExpectedCode, profileResult.ReturnCode);
-                    Assert.AreEqual(!string.IsNullOrWhiteSpace(profileResult.ReturnData.UserId), true);
+                    Assert.AreEqual(!string.IsNullOrWhiteSpace(profileResult.ReturnData?.UserId), true);
                     FoundationSystems.Profile profile = profileResult.ReturnData;
 
                     Assert.IsTrue(profile.DisplayName == value.NewUserDisplayName, $"Display Name match? Set to: {value.NewUserDisplayName}, and Returned is: {profile.DisplayName}");
