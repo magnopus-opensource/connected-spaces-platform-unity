@@ -162,6 +162,14 @@ What this does is convert any `ResultBase` object that finishes with a failure f
 
 My personal take is that this pattern is a _tad_ too specific to sit in this repo. If CSP had a uniform callback mechanic I might think differently, but it can return many other types in its callbacks other than `ResultBase`, which don't have clear failure states and will not throw in the same way. This won't be able to be documented clearly enough for new users to understand the difference.
 
+Consider, for example, the following call:
+
+```csharp
+csp.systems.ProfileResult newUser = await userSystem.CreateUserAsync("<my_username>", "<my_displayname>", "<my_email>", "<my_password>", false, true, null, null);
+```
+
+With this flag enabled, this crashes if placed outside a throw/catch block, _despite_ how the call returns a Task, so you'd expect errors to be placed into the Task. It seems surprising.
+
 The need to adjust this repo in order to integrate with existing patterns in the Magnopus Unity repo was valid, but nonetheless, ruminate on this. It is at least behind a flag, so users can still choose to interact with CSP in the standard way.
 
 ## Packaging
