@@ -43,11 +43,11 @@ jobs:
           RUN_LONG_RUNNING_TESTS: 1
         run: |
           dotnet test -c ${{ matrix.build_type }} --logger "console;verbosity=detailed" --blame-hang --blame-hang-timeout 90s --blame-hang-dump-type mini
-          TEST_PID=$!
           sleep 100  # adjust to just before expected hang
-          sample $TEST_PID -f /tmp/sample_output.txt || true
-          lldb -p $TEST_PID -b -o "bt all" > /tmp/bt_output.txt 2>&1 || true
-          wait $TEST_PID
+          sample testhost -wait -mayDie -f /tmp/sample_output.txt
+          HANG_PID=$(pgrep -f testhost)
+          lldb -p $HANG_PID -b -o "bt all" > /tmp/bt_output.txt 2>&1 || true
+          wait $HANG_PID
         working-directory: ./InteropTestsXUnit
 
       - name: Upload diagnostics
