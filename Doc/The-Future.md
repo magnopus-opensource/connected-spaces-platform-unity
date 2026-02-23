@@ -154,9 +154,50 @@ It is not yet clear how burdensome maintaining these declarations is going to be
 >
 > If you're still struggling to write declarations correctly, you're not prepared to automate them. Automation is something you do to alleviate human burden, not human understanding.
 
+## Results
+
+Many CSP interfaces provide `Result` types. These are types that store other data, as well as common status flags concerning the progress/success/failure state of a job.
+
+We have leveraged SWIGs flexibility such that we copy all of these result types, despite the underlying API not being like that, meaning capturing them from callbacks won't cause messy GC implications. _However_, results tend to contain memory. For example, here's a (simplified) result as declared in C++:
+
+```cpp
+class BasicSpaceResult : public csp::systems::ResultBase
+{
+public:
+    BasicSpace& GetSpace();
+    const BasicSpace& GetSpace() const;
+
+private:
+    BasicSpace Space;
+};
+```
+
+Note how `GetSpace()` is a const ref. This is perfectly cromulent in C++, the result owns the memory, if you take a non-ref from this return it'll invoke a copy, great.
+However, remember in C# everything is a proxy object to underlying C++ via pointers. Calling `GetSpace` _does not copy_, which means that that `BasicSpaceResult` still owns the underlying memory.
+
+This has the effect that, if you are in a callback or even a helper method, and you `return Result.GetSpace()` without keeping `Result` alive somehow, you'll get undefined behaviour.
+
+```csharp
+private async Task<BasicSpace> GetBasicSpace(string mySpaceId){
+   //Example api, not real.
+   BasicSpaceResult result = await SpaceSystem.GetBasicSpace(mySpaceId);
+   return result.GetSpace(); //Fine at this point.
+}
+
+//Probably an invalid proxy, `result` may have been GC'd.
+BasicSpace mySpace = await GetBasicSpace(mySpaceId);
+
+```
+
+This is obviously not great. You could do similar adaptations we have done for results, probably easiest achieved via another declarative list in the C# layer, `CONVERT_TO_VALUE_GETTER(BasicSpaceResult, GetSpace)` or something similar.
+
+More ideally, CSP would decide that all its result types do value returns by default. Shared pointers would also work here, although they seem unnecessary for such small types.
+
+In the short term, if you want to write helper functions like this you might be best making sure you always return the full result type, as they _are_ copied and free from this issue.
+
 ## ThrowOnFailure Pattern
 
-This repo inherited a pattern from the Magnopus Unity repo, ThrowOnFailue, it's guarded behind a build flag `ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE` which is on by default.
+This repo inherited a pattern from the Magnopus Unity repo, ThrowOnFailure, it's guarded behind a build flag `ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE` which is on by default.
 
 What this does is convert any `ResultBase` object that finishes with a failure flag into an exception, which is a custom exception defined in Csharp.
 
