@@ -2,7 +2,7 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Magnopus.Foundation.Unity.Runtime.User.Exceptions;
+using Magnopus.Extra.Exceptions;
 using CspServiceDefinition = csp.ServiceDefinition;
 
 namespace Magnopus.Foundation.Unity.Runtime.User.Schema
@@ -19,7 +19,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User.Schema
         {
             if (serviceDefinition == null)
             {
-                throw new FoundationException($"Argument: {nameof(serviceDefinition)} was null. Could not create the {nameof(ServiceDefinition)}");
+                throw new CspResultException($"Argument: {nameof(serviceDefinition)} was null. Could not create the {nameof(ServiceDefinition)}");
             }
 
             URI = serviceDefinition.GetURI();
