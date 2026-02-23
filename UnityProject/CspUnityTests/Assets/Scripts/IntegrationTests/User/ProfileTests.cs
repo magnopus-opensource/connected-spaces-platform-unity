@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using csp.common;
+using IntegrationTests.Spaces;
 using UnityEngine.TestTools;
 
 using FoundationSystems = csp.systems;
@@ -72,7 +73,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
 
         private static (HttpStatusCode ExpectedCode, string serviceName, string operationName, bool setHelp)[] postProxyServiceValues =
         {
-            (HttpStatusCode.Unauthorized, null, null, false),
+            (HttpStatusCode.Unauthorized, String.Empty, String.Empty, false),
             (HttpStatusCode.NotFound, "BadServiceName", "getUserToken", false),
             (HttpStatusCode.NotFound, "Agora", "BadOperationName", false),
             (HttpStatusCode.OK, "Agora", "getUserToken", false) // Agora is the only service being currently used
@@ -80,8 +81,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
 
         private static SpaceInfo spaceInfo;
         
-        // TODO: Uncomment to mimic same old structure of our integration tests
-        //private SpacesApi spacesService;
+        private FoundationSystems.SpaceSystem spacesService;
 
         [UnityTest, Order(0)]
         public IEnumerator Setup_Success()
@@ -396,22 +396,23 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
         {
             if (!isInitialized)
             {
-                // TODO: UNCOMMENT THIS!
-                /*
-                spacesService = SpacesApiFactory.Create();
+                var serviceManager = FoundationSystems.SystemsManager.Get();
+                if (serviceManager == null)
+                {
+                    throw new Exception($"Failed to get service manager. Make sure CSP has been started.");
+                }
+                spacesService = serviceManager.GetSpaceSystem();
                 
                 // Create a new space to be used for self-managed testing, owned by Primary User
                 spaceInfo = await SpacesTests.CreateNewSpace(spacesService, SpacesTests.OwnedSpaceName, 
                     SpacesTests.defaultSpaceMetadata, SpacesTests.defaultTags, FoundationSystems.SpaceAttributes.Private);
                 await Task.Delay(ConfigSettings.MinWaitBetweenEndpointsMilliseconds);
-                */
             }
         }
 
         protected override void PostFoundationFixtureOneTimeTearDown()
         {
-            // TODO: Uncomment to mimic same old structure of our integration tests
-            //spacesService = null;
+            spacesService = null;
         }
     }
 }
