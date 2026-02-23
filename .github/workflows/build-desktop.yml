@@ -42,7 +42,7 @@ jobs:
         env:
           RUN_LONG_RUNNING_TESTS: 1
         run: |
-          dotnet test -c ${{ matrix.build_type }} --logger "console;verbosity=detailed" --blame-hang --blame-hang-timeout 90s
+          dotnet test -c ${{ matrix.build_type }} --logger "console;verbosity=detailed" --blame-hang --blame-hang-timeout 90s --blame-hang-dump-type mini
         working-directory: ./InteropTestsXUnit
 
       - name: Upload hang dumps
