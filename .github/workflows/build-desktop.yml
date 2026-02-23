@@ -38,39 +38,11 @@ jobs:
       - name: Test
         # We cannot run XUnit tests with Unity extensions enabled because Unity classes would not be found causing a build failure.
         if: ${{ matrix.build_with_unity_extensions == false }}
-        timeout-minutes: 5
+        timeout-minutes: 3
         env:
           RUN_LONG_RUNNING_TESTS: 1
-          DUMP_DIR: ${{ github.workspace }}/hang-dumps
         run: |
-          mkdir -p "$DUMP_DIR"
-
-          dotnet test -c ${{ matrix.build_type }} --logger "console;verbosity=detailed" --blame-hang --blame-hang-timeout 90s --blame-hang-dump-type mini &
-          TEST_PID=$!
-
-          # Watchdog: capture a dump if the process outlives the tests (hang during shutdown).
-          # Fires at 150s — well after tests should finish, but before the 5min step timeout kills everything.
-          (
-            sleep 150
-            if kill -0 $TEST_PID 2>/dev/null; then
-              echo "::warning::Test process still alive after 150s — capturing dump before step timeout."
-              if [[ "$RUNNER_OS" == "macOS" ]]; then
-                sample $TEST_PID 1 -file "$DUMP_DIR/sample.txt" 2>&1 || true
-              else
-                dotnet-dump collect -p $TEST_PID -o "$DUMP_DIR/process.dmp" --type Mini 2>&1 || true
-              fi
-              kill $TEST_PID 2>/dev/null || true
-            fi
-          ) &
-          WATCHDOG_PID=$!
-
-          wait $TEST_PID
-          TEST_EXIT=$?
-
-          kill $WATCHDOG_PID 2>/dev/null || true
-          wait $WATCHDOG_PID 2>/dev/null || true
-
-          exit $TEST_EXIT
+          dotnet test -c ${{ matrix.build_type }} --logger "console;verbosity=detailed" --blame-hang --blame-hang-timeout 90s --blame-hang-dump-type mini
         working-directory: ./InteropTestsXUnit
 
       - name: Upload hang dumps
@@ -78,9 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: hang-dumps-${{ matrix.os }}-${{ matrix.build_type }}
-          path: |
-            ${{ github.workspace }}/hang-dumps/
-            ./InteropTestsXUnit/TestResults/**/*.dmp
+          path: ./InteropTestsXUnit/TestResults/**/*.dmp
           if-no-files-found: ignore
 
       - name: Upload build artifacts
