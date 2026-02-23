@@ -1,3 +1,7 @@
+// ---------------------------------------------
+// Copyright (c) Magnopus LLC. All Rights Reserved.
+// ---------------------------------------------
+
 using csp;
 using UnityEngine;
 

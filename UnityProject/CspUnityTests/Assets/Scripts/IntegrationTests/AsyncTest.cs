@@ -1,3 +1,7 @@
+// ---------------------------------------------
+// Copyright (c) Magnopus LLC. All Rights Reserved.
+// ---------------------------------------------
+
 using NUnit.Framework;
 using System;
 using System.Collections;

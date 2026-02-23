@@ -50,7 +50,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.Extensions
         {
             try
             {
-                T result = await endpoint();
+                var result = await endpoint();
                 return new WrappedEndpointResult<T>((ushort)HttpStatusCode.OK, result, false);
             }
             catch (CspResultEndpointException ex)
