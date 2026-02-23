@@ -38,7 +38,7 @@ jobs:
       - name: Test
         # We cannot run XUnit tests with Unity extensions enabled because Unity classes would not be found causing a build failure.
         if: ${{ matrix.build_with_unity_extensions == false }}
-        timeout-minutes: 5
+        timeout-minutes: 3
         env:
           RUN_LONG_RUNNING_TESTS: 1
         run: |
