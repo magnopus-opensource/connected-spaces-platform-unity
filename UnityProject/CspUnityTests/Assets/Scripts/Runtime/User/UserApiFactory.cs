@@ -2,9 +2,9 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Magnopus.Foundation.Unity.Runtime.User.Exceptions;
 using Magnopus.Foundation.Unity.Runtime.User.Manager;
 using csp.systems;
+using Magnopus.Extra.Exceptions;
 
 namespace Magnopus.Foundation.Unity.Runtime.User
 {
@@ -22,7 +22,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             var serviceManager = SystemsManager.Get();
             if (serviceManager == null)
             {
-                throw new FoundationException($"Failed to get service manager. Make sure {nameof(FoundationManager)} has been started.");
+                throw new CspResultException($"Failed to get service manager. Make sure {nameof(FoundationManager)} has been started.");
             }
 
             var userSystem = serviceManager.GetUserSystem();

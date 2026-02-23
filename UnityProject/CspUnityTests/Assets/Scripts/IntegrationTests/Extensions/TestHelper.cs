@@ -2,7 +2,6 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Magnopus.Foundation.Unity.Runtime.User.Exceptions;
 using csp;
 using Magnopus.Foundation.Unity.Tests.Integration.Config;
 using Magnopus.Foundation.Unity.Tests.Integration.User;
@@ -12,6 +11,7 @@ using Magnopus.Foundation.Unity.Runtime.User.Schema;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Magnopus.Extra.Exceptions;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -53,12 +53,12 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.Extensions
                 T result = await endpoint();
                 return new WrappedEndpointResult<T>((ushort)HttpStatusCode.OK, result, false);
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError(ex.ToString());
                 return new WrappedEndpointResult<T>(ex.StatusCode, default(T), true);
             }
-            catch (FoundationException ex)
+            catch (CspResultException ex)
             {
                 Debug.LogError(ex.ToString());
                 return new WrappedEndpointResult<T>(400, default(T), true);
@@ -78,12 +78,12 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.Extensions
 
                 return (ushort)HttpStatusCode.OK;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError(ex.ToString());
                 return ex.StatusCode;
             }
-            catch (FoundationException ex)
+            catch (CspResultException ex)
             {
                 Debug.LogError(ex.ToString());
                 return 400;
@@ -171,7 +171,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.Extensions
                 LoginInfo loginInfo = await userService.LoginAsync(user.Email, user.Password, createMultiplayerConnection, ageVerified, tokenOptions);
                 return new LoginTests.LoginSuccessResult(loginInfo, null);
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError(
                     $"Failed to Login, Error Code: {ex.StatusCode} | Failure Reason: {ex.FailureReason} | Msg: {ex.Message} | Stack: {ex.StackTrace}");

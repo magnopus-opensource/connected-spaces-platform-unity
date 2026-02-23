@@ -2,7 +2,7 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Magnopus.Foundation.Unity.Runtime.User.Exceptions;
+using Magnopus.Extra.Exceptions;
 using CspLoginState = csp.common.LoginState;
 
 namespace Magnopus.Foundation.Unity.Runtime.User.Schema
@@ -22,7 +22,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User.Schema
         {
             if (loginState == null)
             {
-                throw new FoundationException($"Argument: {nameof(loginState)} was null. Could not create the {nameof(LoginState)}");
+                throw new CspResultException($"Argument: {nameof(loginState)} was null. Could not create the {nameof(LoginState)}");
             }
 
             State = loginState.State;

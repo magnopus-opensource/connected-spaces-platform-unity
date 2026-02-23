@@ -4,8 +4,7 @@
 
 using csp.common;
 using csp.systems;
-using Magnopus.Foundation.Unity.Runtime.User.Exceptions;
-
+using Magnopus.Extra.Exceptions;
 using CspInviteUserRoleInfoCollection = csp.systems.InviteUserRoleInfoCollection;
 using CspInviteUserRoleInfo = csp.systems.InviteUserRoleInfo;
 
@@ -32,7 +31,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User.Schema
         {
             if (inviteUserRoles == null)
             {
-                throw new FoundationException($"Argument: {nameof(inviteUserRoles)} was null. Could not create {nameof(InviteUserRoleInfoCollection)}");
+                throw new CspResultException($"Argument: {nameof(inviteUserRoles)} was null. Could not create {nameof(InviteUserRoleInfoCollection)}");
             }
             
             EmailLinkUrl = inviteUserRoles.EmailLinkUrl;

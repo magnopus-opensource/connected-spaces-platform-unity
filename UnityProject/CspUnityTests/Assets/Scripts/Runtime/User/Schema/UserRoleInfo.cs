@@ -2,8 +2,7 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Magnopus.Foundation.Unity.Runtime.User.Exceptions;
-
+using Magnopus.Extra.Exceptions;
 using CspUserRoleInfo = csp.systems.UserRoleInfo;
 
 namespace Magnopus.Foundation.Unity.Runtime.User.Schema
@@ -26,7 +25,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User.Schema
         {
             if (userRoleInfo == null)
             {
-                throw new FoundationException($"Argument: {nameof(userRoleInfo)} was null. Could not create {nameof(UserRoleInfo)}");
+                throw new CspResultException($"Argument: {nameof(userRoleInfo)} was null. Could not create {nameof(UserRoleInfo)}");
             }
             
             UserId = userRoleInfo.UserId;

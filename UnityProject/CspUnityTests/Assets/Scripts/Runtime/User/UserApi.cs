@@ -2,13 +2,13 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Magnopus.Foundation.Unity.Runtime.User.Exceptions;
 using Magnopus.Foundation.Unity.Runtime.User.Schema;
 
 using System;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Magnopus.Extra.Exceptions;
 using UnityEngine;
 using AgoraUserTokenParams = csp.systems.AgoraUserTokenParams;
 using AccessControlParams = csp.common.AccessControlChangedNetworkEventData;
@@ -39,8 +39,8 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// </summary>
         internal UserApi(FoundationSystems.UserSystem userSystem, FoundationSystems.ExternalServiceProxySystem externalServiceProxySystem)
         {
-            this.userSystem = userSystem ?? throw new FoundationException("Could not get user service");
-            this.externalServiceProxySystem = externalServiceProxySystem ?? throw new FoundationException("Could not get external service proxy system");
+            this.userSystem = userSystem ?? throw new CspResultException("Could not get user service");
+            this.externalServiceProxySystem = externalServiceProxySystem ?? throw new CspResultException("Could not get external service proxy system");
 
             this.userSystem.OnNewLoginTokenReceived += OnNewLoginTokenReceived;
             this.userSystem.OnUserPermissionsChanged += OnUserPermissionsChangedCallback;
@@ -80,7 +80,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 LoginTokenReceived?.Invoke(loginTokenInfo);
                 return;
             }
-            throw new FoundationEndpointException($"Login token was called but found null result.", HttpStatusCode.NotFound);
+            throw new CspResultEndpointException($"Login token was called but found null result.", HttpStatusCode.NotFound);
         }
 
         private void OnUserPermissionsChangedCallback(object sender, FoundationCommon.AccessControlChangedNetworkEventData message)
@@ -113,14 +113,14 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             FoundationCommon.LoginState result = userSystem.GetLoginState();
             if (result == null)
             {
-                throw new FoundationEndpointException("User system did not return a valid login state.", HttpStatusCode.InternalServerError);
+                throw new CspResultEndpointException("User system did not return a valid login state.", HttpStatusCode.InternalServerError);
             }
             return result;
         }
 
         /// <summary>
         /// Requests the Foundation layer to Login with email and password.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="email"> email of the user </param>
         /// <param name="password"> password of the user </param>
@@ -140,13 +140,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(email))
             {
-                throw new FoundationEndpointException($"Did not login, parameter: {nameof(email)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not login, parameter: {nameof(email)} was null.", HttpStatusCode.Unauthorized);
             }
 
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(password))
             {
-                throw new FoundationEndpointException($"Did not login, parameter: {nameof(password)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not login, parameter: {nameof(password)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log($"Logging in with Email {email} ...");
@@ -159,13 +159,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)
                 {
-                    throw new FoundationEndpointException("Did not login, endpoint result was null.",
+                    throw new CspResultEndpointException("Did not login, endpoint result was null.",
                         HttpStatusCode.InternalServerError);
                 }
 
                 return result;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Login failed: {ex.Message}");
                 throw;
@@ -173,13 +173,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during login: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to Login with username and password.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="username"> username of the user </param>
         /// <param name="password"> password of the user </param>
@@ -198,13 +198,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(username))
             {
-                throw new FoundationEndpointException($"Did not login, parameter: {nameof(username)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not login, parameter: {nameof(username)} was null.", HttpStatusCode.Unauthorized);
             }
 
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(password))
             {
-                throw new FoundationEndpointException($"Did not login, parameter: {nameof(password)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not login, parameter: {nameof(password)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log($"Logging in with Username {username} ...");
@@ -217,13 +217,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)
                 {
-                    throw new FoundationEndpointException("Did not login, endpoint result was null.",
+                    throw new CspResultEndpointException("Did not login, endpoint result was null.",
                         HttpStatusCode.InternalServerError);
                 }
 
                 return result;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Login failed: {ex.Message}");
                 throw;
@@ -231,13 +231,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during login: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to Login as a guest.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="createMultiplayerConnection">Whether to create a multiplayer connection.
         /// If false, this session will not establish a SignalR connection to backend services, and thus be unable to
@@ -262,13 +262,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)
                 {
-                    throw new FoundationEndpointException("Did not login, endpoint result was null.",
+                    throw new CspResultEndpointException("Did not login, endpoint result was null.",
                         HttpStatusCode.InternalServerError);
                 }
 
                 return result;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Login failed: {ex.Message}");
                 throw;
@@ -276,7 +276,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during login: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
@@ -293,7 +293,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// <param name="guestHasVerifiedAge">Optional: Whether the guest has confirmed they are above the required age or not.
         /// Null if the guest has not confirmed either.</param>
         /// <returns></returns>
-        /// <exception cref="FoundationEndpointException"></exception>
+        /// <exception cref="CspResultEndpointException"></exception>
         public async Task<LoginInfo> LoginAsGuestWithDeferredProfileCreationAsync(bool? guestHasVerifiedAge)
         {
             Debug.Log($"Logging in as Guest with deferred profile creation ...");
@@ -306,13 +306,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)
                 {
-                    throw new FoundationEndpointException("Did not login, endpoint result was null.",
+                    throw new CspResultEndpointException("Did not login, endpoint result was null.",
                         HttpStatusCode.InternalServerError);
                 }
 
                 return result;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Login failed: {ex.Message}");
                 throw;
@@ -320,13 +320,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during login: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to Login using a refresh token.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="userId"> user Id of the user </param>
         /// <param name="token"> a non-expired, valid authentication or refresh token from a previous login</param>
@@ -343,13 +343,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new FoundationEndpointException($"Did not login, parameter: {nameof(userId)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not login, parameter: {nameof(userId)} was null.", HttpStatusCode.Unauthorized);
             }
 
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(token))
             {
-                throw new FoundationEndpointException($"Did not login, parameter: {nameof(token)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not login, parameter: {nameof(token)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log("Logging in with a Token ...");
@@ -363,13 +363,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)
                 {
-                    throw new FoundationEndpointException("Did not login, endpoint result was null.",
+                    throw new CspResultEndpointException("Did not login, endpoint result was null.",
                         HttpStatusCode.InternalServerError);
                 }
 
                 return result;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Login failed: {ex.Message}");
                 throw;
@@ -377,13 +377,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during login: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to make the user logout.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <returns> Just the Task object to await, if this endpoint fails, an exception will be thrown </returns>
         public async Task LogoutAsync()
@@ -395,7 +395,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
         /// <summary>
         /// Requests the Foundation layer for the authentication token. It is only guaranteed to be valid for the current frame.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <returns> Returns a valid authentication token. Only guaranteed to be valid for the current frame. </returns>
         public string GetValidAuthToken()
@@ -403,7 +403,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             FoundationCommon.LoginState result = userSystem.GetLoginState();
             if (result == null || result.State == FoundationCommon.ELoginState.Error)
             {
-                throw new FoundationEndpointException("Did not get auth token, endpoint result experienced an error.", HttpStatusCode.InternalServerError);
+                throw new CspResultEndpointException("Did not get auth token, endpoint result experienced an error.", HttpStatusCode.InternalServerError);
             }
 
             return result.AccessToken;
@@ -411,7 +411,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
         /// <summary>
         /// Requests the Foundation layer to create a new account for the user using the given email and password.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="username"> optional username of the new account. Set the Username if you want to be able to login using a username. </param>
         /// <param name="displayName"> visual name that other users may see when connected online </param>
@@ -427,25 +427,25 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(username))
             {
-                throw new FoundationEndpointException($"Did not create account, parameter: {nameof(username)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not create account, parameter: {nameof(username)} was null.", HttpStatusCode.Unauthorized);
             }
 
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(displayName))
             {
-                throw new FoundationEndpointException($"Did not create account, parameter: {nameof(displayName)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not create account, parameter: {nameof(displayName)} was null.", HttpStatusCode.Unauthorized);
             }
 
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(email))
             {
-                throw new FoundationEndpointException($"Did not create account, parameter: {nameof(email)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not create account, parameter: {nameof(email)} was null.", HttpStatusCode.Unauthorized);
             }
 
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(password))
             {
-                throw new FoundationEndpointException($"Did not create account, parameter: {nameof(password)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not create account, parameter: {nameof(password)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log($"Creating account with Email {email} ...");
@@ -461,13 +461,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 FoundationSystems.Profile profile = result.GetProfile();
                 if (profile == null)
                 {
-                    throw new FoundationEndpointException("Did not create account, endpoint result was null.",
+                    throw new CspResultEndpointException("Did not create account, endpoint result was null.",
                         HttpStatusCode.InternalServerError);
                 }
 
                 return profile;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Account creation failed: {ex.Message}");
                 throw;
@@ -475,13 +475,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during account creation: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during account creation.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during account creation.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to delete the user's account.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="userId"> the Id of the user you want to EXTERMINATE </param>
         /// <returns> Just the Task object to await, if this endpoint fails, an exception will be thrown </returns>
@@ -490,7 +490,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new FoundationEndpointException($"Did not delete profile, parameter: {nameof(userId)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not delete profile, parameter: {nameof(userId)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log($"Attempting to Delete user: {userId}'s account ...");
@@ -499,7 +499,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             {
                 using FoundationSystems.NullResult result = await userSystem.DeleteUserAsync(userId);
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Account deletion failed: {ex.Message}");
                 throw;
@@ -507,13 +507,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during account deletion: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during account deletion.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during account deletion.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to get the profile info of the given user Id.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="userId"> the Id of the user you want to get the profile of </param>
         /// <returns> the profile info of the found user </returns>
@@ -522,7 +522,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new FoundationEndpointException($"Did not get profile, parameter: {nameof(userId)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not get profile, parameter: {nameof(userId)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log($"Getting profile for userId: {userId} ...");
@@ -541,7 +541,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
                 if (profile == null)
                 {
-                    throw new FoundationEndpointException("Did not get profile, endpoint result was null.",
+                    throw new CspResultEndpointException("Did not get profile, endpoint result was null.",
                         HttpStatusCode.InternalServerError);
                 }
 
@@ -552,7 +552,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
                 return profile;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Get profile failed: {ex.Message}");
                 throw;
@@ -560,13 +560,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during get profile: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during get profile.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during get profile.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to get a list of minimal profiles (avatarId, personalityType, userName, and platform) by user Ids.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="userIds"> an array of user Ids of profiles you want to get </param>
         /// <returns> the lite Profile information of the requested users </returns>
@@ -575,7 +575,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (userIds == null || userIds.Length == 0)
             {
-                throw new FoundationEndpointException($"Did not get profiles, parameter: {nameof(userIds)} was empty.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not get profiles, parameter: {nameof(userIds)} was empty.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log($"Getting profiles for userIds ...");
@@ -590,13 +590,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 var profiles = result.GetProfiles();
                 if (profiles == null)
                 {
-                    throw new FoundationEndpointException("Did not get profiles, endpoint result was null.",
+                    throw new CspResultEndpointException("Did not get profiles, endpoint result was null.",
                         HttpStatusCode.InternalServerError);
                 }
 
                 return profiles.DeepCopyToArray();
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Get profiles failed: {ex.Message}");
                 throw;
@@ -604,14 +604,14 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during get profiles: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during get profiles.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during get profiles.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         // TODO: https://magnopus.atlassian.net/browse/OF-198 get clarity on foundation parameters
         /// <summary>
         /// Requests the Foundation layer to upgrade guest user to a full account.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="userName"> userName of the new account for the guest user </param>
         /// <param name="displayName"> visual name for the new account that other users may see when connected online </param>
@@ -623,12 +623,12 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(email))
             {
-                throw new FoundationEndpointException($"Did not upgrade guest account, parameter: {nameof(email)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not upgrade guest account, parameter: {nameof(email)} was null.", HttpStatusCode.Unauthorized);
             }
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(password))
             {
-                throw new FoundationEndpointException($"Did not upgrade guest account, parameter: {nameof(password)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not upgrade guest account, parameter: {nameof(password)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log("Upgrading Guest account ...");
@@ -641,7 +641,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 FoundationSystems.Profile profile = result.GetProfile();
                 if (profile == null)
                 {
-                    throw new FoundationEndpointException("Did not upgrade guest account, endpoint result was null.",
+                    throw new CspResultEndpointException("Did not upgrade guest account, endpoint result was null.",
                         HttpStatusCode.InternalServerError);
                 }
 
@@ -650,7 +650,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
                 return profile;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Upgrade guest account failed: {ex.Message}");
                 throw;
@@ -658,13 +658,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during upgrade guest account: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during upgrade guest account.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during upgrade guest account.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to send a confirmation email for the newly created account. Used if the previous email link timed out.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <returns> Just the Task object to await, if this endpoint fails, an exception will be thrown </returns>
         public async Task ConfirmUserEmailAsync()
@@ -675,7 +675,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             {
                 using FoundationSystems.NullResult result = await userSystem.ConfirmUserEmailAsync();
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Send confirmation email failed: {ex.Message}");
                 throw;
@@ -683,13 +683,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during send confirmation email: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during send confirmation email.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during send confirmation email.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to reset the user's password.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="token">Token received through email by user.</param>
         /// <param name="userId">The id of the user resetting their password</param>
@@ -703,7 +703,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             {
                 using FoundationSystems.NullResult result = await userSystem.ResetUserPasswordAsync(token, userId, newPassword);
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Reset user password failed: {ex.Message}");
                 throw;
@@ -711,13 +711,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during reset user password: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during reset user password.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during reset user password.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to send an email to the user to reset their password by providing an email address.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="email"> email to send a link to </param>
         /// <param name="emailLinkUrl">The url inside the reset email sent to the user</param>
@@ -729,7 +729,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(email))
             {
-                throw new FoundationEndpointException($"Did not send email for forgotten password, parameter: {nameof(email)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not send email for forgotten password, parameter: {nameof(email)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log($"Sending forgot password email to email: {email} ...");
@@ -739,7 +739,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 using FoundationSystems.NullResult result =
                     await userSystem.ForgotPasswordAsync(email, emailLinkUrl, redirectUrl, useTokenChangePasswordUrl);
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Forgot password failed: {ex.Message}");
                 throw;
@@ -747,13 +747,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during forgot password: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during forgot password.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during forgot password.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to update the user's display name.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="userId"> user Id of the user </param>
         /// <param name="newUserDisplayName"> new display name to use </param>
@@ -763,12 +763,12 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new FoundationEndpointException($"Did not update user display name, parameter: {nameof(userId)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not update user display name, parameter: {nameof(userId)} was null.", HttpStatusCode.Unauthorized);
             }
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(newUserDisplayName))
             {
-                throw new FoundationEndpointException($"Did not update user display name, parameter: {nameof(newUserDisplayName)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not update user display name, parameter: {nameof(newUserDisplayName)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log("Updating user's display name ...");
@@ -778,7 +778,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 using FoundationSystems.NullResult result =
                     await userSystem.UpdateUserDisplayNameAsync(userId, newUserDisplayName);
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Update user display name failed: {ex.Message}");
                 throw;
@@ -786,7 +786,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during update user display name: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during update user display name.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during update user display name.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
@@ -801,7 +801,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
         /// <summary>
         /// Requests the Foundation layer to get the 'Authorize' Url from the third party provider.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <remarks> First step of the 3rd party authentication flow.
         /// If you call this API but for some reason you'd like to call this again, this is supported, the params you pass second time will replace the
@@ -816,13 +816,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             if (authProvider == FoundationSystems.EThirdPartyAuthenticationProviders.Invalid || 
                 authProvider == FoundationSystems.EThirdPartyAuthenticationProviders.Num)
             {
-                throw new FoundationEndpointException($"Did not get authorize url, parameter: {nameof(authProvider)} was invalid.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not get authorize url, parameter: {nameof(authProvider)} was invalid.", HttpStatusCode.Unauthorized);
             }
 
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(redirectURL))
             {
-                throw new FoundationEndpointException($"Did not get authorize url, parameter: {nameof(redirectURL)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not get authorize url, parameter: {nameof(redirectURL)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log("Getting third party provider authorize Url ...");
@@ -836,7 +836,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
                 return response;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Get third party provider authorize url failed: {ex.Message}");
                 throw;
@@ -844,13 +844,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during get third party provider authorize url: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during get third party provider authorize url.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during get third party provider authorize url.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to login to CHS using the third party authentication data.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <remarks> Second step of the 3rd party authentication flow.
         /// Note: The Authentication Provider and the Redirect URL you've passed in the first step will be used now </remarks>
@@ -871,13 +871,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(thirdPartyToken))
             {
-                throw new FoundationEndpointException($"Did not login, parameter: {nameof(thirdPartyToken)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not login, parameter: {nameof(thirdPartyToken)} was null.", HttpStatusCode.Unauthorized);
             }
 
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(thirdPartyStateId))
             {
-                throw new FoundationEndpointException($"Did not login, parameter: {nameof(thirdPartyStateId)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not login, parameter: {nameof(thirdPartyStateId)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log("Logging in with third party auth details ...");
@@ -892,13 +892,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)
                 {
-                    throw new FoundationEndpointException("Did not login, endpoint result was null.",
+                    throw new CspResultEndpointException("Did not login, endpoint result was null.",
                         HttpStatusCode.InternalServerError);
                 }
 
                 return result;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Login failed: {ex.Message}");
                 throw;
@@ -906,13 +906,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during login: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
         /// <summary>
         /// Requests the Foundation layer to retrieve the User token from Agora.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="tokenParams"> Parameters to configure the User token </param>
         /// <returns> The Agora User Token </returns>
@@ -921,7 +921,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrEmpty(tokenParams.AgoraUserId))
             {
-                throw new FoundationEndpointException($"Did not get token, parameter: {nameof(tokenParams)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not get token, parameter: {nameof(tokenParams)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log("Getting Agora user token ...");
@@ -934,7 +934,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 string token = result.GetValue();
                 return token;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Get Agora user token failed: {ex.Message}");
                 throw;
@@ -942,13 +942,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during get Agora user token: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during get Agora user token.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during get Agora user token.", HttpStatusCode.InternalServerError, ex);
             }
         }
         
         /// <summary>
         /// Requests the Foundation layer to retrieve the url for a user customer portal request for accessing Stripe account.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="userId"> user Id of the user </param>
         /// <returns> The user's customer portal URL</returns>
@@ -957,7 +957,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new FoundationEndpointException($"Did not update user display name, parameter: {nameof(userId)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not update user display name, parameter: {nameof(userId)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log("Getting customer portal Url...");
@@ -969,7 +969,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 string url = result.GetValue();
                 return url;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Get customer portal url failed: {ex.Message}");
                 throw;
@@ -977,13 +977,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during get customer portal url: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during get customer portal url.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during get customer portal url.", HttpStatusCode.InternalServerError, ex);
             }
         }
         
         /// <summary>
         /// Requests the Foundation layer to retrieve the checkout session url for a specific pricing Tier.
-        /// May throw a <seealso cref="FoundationEndpointException"/> on error.
+        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
         /// <param name="tierName"> The tier for which to retrieve the checkout session Url. </param>
         /// <returns> The tier's checkout session URL</returns>
@@ -998,7 +998,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 string url = result.GetValue();
                 return url;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Get checkout session url failed: {ex.Message}");
                 throw;
@@ -1006,7 +1006,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during get checkout session url: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during get checkout session url.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during get checkout session url.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
@@ -1015,18 +1015,18 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// </summary>
         /// <param name="inEmail">User's email address</param>
         /// <param name="inRedirectUrl"></param>
-        /// <exception cref="FoundationEndpointException">URL to redirect user to after they have verified.</exception>
+        /// <exception cref="CspResultEndpointException">URL to redirect user to after they have verified.</exception>
         public async Task ResendVerificationEmail(string inEmail, string inRedirectUrl)
         {
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(inEmail))
             {
-                throw new FoundationEndpointException($"Did not update user display name, parameter: {nameof(inEmail)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not update user display name, parameter: {nameof(inEmail)} was null.", HttpStatusCode.Unauthorized);
             }
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(inRedirectUrl))
             {
-                throw new FoundationEndpointException($"Did not update user display name, parameter: {nameof(inRedirectUrl)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not update user display name, parameter: {nameof(inRedirectUrl)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log("Requesting re-send of verificaiton email ...");
@@ -1036,7 +1036,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 using FoundationSystems.NullResult result =
                     await userSystem.ResendVerificationEmailAsync(inEmail, inRedirectUrl);
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Resend verification email failed: {ex.Message}");
                 throw;
@@ -1044,7 +1044,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during resend verification email: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during resend verification email.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during resend verification email.", HttpStatusCode.InternalServerError, ex);
             }
         }
 
@@ -1052,13 +1052,13 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// Post Service Proxy to perform specified operation of specified service
         /// </summary>
         /// <returns> The result of the request </returns>
-        /// <exception cref="FoundationEndpointException"></exception>
+        /// <exception cref="CspResultEndpointException"></exception>
         public async Task<string> PostServiceProxy(csp.systems.ExternalServicesOperationParams tokenParams)
         {
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrEmpty(tokenParams.ServiceName))
             {
-                throw new FoundationEndpointException($"Did not post service proxy, parameter: {nameof(tokenParams.ServiceName)} was null.", HttpStatusCode.Unauthorized);
+                throw new CspResultEndpointException($"Did not post service proxy, parameter: {nameof(tokenParams.ServiceName)} was null.", HttpStatusCode.Unauthorized);
             }
 
             Debug.Log("Posting Service Proxy...");
@@ -1071,7 +1071,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 string resultStr = result.GetValue();
                 return resultStr;
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Post service proxy failed: {ex.Message}");
                 throw;
@@ -1079,7 +1079,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             catch (Exception ex)
             {
                 Debug.LogError($"An unexpected error occurred during post service proxy: {ex}");
-                throw new FoundationEndpointException("An unexpected error occurred during post service proxy.", HttpStatusCode.InternalServerError, ex);
+                throw new CspResultEndpointException("An unexpected error occurred during post service proxy.", HttpStatusCode.InternalServerError, ex);
             }
         }
     }

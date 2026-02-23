@@ -2,7 +2,7 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Magnopus.Foundation.Unity.Runtime.User.Exceptions;
+using Magnopus.Extra.Exceptions;
 using CspTokenOptions = csp.systems.TokenOptions;
 
 namespace Magnopus.Foundation.Unity.Runtime.User.Schema
@@ -25,7 +25,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User.Schema
         {
             if (tokenOptions == null)
             {
-                throw new FoundationException($"Argument: {nameof(tokenOptions)} was null. Could not create {nameof(TokenOptions)}");
+                throw new CspResultException($"Argument: {nameof(tokenOptions)} was null. Could not create {nameof(TokenOptions)}");
             }
 
             AccessTokenExpiryLength = tokenOptions.AccessTokenExpiryLength;

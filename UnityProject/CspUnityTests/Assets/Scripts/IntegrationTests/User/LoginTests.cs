@@ -5,7 +5,6 @@
 using Magnopus.Foundation.Unity.Tests.Integration.Config;
 using Magnopus.Foundation.Unity.Tests.Integration.Extensions;
 using Magnopus.Foundation.Unity.Runtime.User;
-using Magnopus.Foundation.Unity.Runtime.User.Exceptions;
 using Magnopus.Foundation.Unity.Tests.Integration.EnvironmentFile;
 using Magnopus.OKO.Tests.Editor;
 using NUnit.Framework;
@@ -13,6 +12,7 @@ using System;
 using System.Collections;
 using System.Net;
 using System.Threading.Tasks;
+using Magnopus.Extra.Exceptions;
 using Magnopus.SessionState.Environment;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -93,7 +93,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
                     true, true, null);
                 return new LoginSuccessResult(result, null);
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Failed to Login, Error Code: {ex.StatusCode} | Failure Reason: {ex.FailureReason} | Msg: {ex.Message} | Stack: {ex.StackTrace}");
                 return new LoginSuccessResult(new LoginInfo(), ex);
@@ -122,7 +122,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
 
                 return new LoginSuccessResult(result, null);
             }
-            catch (FoundationEndpointException ex)
+            catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Failed to Login Admin, Error Code: {ex.StatusCode} | Failure Reason: {ex.FailureReason} | Msg: {ex.Message} | Stack: {ex.StackTrace}");
                 return new LoginSuccessResult(new LoginInfo(), ex);

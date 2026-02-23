@@ -2,8 +2,8 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
+using Magnopus.Extra.Exceptions;
 using Magnopus.Foundation.Unity.Runtime.GeographicLocation.Schema;
-using Magnopus.Foundation.Unity.Runtime.User.Exceptions;
 using Magnopus.Foundation.Unity.Runtime.User.Extensions;
 using UnityEngine;
 using FoundationSystems = csp.systems;
@@ -29,7 +29,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User.Schema
         {
             if (value == null)
             {
-                throw new FoundationException($"Argument: {nameof(value)} was null. Could not create the {nameof(Site)}");
+                throw new CspResultException($"Argument: {nameof(value)} was null. Could not create the {nameof(Site)}");
             }
 
             Id = value.Id;
