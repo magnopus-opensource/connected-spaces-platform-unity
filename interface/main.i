@@ -29,6 +29,7 @@
 %include "Declarations/CallbackDeclarations.i"
 %include "Declarations/AsyncDeclarations.i"
 
+%include "swigutils/OuterObjectPins.i"
 %include "swigutils/Exceptions.i"
 %include "swigutils/Operators.i"
 %include "swigutils/Equatable.i"

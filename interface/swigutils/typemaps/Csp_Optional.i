@@ -78,6 +78,7 @@
 %typemap(csout, excode=SWIGEXCODE) csp::common::Optional< TYPE > const &, csp::common::Optional< TYPE > *, csp::common::Optional< TYPE > const * {
     var instance = $imcall;
     var ret = (instance != global::System.IntPtr.Zero) ? new $typemap(cstype, TYPE)(instance, $owner) : null;$excode
+    if (ret != null) ret.OuterObjectPin = this;
     return ret;
   }
 
@@ -113,6 +114,7 @@
     get {
         var instance = $imcall;
         var ret = (instance != global::System.IntPtr.Zero) ? new $typemap(cstype, TYPE)(instance, $owner) : null;$excode
+        if (ret != null) ret.OuterObjectPin = this;
         return ret;
     }%}
 
