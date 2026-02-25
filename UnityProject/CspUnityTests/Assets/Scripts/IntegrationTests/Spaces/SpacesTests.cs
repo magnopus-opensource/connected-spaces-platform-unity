@@ -68,7 +68,7 @@ namespace IntegrationTests.Spaces
                     null, new StringArray(tags)));
             Assert.AreEqual((ushort)HttpStatusCode.OK, generatedNotOwnedSpaceResult.ReturnCode);
             Assert.IsNotNull(generatedNotOwnedSpaceResult.ReturnData);
-            return generatedNotOwnedSpaceResult.ReturnData.GetSpace();
+            return generatedNotOwnedSpaceResult.ReturnData.GetSpace().DeepCopy();
         }
         #endregion
     }

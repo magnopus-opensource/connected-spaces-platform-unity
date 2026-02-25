@@ -455,7 +455,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 var responseBody = result.GetResponseBody();
                 Debug.Log($"Profile result response body: {responseBody}");
 
-                FoundationSystems.Profile profile = result.GetProfile();
+                FoundationSystems.Profile profile = result.GetProfile().DeepCopy();
                 if (profile == null)
                 {
                     throw new CspResultEndpointException("Did not create account, endpoint result was null.",
@@ -532,7 +532,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
                 Debug.Log($"Reading profile from request response ...");
 
-                FoundationSystems.Profile profile = result.GetProfile();
+                FoundationSystems.Profile profile = result.GetProfile().DeepCopy();
 
                 Debug.Log($"Checking profile from request response ...");
 
@@ -635,7 +635,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 FoundationSystems.ProfileResult result =
                     await userSystem.UpgradeGuestAccountAsync(userName, displayName, email, password);
 
-                FoundationSystems.Profile profile = result.GetProfile();
+                FoundationSystems.Profile profile = result.GetProfile().DeepCopy();
                 if (profile == null)
                 {
                     throw new CspResultEndpointException("Did not upgrade guest account, endpoint result was null.",
