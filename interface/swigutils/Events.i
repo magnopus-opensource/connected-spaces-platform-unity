@@ -1,192 +1,192 @@
 /*
- * MAKE_EVENT_FOR_CALLBACK
- * ----------------------
+ * Support for exposing native C++ callback-style APIs as idiomatic C# events.
  *
- * Generates a managed C# event that is backed by a native CSP-style callback.
+ * This file defines MAKE_EVENT_FOR_CALLBACK, which maps a native
+ * "SetXCallback(CallbackType)" API to a managed C# event.
  *
- * This macro bridges native callbacks into idiomatic C# event semantics, allowing
- * C# clients to subscribe and unsubscribe using standard += / -= syntax without
- * writing any callback plumbing themselves.
+ * ----------------------------------------------------------------------
+ * WHAT THIS MACRO REPRESENTS
+ * ----------------------------------------------------------------------
  *
- * Key features:
- * -------------
- * - Multicast event support (multiple subscribers)
- * - Lazy native callback registration (on first subscription)
- * - Automatic native callback unregistration (on last unsubscription)
- * - Correct lifetime management of native callback adapters
- * - No additional user-side boilerplate required
+ * This macro is ONLY for long-lived, multi-fire notifications.
  *
- * The macro emits managed C# code into the SWIG-generated proxy class using
- * %proxycode. It relies on an action-based callback adapter created via
- * MAKE_ACTION_CALLBACK.
+ * Use it when the native API represents:
+ *   - A signal or notification
+ *   - That may fire zero or more times
+ *   - That has no completion concept
  *
- * This macro is suitable for exposing "SetXCallback(...)" style APIs as C# events.
+ * Examples:
+ *   - State changes
+ *   - Presence updates
+ *   - Entity added / removed
  *
+ * If the API represents a request/response or something that should be
+ * awaited, DO NOT use this macro.
  *
- * Assumptions / Requirements:
- * ---------------------------
+ * ----------------------------------------------------------------------
+ * RELATIONSHIP TO OTHER ABSTRACTIONS
+ * ----------------------------------------------------------------------
  *
- * 1. A native setter function exists with the following form:
+ * Callbacks:
+ *   - Low-level transport mechanism (native → managed)
+ *   - Implemented via SWIG directors and MAKE_ACTION_CALLBACK
+ *   - Not user-facing
+ *
+ * Async APIs:
+ *   - Single-shot operations
+ *   - Exposed as Task<T>
+ *   - Own and dispose their callback on completion
+ *
+ * Events (this macro):
+ *   - Long-lived
+ *   - Multicast
+ *   - Not awaited
+ *   - Owned by the publisher
+ *
+ * These abstractions have different lifetime and ownership rules and
+ * intentionally use different macros.
+ *
+ * ----------------------------------------------------------------------
+ * REQUIREMENTS
+ * ----------------------------------------------------------------------
+ *
+ * 1. Native API must expose:
  *
  *      void SetXCallback(CallbackType callback);
  *
- *    This setter must accept a callback adapter (or nullptr / null to unregister).
+ *    Passing null must unregister the callback.
  *
- * 2. A managed action callback adapter has already been defined using
- *    MAKE_ACTION_CALLBACK. That adapter must:
+ * 2. A managed callback adapter must already exist via MAKE_ACTION_CALLBACK.
  *
- *    - Inherit from the director callback base type
- *    - Accept a System.Action<PAYLOAD_TYPE> in its constructor
- *    - Forward native callback invocations to the managed Action
+ * 3. AsyncLifetime.Root / Unroot must be available for GC safety.
  *
+ * ----------------------------------------------------------------------
+ * LIFETIME MODEL
+ * ----------------------------------------------------------------------
  *
- * Generated C# Members:
- * ---------------------
+ * - One native callback adapter per event
+ * - Adapter is created on first subscription
+ * - Adapter is explicitly rooted while at least one subscriber exists
+ * - Adapter is unregistered and unrooted when the last subscriber is removed
  *
- * The macro generates the following members inside the proxy class:
+ * This prevents:
+ *   - GC collecting adapters still referenced by native code
+ *   - Duplicate native registrations
+ *   - Callback leaks
  *
- *   private ACTION_CALLBACK_TYPENAME _<EVENT_NAME>Adapter;
- *   private Action<PAYLOAD_TYPE> _<EVENT_NAME>;
- *   private int _<EVENT_NAME>SubscriberCount;
+ * ----------------------------------------------------------------------
+ * CONSUMER USAGE (C#)
+ * ----------------------------------------------------------------------
  *
- *   public event Action<PAYLOAD_TYPE> EVENT_NAME;
+ * Events exposed by this macro are consumed idiomatically:
  *
- *   private void Register<EVENT_NAME>Callback();
- *   private void Unregister<EVENT_NAME>Callback();
- *   private void On<EVENT_NAME>Native(PAYLOAD_TYPE args);
+ *     instance.OnSomethingHappened += payload =>
+ *     {
+ *         // Handle event
+ *     };
  *
+ *     instance.OnSomethingHappened -= handler;
  *
- * Event semantics:
- * ----------------
+ * Consumers do NOT:
+ *   - Manage callbacks
+ *   - Root adapters
+ *   - Call native setters
  *
- * - Native callback registration occurs when the first subscriber is added.
- * - Native callback unregistration occurs when the last subscriber is removed.
- * - The callback adapter is strongly rooted for the duration of the subscription.
- * - The event supports multicast delegates.
+ * The binding layer owns all lifecycle concerns.
  *
- * Threading semantics are identical to the underlying native callback. If main-thread
- * dispatch (e.g. Unity) is required, it must be layered on top of this mechanism.
+ * ----------------------------------------------------------------------
+ * THREADING
+ * ----------------------------------------------------------------------
  *
- *
- * Parameters:
- * -----------
- *
- * EVENT_NAME
- *   - The public name of the C# event to be generated.
- *   - Used to derive managed helper method names (Register*, On*Native, etc.).
- *   - Example: OnNewLoginTokenReceived
- *
- * ACTION_CALLBACK_TYPENAME
- *  - The fully-qualified managed type name of an action callback adapter
- *    generated via MAKE_ACTION_CALLBACK.
- *  - This type must include the SWIG module namespace.
- *  - Example:
- *      ConnectedSpacesPlatformDotNet.LoginTokenInfoResultActionCallback
- *
- * NATIVE_SETTER
- *   - The exact name of the native setter function used to register and unregister
- *     the callback.
- *   - This function is called with:
- *       - An adapter instance when registering
- *       - null when unregistering
- *   - Example: SetNewLoginTokenReceivedCallback
- *
- * PAYLOAD_TYPE
- *   - The managed payload type exposed to event subscribers.
- *   - May be a single type or a comma-separated list of types for multi-parameter
- *     callbacks.
- *   - Must match the signature expected by ACTION_CALLBACK_TYPENAME.
- *
- *
- * Usage Example:
- * --------------
- *
- *   // Define the action callback adapter (once per signature)
- *   MAKE_ACTION_CALLBACK(
- *       LoginTokenInfoCallback,
- *       LoginTokenInfoResultCallbackAdapter,
- *       LoginTokenInfoResult value,
- *       LoginTokenInfoResult,
- *       value
- *   )
- *
- *   // Expose the native callback as a C# event
- *   MAKE_EVENT_FOR_CALLBACK(
- *       OnNewLoginTokenReceived,
- *       ConnectedSpacesPlatformDotNet.LoginTokenInfoCallback,
- *       SetNewLoginTokenReceivedCallback,
- *       LoginTokenInfoResult
- *   )
- *
- *
- * Resulting C# usage:
- * -------------------
- *
- *   instance.OnNewLoginTokenReceived += result =>
- *   {
- *       // Handle event
- *   };
- *
- *   instance.OnNewLoginTokenReceived -= handler;
- *
- *
- * Notes:
- * ------
- * - Native callback registration is reference-counted per event.
- * - Removing a handler that was never added is safely ignored.
- * - Callback adapter lifetime is fully managed by the generated proxy.
- * - Async/await wrappers can be layered on top of the same callback adapters.
+ * Event handlers execute on the same thread as the native callback.
+ * This macro does not impose any thread marshalling.
  */
-%define MAKE_EVENT_FOR_CALLBACK(EVENT_NAME, ACTION_CALLBACK_TYPENAME, NATIVE_SETTER, PAYLOAD_TYPE)
-%proxycode %{
-    private ACTION_CALLBACK_TYPENAME? _##EVENT_NAME##Adapter;
-    private System.Action<object, PAYLOAD_TYPE>? _##EVENT_NAME;
-    private int _##EVENT_NAME##SubscriberCount;
 
-    public event System.Action<object, PAYLOAD_TYPE> EVENT_NAME
+%define MAKE_EVENT_FOR_CALLBACK(
+    EVENT_NAME,
+    ACTION_CALLBACK_TYPENAME,
+    NATIVE_SETTER,
+    PAYLOAD_TYPE
+)
+%proxycode %{
+
+    // Native callback adapter instance (one per event)
+    private ACTION_CALLBACK_TYPENAME? _##EVENT_NAME##Adapter;
+
+    // Backing multicast delegate for the managed event
+    private event System.Action<PAYLOAD_TYPE>? _##EVENT_NAME;
+
+    /*
+     * Public managed event.
+     *
+     * Native callback registration occurs on first subscription.
+     * Native callback unregistration occurs when the last subscriber is removed.
+     */
+    public event System.Action<PAYLOAD_TYPE> EVENT_NAME
     {
         add
         {
-            _##EVENT_NAME += value;
-
-            if (++_##EVENT_NAME##SubscriberCount == 1)
+            // First subscriber: register native callback
+            if (_##EVENT_NAME == null)
                 Register##EVENT_NAME##Callback();
+
+            _##EVENT_NAME += value;
         }
         remove
         {
             _##EVENT_NAME -= value;
 
-            if (_##EVENT_NAME##SubscriberCount <= 0)
-                return;
-
-            if (--_##EVENT_NAME##SubscriberCount == 0)
+            // Last subscriber removed: unregister native callback
+            if (_##EVENT_NAME == null)
                 Unregister##EVENT_NAME##Callback();
         }
     }
 
+    /*
+     * Registers the native callback and roots the adapter.
+     * This method is idempotent and safe to call multiple times.
+     */
     private void Register##EVENT_NAME##Callback()
     {
+        if (_##EVENT_NAME##Adapter != null)
+            return;
+
         _##EVENT_NAME##Adapter =
             new ACTION_CALLBACK_TYPENAME(On##EVENT_NAME##Native);
 
+        // Root the adapter to prevent GC while native code holds it
+        ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(_##EVENT_NAME##Adapter);
+
+        // Register native callback
         NATIVE_SETTER(_##EVENT_NAME##Adapter);
     }
 
+    /*
+     * Unregisters the native callback and releases the adapter.
+     * This method is idempotent and safe to call multiple times.
+     */
     private void Unregister##EVENT_NAME##Callback()
     {
-        // Stop managed dispatch first
-        _##EVENT_NAME = null;
+        if (_##EVENT_NAME##Adapter == null)
+            return;
 
-        // Unregister native callback
+        // Unregister native callback FIRST to avoid race conditions
         NATIVE_SETTER(null);
 
-        // Release adapter
+        // Stop managed dispatch
+        _##EVENT_NAME = null;
+
+        // Unroot adapter and release reference
+        ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(_##EVENT_NAME##Adapter);
         _##EVENT_NAME##Adapter = null;
     }
 
+    /*
+     * Entry point invoked by native code via the callback adapter.
+     * Forwards the payload to managed subscribers.
+     */
     private void On##EVENT_NAME##Native(PAYLOAD_TYPE args)
-        => _##EVENT_NAME?.Invoke(this, args);
+        => _##EVENT_NAME?.Invoke(args);
+
 %}
-
 %enddef
-
