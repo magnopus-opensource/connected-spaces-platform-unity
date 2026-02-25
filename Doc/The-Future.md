@@ -172,6 +172,25 @@ With this flag enabled, this crashes if placed outside a throw/catch block, _des
 
 The need to adjust this repo in order to integrate with existing patterns in the Magnopus Unity repo was valid, but nonetheless, ruminate on this. It is at least behind a flag, so users can still choose to interact with CSP in the standard way.
 
+## Typemap override confusion
+Something we discovered rather late into the project was that any given typemap can only apply once, you can't "stack" typemaps in the ways we were expecting. This applies on a per typemap category basis, you are perfectly fine applying a `%typemap(csout)` and `%typemap(csvarout)` to the same type, just not two of the same category.
+
+Which typemap is selected depends on which one is most specialized. 
+
+This is in particular a problem when you want to apply "global" typemaps, like we do in [OuterObjectPins.](../interface/swigutils/OuterObjectPins.i) Keep this in mind, I would not be surprised if there are currently typemaps that interfere with each other. I am thinking in particular about the [Equatable](../interface/swigutils/Equatable.i) and the [FromBaseCast](../interface/swigutils/FromBaseCast.i) typemaps, as they both use `cscode`. If we had any equatable objects with a base cast on them, I suspect one or the other feature wouldn't generate.
+
+There are likely warnings you can enable to tell you when this is happening, have a look at the CLI options.
+
+If we had discovered this earlier in the project I might have reconsidered the `ADD_CAPABILITY` macro based approach we took. Something more like `DEFINE_CSCODE_TYPEMAP(OPTIONS)` might be better, where all the capabilities are folded into a single typemap declaration.
+
+Alternately, you could just declare all the permutations for typemaps that overlap. Annoying, but very directly solvable.
+
+> [!NOTE]
+>
+> You can forgive yourself for struggling to understand typemaps. They are SWIGs primary method of injecting behaviors into the underlying code generation phase, but due to the domain, are also necessarily complex, and there isn't much reference material online or in LLM training sets. Luckily, the SWIG manual is reasonably exhaustive.
+>
+> Mastering these is a worthy goal that can grant great personal power, but will take time.
+
 ## Packaging
 At time of writing, we haven't finished packaging fully. It seems obvious that this repo should publish directly to package index's if possible. I don't know how to make that happen, but it'd be neat. 
 
