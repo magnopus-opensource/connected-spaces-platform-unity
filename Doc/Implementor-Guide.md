@@ -272,7 +272,6 @@ public static bool Initialise(string EndpointRootURI, string Tenant, csp.ClientU
 
 See [OptionalDeclarations.i](../interface/Declarations/OptionalDeclarations.i) for more.
 
-
 #### Equatability
 
 As C# is a reference semantic language, comparisons between objects declared as `class` have the following behavior :
@@ -337,6 +336,18 @@ See [FromBaseCast.i](../interface/swigutils/FromBaseCast.i) for more.
 > [!Note]
 > 
 > It's possible we might be able to adapt this sort of casting into something that works naturally with `as`. I don't know if it's possible, but maybe you do!
+
+#### Outer Object Pins
+
+For a more in depth view on this, see the declaration file itself [here.](../interface/swigutils/OuterObjectPins.i)
+
+As this is an OO based interop layer (for better or worse :P), each C++ object is represented by an C# proxy object.
+This creates a problem with reference returns to owned memory. In Csharp, moving an "inner" object out of scope can create a situation where premature garbage collection occurs on the outer object, freeing the underlying C++ memory,
+whilst the inner proxy object remains "alive", which can lead to crashes.
+
+We deal with this by generating all C# proxy objects with an outer object pin "slot". This is populated automatically any time an inner object is returned via reference, extending the lifetime of the outer object by the lifetime of the inner object. 
+
+See the SWIG docs [here](https://swig.org/Doc4.4/CSharp.html#CSharp_typemap_example) for more, as this is the recommended approach to deal with this fundamental language incompatibility.
 
 #### Async
 
@@ -551,7 +562,6 @@ A variant of the MAKE_ASYNC for zero-argument functions also exists, called MAKE
 For convenience, we can enable a flag on cmake to automatically enforce an exception of type Magnopus.Extra.Exceptions.CspResultEndpointException whenever an async function returns an object deriving from ResultBase that reports a csp::systems::EResultCode::Failed status.
 
 The flag is called 'ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE', and is enabled by default.
-
 
 ## Build System
 
