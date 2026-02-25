@@ -11,6 +11,7 @@ using Magnopus.Foundation.Unity.Runtime.User.Schema;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using csp.systems;
 using Magnopus.Extra.Exceptions;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -21,8 +22,6 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.Extensions
 {
     public static class TestHelper
     {
-        public const int ApiDelayMs = 100;
-        
         public struct WrappedEndpointResult<T>
         {
             public ushort ReturnCode;

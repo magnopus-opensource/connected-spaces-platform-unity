@@ -51,41 +51,6 @@ namespace Magnopus.OKO.Tests.Editor
         }
 
         /// <summary>
-        /// Runs the test async test with a return type of <typeparamref name="TResult"/> 
-        /// returning an <see cref="IEnumerator"/>
-        /// so that the test can be run with the 
-        /// <see cref="UnityEngine.TestTools.UnityTestAttribute"/>.
-        /// The return is tested for equality against the <paramref name="expectedResult"/>
-        /// failing the test if the result is not as expected.
-        /// <example>
-        /// <code>
-        /// [UnityTest]
-        /// public IEnumerator TestedMethod_Scenario_ReturnsExpectedValue()
-        ///   => AsyncTest.RunWithResultAsync&lt;string&gt;("ExpectedResult", async () =>
-        /// {
-        ///     // Arrange
-        ///     var testedClass = new TestedClass();
-        /// 
-        ///     // Act
-        ///     //Some Async Test Code...
-        ///     string result = await testedClass.Method();
-        /// 
-        ///     // Assert
-        ///     return result;
-        /// });
-        /// </code>
-        /// </example> 
-        /// </summary>
-        /// <typeparam name="TResult">The type of result that the test returns.</typeparam>
-        /// <param name="expectedResult">The expected result from running the test.</param>
-        /// <param name="asyncTest">The func that represents the test being run.</param>
-        /// <returns>An <see cref="IEnumerator"/> which can be run with the <see cref="UnityEngine.TestTools.UnityTestAttribute"/> which will return a failure if <paramref name="asyncTest"/> is null or the result of the test is not as expected.</returns>
-        public static IEnumerator RunWithResultAsync<TResult>(
-            TResult expectedResult,
-            Func<Awaitable<TResult>> asyncTest)
-        => AssertResultAsync(expectedResult, asyncTest);
-
-        /// <summary>
         /// Runs the test async test returning an <see cref="IEnumerator"/>
         /// so that the test can be run with the 
         /// <see cref="UnityEngine.TestTools.UnityTestAttribute"/> where 

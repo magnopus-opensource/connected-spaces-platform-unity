@@ -19,52 +19,6 @@ namespace Magnopus.SessionState.Environment
 
         private static Dictionary<string, string> envVariables = new Dictionary<string, string>();
         private static bool isEnvFileLoaded;
-        
-        /// <summary>
-        /// Used to create a .env file during build time since the build pipeline will never contain a .env file to begin with.
-        /// The build pipeline will use the system environment variables instead.
-        /// </summary>
-        public static void WriteEnvFile()
-        {
-            if (!isEnvFileLoaded)
-            {
-                // Throw if we haven't even attempted to load the env file first
-                throw new InvalidOperationException("Attempting to write env file without loading it first.");
-            }
-
-            if (envVariables == null || envVariables.Count == 0)
-            {
-                Debug.LogWarning("No environment variables found to write to .env file. Skipping write operation.");
-                return;
-            }
-
-            try
-            {
-                var writeFilePath = Path.Combine(Application.streamingAssetsPath, EnvFileDirectory, EnvFileName);
-
-                Debug.Log($"Begin writing .env file to path: {writeFilePath}");
-
-                var writeDir = Path.GetDirectoryName(writeFilePath);
-                if (!string.IsNullOrWhiteSpace(writeDir) && !Directory.Exists(writeDir))
-                {
-                    Directory.CreateDirectory(writeDir);
-                }
-
-                using (var writer = new StreamWriter(writeFilePath, false))
-                {
-                    foreach (var kvp in envVariables)
-                    {
-                        writer.WriteLine($"{kvp.Key}={kvp.Value}");
-                    }
-                }
-
-                Debug.Log("Finished writing .env file.");
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Failed to write .env file. MSG: {ex.Message} | Stack: {ex.StackTrace}");
-            }
-        }
 
         /// <summary>
         /// Sets up and loads the environment file. If no env file exists, this will try to use the system environment variables instead.

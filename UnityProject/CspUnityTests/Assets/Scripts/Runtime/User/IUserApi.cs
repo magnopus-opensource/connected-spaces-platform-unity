@@ -11,7 +11,6 @@ using LoginInfo = csp.common.LoginState;
 using LoginTokenInfo = Magnopus.Foundation.Unity.Runtime.User.Schema.LoginTokenInfo;
 using Profile = csp.systems.Profile;
 using TokenInfoParams = csp.systems.ExternalServicesOperationParams;
-using TokenOptions = Magnopus.Foundation.Unity.Runtime.User.Schema.TokenOptions;
 using FoundationSystems = csp.systems;
 
 namespace Magnopus.Foundation.Unity.Runtime.User
@@ -26,12 +25,12 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
         LoginState GetLoginState();
         Task<LoginInfo> LoginAsync(string email, string password, bool createMultiplayerConnection, 
-            bool? userHasVerifiedAge, TokenOptions? tokenOptions);
+            bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions);
         Task<LoginInfo> LoginWithUsernameAsync(string username, string password, bool createMultiplayerConnection, 
-            bool? userHasVerifiedAge, TokenOptions? tokenOptions);
-        Task<LoginInfo> LoginAsGuestAsync(bool createMultiplayerConnection, bool? guestHasVerifiedAge, TokenOptions? tokenOptions);
+            bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions);
+        Task<LoginInfo> LoginAsGuestAsync(bool createMultiplayerConnection, bool? guestHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions);
         Task<LoginInfo> LoginAsGuestWithDeferredProfileCreationAsync(bool? guestHasVerifiedAge);
-        Task<LoginInfo> LoginWithTokenAsync(string userId, string token, bool createMultiplayerConnection, TokenOptions? tokenOptions);
+        Task<LoginInfo> LoginWithTokenAsync(string userId, string token, bool createMultiplayerConnection, FoundationSystems.TokenOptions? tokenOptions);
         Task LogoutAsync();
         string GetValidAuthToken();
         Task<Profile> CreateUserAsync(string username, string displayName, string email, string password, bool receiveNewsletter, bool userHasVerifiedAge, string redirectUrl, string inviteToken);
@@ -46,7 +45,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         EThirdPartyAuthenticationProvidersArray GetSupportedThirdPartyAuthenticationProviders();
         Task<string> GetThirdPartyProviderAuthorizeUrlAsync(FoundationSystems.EThirdPartyAuthenticationProviders authProvider, string redirectURL);
         Task<LoginInfo> LoginToThirdPartyAuthenticationProviderAsync(string thirdPartyToken, 
-            string thirdPartyStateId, bool createMultiplayerConnection, bool? userHasVerifiedAge, TokenOptions? tokenOptions);
+            string thirdPartyStateId, bool createMultiplayerConnection, bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions);
         Task<string> GetAgoraUserTokenAsync(AgoraUserTokenParams tokenParams);
         public Task<string> GetCustomerPortalUrlAsync(string userId);
         public Task<string> GetCheckoutSessionUrlAsync(FoundationSystems.TierNames tierName);
