@@ -57,7 +57,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             userSystem = null;
         }
 
-        private void OnNewLoginTokenReceived(object sender, FoundationSystems.LoginTokenInfoResult loginTokenAccessor)
+        private void OnNewLoginTokenReceived(FoundationSystems.LoginTokenInfoResult loginTokenAccessor)
         {
             if (loginTokenAccessor != null)
             {
@@ -83,7 +83,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             throw new CspResultEndpointException($"Login token was called but found null result.", HttpStatusCode.NotFound);
         }
 
-        private void OnUserPermissionsChangedCallback(object sender, FoundationCommon.AccessControlChangedNetworkEventData message)
+        private void OnUserPermissionsChangedCallback(FoundationCommon.AccessControlChangedNetworkEventData message)
         {
             if (message == null)
             {
