@@ -63,6 +63,7 @@ SWIG_STD_VECTOR_ENHANCED(CLASS_FULLY_NAMESPACED)
 
   public static bool operator ==($csclassname left, $csclassname right)
   {
+    if (left is null) return right is null;
     return left.Equals(right);
   }
 
@@ -131,6 +132,7 @@ SWIG_STD_VECTOR_ENHANCED(CLASS_FULLY_NAMESPACED)
 
   public static bool operator ==($csclassname left, $csclassname right)
   {
+    if (left is null) return right is null;
     return left.Equals(right);
   }
 
