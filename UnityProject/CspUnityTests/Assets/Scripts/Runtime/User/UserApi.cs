@@ -40,16 +40,18 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             this.userSystem = userSystem ?? throw new CspResultException("Could not get user service");
             this.externalServiceProxySystem = externalServiceProxySystem ?? throw new CspResultException("Could not get external service proxy system");
 
-            this.userSystem.OnNewLoginTokenReceived += OnNewLoginTokenReceived;
-            this.userSystem.OnUserPermissionsChanged += OnUserPermissionsChangedCallback;
+            // TODO: Uncomment when events are available through SWIG
+            //this.userSystem.OnNewLoginTokenReceived += OnNewLoginTokenReceived;
+            //this.userSystem.OnUserPermissionsChanged += OnUserPermissionsChangedCallback;
         }
 
         public void Dispose()
         {
             if (userSystem != null)
             {
-                userSystem.OnNewLoginTokenReceived -= OnNewLoginTokenReceived;
-                userSystem.OnUserPermissionsChanged -= OnUserPermissionsChangedCallback;
+                // TODO: Uncomment when events are available through SWIG
+                //userSystem.OnNewLoginTokenReceived -= OnNewLoginTokenReceived;
+                //userSystem.OnUserPermissionsChanged -= OnUserPermissionsChangedCallback;
             }
 
             userSystem = null;
