@@ -2,8 +2,6 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Magnopus.Foundation.Unity.Tests.Integration.User;
-
 namespace Magnopus.Foundation.Unity.Tests.Integration.Config
 {
     public enum TestUserProfileType

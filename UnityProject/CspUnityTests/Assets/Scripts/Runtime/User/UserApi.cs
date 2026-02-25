@@ -2,8 +2,6 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Magnopus.Foundation.Unity.Runtime.User.Schema;
-
 using System;
 using System.Net;
 using System.Runtime.CompilerServices;
@@ -135,7 +133,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// Value must be less than the default expiry length, or it will be ignored.</param>
         /// <returns> Returns login information </returns>
         public async Task<LoginInfo> LoginAsync(string email, string password, bool createMultiplayerConnection, 
-            bool? userHasVerifiedAge, TokenOptions? tokenOptions)
+            bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions)
         {
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(email))
@@ -154,7 +152,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             try
             {
                 FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(string.Empty, email,
-                    password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions?.ToCspTokenOptions());
+                    password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions);
 
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)
@@ -193,7 +191,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// Value must be less than the default expiry length, or it will be ignored.</param>
         /// <returns> Returns login information </returns>
         public async Task<LoginInfo> LoginWithUsernameAsync(string username, string password, bool createMultiplayerConnection, 
-            bool? userHasVerifiedAge, TokenOptions? tokenOptions)
+            bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions)
         {
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(username))
@@ -212,7 +210,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             try
             {
                 FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(username, string.Empty,
-                    password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions?.ToCspTokenOptions());
+                    password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions);
 
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)
@@ -249,15 +247,14 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// The default token expiry length is configured by MCS and defaults to 30 minutes.
         /// Value must be less than the default expiry length, or it will be ignored.</param>
         /// <returns> Returns login information </returns>
-        public async Task<LoginInfo> LoginAsGuestAsync(bool createMultiplayerConnection, bool? guestHasVerifiedAge, TokenOptions? tokenOptions)
+        public async Task<LoginInfo> LoginAsGuestAsync(bool createMultiplayerConnection, bool? guestHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions)
         {
             Debug.Log($"Logging in as Guest ...");
 
             try
             {
                 FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsGuestAsync(
-                    createMultiplayerConnection,
-                    guestHasVerifiedAge, tokenOptions?.ToCspTokenOptions());
+                    createMultiplayerConnection, guestHasVerifiedAge, tokenOptions);
 
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)
@@ -338,7 +335,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// The default token expiry length is configured by MCS and defaults to 30 minutes.
         /// Value must be less than the default expiry length, or it will be ignored.</param>
         /// <returns> Returns login information </returns>
-        public async Task<LoginInfo> LoginWithTokenAsync(string userId, string token, bool createMultiplayerConnection, TokenOptions? tokenOptions)
+        public async Task<LoginInfo> LoginWithTokenAsync(string userId, string token, bool createMultiplayerConnection, FoundationSystems.TokenOptions? tokenOptions)
         {
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(userId))
@@ -358,7 +355,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             {
                 FoundationSystems.LoginStateResult loginResult = await userSystem.LoginWithRefreshTokenAsync(userId,
                     token,
-                    createMultiplayerConnection, tokenOptions?.ToCspTokenOptions());
+                    createMultiplayerConnection, tokenOptions);
 
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)
@@ -866,7 +863,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// Value must be less than the default expiry length, or it will be ignored.</param>
         /// <returns> the result of the CHS Authentication operation </returns>
         public async Task<LoginInfo> LoginToThirdPartyAuthenticationProviderAsync(string thirdPartyToken, 
-            string thirdPartyStateId, bool createMultiplayerConnection, bool? userHasVerifiedAge, TokenOptions? tokenOptions)
+            string thirdPartyStateId, bool createMultiplayerConnection, bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions)
         {
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(thirdPartyToken))
@@ -887,7 +884,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
                 using FoundationSystems.LoginStateResult loginResult =
                     await userSystem.LoginToThirdPartyAuthenticationProviderAsync(
                         thirdPartyToken, thirdPartyStateId, createMultiplayerConnection, userHasVerifiedAge,
-                        tokenOptions?.ToCspTokenOptions());
+                        tokenOptions);
 
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
                 if (result == null)

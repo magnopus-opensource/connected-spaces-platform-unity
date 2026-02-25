@@ -45,13 +45,6 @@ namespace Magnopus.Foundation.Unity.Runtime.GeographicLocation.Schema
             this.Longitude = Longitude;
         }
 
-        public bool IsValid()
-        {
-            return !double.IsNaN(Latitude) && !double.IsNaN(Longitude)
-                   && -90.0 <= Latitude && Latitude <= 90.0
-                   && -180.0 <= Longitude && Longitude <= 180.0;
-        }
-
         public bool Equals(GeoLocation other)
         {
             return double.Equals(other.Longitude, Longitude) && double.Equals(other.Latitude,Latitude);
