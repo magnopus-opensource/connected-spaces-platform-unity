@@ -485,8 +485,8 @@ Keep in mind the definition of the macro, following for your convenience:
  * CALLBACK_TYPENAME is the type of the callback adapter class, for example FeatureLimitCallback. Note that we should not include
  * any namespace here, as the C# adapter class is always in the ConnectedSpacesPlatformDotNet namespace.
  * CALLBACKT is the C# adapter class that extends the callback type, for example FeatureLimitCallbackAdapter
- * CALLBACK_TYPELIST_WITH_NAMES is the full argument list with types, e.g. ARGLIST(const csp::systems::FeatureLimitResult& result)
- * CALLBACK_TYPELIST_WITHOUT_NAMES is the argument list without types, e.g. ARGLIST(const csp::systems::FeatureLimitResult)
+ * CALLBACK_TYPELIST_WITH_NAMES is the full argument list including both types and names, e.g. ARGLIST(const csp::systems::FeatureLimitResult& result)
+ * CALLBACK_TYPELIST_WITHOUT_NAMES is the argument list with only types, e.g. ARGLIST(const csp::systems::FeatureLimitResult)
  * CALLBACK_TYPELIST_ONLY_NAMES is just the argument names, e.g. ARGLIST(result)
  * FUNCTION_TYPELIST_WITH_NAMES is the full argument list with types for the function being wrapped, e.g. ARGLIST(const csp::common::String& userId, int someValue)
  * FUNCTION_TYPELIST_ONLY_NAMES is just the argument names for the function being wrapped, e.g. ARGLIST(userId, someValue)
