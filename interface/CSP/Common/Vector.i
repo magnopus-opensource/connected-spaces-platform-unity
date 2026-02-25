@@ -7,6 +7,10 @@
 #include "CSP/Common/Vector.h"
 %}
 
+ADD_OUTER_OBJECT_PIN_SLOT(csp::common::Vector2)
+ADD_OUTER_OBJECT_PIN_SLOT(csp::common::Vector3)
+ADD_OUTER_OBJECT_PIN_SLOT(csp::common::Vector4)
+
 /************************************************************
  * UNITY EXTENSIONS SECTION — ENABLED WITH:
  *   cmake -DENABLE_UNITY_EXTENSIONS=ON
