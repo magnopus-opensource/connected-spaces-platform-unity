@@ -2,21 +2,19 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Magnopus.Foundation.Unity.Tests.Integration.Config;
-using Magnopus.Foundation.Unity.Tests.Integration.Extensions;
-using Magnopus.Foundation.Unity.Runtime.User;
-using Magnopus.Foundation.Unity.Tests.Integration.EnvironmentFile;
-using Magnopus.OKO.Tests.Editor;
-using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Net;
 using System.Threading.Tasks;
 using Magnopus.Extra.Exceptions;
+using Magnopus.Foundation.Unity.Runtime.User;
+using Magnopus.Foundation.Unity.Tests.Integration.Config;
+using Magnopus.Foundation.Unity.Tests.Integration.Extensions;
+using Magnopus.OKO.Tests.Editor;
 using Magnopus.SessionState.Environment;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-
 using LoginInfo = csp.common.LoginState;
 
 namespace Magnopus.Foundation.Unity.Tests.Integration.User
@@ -30,8 +28,8 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
 
             public LoginSuccessResult(LoginInfo info, Exception exception)
             {
-                this.Info = info;
-                this.Exception = exception;
+                Info = info;
+                Exception = exception;
             }
         }
         
@@ -52,7 +50,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
             (HttpStatusCode.OK, true, ()=> GetTestUserProfile(TestUserProfileType.Primary).Username, ()=> GetTestUserProfile(TestUserProfileType.Primary).Password, true)
         };
 
-        private static (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, string UserId, string Token)[] loginWithTokenValues = new (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, string UserId, string Token)[1]
+        private static (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, string UserId, string Token)[] loginWithTokenValues = 
         {
             (HttpStatusCode.BadRequest, false, "userId", "token")
         };
@@ -96,35 +94,6 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
             catch (CspResultEndpointException ex)
             {
                 Debug.LogError($"Failed to Login, Error Code: {ex.StatusCode} | Failure Reason: {ex.FailureReason} | Msg: {ex.Message} | Stack: {ex.StackTrace}");
-                return new LoginSuccessResult(new LoginInfo(), ex);
-            }
-        }
-
-        /// <summary>
-        /// Helper function for other tests to ensure a successful login
-        /// </summary>
-        public static async Task<LoginSuccessResult> LoginAdminSuccess(UserApi userService)
-        {
-            try
-            {
-                var loadedEnvVariables = EnvironmentVariableLoader.LoadEnvFile(FoundationEnvironmentKeys.AllEnvironmentVariableNames);
-                Assert.IsTrue(loadedEnvVariables, "Cannot continue to login as admin. Failed to load Environment file.");
-
-                string primaryEmail = EnvironmentVariableLoader.GetEnvironmentVariable(FoundationEnvironmentKeys.OKO_TESTS_ADMIN_EMAIL);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(primaryEmail), "Failed to get admin email for login");
-
-                string primaryPassword = EnvironmentVariableLoader.GetEnvironmentVariable(FoundationEnvironmentKeys.OKO_TESTS_ADMIN_PW);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(primaryPassword), "Failed to get admin password for login");
-
-                // Note: create multiplayer connection since we use online realtime engine, and no token option passed.
-                LoginInfo result = await userService.LoginAsync(primaryEmail, primaryPassword,
-                    true, true, null);
-
-                return new LoginSuccessResult(result, null);
-            }
-            catch (CspResultEndpointException ex)
-            {
-                Debug.LogError($"Failed to Login Admin, Error Code: {ex.StatusCode} | Failure Reason: {ex.FailureReason} | Msg: {ex.Message} | Stack: {ex.StackTrace}");
                 return new LoginSuccessResult(new LoginInfo(), ex);
             }
         }

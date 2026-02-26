@@ -98,15 +98,21 @@ namespace Magnopus.SessionState.Environment
 
                 foreach (var line in allLines)
                 {
-                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith('#'))
+                    // Remove leading whitespace before checking for comments so lines like "  # comment" are treated as comments.
+                    var trimmed = line.TrimStart();
+                    if (string.IsNullOrWhiteSpace(trimmed) || trimmed.StartsWith('#'))
                     {
                         continue; // Skip comments and empty lines
                     }
 
-                    var parts = line.Split('=', 2);
+                    var parts = trimmed.Split('=', 2);
                     if (parts.Length == 2)
                     {
                         envVariables[parts[0].Trim()] = parts[1].Trim();
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Malformed .env line at {envFilePath}: '{trimmed}'. Expected 'KEY=VALUE'. Skipping.");
                     }
                 }
                         
@@ -146,6 +152,10 @@ namespace Magnopus.SessionState.Environment
                     if (keyValue.Length == 2)
                     {
                         envVariables[keyValue[0].Trim()] = keyValue[1].Trim();
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Malformed system environment variable {variableName}: expected 'KEY=VALUE' format, got '{variable}'. Skipping.");
                     }
                 }
                 catch (Exception ex)

@@ -57,11 +57,11 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.Config
             eventBriteID = GenerateEventBriteID();
             return eventBriteID;
         }
+        
         public static string GetEventBriteURL()
         {
             return EventBriteURLFromID(eventBriteID);
         }
-        
         
         private static string EventBriteURLFromID(string id)
         {
@@ -72,7 +72,8 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.Config
         {
             string id = "";
             int digits = 12;
-            for (int i=0; i<digits; ++i)
+            
+            for (int i = 0; i < digits; ++i)
             {
                 float value = Random.Range(0.0f, 10.0f);
                 int number = (int)Math.Min(Math.Floor(value),9);

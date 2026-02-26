@@ -47,9 +47,9 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         Task<LoginInfo> LoginToThirdPartyAuthenticationProviderAsync(string thirdPartyToken, 
             string thirdPartyStateId, bool createMultiplayerConnection, bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions);
         Task<string> GetAgoraUserTokenAsync(AgoraUserTokenParams tokenParams);
-        public Task<string> GetCustomerPortalUrlAsync(string userId);
-        public Task<string> GetCheckoutSessionUrlAsync(FoundationSystems.TierNames tierName);
-        public Task ResendVerificationEmail(string inEmail, string inRedirectUrl);
-        public Task<string> PostServiceProxy(TokenInfoParams tokenParams);
+        Task<string> GetCustomerPortalUrlAsync(string userId);
+        Task<string> GetCheckoutSessionUrlAsync(FoundationSystems.TierNames tierName);
+        Task ResendVerificationEmail(string inEmail, string inRedirectUrl);
+        Task<string> PostServiceProxy(TokenInfoParams tokenParams);
     }
 }
