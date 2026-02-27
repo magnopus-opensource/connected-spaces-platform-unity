@@ -33,6 +33,8 @@
 %include "swigutils/Exceptions.i"
 %include "swigutils/Operators.i"
 %include "swigutils/Equatable.i"
+// Unity specific adaptations
+%include "swigutils/UnityAdaptations.i"
 
 /* CSP non-exported symbols. Special exclusions that are too hard to fix upstream right this second.
    Anything here is a CSP mistake. They have types in their public interface that cannot be

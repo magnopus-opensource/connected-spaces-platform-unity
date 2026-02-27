@@ -42,6 +42,8 @@ Currently we do minimal adaptations to Unity specific types behind the `SWIG_UNI
 
 You could go quite a bit further here if you wished, even changing the API such that when generated with Unity extensions, Unity types are what is passed directly in and out of interfaces. I can't imagine what sort of conveniences/extensions you might want, but I'm sure there's a lot.
 
+For convenience, all Unity adaptations can be defined inside the `swigutils/UnityAdaptations.i` file, so that in case classes in CSP might be moved outside their current headers you don't have to go hunting for all the places where you need to change the adaptations.
+
 > [!WARNING]
 >
 > Please remember that Unity is not the only target of this repo. The Unity adaptations are behind build flags for a good reason. Do not confuse accidental complexity incurred by the Magnopus Unity Team to general Unity, or god forbid, .NET problems. 
