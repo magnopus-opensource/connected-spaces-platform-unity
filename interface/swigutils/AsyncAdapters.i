@@ -22,12 +22,12 @@
 %include "swigutils/GeneralUtils.i" 
 
 /*
- * If it's a method like `SetXCallback(Callback)`, then you just want to stamp MAKE_ACTION_CALLBACK"
+ * If it's a method like `SetXCallback(Callback)`, then you just want to stamp MAKE_ACTION_ADAPTER"
  * If it's a full on Async method you want to await, like `await EnterSpace(spaceID...)`, then 
  * stamp with MAKE_ASYNC, which makes an action callback but also wraps in an awaitable. 
  * At the moment (2025), CALLBACKT is generally a csharp adapter defined in CallbackAdapters.i
  *
- * Note: MAKE_ACTION_CALLBACK is used by both MAKE_ASYNC_ZERO and MAKE_ASYNC macros, in order to define the related
+ * Note: MAKE_ACTION_ADAPTER is used by both MAKE_ASYNC_ZERO and MAKE_ASYNC macros, in order to define the related
  * callback type that is used by the async function. 
  *
  * Whilst action adapters such as these are used in both Async (awaitable) formulations (see MAKE_ASYNC, it calls this),
@@ -44,9 +44,9 @@
  * to all be unique, or the same for action adapters that have the same types. I'd favour the latter.
  */
 
-%define MAKE_ACTION_CALLBACK(ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITH_NAMES, ACTION_TYPELIST_WITHOUT_NAMES, ACTION_TYPELIST_ONLY_NAMES)
+%define MAKE_ACTION_ADAPTER(ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITH_NAMES, ACTION_TYPELIST_WITHOUT_NAMES, ACTION_TYPELIST_ONLY_NAMES)
 #ifdef SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
-  %echo "MAKE_ACTION_CALLBACK: action wrapper '" #ACTION_CALLBACK_TYPENAME "' already defined, skipping"
+  %echo "MAKE_ACTION_ADAPTER: action wrapper '" #ACTION_CALLBACK_TYPENAME "' already defined, skipping"
 #else
   #define SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
   %pragma(csharp) modulecode=%{
@@ -147,7 +147,7 @@ ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME callback = null;
     FUNCTION_TYPELIST_ONLY_NAMES
 )
     
-MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, CALLBACK_TYPELIST_WITHOUT_NAMES, CALLBACK_TYPELIST_ONLY_NAMES)
+MAKE_ACTION_ADAPTER(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, CALLBACK_TYPELIST_WITHOUT_NAMES, CALLBACK_TYPELIST_ONLY_NAMES)
 
 /* 
  * Note: here we can add the ResultBase check to throw exceptions on failure. Ideally, the better place would be even 
@@ -199,7 +199,7 @@ MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES,
     CALLBACK_TYPELIST_ONLY_NAMES
 )
     
-MAKE_ACTION_CALLBACK(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, CALLBACK_TYPELIST_WITHOUT_NAMES, CALLBACK_TYPELIST_ONLY_NAMES)
+MAKE_ACTION_ADAPTER(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, CALLBACK_TYPELIST_WITHOUT_NAMES, CALLBACK_TYPELIST_ONLY_NAMES)
 
 %extend FULLY_NAMESPACED_CLASST {
 %proxycode %{

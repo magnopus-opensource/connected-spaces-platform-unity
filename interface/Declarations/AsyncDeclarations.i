@@ -17,146 +17,146 @@
   *
 
 /* LogSystem Actions Adapters */
-MAKE_ACTION_CALLBACK(LogCallback,
+MAKE_ACTION_ADAPTER(LogCallback,
                      LogCallbackHandlerAdapter,
                      ARGLIST(csp.common.LogLevel logLevel, string message),
                      ARGLIST(csp.common.LogLevel, string),
                      ARGLIST(logLevel, message));
-MAKE_ACTION_CALLBACK(EventCallback,
+MAKE_ACTION_ADAPTER(EventCallback,
                      EventCallbackHandlerAdapter,
                      ARGLIST(string eventMessage),
                      ARGLIST(string),
                      ARGLIST(eventMessage));
-MAKE_ACTION_CALLBACK(BeginMarkerCallback,
+MAKE_ACTION_ADAPTER(BeginMarkerCallback,
                      BeginMarkerCallbackHandlerAdapter,
                      ARGLIST(string beginMarker),
                      ARGLIST(string),
                      ARGLIST(beginMarker));
-MAKE_ACTION_CALLBACK(EndMarkerCallback,
+MAKE_ACTION_ADAPTER(EndMarkerCallback,
                      EndMarkerCallbackHandlerAdapter,
                      ARGLIST(System.IntPtr irrelevant),
                      ARGLIST(System.IntPtr),
                      ARGLIST(irrelevant));
 
 /* SpaceEntity Action Adapters */
-MAKE_ACTION_CALLBACK(UpdateCallback,
+MAKE_ACTION_ADAPTER(UpdateCallback,
                      SpaceEntityUpdatedCallbackAdapter,
                      ARGLIST(csp.multiplayer.SpaceEntity spaceEntity, csp.multiplayer.SpaceEntityUpdateFlags updateFlags, csp.common.ComponentUpdateInfoArray componentUpdateInfos),
                      ARGLIST(csp.multiplayer.SpaceEntity, csp.multiplayer.SpaceEntityUpdateFlags, csp.common.ComponentUpdateInfoArray),
                      ARGLIST(spaceEntity, updateFlags, componentUpdateInfos));
 
-MAKE_ACTION_CALLBACK(DestroyCallback,
+MAKE_ACTION_ADAPTER(DestroyCallback,
                      BoolCallbackAdapter,
                      ARGLIST(bool destroyed),
                      ARGLIST(bool),
                      ARGLIST(destroyed));
 
-MAKE_ACTION_CALLBACK(PatchSentCallback,
+MAKE_ACTION_ADAPTER(PatchSentCallback,
                      BoolCallbackAdapter,
                      ARGLIST(bool patchSent),
                      ARGLIST(bool),
                      ARGLIST(patchSent));
 
 /* MultiplayerConnection Action Adapters */
-MAKE_ACTION_CALLBACK(DisconnectionCallback,
+MAKE_ACTION_ADAPTER(DisconnectionCallback,
                      StringCallbackAdapter,
                      ARGLIST(string disconnectReason),
                      ARGLIST(string),
                      ARGLIST(disconnectReason));
 
-MAKE_ACTION_CALLBACK(ConnectionCallback,
+MAKE_ACTION_ADAPTER(ConnectionCallback,
                      StringCallbackAdapter,
                      ARGLIST(string connectionStatus),
                      ARGLIST(string),
                      ARGLIST(connectionStatus));
 
-MAKE_ACTION_CALLBACK(NetworkInterruptionCallback,
+MAKE_ACTION_ADAPTER(NetworkInterruptionCallback,
                      StringCallbackAdapter,
                      ARGLIST(string interruptReason),
                      ARGLIST(string),
                      ARGLIST(interruptReason));
 
 /* OnlineRealtimeEngine Action Adapters */
-MAKE_ACTION_CALLBACK(RemoteEntityCreatedCallback,
+MAKE_ACTION_ADAPTER(RemoteEntityCreatedCallback,
                      EntityCreatedCallbackAdapter,
                      ARGLIST(csp.multiplayer.SpaceEntity spaceEntity),
                      ARGLIST(csp.multiplayer.SpaceEntity),
                      ARGLIST(spaceEntity));
 
-MAKE_ACTION_CALLBACK(ScriptLeaderReadyCallback,
+MAKE_ACTION_ADAPTER(ScriptLeaderReadyCallback,
                      BoolCallbackAdapter,
                      ARGLIST(bool ready),
                      ARGLIST(bool),
                      ARGLIST(ready));
 
-MAKE_ACTION_CALLBACK(ScopeLeaderCallback,
+MAKE_ACTION_ADAPTER(ScopeLeaderCallback,
                      StringStringCallbackAdapter,
                      ARGLIST(string scopeId, string userId),
                      ARGLIST(string, string),
                      ARGLIST(scopeId, userId));
 
-MAKE_ACTION_CALLBACK(EntityFetchCompleteCallback,
+MAKE_ACTION_ADAPTER(EntityFetchCompleteCallback,
                      UInt32CallbackAdapter,
                      ARGLIST(uint numEntitiesFetched),
                      ARGLIST(uint),
                      ARGLIST(numEntitiesFetched));
 
 /* ConversationSpaceComponent Action Adapters */
-MAKE_ACTION_CALLBACK(ConversationUpdateCallback,
+MAKE_ACTION_ADAPTER(ConversationUpdateCallback,
                      ConversationNetworkEventCallbackAdapter,
                      ARGLIST(csp.common.ConversationNetworkEventData eventData),
                      ARGLIST(csp.common.ConversationNetworkEventData),
                      ARGLIST(eventData));
 
 /* AssetSystem Action Adapters */
-MAKE_ACTION_CALLBACK(AssetDetailBlobChangedCallback,
+MAKE_ACTION_ADAPTER(AssetDetailBlobChangedCallback,
                      AssetDetailBlobChangedCallbackAdapter,
                      ARGLIST(csp.common.AssetDetailBlobChangedNetworkEventData eventData),
                      ARGLIST(csp.common.AssetDetailBlobChangedNetworkEventData),
                      ARGLIST(eventData));
 
-MAKE_ACTION_CALLBACK(MaterialChangedCallback,
+MAKE_ACTION_ADAPTER(MaterialChangedCallback,
                      MaterialChangedCallbackAdapter,
                      ARGLIST(csp.common.MaterialChangedParams materialParams),
                      ARGLIST(csp.common.MaterialChangedParams),
                      ARGLIST(materialParams));
 
 /* SpaceSystem Action Adapters */
-MAKE_ACTION_CALLBACK(AsyncCallCompletedCallback,
+MAKE_ACTION_ADAPTER(AsyncCallCompletedCallback,
                      AsyncCallCompletedCallbackAdapter,
                      ARGLIST(csp.common.AsyncCallCompletedEventData eventData),
                      ARGLIST(csp.common.AsyncCallCompletedEventData),
                      ARGLIST(eventData));
 
 /* UserSystem Action Adapters */
-MAKE_ACTION_CALLBACK(LoginTokenInfoCallback,
+MAKE_ACTION_ADAPTER(LoginTokenInfoCallback,
                      LoginTokenInfoResultCallbackAdapter,
                      ARGLIST(csp.systems.LoginTokenInfoResult result),
                      ARGLIST(csp.systems.LoginTokenInfoResult),
                      ARGLIST(result));
 
-MAKE_ACTION_CALLBACK(UserPermissionsChangedCallback,
+MAKE_ACTION_ADAPTER(UserPermissionsChangedCallback,
                      UserPermissionsChangedCallbackAdapter,
                      ARGLIST(csp.common.AccessControlChangedNetworkEventData eventData),
                      ARGLIST(csp.common.AccessControlChangedNetworkEventData),
                      ARGLIST(eventData));
 
 /* SequenceSystem Action Adapters */
-MAKE_ACTION_CALLBACK(SequenceChangedCallback,
+MAKE_ACTION_ADAPTER(SequenceChangedCallback,
                      SequenceChangedCallbackAdapter,
                      ARGLIST(csp.common.SequenceChangedNetworkEventData eventData),
                      ARGLIST(csp.common.SequenceChangedNetworkEventData),
                      ARGLIST(eventData));
 
 /* HotspotSequenceSystem Action Adapters */
-MAKE_ACTION_CALLBACK(HotspotSequenceChangedCallback,
+MAKE_ACTION_ADAPTER(HotspotSequenceChangedCallback,
                      SequenceChangedCallbackAdapter,
                      ARGLIST(csp.common.SequenceChangedNetworkEventData eventData),
                      ARGLIST(csp.common.SequenceChangedNetworkEventData),
                      ARGLIST(eventData));
 
 /* NetworkEventBus Action Adapters */
-MAKE_ACTION_CALLBACK(NetworkEventCallback,
+MAKE_ACTION_ADAPTER(NetworkEventCallback,
                      NetworkEventCallbackAdapter,
                      ARGLIST(csp.common.NetworkEventData networkEventData),
                      ARGLIST(csp.common.NetworkEventData),
