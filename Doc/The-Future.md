@@ -232,7 +232,7 @@ Much of this can just be vibed once you have added the api declaration by runnin
 - Add this `.i` file to [APIDeclarations.i](../interface/Declarations/APIDeclarations.i)
 - If there are new callback signatures, go to [CallbackDeclarations.i](../interface/Declarations/CallbackDeclarations.i) and add a `MAKE_CALLBACK` call.
 - If there is an async interface (awaitable), go to [AsyncDeclarations.i](../interface/Declarations/APIDeclarations.i) and add a `MAKE_ASYNC` call.
-  - If the async interface is instead a registerable callback, and not an awaitable one, ie `SetLogCallback`, add a `MAKE_ACTION_CALLBACK` declaration instead.
+  - If the async interface is instead a registerable callback, and not an awaitable one, ie `SetLogCallback`, add a `MAKE_ACTION_ADAPTER` declaration instead.
 - If you hit compile errors that look like template symbol errors, you may need to add a template declaration to [TemplateDeclarations.i](../interface/Declarations/TemplateDeclarations.i)
 - If there is an Optional type in the interface, add the `%optional` declaration to [OptionalDeclarations.i](../interface/Declarations/OptionalDeclarations.i)
 - If the new type wants to be value or pointer equatable, add either `MAKE_VALUE_EQUATABLE` or `MAKE_POINTER_EQUATABLE` to [Equatable.i](../interface/swigutils/Equatable.i) (This should maybe be moved to `EquatableDeclarations.i, come to think of it.)

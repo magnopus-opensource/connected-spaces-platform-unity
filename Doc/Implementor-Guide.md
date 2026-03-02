@@ -400,7 +400,7 @@ That's the next bit, we build upon this. The relevant file here is [interface/sw
 > 
 > You need to have declared the correct callback adapters to wrap delegate or await semantics, as that is always the underlying mechanism.
 
-This file gives us `MAKE_ACTION_CALLBACK`, which produces something like this in the C#.
+This file gives us `MAKE_ACTION_ADAPTER`, which produces something like this in the C#.
 
 ```csharp
 public sealed class MyTypeActionCallback: MyTypeCallbackAdapter
@@ -424,7 +424,7 @@ ConnectedSpacesPlatformDotNet.LogCallback callback = new ConnectedSpacesPlatform
 
 logSystem.SetLogCallback(callback);
 ```
-You don't normally need to call `MAKE_ACTION_CALLBACK` manually, as getting `await` support depends on it, and the upcoming `MAKE_ASYNC` macro calls it for you.
+You don't normally need to call `MAKE_ACTION_ADAPTER` manually, as getting `await` support depends on it, and the upcoming `MAKE_ASYNC` macro calls it for you.
 
 > [!Note]
 > 
