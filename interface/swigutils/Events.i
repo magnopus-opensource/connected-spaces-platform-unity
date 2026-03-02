@@ -29,7 +29,7 @@
  *
  * Callbacks:
  *   - Low-level transport mechanism (native → managed)
- *   - Implemented via SWIG directors and MAKE_ACTION_CALLBACK
+ *   - Implemented via SWIG directors and MAKE_ACTION_ADAPTER
  *   - Not user-facing
  *
  * Async APIs:
@@ -56,7 +56,7 @@
  *
  *    Passing null must unregister the callback.
  *
- * 2. A managed callback adapter must already exist via MAKE_ACTION_CALLBACK.
+ * 2. A managed callback adapter must already exist via MAKE_ACTION_ADAPTER.
  *
  * 3. AsyncLifetime.Root / Unroot must be available for GC safety.
  *
