@@ -28,9 +28,12 @@
  * ----------------------------------------------------------------------
  *
  * Callbacks:
- *   - Low-level transport mechanism (native → managed)
- *   - Implemented via SWIG directors and MAKE_ACTION_ADAPTER
- *   - Not user-facing
+ *   - Low-level transport mechanism (native → managed) via swig director objects and the MAKE_CALLBACK_ADAPTER macro.
+ *       - Not user-facing.
+ *   - Action adapters make an abstraction over the director object to make its syntax easier to use. These are
+ *     generated via the MAKE_ACTION_ADAPTER macro.
+ *       - Not user-facing. Instead, MAKE_AWAITABLE / MAKE_AWAITABLE_ZERO and MAKE_EVENT_FOR_CALLBACK are the only
+ *         macros user-facing, and they both use MAKE_ACTION_ADAPTER internally to generate the necessary adapters.
  *
  * MAKE_AWAITABLE:
  *   - Single-shot operations
