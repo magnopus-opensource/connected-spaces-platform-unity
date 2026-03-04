@@ -102,12 +102,22 @@
  * This macro does not impose any thread marshalling.
  */
 
+/*
+ * EVENT_NAME is the name of the event, e.g. OnNewLoginTokenReceived
+ * ACTION_CALLBACK_TYPENAME is the type of the callback adapter class, for example 
+ * ConnectedSpacesPlatformDotNet.LoginTokenInfoCallback.
+ * NATIVE_SETTER is the native method that registers the callback, e.g. SetNewLoginTokenReceivedCallback
+ * PAYLOAD_TYPE is the type of the payload passed to event handlers, e.g. csp.systems.LoginTokenInfoResult
+ * FULLY_NAMESPACED_CLASST is the full namespaced C++ class name to extend, e.g. csp::systems::UserSystem
+ */
 %define MAKE_EVENT_FOR_CALLBACK(
     EVENT_NAME,
     ACTION_CALLBACK_TYPENAME,
     NATIVE_SETTER,
-    PAYLOAD_TYPE
+    PAYLOAD_TYPE,
+    FULLY_NAMESPACED_CLASST
 )
+%extend FULLY_NAMESPACED_CLASST {
 %proxycode %{
 
     // Native callback adapter instance (one per event)
@@ -188,5 +198,6 @@
     private void On##EVENT_NAME##Native(PAYLOAD_TYPE args)
         => _##EVENT_NAME?.Invoke(args);
 
-%}
+%}    // End of proxy code
+}     // End of extension
 %enddef
