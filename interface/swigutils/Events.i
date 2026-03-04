@@ -180,7 +180,7 @@
         if (_##EVENT_NAME##Adapter == null)
             return;
 
-        // Unregister native callback FIRST to avoid race conditions
+        // Unregister native callback
         NATIVE_SETTER(null);
 
         // Stop managed dispatch
