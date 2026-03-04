@@ -126,7 +126,7 @@ namespace extra
 }
 
 /* LoginSystem Async functions */
-MAKE_ASYNC(csp::common::LogSystem,
+MAKE_AWAITABLE(csp::common::LogSystem,
           LogAfterSeconds,
           TestBooleanResultCallback,
           TestBooleanResultCallbackAdapter,
@@ -137,7 +137,7 @@ MAKE_ASYNC(csp::common::LogSystem,
 		  ARGLIST(boolValue, seconds)
 )
 
-MAKE_ASYNC_ZERO(csp::common::LogSystem,
+MAKE_AWAITABLE_ZERO(csp::common::LogSystem,
           LogAndThrow,
           TestBooleanResultCallback,
           LogSystem_TestBooleanResultCallbackCSharpAdapter,

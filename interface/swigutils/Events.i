@@ -32,7 +32,7 @@
  *   - Implemented via SWIG directors and MAKE_ACTION_ADAPTER
  *   - Not user-facing
  *
- * Async APIs:
+ * MAKE_AWAITABLE:
  *   - Single-shot operations
  *   - Exposed as Task<T>
  *   - Own and dispose their callback on completion
