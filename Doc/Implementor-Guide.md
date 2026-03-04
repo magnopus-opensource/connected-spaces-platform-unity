@@ -424,21 +424,21 @@ ConnectedSpacesPlatformDotNet.LogCallback callback = new ConnectedSpacesPlatform
 
 logSystem.SetLogCallback(callback);
 ```
-You don't normally need to call `MAKE_ACTION_ADAPTER` manually, as getting `await` support depends on it, and the upcoming `MAKE_ASYNC` macro calls it for you.
+You don't normally need to call `MAKE_ACTION_ADAPTER` manually, as getting `await` support depends on it, and the upcoming `MAKE_AWAITABLE` macro calls it for you.
 
 > [!Note]
 > 
 > These are separate because not all async interfaces are awaitable. Think of the LogSystem, you don't `await` calls to that, but they still cause your registered callback to fire async, so we still need the ability to bind only the callback/action form.
 
-Speaking of `MAKE_ASYNC`, it's the last piece of the puzzle.
+Speaking of `MAKE_AWAITABLE`, it's the last piece of the puzzle.
 
 I won't paste in the type here, as it does essentially the same thing as the callback adapter above, taking one async mechanism, the `System.Action` we defined above, and transforming it to another. In this case, it is a `Task` and `TaskCompletionSource`, which allows `await`.
 
-The compromise we have here is that we are declaring brand new wrapper methods, so they need different names. Currently, we just append `Async` to awaitable methods that return `Task<T>`. This is the only compromise as far as C# semantics are concerned, and async methods imbued with `MAKE_ASYNC` are able to be called thusly,
+The compromise we have here is that we are declaring brand new wrapper methods, so they need different names. Currently, we just append `Async` to awaitable methods that return `Task<T>`. This is the only compromise as far as C# semantics are concerned, and async methods imbued with `MAKE_AWAITABLE` are able to be called thusly,
 `var Result = await MySystem.MyMethodAsync(args)`, without having to worry about providing or managing callbacks at all.
 
 ##### Example implementation: from C++ function with callback to C# awaitable function
-When C++ exports a function that makes use of a callback for asynchronous behavior, we can use the macros MAKE_ASYNC (or MAKE_ASYNC_ZERO if the function callback does not have parameters) to generate the related C# async awaitable counterpart.
+When C++ exports a function that makes use of a callback for asynchronous behavior, we can use the macros MAKE_AWAITABLE (or MAKE_AWAITABLE_ZERO if the function callback does not have parameters) to generate the related C# async awaitable counterpart.
 An example of this is the 'LogAfterSeconds' function in the LogSystem, which has the following signature in C++:
 
 ```cpp
@@ -472,7 +472,7 @@ void LogAfterSeconds(bool value, int seconds, extra::test::TestBooleanResultCall
 ```
 
 We injected this function via swig into the C++ layer using the "%extend csp::common::LogSystem" directive for demonstration purposes.
-Since we have a callback as parameter of this function, we can generate a C# awaitable version of it by using the `MAKE_ASYNC` macro.
+Since we have a callback as parameter of this function, we can generate a C# awaitable version of it by using the `MAKE_AWAITABLE` macro.
 This will allow us for example to achieve the following C# code, which is much more natural for C# developers to work with than the callback based original version:
 
 ```csharp
@@ -502,7 +502,7 @@ Keep in mind the definition of the macro, following for your convenience:
  * FUNCTION_TYPELIST_WITH_NAMES is the full argument list with types for the function being wrapped, e.g. ARGLIST(const csp::common::String& userId, int someValue)
  * FUNCTION_TYPELIST_ONLY_NAMES is just the argument names for the function being wrapped, e.g. ARGLIST(userId, someValue)
  */
-%define MAKE_ASYNC(
+%define MAKE_AWAITABLE(
     FULLY_NAMESPACED_CLASST,
     METHODNAME,
     CALLBACK_TYPENAME,
@@ -515,10 +515,10 @@ Keep in mind the definition of the macro, following for your convenience:
 )
 ```  
 
-Following that definition, we can write the 'MAKE_ASYNC' macro for this specific C++ function looks like below:
+Following that definition, we can write the 'MAKE_AWAITABLE' macro for this specific C++ function looks like below:
 
 ```csharp
-MAKE_ASYNC( csp::common::LogSystem,
+MAKE_AWAITABLE( csp::common::LogSystem,
             LogAfterSeconds,
             TestBooleanResultCallback,
             TestBooleanResultCallbackAdapter,
@@ -530,11 +530,11 @@ MAKE_ASYNC( csp::common::LogSystem,
 )
 ```
 
-A variant of the MAKE_ASYNC for zero-argument functions also exists, called MAKE_ASYNC_ZERO, defined as follows:
+A variant of the MAKE_AWAITABLE for zero-argument functions also exists, called MAKE_AWAITABLE_ZERO, defined as follows:
 
 ```csharp
 /*
- * Variant of MAKE_ASYNC for zero-argument functions
+ * Variant of MAKE_AWAITABLE for zero-argument functions
  * Use this for things like `GetTotalSpacesOwnedByUser(Action<FeatureLimitResult> callback)`, where the calling
  * function takes no arguments other than the callback.
  *
@@ -547,7 +547,7 @@ A variant of the MAKE_ASYNC for zero-argument functions also exists, called MAKE
  * CALLBACK_TYPELIST_WITHOUT_NAMES is the argument list without types, e.g. ARGLIST(const csp::systems::FeatureLimitResult)
  * CALLBACK_TYPELIST_ONLY_NAMES is just the argument names, e.g. ARGLIST(result)
  */
-%define MAKE_ASYNC_ZERO(
+%define MAKE_AWAITABLE_ZERO(
     FULLY_NAMESPACED_CLASST, 
     METHODNAME, 
     CALLBACK_TYPENAME,

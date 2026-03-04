@@ -24,13 +24,13 @@
 /*
  * If it's a method like `SetXCallback(Callback)`, then you just want to stamp MAKE_ACTION_ADAPTER"
  * If it's a full on Async method you want to await, like `await EnterSpace(spaceID...)`, then 
- * stamp with MAKE_ASYNC, which makes an action callback but also wraps in an awaitable. 
+ * stamp with MAKE_AWAITABLE, which makes an action callback but also wraps in an awaitable. 
  * At the moment (2025), CALLBACKT is generally a csharp adapter defined in CallbackAdapters.i
  *
- * Note: MAKE_ACTION_ADAPTER is used by both MAKE_ASYNC_ZERO and MAKE_ASYNC macros, in order to define the related
+ * Note: MAKE_ACTION_ADAPTER is used by both MAKE_AWAITABLE_ZERO and MAKE_AWAITABLE macros, in order to define the related
  * callback type that is used by the async function. 
  *
- * Whilst action adapters such as these are used in both Async (awaitable) formulations (see MAKE_ASYNC, it calls this),
+ * Whilst action adapters such as these are used in both Async (awaitable) formulations (see MAKE_AWAITABLE, it calls this),
  * and registerable callbacks, using this to expose a registerable "SetXCallback" style callback DOES NOT perform
  * the automatic rooting that the async style does. You can think of this as, because the async/await style creates the
  * callback we pass to CSP automatically, it also takes on responsibility for rooting it. Here, that callback is created
@@ -62,7 +62,7 @@
 
 
 /*
- * Below you'll note we have MAKE_ASYNC and MAKE_ASYNC_ZERO, an unfortunate compromise for working in macrotown.
+ * Below you'll note we have MAKE_AWAITABLE and MAKE_AWAITABLE_ZERO, an unfortunate compromise for working in macrotown.
  * The bulk of these macros are the same, we only need to change whether or not we're providing an argument list.
  * This is the callback body that is shared between both async macros, such that we can avoid duplicating it.
  *
@@ -135,7 +135,7 @@ ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME callback = null;
  * FUNCTION_TYPELIST_WITH_NAMES is the full argument list with types for the function being wrapped, e.g. ARGLIST(const csp::common::String& userId, int someValue)
  * FUNCTION_TYPELIST_ONLY_NAMES is just the argument names for the function being wrapped, e.g. ARGLIST(userId, someValue)
  */
-%define MAKE_ASYNC(
+%define MAKE_AWAITABLE(
     FULLY_NAMESPACED_CLASST, 
     METHODNAME, 
     CALLBACK_TYPENAME,
@@ -166,7 +166,7 @@ MAKE_ACTION_ADAPTER(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, 
     MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES);
 
     // Run the method with the provided arguments and the callback
-    // callback is defined in MAKE_ASYNC_CALLBACK_BODY
+    // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
     METHODNAME(FUNCTION_TYPELIST_ONLY_NAMES, callback);
 
     return tcs.Task;
@@ -176,7 +176,7 @@ MAKE_ACTION_ADAPTER(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, 
 %enddef
 
 /*
- * Variant of MAKE_ASYNC for zero-argument functions
+ * Variant of MAKE_AWAITABLE for zero-argument functions
  * Use this for things like `GetTotalSpacesOwnedByUser(Action<FeatureLimitResult> callback)`, where the calling
  * function takes no arguments other than the callback.
  *
@@ -189,7 +189,7 @@ MAKE_ACTION_ADAPTER(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, 
  * CALLBACK_TYPELIST_WITHOUT_NAMES is the argument list without types, e.g. ARGLIST(const csp::systems::FeatureLimitResult)
  * CALLBACK_TYPELIST_ONLY_NAMES is just the argument names, e.g. ARGLIST(result)
  */
-%define MAKE_ASYNC_ZERO(
+%define MAKE_AWAITABLE_ZERO(
     FULLY_NAMESPACED_CLASST, 
     METHODNAME, 
     CALLBACK_TYPENAME,

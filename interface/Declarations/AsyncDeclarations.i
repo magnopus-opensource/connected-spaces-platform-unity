@@ -11,7 +11,7 @@
  */
 
  /*
-  * Start with Action Adapters. MAKE_ASYNC (for await) also does this, as its how we do the TaskCompletionSource for that,
+  * Start with Action Adapters. MAKE_AWAITABLE (for await) also does this, as its how we do the TaskCompletionSource for that,
   * however, not everything is an `await` style function. Some functions take registerable callbacks for repeated use,
   * such as the LogSystem. For these functions, we only create action adapters, as doing `await SetLogCallback` is nonsensical.
   *
@@ -175,7 +175,7 @@ MAKE_ACTION_ADAPTER(NetworkEventCallback,
 /* MULTIPLAYER MODULE */
 
 /* SpaceEntity */
-MAKE_ASYNC(csp::multiplayer::SpaceEntity,
+MAKE_AWAITABLE(csp::multiplayer::SpaceEntity,
            CreateChildEntity,
            EntityCreatedCallback,
            EntityCreatedCallbackAdapter,
@@ -186,7 +186,7 @@ MAKE_ASYNC(csp::multiplayer::SpaceEntity,
            ARGLIST(name, spaceTransform)
 )
 
-MAKE_ASYNC_ZERO(csp::multiplayer::SpaceEntity,
+MAKE_AWAITABLE_ZERO(csp::multiplayer::SpaceEntity,
                 Destroy,
                 DestroyCallback,
                 BoolCallbackAdapter,
@@ -196,7 +196,7 @@ MAKE_ASYNC_ZERO(csp::multiplayer::SpaceEntity,
 )
 
 /* MultiplayerConnection */
-MAKE_ASYNC(csp::multiplayer::MultiplayerConnection,
+MAKE_AWAITABLE(csp::multiplayer::MultiplayerConnection,
            SetAllowSelfMessagingFlag,
            ErrorCodeCallback,
            ErrorCodeCallbackAdapter,
@@ -208,7 +208,7 @@ MAKE_ASYNC(csp::multiplayer::MultiplayerConnection,
 )
 
 /* OnlineRealtimeEngine */
-MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
+MAKE_AWAITABLE(csp::multiplayer::OnlineRealtimeEngine,
            CreateAvatar,
            EntityCreatedCallback,
            EntityCreatedCallbackAdapter,
@@ -219,7 +219,7 @@ MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
            ARGLIST(name, userId, spaceTransform, isVisible, state, avatarId, avatarPlayMode, locomotionModel)
 )
 
-MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
+MAKE_AWAITABLE(csp::multiplayer::OnlineRealtimeEngine,
            CreateEntity,
            EntityCreatedCallback,
            EntityCreatedCallbackAdapter,
@@ -230,7 +230,7 @@ MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
            ARGLIST(name, spaceTransform, parentId)
 )
 
-MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
+MAKE_AWAITABLE(csp::multiplayer::OnlineRealtimeEngine,
            DestroyEntity,
            DestroyCallback,
            BoolCallbackAdapter,
@@ -242,7 +242,7 @@ MAKE_ASYNC(csp::multiplayer::OnlineRealtimeEngine,
 )
 
 /* OfflineRealtimeEngine */
-MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
+MAKE_AWAITABLE(csp::multiplayer::OfflineRealtimeEngine,
            CreateAvatar,
            EntityCreatedCallback,
            EntityCreatedCallbackAdapter,
@@ -253,7 +253,7 @@ MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
            ARGLIST(name, userId, transform, isVisible, state, avatarId, avatarPlayMode, locomotionModel)
 )
 
-MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
+MAKE_AWAITABLE(csp::multiplayer::OfflineRealtimeEngine,
            CreateEntity,
            EntityCreatedCallback,
            EntityCreatedCallbackAdapter,
@@ -264,7 +264,7 @@ MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
            ARGLIST(name, transform, parentId)
 )
 
-MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
+MAKE_AWAITABLE(csp::multiplayer::OfflineRealtimeEngine,
            DestroyEntity,
            DestroyCallback,
            BoolCallbackAdapter,
@@ -276,7 +276,7 @@ MAKE_ASYNC(csp::multiplayer::OfflineRealtimeEngine,
 )
 
 /* NetworkEventBus */
-MAKE_ASYNC(csp::multiplayer::NetworkEventBus,
+MAKE_AWAITABLE(csp::multiplayer::NetworkEventBus,
            SendNetworkEvent,
            ErrorCodeCallback,
            ErrorCodeCallbackAdapter,
@@ -287,7 +287,7 @@ MAKE_ASYNC(csp::multiplayer::NetworkEventBus,
            ARGLIST(eventName, args)
 )
 
-MAKE_ASYNC(csp::multiplayer::NetworkEventBus,
+MAKE_AWAITABLE(csp::multiplayer::NetworkEventBus,
            SendNetworkEventToClient,
            ErrorCodeCallback,
            ErrorCodeCallbackAdapter,
@@ -299,7 +299,7 @@ MAKE_ASYNC(csp::multiplayer::NetworkEventBus,
 )
 
 /* ConversationSpaceComponent */
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
            CreateConversation,
            StringResultCallback,
            StringResultCallbackAdapter,
@@ -310,7 +310,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
            ARGLIST(message)
 )
 
-MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 DeleteConversation,
                 NullResultCallback,
                 NullResultCallbackAdapter,
@@ -319,7 +319,7 @@ MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 ARGLIST(result)
 ) 
 
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
            AddMessage,
            MessageResultCallback,
            MessageResultCallbackAdapter,
@@ -330,7 +330,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
            ARGLIST(message)
 )
 
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
            DeleteMessage,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -341,7 +341,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
            ARGLIST(messageId)
 )
 
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
            GetMessagesFromConversation,
            MessageCollectionResultCallback,
            MessageCollectionResultCallbackAdapter,
@@ -352,7 +352,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
            ARGLIST(resultsSkipNumber, resultsMaxNumber)
 )
 
-MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 GetConversationInfo,
                 ConversationResultCallback,
                 ConversationResultCallbackAdapter,
@@ -361,7 +361,7 @@ MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
            UpdateConversation,
            ConversationResultCallback,
            ConversationResultCallbackAdapter,
@@ -372,7 +372,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
            ARGLIST(newData)
 )
 
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
            GetMessageInfo,
            MessageResultCallback,
            MessageResultCallbackAdapter,
@@ -383,7 +383,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
            ARGLIST(messageId)
 )
 
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
            UpdateMessage,
            MessageResultCallback,
            MessageResultCallbackAdapter,
@@ -394,7 +394,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
            ARGLIST(messageId, newData)
 )
 
-MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 GetNumberOfReplies,
                 NumberOfRepliesResultCallback,
                 NumberOfRepliesResultCallbackAdapter,
@@ -403,7 +403,7 @@ MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 GetConversationAnnotation,
                 AnnotationResultCallback,
                 AnnotationResultCallbackAdapter,
@@ -412,7 +412,7 @@ MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
            SetConversationAnnotation,
            AnnotationResultCallback,
            AnnotationResultCallbackAdapter,
@@ -423,7 +423,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
            ARGLIST(annotationParams, annotation, annotationThumbnail)
 )
 
-MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 DeleteConversationAnnotation,
                 NullResultCallback,
                 NullResultCallbackAdapter,
@@ -432,7 +432,7 @@ MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 ARGLIST(result)
 ) 
 
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
            GetAnnotation,
            AnnotationResultCallback,
            AnnotationResultCallbackAdapter,
@@ -443,7 +443,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
            ARGLIST(messageId)
 )
 
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
           SetAnnotation,
           AnnotationResultCallback,
           AnnotationResultCallbackAdapter,
@@ -454,7 +454,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
           ARGLIST(messageId, updateParams, annotation, annotationThumbnail)
 )
 
-MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE(csp::multiplayer::ConversationSpaceComponent,
            DeleteAnnotation,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -465,7 +465,7 @@ MAKE_ASYNC(csp::multiplayer::ConversationSpaceComponent,
            ARGLIST(messageId)
 )
 
-MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
+MAKE_AWAITABLE_ZERO(csp::multiplayer::ConversationSpaceComponent,
                 GetAnnotationThumbnailsForConversation,
                 AnnotationThumbnailCollectionResultCallback,
                 AnnotationThumbnailCollectionResultCallbackAdapter,
@@ -478,7 +478,7 @@ MAKE_ASYNC_ZERO(csp::multiplayer::ConversationSpaceComponent,
 /* SYSTEMS MODULE */
 
 /* AssetSystem Async Functions */
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            CreateAssetCollection,
            AssetCollectionResultCallback,
            AssetCollectionResultCallbackAdapter,
@@ -489,7 +489,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(spaceId, parentAssetCollectionId, assetCollectionName, metadata, type, tags)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            DeleteAssetCollection,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -500,7 +500,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollection)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            DeleteMultipleAssetCollections,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -511,7 +511,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollections)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            CopyAssetCollectionsToSpace,
            AssetCollectionsResultCallback,
            AssetCollectionsResultCallbackAdapter,
@@ -522,7 +522,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(sourceAssetCollections, destSpaceId, copyAsync)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetAssetCollectionById,
            AssetCollectionResultCallback,
            AssetCollectionResultCallbackAdapter,
@@ -533,7 +533,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollectionId)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetAssetCollectionByName,
            AssetCollectionResultCallback,
            AssetCollectionResultCallbackAdapter,
@@ -544,7 +544,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollectionName)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            FindAssetCollections,
            AssetCollectionsResultCallback,
            AssetCollectionsResultCallbackAdapter,
@@ -555,7 +555,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(ids, parentId, names, types, tags, spaceIds, resultsSkipNumber, resultsMaxNumber)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            UpdateAssetCollectionMetadata,
            AssetCollectionResultCallback,
            AssetCollectionResultCallbackAdapter,
@@ -566,7 +566,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollection, newMetadata, tags)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetAssetCollectionCount,
            AssetCollectionCountResultCallback,
            AssetCollectionCountResultCallbackAdapter,
@@ -577,7 +577,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(ids, parentId, names, types, tags, spaceIds)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            CreateAsset,
            AssetResultCallback,
            AssetResultCallbackAdapter,
@@ -588,7 +588,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollection, name, thirdPartyPackagedAssetIdentifier, thirdPartyPlatform, type)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            UpdateAsset,
            AssetResultCallback,
            AssetResultCallbackAdapter,
@@ -599,7 +599,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(asset)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            DeleteAsset,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -610,7 +610,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollection, asset)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetAssetsInCollection,
            AssetsResultCallback,
            AssetsResultCallbackAdapter,
@@ -621,7 +621,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollection)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetAssetById,
            AssetResultCallback,
            AssetResultCallbackAdapter,
@@ -632,7 +632,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollectionId, assetId)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetAssetsByCollectionIds,
            AssetsResultCallback,
            AssetsResultCallbackAdapter,
@@ -643,7 +643,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollectionIds)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetAssetsByCriteria,
            AssetsResultCallback,
            AssetsResultCallbackAdapter,
@@ -654,7 +654,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollectionIds, assetIds, assetNames, assetTypes)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            UploadAssetData,
            UriResultCallback,
            UriResultCallbackAdapter,
@@ -665,7 +665,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollection, asset, assetDataSource)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            UploadAssetDataEx,
            UriResultCallback,
            UriResultCallbackAdapter,
@@ -676,7 +676,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollection, asset, assetDataSource, cancellationToken)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            DownloadAssetData,
            AssetDataResultCallback,
            AssetDataResultCallbackAdapter,
@@ -687,7 +687,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(asset)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            DownloadAssetDataEx,
            AssetDataResultCallback,
            AssetDataResultCallbackAdapter,
@@ -698,7 +698,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(asset, cancellationToken)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetAssetDataSize,
            UInt64ResultCallback,
            UInt64ResultCallbackAdapter,
@@ -709,7 +709,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(asset)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetLODChain,
            LODChainResultCallback,
            LODChainResultCallbackAdapter,
@@ -720,7 +720,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollection)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            RegisterAssetToLODChain,
            AssetResultCallback,
            AssetResultCallbackAdapter,
@@ -731,7 +731,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollection, asset, lodLevel)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            CreateMaterial,
            MaterialResultCallback,
            MaterialResultCallbackAdapter,
@@ -742,7 +742,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(name, shaderType, spaceId, metadata, assetTags)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            UpdateMaterial,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -753,7 +753,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(material)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            DeleteMaterial,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -764,7 +764,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(material)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetMaterials,
            MaterialsResultCallback,
            MaterialsResultCallbackAdapter,
@@ -775,7 +775,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetMaterial,
            MaterialResultCallback,
            MaterialResultCallbackAdapter,
@@ -786,7 +786,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
            ARGLIST(assetCollectionId, assetId)
 )
 
-MAKE_ASYNC(csp::systems::AssetSystem,
+MAKE_AWAITABLE(csp::systems::AssetSystem,
            GetMaterialFromUri,
            MaterialResultCallback,
            MaterialResultCallbackAdapter,
@@ -799,7 +799,7 @@ MAKE_ASYNC(csp::systems::AssetSystem,
 
 /* SpaceSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            EnterSpace,
            SpaceResultCallback,
            SpaceResultCallbackAdapter,
@@ -810,7 +810,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, realtimeEngine)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::SpaceSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::SpaceSystem,
                 ExitSpace,
                 NullResultCallback,
                 NullResultCallbackAdapter,
@@ -819,7 +819,7 @@ MAKE_ASYNC_ZERO(csp::systems::SpaceSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            CreateSpace,
            SpaceResultCallback,
            SpaceResultCallbackAdapter,
@@ -830,7 +830,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(name, description, attributes, inviteUsers, metadata, fileThumbnail, tags)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            CreateSpaceWithBuffer,
            SpaceResultCallback,
            SpaceResultCallbackAdapter,
@@ -841,7 +841,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(name, description, attributes, inviteUsers, metadata, thumbnail, tags)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            UpdateSpace,
            BasicSpaceResultCallback,
            BasicSpaceResultCallbackAdapter,
@@ -852,7 +852,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, name, description, type, tags)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            DeleteSpace,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -863,7 +863,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::SpaceSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::SpaceSystem,
                 GetSpaces,
                 SpacesResultCallback,
                 SpacesResultCallbackAdapter,
@@ -872,7 +872,7 @@ MAKE_ASYNC_ZERO(csp::systems::SpaceSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetSpacesByAttributes,
            BasicSpacesResultCallback,
            BasicSpacesResultCallbackAdapter,
@@ -883,7 +883,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(isDiscoverable, isArchived, requiresInvite, resultsSkip, resultsMax, mustContainTags, mustExcludeTags, mustIncludeAllTags)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetSpacesByIds,
            SpacesResultCallback,
            SpacesResultCallbackAdapter,
@@ -894,7 +894,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(requestedSpaceIDs)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetSpacesForUserId,
            SpacesResultCallback,
            SpacesResultCallbackAdapter,
@@ -905,7 +905,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(userId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetSpace,
            SpaceResultCallback,
            SpaceResultCallbackAdapter,
@@ -916,7 +916,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            InviteToSpace,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -927,7 +927,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, email, isModeratorRole, emailLinkUrl, signupUrl)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            BulkInviteToSpace,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -938,7 +938,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, inviteUsers)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetPendingUserInvites,
            PendingInvitesResultCallback,
            PendingInvitesResultCallbackAdapter,
@@ -949,7 +949,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetAcceptedUserInvites,
            AcceptedInvitesResultCallback,
            AcceptedInvitesResultCallbackAdapter,
@@ -960,7 +960,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            RemoveUserFromSpace,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -971,7 +971,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, userId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            AddUserToSpace,
            SpaceResultCallback,
            SpaceResultCallbackAdapter,
@@ -982,7 +982,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, userId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            AddSiteInfo,
            SiteResultCallback,
            SiteResultCallbackAdapter,
@@ -993,7 +993,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, siteInfo)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            RemoveSiteInfo,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1004,7 +1004,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, siteInfo)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetSitesInfo,
            SitesCollectionResultCallback,
            SitesCollectionResultCallbackAdapter,
@@ -1015,7 +1015,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            UpdateUserRole,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1026,7 +1026,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, newUserRoleInfo)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetUsersRoles,
            UserRoleCollectionCallback,
            UserRoleCollectionCallbackAdapter,
@@ -1037,7 +1037,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, requestedUserIds)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            UpdateSpaceMetadata,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1048,7 +1048,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, newMetadata)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetSpacesMetadata,
            SpacesMetadataResultCallback,
            SpacesMetadataResultCallbackAdapter,
@@ -1059,7 +1059,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaces)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetSpaceMetadata,
            SpaceMetadataResultCallback,
            SpaceMetadataResultCallbackAdapter,
@@ -1070,7 +1070,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            UpdateSpaceThumbnail,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1081,7 +1081,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, newThumbnail)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            UpdateSpaceThumbnailWithBuffer,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1092,7 +1092,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, newThumbnail)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetSpaceThumbnail,
            UriResultCallback,
            UriResultCallbackAdapter,
@@ -1103,7 +1103,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            AddUserToSpaceBanList,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1114,7 +1114,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, requestedUserId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            DeleteUserFromSpaceBanList,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1125,7 +1125,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, requestedUserId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            UpdateSpaceGeoLocation,
            SpaceGeoLocationResultCallback,
            SpaceGeoLocationResultCallbackAdapter,
@@ -1136,7 +1136,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, location, orientation, geoFence)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            GetSpaceGeoLocation,
            SpaceGeoLocationResultCallback,
            SpaceGeoLocationResultCallbackAdapter,
@@ -1147,7 +1147,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            DeleteSpaceGeoLocation,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1158,7 +1158,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            DuplicateSpace,
            SpaceResultCallback,
            SpaceResultCallbackAdapter,
@@ -1169,7 +1169,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
            ARGLIST(spaceId, newName, newAttributes, memberGroupIds, shallowCopy)
 )
 
-MAKE_ASYNC(csp::systems::SpaceSystem,
+MAKE_AWAITABLE(csp::systems::SpaceSystem,
            DuplicateSpaceAsync,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1182,7 +1182,7 @@ MAKE_ASYNC(csp::systems::SpaceSystem,
 
 /* UserSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            Login,
            LoginStateResultCallback,
            LoginStateResultCallbackAdapter,
@@ -1193,7 +1193,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(userName, email, password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            LoginWithRefreshToken,
            LoginStateResultCallback,
            LoginStateResultCallbackAdapter,
@@ -1204,7 +1204,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(userId, refreshToken, createMultiplayerConnection, tokenOptions)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            LoginAsGuest,
            LoginStateResultCallback,
            LoginStateResultCallbackAdapter,
@@ -1215,7 +1215,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(createMultiplayerConnection, userHasVerifiedAge, tokenOptions)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            LoginAsGuestWithDeferredProfileCreation,
            LoginStateResultCallback,
            LoginStateResultCallbackAdapter,
@@ -1226,7 +1226,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(userHasVerifiedAge)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            GetThirdPartyProviderAuthoriseURL,
            StringResultCallback,
            StringResultCallbackAdapter,
@@ -1237,7 +1237,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(authProvider, redirectURL)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            LoginToThirdPartyAuthenticationProvider,
            LoginStateResultCallback,
            LoginStateResultCallbackAdapter,
@@ -1248,7 +1248,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(thirdPartyToken, thirdPartyStateId, createMultiplayerConnection, userHasVerifiedAge, tokenOptions)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::UserSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::UserSystem,
                 Logout,
                 NullResultCallback,
                 NullResultCallbackAdapter,
@@ -1257,7 +1257,7 @@ MAKE_ASYNC_ZERO(csp::systems::UserSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            CreateUser,
            ProfileResultCallback,
            ProfileResultCallbackAdapter,
@@ -1268,7 +1268,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(userName, displayName, email, password, receiveNewsletter, userHasVerifiedAge, redirectUrl, inviteToken)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            UpgradeGuestAccount,
            ProfileResultCallback,
            ProfileResultCallbackAdapter,
@@ -1279,7 +1279,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(userName, displayName, email, password)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::UserSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::UserSystem,
                 ConfirmUserEmail,
                 NullResultCallback,
                 NullResultCallbackAdapter,
@@ -1288,7 +1288,7 @@ MAKE_ASYNC_ZERO(csp::systems::UserSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            ResetUserPassword,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1299,7 +1299,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(token, userId, newPassword)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            UpdateUserDisplayName,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1310,7 +1310,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(userId, newUserDisplayName)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            DeleteUser,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1321,7 +1321,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(userId)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            ForgotPassword,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1332,7 +1332,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(email, redirectUrl, emailLinkUrl, useTokenChangePasswordUrl)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            GetProfileByUserId,
            ProfileResultCallback,
            ProfileResultCallbackAdapter,
@@ -1343,7 +1343,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(inUserId)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            GetProfilesByUserId,
            BasicProfilesResultCallback,
            BasicProfilesResultCallbackAdapter,
@@ -1354,7 +1354,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(inUserIds)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            GetBasicProfilesByUserId,
            BasicProfilesResultCallback,
            BasicProfilesResultCallbackAdapter,
@@ -1365,7 +1365,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(inUserIds)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::UserSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::UserSystem,
                 Ping,
                 NullResultCallback,
                 NullResultCallbackAdapter,
@@ -1374,7 +1374,7 @@ MAKE_ASYNC_ZERO(csp::systems::UserSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            ResendVerificationEmail,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1385,7 +1385,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(inEmail, inRedirectUrl)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            GetCustomerPortalUrl,
            StringResultCallback,
            StringResultCallbackAdapter,
@@ -1396,7 +1396,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
            ARGLIST(userId)
 )
 
-MAKE_ASYNC(csp::systems::UserSystem,
+MAKE_AWAITABLE(csp::systems::UserSystem,
            GetCheckoutSessionUrl,
            StringResultCallback,
            StringResultCallbackAdapter,
@@ -1409,7 +1409,7 @@ MAKE_ASYNC(csp::systems::UserSystem,
 
 /* SettingsSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::SettingsSystem,
+MAKE_AWAITABLE(csp::systems::SettingsSystem,
            SetNDAStatus,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1420,7 +1420,7 @@ MAKE_ASYNC(csp::systems::SettingsSystem,
            ARGLIST(inValue)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::SettingsSystem,
                 GetNDAStatus,
                 BooleanResultCallback,
                 BooleanResultCallbackAdapter,
@@ -1429,7 +1429,7 @@ MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::SettingsSystem,
+MAKE_AWAITABLE(csp::systems::SettingsSystem,
            SetNewsletterStatus,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1440,7 +1440,7 @@ MAKE_ASYNC(csp::systems::SettingsSystem,
            ARGLIST(inValue)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::SettingsSystem,
                 GetNewsletterStatus,
                 BooleanResultCallback,
                 BooleanResultCallbackAdapter,
@@ -1449,7 +1449,7 @@ MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::SettingsSystem,
+MAKE_AWAITABLE(csp::systems::SettingsSystem,
            AddRecentlyVisitedSpace,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1460,7 +1460,7 @@ MAKE_ASYNC(csp::systems::SettingsSystem,
            ARGLIST(inSpaceID)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::SettingsSystem,
                 GetRecentlyVisitedSpaces,
                 StringArrayResultCallback,
                 StringArrayResultCallbackAdapter,
@@ -1469,7 +1469,7 @@ MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::SettingsSystem,
                 ClearRecentlyVisitedSpaces,
                 NullResultCallback,
                 NullResultCallbackAdapter,
@@ -1478,7 +1478,7 @@ MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::SettingsSystem,
+MAKE_AWAITABLE(csp::systems::SettingsSystem,
            AddBlockedSpace,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1489,7 +1489,7 @@ MAKE_ASYNC(csp::systems::SettingsSystem,
            ARGLIST(inSpaceID)
 )
 
-MAKE_ASYNC(csp::systems::SettingsSystem,
+MAKE_AWAITABLE(csp::systems::SettingsSystem,
            RemoveBlockedSpace,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1500,7 +1500,7 @@ MAKE_ASYNC(csp::systems::SettingsSystem,
            ARGLIST(inSpaceID)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::SettingsSystem,
                 GetBlockedSpaces,
                 StringArrayResultCallback,
                 StringArrayResultCallbackAdapter,
@@ -1509,7 +1509,7 @@ MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::SettingsSystem,
                 ClearBlockedSpaces,
                 NullResultCallback,
                 NullResultCallbackAdapter,
@@ -1518,7 +1518,7 @@ MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::SettingsSystem,
+MAKE_AWAITABLE(csp::systems::SettingsSystem,
            UpdateAvatarPortrait,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1529,7 +1529,7 @@ MAKE_ASYNC(csp::systems::SettingsSystem,
            ARGLIST(newAvatarPortrait)
 )
 
-MAKE_ASYNC(csp::systems::SettingsSystem,
+MAKE_AWAITABLE(csp::systems::SettingsSystem,
            GetAvatarPortrait,
            UriResultCallback,
            UriResultCallbackAdapter,
@@ -1540,7 +1540,7 @@ MAKE_ASYNC(csp::systems::SettingsSystem,
            ARGLIST(inUserID)
 )
 
-MAKE_ASYNC(csp::systems::SettingsSystem,
+MAKE_AWAITABLE(csp::systems::SettingsSystem,
            UpdateAvatarPortraitWithBuffer,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1551,7 +1551,7 @@ MAKE_ASYNC(csp::systems::SettingsSystem,
            ARGLIST(newAvatarPortrait)
 )
 
-MAKE_ASYNC(csp::systems::SettingsSystem,
+MAKE_AWAITABLE(csp::systems::SettingsSystem,
            SetAvatarInfo,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1562,7 +1562,7 @@ MAKE_ASYNC(csp::systems::SettingsSystem,
            ARGLIST(inType, inIdentifier, inAvatarVisible)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::SettingsSystem,
                 GetAvatarInfo,
                 AvatarInfoResultCallback,
                 AvatarInfoResultCallbackAdapter,
@@ -1573,7 +1573,7 @@ MAKE_ASYNC_ZERO(csp::systems::SettingsSystem,
 
 /* ApplicationSettingsSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::ApplicationSettingsSystem,
+MAKE_AWAITABLE(csp::systems::ApplicationSettingsSystem,
            GetSettingsByContext,
            ApplicationSettingsResultCallback,
            ApplicationSettingsResultCallbackAdapter,
@@ -1584,7 +1584,7 @@ MAKE_ASYNC(csp::systems::ApplicationSettingsSystem,
            ARGLIST(applicationName, context, keys)
 )
 
-MAKE_ASYNC(csp::systems::ApplicationSettingsSystem,
+MAKE_AWAITABLE(csp::systems::ApplicationSettingsSystem,
            GetSettingsByContextAnonymous,
            ApplicationSettingsResultCallback,
            ApplicationSettingsResultCallbackAdapter,
@@ -1597,7 +1597,7 @@ MAKE_ASYNC(csp::systems::ApplicationSettingsSystem,
 
 /* QuotaSystem Async Functions  */
 
-MAKE_ASYNC(csp::systems::QuotaSystem,
+MAKE_AWAITABLE(csp::systems::QuotaSystem,
            GetTotalSpaceSizeInKilobytes,
            FeatureLimitCallback,
            FeatureLimitCallbackAdapter,
@@ -1608,7 +1608,7 @@ MAKE_ASYNC(csp::systems::QuotaSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::QuotaSystem,
+MAKE_AWAITABLE(csp::systems::QuotaSystem,
            GetTierFeatureProgressForUser,
            FeaturesLimitCallback,
            FeaturesLimitCallbackAdapter,
@@ -1619,7 +1619,7 @@ MAKE_ASYNC(csp::systems::QuotaSystem,
            ARGLIST(featureNames)
 )
 
-MAKE_ASYNC(csp::systems::QuotaSystem,
+MAKE_AWAITABLE(csp::systems::QuotaSystem,
            GetTierFeatureProgressForSpace,
            FeaturesLimitCallback,
            FeaturesLimitCallbackAdapter,
@@ -1630,7 +1630,7 @@ MAKE_ASYNC(csp::systems::QuotaSystem,
            ARGLIST(spaceId, featureNames)
 )
 
-MAKE_ASYNC(csp::systems::QuotaSystem,
+MAKE_AWAITABLE(csp::systems::QuotaSystem,
            SetUserTier,
            UserTierCallback,
            UserTierCallbackAdapter,
@@ -1641,7 +1641,7 @@ MAKE_ASYNC(csp::systems::QuotaSystem,
            ARGLIST(tier, userId)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::QuotaSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::QuotaSystem,
                 GetCurrentUserTier,
                 UserTierCallback,
                 UserTierCallbackAdapter,
@@ -1650,7 +1650,7 @@ MAKE_ASYNC_ZERO(csp::systems::QuotaSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::QuotaSystem,
+MAKE_AWAITABLE(csp::systems::QuotaSystem,
            GetTierFeatureQuota,
            FeatureQuotaCallback,
            FeatureQuotaCallbackAdapter,
@@ -1661,7 +1661,7 @@ MAKE_ASYNC(csp::systems::QuotaSystem,
            ARGLIST(tierName, featureName)
 )
 
-MAKE_ASYNC(csp::systems::QuotaSystem,
+MAKE_AWAITABLE(csp::systems::QuotaSystem,
            GetTierFeaturesQuota,
            FeaturesQuotaCallback,
            FeaturesQuotaCallbackAdapter,
@@ -1672,7 +1672,7 @@ MAKE_ASYNC(csp::systems::QuotaSystem,
            ARGLIST(tierName)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::QuotaSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::QuotaSystem,
                 GetTotalSpacesOwnedByUser,
                 FeatureLimitCallback,
                 FeatureLimitCallbackAdapter,
@@ -1681,7 +1681,7 @@ MAKE_ASYNC_ZERO(csp::systems::QuotaSystem,
                 ARGLIST(featureLimitResult)
 )
 
-MAKE_ASYNC(csp::systems::QuotaSystem,
+MAKE_AWAITABLE(csp::systems::QuotaSystem,
            GetConcurrentUsersInSpace,
            FeatureLimitCallback,
            FeatureLimitCallbackAdapter,
@@ -1694,7 +1694,7 @@ MAKE_ASYNC(csp::systems::QuotaSystem,
 
 /* ECommerceSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::ECommerceSystem,
+MAKE_AWAITABLE(csp::systems::ECommerceSystem,
            GetProductInformation,
            ProductInfoResultCallback,
            ProductInfoResultCallbackAdapter,
@@ -1705,7 +1705,7 @@ MAKE_ASYNC(csp::systems::ECommerceSystem,
            ARGLIST(spaceId, productId)
 )
 
-MAKE_ASYNC(csp::systems::ECommerceSystem,
+MAKE_AWAITABLE(csp::systems::ECommerceSystem,
            GetProductInfoCollectionByVariantIds,
            ProductInfoCollectionResultCallback,
            ProductInfoCollectionResultCallbackAdapter,
@@ -1716,7 +1716,7 @@ MAKE_ASYNC(csp::systems::ECommerceSystem,
            ARGLIST(spaceId, variantIds)
 )
 
-MAKE_ASYNC(csp::systems::ECommerceSystem,
+MAKE_AWAITABLE(csp::systems::ECommerceSystem,
            GetCheckoutInformation,
            CheckoutInfoResultCallback,
            CheckoutInfoResultCallbackAdapter,
@@ -1727,7 +1727,7 @@ MAKE_ASYNC(csp::systems::ECommerceSystem,
            ARGLIST(spaceId, cartId)
 )
 
-MAKE_ASYNC(csp::systems::ECommerceSystem,
+MAKE_AWAITABLE(csp::systems::ECommerceSystem,
            CreateCart,
            CartInfoResultCallback,
            CartInfoResultCallbackAdapter,
@@ -1738,7 +1738,7 @@ MAKE_ASYNC(csp::systems::ECommerceSystem,
            ARGLIST(spaceId)
 )
 
-MAKE_ASYNC(csp::systems::ECommerceSystem,
+MAKE_AWAITABLE(csp::systems::ECommerceSystem,
            GetCart,
            CartInfoResultCallback,
            CartInfoResultCallbackAdapter,
@@ -1749,7 +1749,7 @@ MAKE_ASYNC(csp::systems::ECommerceSystem,
            ARGLIST(spaceId, cartId)
 )
 
-MAKE_ASYNC(csp::systems::ECommerceSystem,
+MAKE_AWAITABLE(csp::systems::ECommerceSystem,
            GetShopifyStores,
            GetShopifyStoresResultCallback,
            GetShopifyStoresResultCallbackAdapter,
@@ -1760,7 +1760,7 @@ MAKE_ASYNC(csp::systems::ECommerceSystem,
            ARGLIST(isActive)
 )
 
-MAKE_ASYNC(csp::systems::ECommerceSystem,
+MAKE_AWAITABLE(csp::systems::ECommerceSystem,
            AddShopifyStore,
            AddShopifyStoreResultCallback,
            AddShopifyStoreResultCallbackAdapter,
@@ -1771,7 +1771,7 @@ MAKE_ASYNC(csp::systems::ECommerceSystem,
            ARGLIST(storeName, spaceId, isEcommerceActive, privateAccessToken)
 )
 
-MAKE_ASYNC(csp::systems::ECommerceSystem,
+MAKE_AWAITABLE(csp::systems::ECommerceSystem,
            SetECommerceActiveInSpace,
            AddShopifyStoreResultCallback,
            AddShopifyStoreResultCallbackAdapter,
@@ -1782,7 +1782,7 @@ MAKE_ASYNC(csp::systems::ECommerceSystem,
            ARGLIST(storeName, spaceId, isEcommerceActive)
 )
 
-MAKE_ASYNC(csp::systems::ECommerceSystem,
+MAKE_AWAITABLE(csp::systems::ECommerceSystem,
            ValidateShopifyStore,
            ValidateShopifyStoreResultCallback,
            ValidateShopifyStoreResultCallbackAdapter,
@@ -1793,7 +1793,7 @@ MAKE_ASYNC(csp::systems::ECommerceSystem,
            ARGLIST(storeName, privateAccessToken)
 )
 
-MAKE_ASYNC(csp::systems::ECommerceSystem,
+MAKE_AWAITABLE(csp::systems::ECommerceSystem,
            UpdateCartInformation,
            CartInfoResultCallback,
            CartInfoResultCallbackAdapter,
@@ -1806,7 +1806,7 @@ MAKE_ASYNC(csp::systems::ECommerceSystem,
 
 /* EventTicketingSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::EventTicketingSystem,
+MAKE_AWAITABLE(csp::systems::EventTicketingSystem,
            CreateTicketedEvent,
            TicketedEventResultCallback,
            TicketedEventResultCallbackAdapter,
@@ -1817,7 +1817,7 @@ MAKE_ASYNC(csp::systems::EventTicketingSystem,
            ARGLIST(spaceId, vendor, vendorEventId, vendorEventUri, isTicketingActive)
 )
 
-MAKE_ASYNC(csp::systems::EventTicketingSystem,
+MAKE_AWAITABLE(csp::systems::EventTicketingSystem,
            UpdateTicketedEvent,
            TicketedEventResultCallback,
            TicketedEventResultCallbackAdapter,
@@ -1828,7 +1828,7 @@ MAKE_ASYNC(csp::systems::EventTicketingSystem,
            ARGLIST(spaceId, eventId, vendor, vendorEventId, vendorEventUri, isTicketingActive)
 )
 
-MAKE_ASYNC(csp::systems::EventTicketingSystem,
+MAKE_AWAITABLE(csp::systems::EventTicketingSystem,
            GetTicketedEvents,
            TicketedEventCollectionResultCallback,
            TicketedEventCollectionResultCallbackAdapter,
@@ -1839,7 +1839,7 @@ MAKE_ASYNC(csp::systems::EventTicketingSystem,
            ARGLIST(spaceIds, skip, limit)
 )
 
-MAKE_ASYNC(csp::systems::EventTicketingSystem,
+MAKE_AWAITABLE(csp::systems::EventTicketingSystem,
            SubmitEventTicket,
            EventTicketResultCallback,
            EventTicketResultCallbackAdapter,
@@ -1850,7 +1850,7 @@ MAKE_ASYNC(csp::systems::EventTicketingSystem,
            ARGLIST(spaceId, vendor, vendorEventId, vendorTicketId, onBehalfOfUserId)
 )
 
-MAKE_ASYNC(csp::systems::EventTicketingSystem,
+MAKE_AWAITABLE(csp::systems::EventTicketingSystem,
            GetVendorAuthorizeInfo,
            TicketedEventVendorAuthorizeInfoCallback,
            TicketedEventVendorAuthInfoResultCallbackAdapter,
@@ -1861,7 +1861,7 @@ MAKE_ASYNC(csp::systems::EventTicketingSystem,
            ARGLIST(vendor, userId)
 )
 
-MAKE_ASYNC(csp::systems::EventTicketingSystem,
+MAKE_AWAITABLE(csp::systems::EventTicketingSystem,
            GetIsSpaceTicketed,
            SpaceIsTicketedResultCallback,
            SpaceIsTicketedResultCallbackAdapter,
@@ -1874,7 +1874,7 @@ MAKE_ASYNC(csp::systems::EventTicketingSystem,
 
 /* MaintenanceSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::MaintenanceSystem,
+MAKE_AWAITABLE(csp::systems::MaintenanceSystem,
            GetMaintenanceInfo,
            MaintenanceInfoCallback,
            MaintenanceInfoCallbackAdapter,
@@ -1887,7 +1887,7 @@ MAKE_ASYNC(csp::systems::MaintenanceSystem,
 
 /* GraphQLSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::GraphQLSystem,
+MAKE_AWAITABLE(csp::systems::GraphQLSystem,
            RunRequest,
            GraphQLReceivedCallback,
            GraphQLReceivedCallbackAdapter,
@@ -1898,7 +1898,7 @@ MAKE_ASYNC(csp::systems::GraphQLSystem,
            ARGLIST(requestBody)
 )
 
-MAKE_ASYNC(csp::systems::GraphQLSystem,
+MAKE_AWAITABLE(csp::systems::GraphQLSystem,
            RunQuery,
            GraphQLReceivedCallback,
            GraphQLReceivedCallbackAdapter,
@@ -1911,7 +1911,7 @@ MAKE_ASYNC(csp::systems::GraphQLSystem,
 
 /* PointOfInterestSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::PointOfInterestSystem,
+MAKE_AWAITABLE(csp::systems::PointOfInterestSystem,
            CreatePOI,
            POIResultCallback,
            POIResultCallbackAdapter,
@@ -1922,7 +1922,7 @@ MAKE_ASYNC(csp::systems::PointOfInterestSystem,
            ARGLIST(title, description, name, tags, type, owner, location, assetCollection)
 )
 
-MAKE_ASYNC(csp::systems::PointOfInterestSystem,
+MAKE_AWAITABLE(csp::systems::PointOfInterestSystem,
            DeletePOI,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1933,7 +1933,7 @@ MAKE_ASYNC(csp::systems::PointOfInterestSystem,
            ARGLIST(poi)
 )
 
-MAKE_ASYNC(csp::systems::PointOfInterestSystem,
+MAKE_AWAITABLE(csp::systems::PointOfInterestSystem,
            GetPOIsInArea,
            POICollectionResultCallback,
            POICollectionResultCallbackAdapter,
@@ -1946,7 +1946,7 @@ MAKE_ASYNC(csp::systems::PointOfInterestSystem,
 
 /* AnchorSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::AnchorSystem,
+MAKE_AWAITABLE(csp::systems::AnchorSystem,
            CreateAnchor,
            AnchorResultCallback,
            AnchorResultCallbackAdapter,
@@ -1957,7 +1957,7 @@ MAKE_ASYNC(csp::systems::AnchorSystem,
            ARGLIST(thirdPartyAnchorProvider, thirdPartyAnchorId, assetCollectionId, location, position, rotation, spatialKeyValue, tags)
 )
 
-MAKE_ASYNC(csp::systems::AnchorSystem,
+MAKE_AWAITABLE(csp::systems::AnchorSystem,
            CreateAnchorInSpace,
            AnchorResultCallback,
            AnchorResultCallbackAdapter,
@@ -1968,7 +1968,7 @@ MAKE_ASYNC(csp::systems::AnchorSystem,
            ARGLIST(thirdPartyAnchorProvider, thirdPartyAnchorId, spaceId, spaceEntityId, assetCollectionId, location, position, rotation, spatialKeyValue, tags)
 )
 
-MAKE_ASYNC(csp::systems::AnchorSystem,
+MAKE_AWAITABLE(csp::systems::AnchorSystem,
            DeleteAnchors,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -1979,7 +1979,7 @@ MAKE_ASYNC(csp::systems::AnchorSystem,
            ARGLIST(anchorIds)
 )
 
-MAKE_ASYNC(csp::systems::AnchorSystem,
+MAKE_AWAITABLE(csp::systems::AnchorSystem,
            GetAnchorsInArea,
            AnchorCollectionResultCallback,
            AnchorCollectionResultCallbackAdapter,
@@ -1990,7 +1990,7 @@ MAKE_ASYNC(csp::systems::AnchorSystem,
            ARGLIST(originLocation, areaRadius, spatialKeys, spatialValues, tags, allTags, spaceIds, skip, limit)
 )
 
-MAKE_ASYNC(csp::systems::AnchorSystem,
+MAKE_AWAITABLE(csp::systems::AnchorSystem,
            GetAnchorsInSpace,
            AnchorCollectionResultCallback,
            AnchorCollectionResultCallbackAdapter,
@@ -2001,7 +2001,7 @@ MAKE_ASYNC(csp::systems::AnchorSystem,
            ARGLIST(spaceId, skip, limit)
 )
 
-MAKE_ASYNC(csp::systems::AnchorSystem,
+MAKE_AWAITABLE(csp::systems::AnchorSystem,
            GetAnchorsByAssetCollectionId,
            AnchorCollectionResultCallback,
            AnchorCollectionResultCallbackAdapter,
@@ -2012,7 +2012,7 @@ MAKE_ASYNC(csp::systems::AnchorSystem,
            ARGLIST(assetCollectionId, skip, limit)
 )
 
-MAKE_ASYNC(csp::systems::AnchorSystem,
+MAKE_AWAITABLE(csp::systems::AnchorSystem,
            CreateAnchorResolution,
            AnchorResolutionResultCallback,
            AnchorResolutionResultCallbackAdapter,
@@ -2025,7 +2025,7 @@ MAKE_ASYNC(csp::systems::AnchorSystem,
 
 /* SequenceSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::SequenceSystem,
+MAKE_AWAITABLE(csp::systems::SequenceSystem,
            CreateSequence,
            SequenceResultCallback,
            SequenceResultCallbackAdapter,
@@ -2036,7 +2036,7 @@ MAKE_ASYNC(csp::systems::SequenceSystem,
            ARGLIST(sequenceKey, referenceType, referenceId, items, metaData)
 )
 
-MAKE_ASYNC(csp::systems::SequenceSystem,
+MAKE_AWAITABLE(csp::systems::SequenceSystem,
            UpdateSequence,
            SequenceResultCallback,
            SequenceResultCallbackAdapter,
@@ -2047,7 +2047,7 @@ MAKE_ASYNC(csp::systems::SequenceSystem,
            ARGLIST(sequenceKey, referenceType, referenceId, items, metaData)
 )
 
-MAKE_ASYNC(csp::systems::SequenceSystem,
+MAKE_AWAITABLE(csp::systems::SequenceSystem,
            RenameSequence,
            SequenceResultCallback,
            SequenceResultCallbackAdapter,
@@ -2058,7 +2058,7 @@ MAKE_ASYNC(csp::systems::SequenceSystem,
            ARGLIST(oldSequenceKey, newSequenceKey)
 )
 
-MAKE_ASYNC(csp::systems::SequenceSystem,
+MAKE_AWAITABLE(csp::systems::SequenceSystem,
            GetSequencesByCriteria,
            SequencesResultCallback,
            SequencesResultCallbackAdapter,
@@ -2069,7 +2069,7 @@ MAKE_ASYNC(csp::systems::SequenceSystem,
            ARGLIST(sequenceKeys, keyRegex, referenceType, referenceIds, metaData)
 )
 
-MAKE_ASYNC(csp::systems::SequenceSystem,
+MAKE_AWAITABLE(csp::systems::SequenceSystem,
            GetAllSequencesContainingItems,
            SequencesResultCallback,
            SequencesResultCallbackAdapter,
@@ -2080,7 +2080,7 @@ MAKE_ASYNC(csp::systems::SequenceSystem,
            ARGLIST(items, referenceType, referenceIds)
 )
 
-MAKE_ASYNC(csp::systems::SequenceSystem,
+MAKE_AWAITABLE(csp::systems::SequenceSystem,
            GetSequence,
            SequenceResultCallback,
            SequenceResultCallbackAdapter,
@@ -2091,7 +2091,7 @@ MAKE_ASYNC(csp::systems::SequenceSystem,
            ARGLIST(sequenceKey)
 )
 
-MAKE_ASYNC(csp::systems::SequenceSystem,
+MAKE_AWAITABLE(csp::systems::SequenceSystem,
            DeleteSequences,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -2104,7 +2104,7 @@ MAKE_ASYNC(csp::systems::SequenceSystem,
 
 /* HotspotSequenceSystem Async Functions */
 
-MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
+MAKE_AWAITABLE(csp::systems::HotspotSequenceSystem,
            CreateHotspotGroup,
            HotspotGroupResultCallback,
            HotspotGroupResultCallbackAdapter,
@@ -2115,7 +2115,7 @@ MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
            ARGLIST(groupName, hotspotIds)
 )
 
-MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
+MAKE_AWAITABLE(csp::systems::HotspotSequenceSystem,
            RenameHotspotGroup,
            HotspotGroupResultCallback,
            HotspotGroupResultCallbackAdapter,
@@ -2126,7 +2126,7 @@ MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
            ARGLIST(groupName, newGroupName)
 )
 
-MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
+MAKE_AWAITABLE(csp::systems::HotspotSequenceSystem,
            UpdateHotspotGroup,
            HotspotGroupResultCallback,
            HotspotGroupResultCallbackAdapter,
@@ -2137,7 +2137,7 @@ MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
            ARGLIST(groupName, hotspotIds)
 )
 
-MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
+MAKE_AWAITABLE(csp::systems::HotspotSequenceSystem,
            GetHotspotGroup,
            HotspotGroupResultCallback,
            HotspotGroupResultCallbackAdapter,
@@ -2148,7 +2148,7 @@ MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
            ARGLIST(groupName)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::HotspotSequenceSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::HotspotSequenceSystem,
                 GetHotspotGroups,
                 HotspotGroupsResultCallback,
                 HotspotGroupsResultCallbackAdapter,
@@ -2157,7 +2157,7 @@ MAKE_ASYNC_ZERO(csp::systems::HotspotSequenceSystem,
                 ARGLIST(result)
 )
 
-MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
+MAKE_AWAITABLE(csp::systems::HotspotSequenceSystem,
            DeleteHotspotGroup,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -2168,7 +2168,7 @@ MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
            ARGLIST(groupName)
 )
 
-MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
+MAKE_AWAITABLE(csp::systems::HotspotSequenceSystem,
            RemoveItemFromGroups,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -2180,7 +2180,7 @@ MAKE_ASYNC(csp::systems::HotspotSequenceSystem,
 )
 
 /* AnalyticsSystem Async Functions */
-MAKE_ASYNC(csp::systems::AnalyticsSystem,
+MAKE_AWAITABLE(csp::systems::AnalyticsSystem,
            SendAnalyticsEvent,
            NullResultCallback,
            NullResultCallbackAdapter,
@@ -2191,7 +2191,7 @@ MAKE_ASYNC(csp::systems::AnalyticsSystem,
            ARGLIST(productContextSection, category, interactionType, subCategory, metadata)
 )
 
-MAKE_ASYNC_ZERO(csp::systems::AnalyticsSystem,
+MAKE_AWAITABLE_ZERO(csp::systems::AnalyticsSystem,
                 FlushAnalyticsEventsQueue,
                 NullResultCallback,
                 NullResultCallbackAdapter,
@@ -2201,7 +2201,7 @@ MAKE_ASYNC_ZERO(csp::systems::AnalyticsSystem,
 )
 
 /* ExternalServiceProxySystem Async Functions */
-MAKE_ASYNC(csp::systems::ExternalServiceProxySystem,
+MAKE_AWAITABLE(csp::systems::ExternalServiceProxySystem,
            InvokeOperation,
            StringResultCallback,
            StringResultCallbackAdapter,
@@ -2212,7 +2212,7 @@ MAKE_ASYNC(csp::systems::ExternalServiceProxySystem,
            ARGLIST(operationParams)
 )
 
-MAKE_ASYNC(csp::systems::ExternalServiceProxySystem,
+MAKE_AWAITABLE(csp::systems::ExternalServiceProxySystem,
            GetAgoraUserToken,
            StringResultCallback,
            StringResultCallbackAdapter,
