@@ -43,23 +43,39 @@
  * names. This is fine, but redundant, sort of up to you if you want your exposed action interfaces
  * to all be unique, or the same for action adapters that have the same types. I'd favour the latter.
  */
+%define MAKE_ACTION_ADAPTER(
+    ACTION_CALLBACK_TYPENAME,
+    CALLBACKT,
+    ACTION_TYPELIST_WITH_NAMES,
+    ACTION_TYPELIST_WITHOUT_NAMES,
+    ACTION_TYPELIST_ONLY_NAMES
+)
 
-%define MAKE_ACTION_ADAPTER(ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITH_NAMES, ACTION_TYPELIST_WITHOUT_NAMES, ACTION_TYPELIST_ONLY_NAMES)
 #ifdef SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
   %echo "MAKE_ACTION_ADAPTER: action wrapper '" #ACTION_CALLBACK_TYPENAME "' already defined, skipping"
 #else
-  #define SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
-  %pragma(csharp) modulecode=%{
-    public sealed class ACTION_CALLBACK_TYPENAME: CALLBACKT
+#define SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
+
+%pragma(csharp) modulecode=%{
+public sealed class ACTION_CALLBACK_TYPENAME : CALLBACKT
+{
+    private System.Action<ACTION_TYPELIST_WITHOUT_NAMES>? _invoked;
+
+    public event System.Action<ACTION_TYPELIST_WITHOUT_NAMES> Invoked
     {
-      private readonly System.Action<ACTION_TYPELIST_WITHOUT_NAMES> CallbackHandler;
-      public ACTION_CALLBACK_TYPENAME(System.Action<ACTION_TYPELIST_WITHOUT_NAMES> handler) => CallbackHandler = handler;
-      public override void Call(ACTION_TYPELIST_WITH_NAMES) => CallbackHandler(ACTION_TYPELIST_ONLY_NAMES);
+        add => _invoked += value;
+        remove => _invoked -= value;
     }
-  %}
+
+    public bool HasSubscribers => _invoked != null;
+
+    public override void Call(ACTION_TYPELIST_WITH_NAMES)
+        => _invoked?.Invoke(ACTION_TYPELIST_ONLY_NAMES);
+}
+%}
+
 #endif
 %enddef
-
 
 /*
  * Below you'll note we have MAKE_AWAITABLE and MAKE_AWAITABLE_ZERO, an unfortunate compromise for working in macrotown.
@@ -71,43 +87,46 @@
  * and should be able to call var x = await MyXAsync(); without fear.
  */
 %define MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES)
-ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME callback = null;
-    
+    ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME callback =
+        new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME();
+
     // Define the callback that will be called by the C++ code
-    callback = new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME(CALLBACK_TYPELIST_ONLY_NAMES => 
+    callback.Invoked += (CALLBACK_TYPELIST_ONLY_NAMES) =>
     {
         try
         {
             /* This is a bit jank. Due to the desire to use passthrough macros between async
-             * and actions, we have this CALLBACK_TYPELIST_ONLY_NAMES param which yes, can be
-             * a comma separated list for action style callbacks, but in async (awaitable) functions,
-             * it's only ever a single name.
-             * It ISNT always a ResultBase type (although that would simplify things if CSP would do that...)
-             * Sometime's it's just a space entity, or a bool, or something else. */
+            * and actions, we have this CALLBACK_TYPELIST_ONLY_NAMES param which yes, can be
+            * a comma separated list for action style callbacks, but in async (awaitable) functions,
+            * it's only ever a single name.
+            * It ISNT always a ResultBase type (although that would simplify things if CSP would do that...)
+            * Sometime's it's just a space entity, or a bool, or something else. */
 
             if((object)CALLBACK_TYPELIST_ONLY_NAMES is csp.systems.ResultBase _result)
             {
-              // It's a result base
-              #ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
-              // Convert the failing result to a throw if we have that option enabled
-              _result.ThrowOnFailure(nameof(METHODNAME##Async));
-              #endif
-              
-              // Use _result here because we need to call ResultBase api, but we still pass the fully specified type in the TrySetResult
-              // Remember that callbacks also have `init` and `inProgress` status's. We will often receive this callback more than once,
-              // only finish when we get a final status.
-              if (_result.GetResultCode() == csp.systems.EResultCode.Success || _result.GetResultCode() == csp.systems.EResultCode.Failed)
-              {
-                tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
-                // Now that the callback has been invoked, we can remove the root reference
-                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(callback);
-              }
+                // It's a result base
+                #ifdef THROW_EXCEPTION_ON_RESULTBASE_FAILURE
+                // Convert the failing result to a throw if we have that option enabled
+                _result.ThrowOnFailure(nameof(METHODNAME##Async));
+                #endif
+
+                // Use _result here because we need to call ResultBase api, but we still pass the fully specified type in the TrySetResult
+                // Remember that callbacks also have `init` and `inProgress` status's. We will often receive this callback more than once,
+                // only finish when we get a final status.  
+                if (_result.GetResultCode() == csp.systems.EResultCode.Success ||
+                    _result.GetResultCode() == csp.systems.EResultCode.Failed)
+                {
+                    tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
+                    // Now that the callback has been invoked, we can remove the root reference
+                    ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(callback);
+                }
             }
-            else {
-              // It's something else
-              tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
-              // Now that the callback has been invoked, we can remove the root reference
-              ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(callback);
+            else
+            {
+                // It's something else
+                tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
+                // Now that the callback has been invoked, we can remove the root reference  
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(callback);
             }
         }
         catch (System.Exception ex)
@@ -115,8 +134,7 @@ ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME callback = null;
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
         }
-
-    });
+    };
 
     // ROOT the callback for the lifetime of the Task
     ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(callback);

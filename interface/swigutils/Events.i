@@ -1,53 +1,12 @@
 /*
- * Support for exposing native C++ callback-style APIs as idiomatic C# events.
+ * Expose native C++ callback APIs as idiomatic C# events.
  *
- * This file defines MAKE_EVENT_FOR_CALLBACK, which maps a native
- * "SetXCallback(CallbackType)" API to a managed C# event.
- *
- * ----------------------------------------------------------------------
- * WHAT THIS MACRO REPRESENTS
- * ----------------------------------------------------------------------
- *
- * This macro is ONLY for long-lived, multi-fire notifications.
- *
- * Use it when the native API represents:
- *   - A signal or notification
- *   - That may fire zero or more times
- *   - That has no completion concept
- *
- * Examples:
- *   - State changes
- *   - Presence updates
- *   - Entity added / removed
- *
- * If the API represents a request/response or something that should be
- * awaited, DO NOT use this macro.
- *
- * ----------------------------------------------------------------------
- * RELATIONSHIP TO OTHER ABSTRACTIONS
- * ----------------------------------------------------------------------
- *
- * Callbacks:
- *   - Low-level transport mechanism (native → managed) via swig director objects and the MAKE_CALLBACK_ADAPTER macro.
- *       - Not user-facing.
- *   - Action adapters make an abstraction over the director object to make its syntax easier to use. These are
- *     generated via the MAKE_ACTION_ADAPTER macro.
- *       - Not user-facing. Instead, MAKE_AWAITABLE / MAKE_AWAITABLE_ZERO and MAKE_EVENT_FOR_CALLBACK are the only
- *         macros user-facing, and they both use MAKE_ACTION_ADAPTER internally to generate the necessary adapters.
- *
- * MAKE_AWAITABLE:
- *   - Single-shot operations
- *   - Exposed as Task<T>
- *   - Own and dispose their callback on completion
- *
- * Events (this macro):
- *   - Long-lived
- *   - Multicast
- *   - Not awaited
- *   - Owned by the publisher
- *
- * These abstractions have different lifetime and ownership rules and
- * intentionally use different macros.
+ * This macro defines MAKE_EVENT_FOR_CALLBACK, which wraps a native
+ * "SetXCallback(CallbackType)" API into a C# event using an existing
+ * action adapter callback. This allows:
+ *   - C# consumers to subscribe/unsubscribe using += and -=
+ *   - Automatic GC safety via AsyncLifetime rooting
+ *   - Automatic registration/unregistration with native code
  *
  * ----------------------------------------------------------------------
  * REQUIREMENTS
@@ -61,27 +20,27 @@
  *
  * 2. A managed callback adapter must already exist via MAKE_ACTION_ADAPTER.
  *
- * 3. AsyncLifetime.Root / Unroot must be available for GC safety.
+ * 3. AsyncLifetime.Root / AsyncLifetime.Unroot must exist for GC safety.
  *
  * ----------------------------------------------------------------------
- * LIFETIME MODEL
+ * LIFETIME & OWNERSHIP MODEL
  * ----------------------------------------------------------------------
  *
- * - One native callback adapter per event
- * - Adapter is created on first subscription
- * - Adapter is explicitly rooted while at least one subscriber exists
- * - Adapter is unregistered and unrooted when the last subscriber is removed
+ * - One adapter instance per event, owned by the binding layer.
+ * - Adapter is created on first subscription.
+ * - Adapter is rooted while at least one subscriber exists.
+ * - Adapter is unregistered and unrooted when the last subscriber is removed.
  *
- * This prevents:
- *   - GC collecting adapters still referenced by native code
- *   - Duplicate native registrations
- *   - Callback leaks
+ * This ensures:
+ *   - Adapter is not GC-collected while native code holds a reference.
+ *   - Duplicate native registrations are prevented.
+ *   - No callback leaks occur.
  *
  * ----------------------------------------------------------------------
  * CONSUMER USAGE (C#)
  * ----------------------------------------------------------------------
  *
- * Events exposed by this macro are consumed idiomatically:
+ * Events are consumed like standard C# events:
  *
  *     instance.OnSomethingHappened += payload =>
  *     {
@@ -90,28 +49,27 @@
  *
  *     instance.OnSomethingHappened -= handler;
  *
- * Consumers do NOT:
- *   - Manage callbacks
- *   - Root adapters
- *   - Call native setters
- *
- * The binding layer owns all lifecycle concerns.
+ * Consumers do NOT need to manage adapter lifetimes or native registration.
  *
  * ----------------------------------------------------------------------
  * THREADING
  * ----------------------------------------------------------------------
  *
- * Event handlers execute on the same thread as the native callback.
- * This macro does not impose any thread marshalling.
+ * Event handlers are invoked on the same thread as the native callback.
+ * No thread marshalling is performed by this macro.
  */
 
 /*
- * EVENT_NAME is the name of the event, e.g. OnNewLoginTokenReceived
- * ACTION_CALLBACK_TYPENAME is the type of the callback adapter class, for example 
- * ConnectedSpacesPlatformDotNet.LoginTokenInfoCallback.
- * NATIVE_SETTER is the native method that registers the callback, e.g. SetNewLoginTokenReceivedCallback
- * PAYLOAD_TYPE is the type of the payload passed to event handlers, e.g. csp.systems.LoginTokenInfoResult
- * FULLY_NAMESPACED_CLASST is the full namespaced C++ class name to extend, e.g. csp::systems::UserSystem
+ * Parameters:
+ *
+ * EVENT_NAME: The C# event name, e.g., OnNewLoginTokenReceived
+ * ACTION_CALLBACK_TYPENAME: The callback adapter type, e.g.,
+ *     ConnectedSpacesPlatformDotNet.LoginTokenInfoCallback
+ * NATIVE_SETTER: The native registration method, e.g.,
+ *     SetNewLoginTokenReceivedCallback
+ * PAYLOAD_TYPE: The type passed to subscribers, e.g., csp.systems.LoginTokenInfoResult
+ * FULLY_NAMESPACED_CLASST: The full C++ class to extend, e.g.,
+ *     csp.systems.UserSystem
  */
 %define MAKE_EVENT_FOR_CALLBACK(
     EVENT_NAME,
@@ -120,87 +78,73 @@
     PAYLOAD_TYPE,
     FULLY_NAMESPACED_CLASST
 )
+
 %extend FULLY_NAMESPACED_CLASST {
 %proxycode %{
 
-    // Native callback adapter instance (one per event)
+    // Single native callback adapter instance for this event
     private ACTION_CALLBACK_TYPENAME? _##EVENT_NAME##Adapter;
 
-    // Backing multicast delegate for the managed event
-    private event System.Action<PAYLOAD_TYPE>? _##EVENT_NAME;
-
-    /*
-     * Public managed event.
-     *
-     * Native callback registration occurs on first subscription.
-     * Native callback unregistration occurs when the last subscriber is removed.
-     */
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
     public event System.Action<PAYLOAD_TYPE> EVENT_NAME
     {
         add
         {
-            // First subscriber: register native callback
-            if (_##EVENT_NAME == null)
-                Register##EVENT_NAME##Callback();
-
-            _##EVENT_NAME += value;
+            Ensure##EVENT_NAME##Registered();
+            _##EVENT_NAME##Adapter!.Invoked += value;
         }
         remove
         {
-            _##EVENT_NAME -= value;
+            if (_##EVENT_NAME##Adapter == null)
+                return;
 
-            // Last subscriber removed: unregister native callback
-            if (_##EVENT_NAME == null)
-                Unregister##EVENT_NAME##Callback();
+            _##EVENT_NAME##Adapter.Invoked -= value;
+
+            // If no subscribers remain, unregister native callback
+            if (!_##EVENT_NAME##Adapter.HasSubscribers)
+                Unregister##EVENT_NAME();
         }
     }
 
-    /*
-     * Registers the native callback and roots the adapter.
-     * This method is idempotent and safe to call multiple times.
-     */
-    private void Register##EVENT_NAME##Callback()
+    /// <summary>
+    /// Ensures the native adapter is created, rooted, and registered.
+    /// Called automatically when the first subscriber is added.
+    /// </summary>
+    private void Ensure##EVENT_NAME##Registered()
     {
         if (_##EVENT_NAME##Adapter != null)
             return;
 
-        _##EVENT_NAME##Adapter =
-            new ACTION_CALLBACK_TYPENAME(On##EVENT_NAME##Native);
+        _##EVENT_NAME##Adapter = new ACTION_CALLBACK_TYPENAME();
 
         // Root the adapter to prevent GC while native code holds it
         ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(_##EVENT_NAME##Adapter);
 
-        // Register native callback
+        // Register with native code
         NATIVE_SETTER(_##EVENT_NAME##Adapter);
     }
 
-    /*
-     * Unregisters the native callback and releases the adapter.
-     * This method is idempotent and safe to call multiple times.
-     */
-    private void Unregister##EVENT_NAME##Callback()
+    /// <summary>
+    /// Unregisters the native callback and releases the adapter.
+    /// Called automatically when the last subscriber is removed.
+    /// </summary>
+    private void Unregister##EVENT_NAME()
     {
         if (_##EVENT_NAME##Adapter == null)
             return;
 
-        // Unregister native callback
+        // Unregister from native code
         NATIVE_SETTER(null);
 
-        // Stop managed dispatch
-        _##EVENT_NAME = null;
-
-        // Unroot adapter and release reference
+        // Release adapter and unroot to allow GC
         ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(_##EVENT_NAME##Adapter);
         _##EVENT_NAME##Adapter = null;
     }
 
-    /*
-     * Entry point invoked by native code via the callback adapter.
-     * Forwards the payload to managed subscribers.
-     */
-    private void On##EVENT_NAME##Native(PAYLOAD_TYPE args)
-        => _##EVENT_NAME?.Invoke(args);
+%}   // End of proxycode
+}    // End of extension
 
-%}    // End of proxy code
-}     // End of extension
 %enddef

@@ -16,7 +16,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration
         private LoginTokenInfoResult capturedTokenResult;
         private bool tokenEventFired;
         
-        private const string onNewLoginTokenReceivedFieldName = "_onNewLoginTokenReceived";
+        private const string onNewLoginTokenReceivedFieldName = "_OnNewLoginTokenReceivedAdapter";
 
         protected override void FoundationFixtureSetup()
         {
@@ -85,7 +85,10 @@ namespace Magnopus.Foundation.Unity.Tests.Integration
                 try
                 {
                     var target = eventField.GetValue(userSystem);
-                    if (target is Delegate del)
+
+                    var invokeDelegate = target.GetType().GetField("_invoked", 
+                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase);
+                    if(invokeDelegate != null && invokeDelegate.GetValue(target) is Delegate del)
                     {
                         del.DynamicInvoke(result);
                         return;
