@@ -69,7 +69,7 @@ public class EndToEndTests : IDisposable
 
     /* Footgun alert. Unlike the callbacks awaitable methods use, registerable callbacks do need
      * to be kept alive somehow. */
-    static ConnectedSpacesPlatformDotNet.EntityFetchCompleteCallback ENTITY_FETCH_CB = new ConnectedSpacesPlatformDotNet.EntityFetchCompleteCallback((entitiesFetched) =>
+    static ConnectedSpacesPlatformDotNet.EntityFetchCompleteCallback ENTITY_FETCH_CB = new((entitiesFetched) =>
     {
         Debug.WriteLine($"Fetched {entitiesFetched} entities");
     });

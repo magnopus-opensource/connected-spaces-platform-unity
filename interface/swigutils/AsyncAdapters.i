@@ -59,6 +59,11 @@
 %pragma(csharp) modulecode=%{
 public sealed class ACTION_CALLBACK_TYPENAME : CALLBACKT
 {
+    public ACTION_CALLBACK_TYPENAME(System.Action<ACTION_TYPELIST_WITHOUT_NAMES> callbackAction) 
+    {
+        Invoked += callbackAction;
+    }
+
     private System.Action<ACTION_TYPELIST_WITHOUT_NAMES>? _invoked;
 
     public event System.Action<ACTION_TYPELIST_WITHOUT_NAMES> Invoked
