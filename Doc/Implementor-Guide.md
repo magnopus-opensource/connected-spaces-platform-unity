@@ -563,6 +563,70 @@ For convenience, we can enable a flag on cmake to automatically enforce an excep
 
 The flag is called 'ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE', and is enabled by default.
 
+
+##### **New: Events via `MAKE_EVENT_FOR_CALLBACK`**
+In order to make the API more C# dev friendly, an additional macro was included to expose C++ callbacks as C# events.
+This macro is simply adding some sugar-wrap on top of the action adapters, so that developers can take advantage from the following syntax:
+
+```csharp
+userSystem.OnNewLoginTokenReceived += tokenInfo =>
+{
+    Console.WriteLine($"New token: {tokenInfo.Token}");
+};
+
+userSystem.OnNewLoginTokenReceived -= handler;
+```
+
+To produce the above code via SWIG, use the `MAKE_EVENT_FOR_CALLBACK`, which provides event semantics + lifecycle management on top of the action adapter.
+
+```csharp
+/*
+* Parameters:
+*
+* EVENT_NAME: The C# event name, e.g., OnNewLoginTokenReceived
+* ACTION_CALLBACK_TYPENAME: The callback adapter type, e.g.,
+*     ConnectedSpacesPlatformDotNet.LoginTokenInfoCallback
+* NATIVE_SETTER: The native registration method, e.g.,
+*     SetNewLoginTokenReceivedCallback
+* PAYLOAD_TYPE: The type passed to subscribers, e.g., csp.systems.LoginTokenInfoResult
+* FULLY_NAMESPACED_CLASST: The full C++ class to extend, e.g.,
+*     csp.systems.UserSystem
+*/
+%define MAKE_EVENT_FOR_CALLBACK(
+EVENT_NAME,
+ACTION_CALLBACK_TYPENAME,
+NATIVE_SETTER,
+PAYLOAD_TYPE,
+FULLY_NAMESPACED_CLASST
+)
+```
+
+> [!Note] When using this event macro, consumers do NOT manage the adapter manually; everything is handled automatically. This is handy compared to manually need to root / unroot a callback to avoid it is garbage collected before the intended time.
+
+**Key points:**
+
+- Subscribers use standard `+=` and `-=`.
+- Adapter creation, rooting, and native registration are **automatic**.
+- GC-safe while subscribers exist.
+- Handlers run on the native callback thread.
+
+**Subscription lifecycle (automatic):**
+
+```text
+First subscriber added
+  -> EnsureRegistered()
+  -> Adapter created
+  -> AsyncLifetime.Root(adapter)
+  -> Native callback registered
+
+Subscribers removed
+  -> Adapter Invoked unsubscribed
+  -> If last subscriber:
+       -> Native callback unregistered
+       -> AsyncLifetime.Unroot(adapter)
+       -> Adapter released
+```
+
 ## Build System
 
 The build system is Cmake, refer to [CMakeLists.txt](../CMakeLists.txt) as your entry point.
