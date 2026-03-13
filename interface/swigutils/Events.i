@@ -93,55 +93,54 @@
     {
         add
         {
-            Ensure##EVENT_NAME##Registered();
-            _##EVENT_NAME##Adapter!.Invoked += value;
+            if (_##EVENT_NAME##Adapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _##EVENT_NAME##Adapter = new ACTION_CALLBACK_TYPENAME(value);
+                // Register with native code
+                NATIVE_SETTER(_##EVENT_NAME##Adapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _##EVENT_NAME##Adapter!.Invoked += value;
+                // Note: we should not need to call the NATIVE_SETTER again since it was supposed to be set on adapter creation.
+            }
         }
         remove
         {
             if (_##EVENT_NAME##Adapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_##EVENT_NAME##Adapter);
+                var eventName = nameof(EVENT_NAME);
+%}
+
+#ifdef SWIG_UNITY_EXTENSIONS
+%proxycode %{
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+%}
+#else
+%proxycode %{
+                System.Console.Error.WriteLine($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+%}
+#endif
+
+%proxycode %{
                 return;
+            }
 
             _##EVENT_NAME##Adapter.Invoked -= value;
 
-            // If no subscribers remain, unregister native callback
             if (!_##EVENT_NAME##Adapter.HasSubscribers)
-                Unregister##EVENT_NAME();
+            {
+                // Unregister from native code
+                NATIVE_SETTER(null);
+
+                // No more subscribers, clean up adapter
+                _##EVENT_NAME##Adapter = null;
+            }
         }
-    }
-
-    /// <summary>
-    /// Ensures the native adapter is created, rooted, and registered.
-    /// Called automatically when the first subscriber is added.
-    /// </summary>
-    private void Ensure##EVENT_NAME##Registered()
-    {
-        if (_##EVENT_NAME##Adapter != null)
-            return;
-
-        _##EVENT_NAME##Adapter = new ACTION_CALLBACK_TYPENAME();
-
-        // Root the adapter to prevent GC while native code holds it
-        ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(_##EVENT_NAME##Adapter);
-
-        // Register with native code
-        NATIVE_SETTER(_##EVENT_NAME##Adapter);
-    }
-
-    /// <summary>
-    /// Unregisters the native callback and releases the adapter.
-    /// Called automatically when the last subscriber is removed.
-    /// </summary>
-    private void Unregister##EVENT_NAME()
-    {
-        if (_##EVENT_NAME##Adapter == null)
-            return;
-
-        // Unregister from native code
-        NATIVE_SETTER(null);
-
-        // Release adapter and unroot to allow GC
-        ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(_##EVENT_NAME##Adapter);
-        _##EVENT_NAME##Adapter = null;
     }
 
 %}   // End of proxycode
