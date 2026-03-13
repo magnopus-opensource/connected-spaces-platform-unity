@@ -564,7 +564,7 @@ For convenience, we can enable a flag on cmake to automatically enforce an excep
 The flag is called 'ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE', and is enabled by default.
 
 
-##### **New: Events via `MAKE_EVENT_FOR_CALLBACK`**
+##### **Events via `MAKE_EVENT_FOR_CALLBACK`**
 In order to make the API more C# dev friendly, an additional macro was included to expose C++ callbacks as C# events.
 This macro is simply adding some sugar-wrap on top of the action adapters, so that developers can take advantage from the following syntax:
 
