@@ -70,11 +70,37 @@ public sealed class ACTION_CALLBACK_TYPENAME : CALLBACKT
 
     public event System.Action<ACTION_TYPELIST_WITHOUT_NAMES> Invoked
     {
-        add => _invoked += value;
-        remove => _invoked -= value;
+        add 
+        { 
+            ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(this);
+            if (_invoked == null)
+            {
+                // First subscriber, create action. Note that this automatically subscribes the passed value.
+                _invoked = new System.Action<ACTION_TYPELIST_WITHOUT_NAMES>(value);
+            }
+            else
+            {
+                // We already had an action existing, just subscribe to it.
+                _invoked += value;
+            }
+        }
+        remove
+        {
+            if (_invoked == null)
+            {
+                // Nothing to do, we are trying to unsubscribe when the action is already unavailable.
+                return;
+            }
+
+            _invoked -= value;
+            if (!HasSubscribers)
+            {
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(this);
+            }
+        }
     }
 
-    public bool HasSubscribers => _invoked != null;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
 
     public override void Call(ACTION_TYPELIST_WITH_NAMES)
         => _invoked?.Invoke(ACTION_TYPELIST_ONLY_NAMES);
