@@ -1,12 +1,17 @@
 /*
- * Expose native C++ callback APIs as idiomatic C# events.
+ * This file defines a macro to conveniently generate a new event property in C# on a specific class. The new event
+ * registers to a native C++ callback under the hood, and uses an action adapter (which is not directly
+ * exposed to subscribers) to work. The reason for us to introduce such a macro is that it protects our delegate from 
+ * being misused by other classes (e.g. by manually instantiating the adapter and forgetting to keep it alive, or by 
+ * trying to alter the list of subscribers from within a subscriber scope). Another reason for us to introduce the 
+ * macro is to give a specific name to an event that better represents its belonging to a specific class (such as 
+ * OnNewLoginTokenReceived or OnUserPermissionsChanged for the UserSystem), without requiring client developers to
+ * manually do it. This is a feature we already used for example in our Unity client, and we believe could benefit
+ * also generic C# applications that make use of CSP.
  *
- * This macro defines MAKE_EVENT_FOR_CALLBACK, which wraps a native
- * "SetXCallback(CallbackType)" API into a C# event using an existing
- * action adapter callback. This allows:
- *   - C# consumers to subscribe/unsubscribe using += and -=
- *   - Automatic GC safety via AsyncLifetime rooting
- *   - Automatic registration/unregistration with native code
+ * The lifetime of the callback used by the action adapter of the new event is tied to the lifetime of the adapter itself,
+ * which exists as long as the event has at least one subscriber. This is handled automatically, and is one less thing
+ * that client developers need to worry about thanks to this macro.
  *
  * ----------------------------------------------------------------------
  * REQUIREMENTS
@@ -18,26 +23,10 @@
  *
  *    Passing null must unregister the callback.
  *
- * 2. A managed callback adapter must already exist via MAKE_ACTION_ADAPTER.
- *
- * 3. AsyncLifetime.Root / AsyncLifetime.Unroot must exist for GC safety.
+ * 2. A managed action adapter must already exist via MAKE_ACTION_ADAPTER.
  *
  * ----------------------------------------------------------------------
- * LIFETIME & OWNERSHIP MODEL
- * ----------------------------------------------------------------------
- *
- * - One adapter instance per event, owned by the binding layer.
- * - Adapter is created on first subscription.
- * - Adapter is rooted while at least one subscriber exists.
- * - Adapter is unregistered and unrooted when the last subscriber is removed.
- *
- * This ensures:
- *   - Adapter is not GC-collected while native code holds a reference.
- *   - Duplicate native registrations are prevented.
- *   - No callback leaks occur.
- *
- * ----------------------------------------------------------------------
- * CONSUMER USAGE (C#)
+ * USAGE (C#)
  * ----------------------------------------------------------------------
  *
  * Events are consumed like standard C# events:
@@ -49,31 +38,22 @@
  *
  *     instance.OnSomethingHappened -= handler;
  *
- * Consumers do NOT need to manage adapter lifetimes or native registration.
- *
- * ----------------------------------------------------------------------
- * THREADING
- * ----------------------------------------------------------------------
- *
- * Event handlers are invoked on the same thread as the native callback.
- * No thread marshalling is performed by this macro.
+ * Client developers do NOT need to manage adapter lifetimes or native registration.
  */
 
 /*
  * Parameters:
  *
  * EVENT_NAME: The C# event name, e.g., OnNewLoginTokenReceived
- * ACTION_CALLBACK_TYPENAME: The callback adapter type, e.g.,
- *     ConnectedSpacesPlatformDotNet.LoginTokenInfoCallback
- * NATIVE_SETTER: The native registration method, e.g.,
- *     SetNewLoginTokenReceivedCallback
- * PAYLOAD_TYPE: The type passed to subscribers, e.g., csp.systems.LoginTokenInfoResult
- * FULLY_NAMESPACED_CLASST: The full C++ class to extend, e.g.,
- *     csp.systems.UserSystem
+ * ACTION_ADAPTER_TYPENAME: The action adapter type (e.g., ConnectedSpacesPlatformDotNet.LoginTokenInfoCallback).  
+ *     Note that that the action adapter needs to exist already.
+ * NATIVE_SETTER: The native registration method (e.g. SetNewLoginTokenReceivedCallback).
+ * PAYLOAD_TYPE: The type passed to subscribers (e.g. csp.systems.LoginTokenInfoResult).
+ * FULLY_NAMESPACED_CLASST: The full C++ class to extend (e.g. csp.systems.UserSystem).
  */
 %define MAKE_EVENT_FOR_CALLBACK(
     EVENT_NAME,
-    ACTION_CALLBACK_TYPENAME,
+    ACTION_ADAPTER_TYPENAME,
     NATIVE_SETTER,
     PAYLOAD_TYPE,
     FULLY_NAMESPACED_CLASST
@@ -82,8 +62,8 @@
 %extend FULLY_NAMESPACED_CLASST {
 %proxycode %{
 
-    // Single native callback adapter instance for this event
-    private ACTION_CALLBACK_TYPENAME? _##EVENT_NAME##Adapter;
+    // Single native action adapter instance for this event
+    private ACTION_ADAPTER_TYPENAME? _##EVENT_NAME##Adapter;
 
     /// <summary>
     /// C# event exposing the native callback.
@@ -96,7 +76,7 @@
             if (_##EVENT_NAME##Adapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
-                _##EVENT_NAME##Adapter = new ACTION_CALLBACK_TYPENAME(value);
+                _##EVENT_NAME##Adapter = new ACTION_ADAPTER_TYPENAME(value);
                 // Register with native code
                 NATIVE_SETTER(_##EVENT_NAME##Adapter);
             }

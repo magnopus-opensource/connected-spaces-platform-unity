@@ -28,6 +28,7 @@
 %include "Declarations/OptionalDeclarations.i"
 %include "Declarations/CallbackDeclarations.i"
 %include "Declarations/AsyncDeclarations.i"
+%include "Declarations/EventsDeclarations.i"
 
 %include "swigutils/OuterObjectPins.i"
 %include "swigutils/Events.i"
