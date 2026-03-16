@@ -361,7 +361,7 @@ What we need to be concerned about is mapping this rather low level `virtual` ba
 
 ##### Callbacks
 
-We'll start with callbacks, as this is the foundation for `await`. The relevant file is [interface/swigutils/CallbackAdapters](../interface/swigutils/CallbackAdapters.i).
+We'll start with callbacks, as this is the foundation for `await` and `events`. The relevant file is [interface/swigutils/CallbackAdapters](../interface/swigutils/CallbackAdapters.i).
 
 You'll have to look inside the file for the specifics. Conceptually, what we do first is make a callback adapter object that we can inherit from, and pass to CSP, like so.
 
@@ -405,15 +405,64 @@ This file gives us `MAKE_ACTION_ADAPTER`, which produces something like this in 
 ```csharp
 public sealed class MyTypeActionCallback: MyTypeCallbackAdapter
 {
-    private readonly System.Action<ArgT, ArgT> CallbackHandler;
-    public MyTypeActionCallback(System.Action<ArgT, ArgT> handler) => CallbackHandler = handler;
-    public override void Call(ArgT arg1, ArgT arg2) => CallbackHandler(arg1, arg2);
+    private readonly System.Action<ArgT, ArgT>? CallbackHandler;
+    
+    public MyTypeActionCallback(System.Action<ACTION_TYPELIST_WITHOUT_NAMES> callbackAction) 
+    {
+        Invoked += callbackAction;
+    }
+    
+    public event System.Action<ArgT,ArgT> Invoked
+    {
+        add 
+        { 
+            // Make sure we keep the callback in memory, since we now have a subscriber that needs to use it.
+            if(!ConnectedSpacesPformDotNet.AsyncLifetime.IsRooted(this)
+            {
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(this);
+            }
+            
+            if (CallbackHandler == null)
+            {
+                // First subscriber, create action. Note that this automatically subscribes the passed value.
+                CallbackHandler = new System.Action<ArgT,ArgT>(value);
+            }
+            else
+            {
+                // We already had an action existing, just subscribe to it.
+                CallbackHandler += value;
+            }
+        }
+        remove
+        {
+            if (CallbackHandler == null)
+            {
+                // Nothing to do, we are trying to unsubscribe when the action is already unavailable.
+                return;
+            }
+
+            CallbackHandler -= value;
+            if (!HasSubscribers)
+            {
+                // No subscriber left, so we remove the callback from the root to avoid memory leaks.
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(this);
+            }
+        }
+    }
+    
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    
+    public override void Call(ArgT arg1, ArgT arg2) => _invoked?.Invoke(logLevel,message);
 }
 ```
 
 This doesn't bear overly much explaining. It is a small wrapper which receives the overridden callback via inheritance, allowing you to inject a `System.Action` and react to that in an async manner.
 
-This means your user facing C# code can now be something like this, using the LogSystem as an example. Here we have named what above is `MyTypeActionCallback` as `LogCallback` :
+Note that the action adapter is implemented with an event-based approach in mind: instead of exposing the callback to clients, we only allow the registration to it / unregistration from it, with the aim of reducing potential misuse of the callback mechanism. Infact, subscribers cannot manually instantiate the adapter or alter its lifetime, and cannot edit the list of subscribers from within a subscriber scope.
+
+To avoid client developers dealing with the lifetime of the callback, the generated code takes care of the lifetime automatically for you: when a new callback is created, it is kept alive as long as it is in scope or there is at least one subscriber registered to it. This mechanism is enforced by the add operator, which takes care of rooting the callback in memory (meaning we keep its reference within our AsyncLifetime class), so that GC will not delete it prematurely if at least one subscriber exists to use it. This makes the usage of the callback safe, since the first subscriber will force it to be kept in memory and not being garbage collected, until no more subscriber is registered to it.
+
+The generated code allows the user facing C# code to be something like this, using the LogSystem as an example. Here we have named what above is `MyTypeActionCallback` as `LogCallback` :
 
 ```csharp
 ConnectedSpacesPlatformDotNet.LogCallback callback = new ConnectedSpacesPlatformDotNet.LogCallback((logLevel, message) =>
@@ -564,8 +613,8 @@ For convenience, we can enable a flag on cmake to automatically enforce an excep
 The flag is called 'ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE', and is enabled by default.
 
 
-##### **Events via `MAKE_EVENT_FOR_CALLBACK`**
-In order to make the API more C# dev friendly, an additional macro was included to expose C++ callbacks as C# events.
+### **Events via `MAKE_EVENT_FOR_CALLBACK`**
+We introduced an additional macro to expose C++ callbacks as C# event properties within specific classes.
 This macro is simply adding some sugar-wrap on top of the action adapters, so that developers can take advantage from the following syntax:
 
 ```csharp
@@ -577,55 +626,56 @@ userSystem.OnNewLoginTokenReceived += tokenInfo =>
 userSystem.OnNewLoginTokenReceived -= handler;
 ```
 
-To produce the above code via SWIG, use the `MAKE_EVENT_FOR_CALLBACK`, which provides event semantics + lifecycle management on top of the action adapter.
+Note that we are not re-inventing the wheel: the generated event will work on top of an action adapter, so all the assumptions we made for the code generated by MAKE_ACTION_ADAPTER macro (i.e. callback rooting mechanism, and event-based approach) are also valid for the event that gets generated to use it.
+
+> [!Warning]
+>
+> An action adapter needs to be defined in order for this macro to properly work.
+> Also be mindful that the usage of this macro is encouraged to simplify client developers, to extend existing classes with an additional event property registered to a native C++ callback where it does make sense. However there is still the option to use just action adapters directly if desired, depending on the preferred coding style.
+
+There are several reasons why we wanted to introduce this new macro. Among them:
+- It protects the callback delegate from being misused by other classes (e.g. by manually instantiating the adapter and forgetting to keep it alive, or by trying to alter the list of subscribers from within a subscriber scope). 
+- It allows customized naming for the exposed events as class properties, which can improve the architecture to enforce the belonging of an event to a specific class it originates from (such as OnNewLoginTokenReceived or OnUserPermissionsChanged for the UserSystem). This is helpful as it does not require client developers to manually do it.
+- It automatically handles the callback lifetime without requiring client developers to root / unroot it to the AsyncLifetime class. The rooting happens under the hood whenever at least one subscriber exists and needs to use the callback. Once no more subscriber is registered to the callback of the event, the callback is unrooted and can be safely garbage collected.
+
+To produce the above code via SWIG, use the `MAKE_EVENT_FOR_CALLBACK`, which defines a new event as class property of the specified FULLY_NAMESPACED_CLASST, names it EVENT_NAME, and works on top of the desired ACTION_ADAPTER_TYPENAME action adapter mechanism.
 
 ```csharp
 /*
 * Parameters:
 *
 * EVENT_NAME: The C# event name, e.g., OnNewLoginTokenReceived
-* ACTION_CALLBACK_TYPENAME: The callback adapter type, e.g.,
-*     ConnectedSpacesPlatformDotNet.LoginTokenInfoCallback
-* NATIVE_SETTER: The native registration method, e.g.,
-*     SetNewLoginTokenReceivedCallback
-* PAYLOAD_TYPE: The type passed to subscribers, e.g., csp.systems.LoginTokenInfoResult
-* FULLY_NAMESPACED_CLASST: The full C++ class to extend, e.g.,
-*     csp.systems.UserSystem
+* ACTION_ADAPTER_TYPENAME: The action adapter type (e.g., ConnectedSpacesPlatformDotNet.LoginTokenInfoCallback).  
+*     Note that that the action adapter needs to exist already.
+* NATIVE_SETTER: The native registration method (e.g. SetNewLoginTokenReceivedCallback).
+* PAYLOAD_TYPE: The type passed to subscribers (e.g. csp.systems.LoginTokenInfoResult).
+* FULLY_NAMESPACED_CLASST: The full C++ class to extend (e.g. csp.systems.UserSystem).
 */
 %define MAKE_EVENT_FOR_CALLBACK(
-EVENT_NAME,
-ACTION_CALLBACK_TYPENAME,
-NATIVE_SETTER,
-PAYLOAD_TYPE,
-FULLY_NAMESPACED_CLASST
+    EVENT_NAME,
+    ACTION_ADAPTER_TYPENAME,
+    NATIVE_SETTER,
+    PAYLOAD_TYPE,
+    FULLY_NAMESPACED_CLASST
 )
 ```
 
-> [!Note] When using this event macro, consumers do NOT manage the adapter manually; everything is handled automatically. This is handy compared to manually need to root / unroot a callback to avoid it is garbage collected before the intended time.
+> [!Note] Client developers do NOT need to manage the action adapter lifetime manually when using this macro: it is handled automatically depending on the number of subscribers to the event. This is handy compared to manually need to root / unroot a callback to avoid it is garbage collected before the intended time.
 
-**Key points:**
 
-- Subscribers use standard `+=` and `-=`.
-- Adapter creation, rooting, and native registration are **automatic**.
-- GC-safe while subscribers exist.
-- Handlers run on the native callback thread.
+#### **Event subscription lifecycle**
 
-**Subscription lifecycle (automatic):**
+Following the code generated by MAKE_EVENT_FOR_CALLBACK, below is the lifecycle to expect when using the event property added to the desired class:
 
-```text
-First subscriber added
-  -> EnsureRegistered()
-  -> Adapter created
-  -> AsyncLifetime.Root(adapter)
-  -> Native callback registered
+- When the first subscriber is added
+  1. The action adapter object is created, and makes the first registration to the callback, which becomes rooted and is kept alive.
+  2. Native callback registered, so that code from C++ can invoke the C# callback and propagate the event to all subscribers.
 
-Subscribers removed
-  -> Adapter Invoked unsubscribed
-  -> If last subscriber:
-       -> Native callback unregistered
-       -> AsyncLifetime.Unroot(adapter)
-       -> Adapter released
-```
+
+- When a subscriber is removed
+  1. Remove the subscriber from the action adapter callback.
+  2. If no other subscriber is left, unregister the native callback, which in turn unroots the internal callback and allows it to be GC-ed.
+  3. Nullify the action adapter.
 
 ## Build System
 

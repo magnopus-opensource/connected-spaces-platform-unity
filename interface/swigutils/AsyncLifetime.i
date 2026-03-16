@@ -1,7 +1,12 @@
-/* This file pins callbacks used in awaitable functions.
- * This is used in AsyncAdapters, and keeps callbacks used in await X(); calls alive.
- * It does NOT pin every callback, registerable callbacks used outside of await still
- * need to be kept safe from the GC explicitly by the client developer. */
+/* This file pins callbacks used in action adapters, and awaitable functions.
+ * Specifically, the lifetime of the pinned callbacks in those use cases is defined as follows:
+ * - For awaitable functions (see AsyncAdapters.i), callbacks are kept alive (pinned) until the await X() function call completes.
+ * - For action adapters (see AsyncAdapters.i), callbacks are kept alive (pinned) as long as the action adapter exists.
+ * Furthermore, since event adapters (see Events.i) rely on the action adapters mechanism to work, indirectly the 
+ * callbacks in use by event adapters are also kept alive, as long as there is a subscriber to the event that keeps 
+ * alive the related action adapter for that event.
+ * Note: outside of the cases listed above, this does NOT pin every callback, and client developer have to keep alive 
+ * the callbacks that they register outside of those usages by manually pinning them explicitly to avoid premature GC. */
 
 // Callbacks pinning to avoid premature GC collection.
 %pragma(csharp) modulecode=%{
@@ -10,10 +15,10 @@
 /// Callbacks should be added to this set when they are created, and removed once they have been invoked.
 /// </summary>
 /// <remarks>
-/// When handling callbacks while the async method is running, we need to be careful to keep a reference to the callback
-/// safely in memory until it is called. Otherwise, the garbage collector may collect it before it is invoked, leading to
-/// unexpected behavior or SIGSEGV. To do that, we use this custom class that holds all the callbacks inside an
-/// HashSet that prevents leaks due to premature garbage collection.
+/// When handling callbacks while the async method is running or the action adapter that makes use of it exists, we need
+/// to be careful to keep a reference to the callback safely in memory until it is called. Otherwise, the garbage 
+/// collector may collect it before it is invoked, leading to unexpected behavior or SIGSEGV. To do that, we use this 
+/// custom class that holds all the callbacks inside an HashSet that prevents leaks due to premature garbage collection.
 /// </remarks>
 internal static class AsyncLifetime
 {
@@ -34,6 +39,14 @@ internal static class AsyncLifetime
         {
             return;
         }
+        
+        // Only add to root if not already rooted
+        if(IsRooted(callback))
+        {
+            // This should never happen
+            System.Diagnostics.Debug.Fail($"Attempted to root a callback that was already rooted: {callback}");
+            return;
+        }
     
         // Atomic, thread-safe add
         if (!_roots.TryAdd(callback, 0))
@@ -41,6 +54,21 @@ internal static class AsyncLifetime
           // This should never happen
           System.Diagnostics.Debug.Fail($"Attempted to root a callback that was already rooted: {callback}");
         }
+    }
+
+    /// <summary>
+    /// Returns true if the specified callback was rooted, false otherwise.
+    /// </summary>
+    /// <param name="callback">The callback being checked.</param>
+    /// <returns>True if already rooted, false otherwise.</returns>
+    internal static bool IsRooted(object callback)
+    {
+        if (callback == null)
+        {
+            return false;
+        }
+        
+        return _roots.ContainsKey(callback);
     }
     
     /// <summary>
