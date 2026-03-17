@@ -125,12 +125,13 @@ public sealed class ACTION_CALLBACK_TYPENAME : CALLBACKT
  * It unroots itself when the callback is completed. Users should not have to concern themselves with this
  * and should be able to call var x = await MyXAsync(); without fear.
  */
-%define MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES)
+%define MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES, CALLBACK_TYPELIST_WITHOUT_NAMES)
     ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME callback =
         new ConnectedSpacesPlatformDotNet.CALLBACK_TYPENAME();
 
     // Define the callback that will be called by the C++ code
-    callback.Invoked += (CALLBACK_TYPELIST_ONLY_NAMES) =>
+    System.Action<CALLBACK_TYPELIST_WITHOUT_NAMES>? handler = null;
+    handler = new ((CALLBACK_TYPELIST_WITHOUT_NAMES CALLBACK_TYPELIST_ONLY_NAMES) =>
     {
         try
         {
@@ -166,10 +167,11 @@ public sealed class ACTION_CALLBACK_TYPENAME : CALLBACKT
             {
                 // It's something else
                 tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
-                // Now that the callback has been invoked, we can remove the root reference as we do not expect
+                // Now that the callback has been invoked, we unsubscribe, so that if there is no other subscriber
+                // the callback gets automatically unrooted. We do this because we do not expect
                 // any more callbacks to come since this is not a ResultBase with pending status. This will
                 // trigger the GC of the callback safely, since we no longer await for it.
-                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(callback);
+                callback.Invoked -= handler;
             }
         }
         catch (System.Exception ex)
@@ -177,10 +179,12 @@ public sealed class ACTION_CALLBACK_TYPENAME : CALLBACKT
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
         }
-    };
+    });
 
-    // ROOT the callback for the lifetime of the Task
-    ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(callback);
+    // Subscribe to the callback. 
+    // Note that this will automatically root the callback since it has at least one subscriber.
+    callback.Invoked += handler;
+
 %enddef
 
 /*
@@ -243,7 +247,7 @@ MAKE_ACTION_ADAPTER(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, 
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES);
+    MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES, CALLBACK_TYPELIST_WITHOUT_NAMES);
 
     // Run the method with the provided arguments and the callback
     // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
@@ -289,7 +293,7 @@ MAKE_ACTION_ADAPTER(CALLBACK_TYPENAME, CALLBACKT, CALLBACK_TYPELIST_WITH_NAMES, 
     System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<CALLBACK_TYPELIST_WITHOUT_NAMES>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES);
+    MAKE_ROOTED_ASYNC_CALLBACK_BODY(METHODNAME, CALLBACK_TYPENAME, CALLBACK_TYPELIST_ONLY_NAMES, CALLBACK_TYPELIST_WITHOUT_NAMES);
 
     // Run the method with the provided arguments and the callback
     METHODNAME(callback);
