@@ -59,11 +59,15 @@
     FULLY_NAMESPACED_CLASST
 )
 
+#ifndef SWIG_ACTION_CALLBACK_##ACTION_ADAPTER_TYPENAME##_DEFINED
+  %echo "[ERROR] MAKE_EVENT_FOR_CALLBACK: action adapter '" #ACTION_ADAPTER_TYPENAME "' was not defined! Cannot make event adapter around it."
+#else
+
 %extend FULLY_NAMESPACED_CLASST {
 %proxycode %{
 
     // Single native action adapter instance for this event
-    private ACTION_ADAPTER_TYPENAME? _##EVENT_NAME##Adapter;
+    private ConnectedSpacesPlatformDotNet.##ACTION_ADAPTER_TYPENAME##? _##EVENT_NAME##Adapter;
 
     /// <summary>
     /// C# event exposing the native callback.
@@ -76,7 +80,7 @@
             if (_##EVENT_NAME##Adapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
-                _##EVENT_NAME##Adapter = new ACTION_ADAPTER_TYPENAME(value);
+                _##EVENT_NAME##Adapter = new ConnectedSpacesPlatformDotNet.##ACTION_ADAPTER_TYPENAME##(value);
                 // Register with native code
                 NATIVE_SETTER(_##EVENT_NAME##Adapter);
             }
@@ -125,5 +129,7 @@
 
 %}   // End of proxycode
 }    // End of extension
+
+#endif
 
 %enddef

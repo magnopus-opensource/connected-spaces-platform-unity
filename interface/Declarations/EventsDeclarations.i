@@ -1,5 +1,8 @@
 %include "swigutils/Events.i"
 
+// Note: we need to check the existing action adapters, so we include them to see their define directives.
+%include "Declarations/AsyncDeclarations.i"
+
 /*
  * Declare here all the events that need to be exposed to C# as class properties, wrapping the related native registration 
  * method (e.g. SetXCallback(Callbacktype) in most of the cases according to what we currently have in CSP).
@@ -9,7 +12,7 @@
 /* csp::systems::UserSystem events */
 MAKE_EVENT_FOR_CALLBACK(
     OnNewLoginTokenReceived,
-    ConnectedSpacesPlatformDotNet.LoginTokenInfoCallback,
+    LoginTokenInfoCallback,
     SetNewLoginTokenReceivedCallback,
     csp.systems.LoginTokenInfoResult,
     csp::systems::UserSystem
@@ -17,7 +20,7 @@ MAKE_EVENT_FOR_CALLBACK(
 
 MAKE_EVENT_FOR_CALLBACK(
     OnUserPermissionsChanged,
-    ConnectedSpacesPlatformDotNet.UserPermissionsChangedCallback,
+    UserPermissionsChangedCallback,
     SetUserPermissionsChangedCallback,
     csp.common.AccessControlChangedNetworkEventData,
     csp::systems::UserSystem
