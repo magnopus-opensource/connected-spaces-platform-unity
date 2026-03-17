@@ -44,24 +44,25 @@
  * to all be unique, or the same for action adapters that have the same types. I'd favour the latter.
  */
 %define MAKE_ACTION_ADAPTER(
-    ACTION_CALLBACK_TYPENAME,
+    ACTION_ADAPTER_TYPENAME,
     CALLBACKT,
     ACTION_TYPELIST_WITH_NAMES,
     ACTION_TYPELIST_WITHOUT_NAMES,
     ACTION_TYPELIST_ONLY_NAMES
 )
 
-#ifdef SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
-  %echo "MAKE_ACTION_ADAPTER: action wrapper '" #ACTION_CALLBACK_TYPENAME "' already defined, skipping"
+#ifdef SWIG_ACTION_CALLBACK_##ACTION_ADAPTER_TYPENAME##_DEFINED
+  %echo "MAKE_ACTION_ADAPTER: action wrapper '" #ACTION_ADAPTER_TYPENAME "' already defined, skipping"
 #else
-#define SWIG_ACTION_CALLBACK_##ACTION_CALLBACK_TYPENAME##_DEFINED
+#define SWIG_ACTION_CALLBACK_##ACTION_ADAPTER_TYPENAME##_DEFINED
+    %echo "Defined SWIG_ACTION_CALLBACK_"#ACTION_ADAPTER_TYPENAME"_DEFINED"
 
 %pragma(csharp) modulecode=%{
-public sealed class ACTION_CALLBACK_TYPENAME : CALLBACKT
+public sealed class ACTION_ADAPTER_TYPENAME : CALLBACKT
 {
-    public ACTION_CALLBACK_TYPENAME(){}
+    public ACTION_ADAPTER_TYPENAME(){}
 
-    public ACTION_CALLBACK_TYPENAME(System.Action<ACTION_TYPELIST_WITHOUT_NAMES> callbackAction) 
+    public ACTION_ADAPTER_TYPENAME(System.Action<ACTION_TYPELIST_WITHOUT_NAMES> callbackAction) 
     {
         Invoked += callbackAction;
     }
