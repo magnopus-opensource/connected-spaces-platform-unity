@@ -9,6 +9,15 @@
  * Make sure to group the declaration by class to keep this file well organised. 
  */
 
+/* csp::common::LogSystem events */
+MAKE_EVENT_FOR_CALLBACK(
+    OnLogReceived,
+    LogCallback,
+    SetLogCallback,
+    ARGLIST(csp.common.LogLevel, string),
+    csp::common::LogSystem
+)
+
 /* csp::systems::UserSystem events */
 MAKE_EVENT_FOR_CALLBACK(
     OnNewLoginTokenReceived,

@@ -87,6 +87,45 @@ public class CallbackTests
         Assert.Equal("Second call.", capturedMessage);
         Assert.Equal(2, timesCalled);
     }
+    
+    [Fact]
+    public void UnsubscribeWorksWithoutCrashes()
+    {
+        /* We ensure that when we unset a callback, if the native code tries to invoke the action we have no crash.
+         * This happened before, so we fence against it. */
+
+        using var logSystem1 = new LogSystem();
+        Assert.NotNull(logSystem1);
+        using var logSystem2 = new LogSystem();
+        Assert.NotNull(logSystem2);
+
+        var timesCalled = 0;
+
+        using ConnectedSpacesPlatformDotNet.LogCallback callback = new ConnectedSpacesPlatformDotNet.LogCallback((logLevel, message) =>
+        {
+            timesCalled++;
+        });
+
+        // Set the callbacks
+        logSystem1.SetLogCallback(callback);
+        logSystem2.SetLogCallback(callback);
+        
+        // Unset the callbacks
+        logSystem1.SetLogCallback(null);
+        logSystem2.SetLogCallback(null);
+
+        // Expect no crash
+        logSystem1.LogMsg(LogLevel.Log, "First call.");
+
+        // Expect unsubscribed successfully
+        Assert.Equal(0, timesCalled);
+
+        // Expect no crash
+        logSystem2.LogMsg(LogLevel.Warning, "Second call.");
+
+        // Expect unsubscribed successfully
+        Assert.Equal(0, timesCalled);
+    }
 
     [Fact]
     public async Task SpaceEntityCallbacks()

@@ -159,9 +159,9 @@ public sealed class ACTION_ADAPTER_TYPENAME : CALLBACKT
                 {
                     tcs.TrySetResult(CALLBACK_TYPELIST_ONLY_NAMES);
                     // Now that the callback has been invoked and returned success or failure, we no longer need to
-                    // await, so we remove the root reference for GC. Instead, if the result was still pending we
-                    // would have still needed to await and keep this alive.
-                    ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(callback);
+                    // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
+                    // Instead, if the result was still pending we would have still needed to await and keep this alive.
+                    callback.Invoked -= handler;
                 }
             }
             else

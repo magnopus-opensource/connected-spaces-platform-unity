@@ -1,238 +1,229 @@
-using System.Reflection;
-using csp;
-using csp.systems;
-using LoginTokenInfoResult = csp.systems.LoginTokenInfoResult;
+using csp.common;
 
 namespace InteropTestsXUnit
 {
-    public class EventTests : IDisposable
+    /*
+     * These tests test the generation of the event member variable from the `MAKE_EVENT_FOR_CALLBACK` macro.
+     * Note that since events are based on top of the action adapters mechanisms, it might be redundant to test
+     * the event firing itself, but for the time being it might be worth keeping these tests for a sanity check.
+     */
+    public class EventTests
     {
-        private readonly UserSystem _userSystem;
-        private readonly List<string> _eventLog;
-        private LoginTokenInfoResult? _capturedTokenResult;
-        private bool _tokenEventFired;
-
-        private const string OnNewLoginTokenReceivedFieldName = "_OnNewLoginTokenReceivedAdapter";
-
-        public EventTests()
-        {
-            // Every test here initializes CSP.
-            ClientUserAgent userAgent = new ClientUserAgent();
-            userAgent.CSPVersion = "Unknown";
-            userAgent.ClientOS = "Unknown";
-            userAgent.ClientSKU = "CSharp-Interop";
-            userAgent.ClientVersion = "Unknown";
-            userAgent.ClientEnvironment = "ODev";
-            userAgent.CHSEnvironment = "oDev";
-            var result = CSPFoundation.Initialise("https://ogs-internal.magnopus-dev.cloud", "OKO_TESTS", userAgent, null);
-            Assert.True(result);
-            
-            _eventLog = new List<string>();
-            _capturedTokenResult = null;
-            _tokenEventFired = false;
-            
-            _userSystem = SystemsManager.Get().GetUserSystem();
-            Assert.NotNull(_userSystem);
-        }
-        
-        public void Dispose()
-        {
-            var userSystemType = typeof(UserSystem);
-            var fi = userSystemType.GetField(
-                OnNewLoginTokenReceivedFieldName,
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase);
-
-            fi?.SetValue(_userSystem, null);
-
-            // Every test shuts down CSP when it's done
-            var result = CSPFoundation.Shutdown();
-            Assert.True(result);
-        }
-
-        /// <summary>
-        /// Helper method to invoke the internal login token event.
-        /// </summary>
-        private void FireLoginTokenEvent(LoginTokenInfoResult result)
-        {
-            var userSystemType = typeof(UserSystem);
-
-            var eventField = userSystemType.GetField(
-                OnNewLoginTokenReceivedFieldName,
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase);
-
-            if (eventField == null)
-                return;
-
-            var target = eventField.GetValue(_userSystem);
-            if (target == null)
-                return;
-
-            var invokeDelegate = target.GetType().GetField(
-                "_invoked",
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase);
-
-            if (invokeDelegate?.GetValue(target) is Delegate del)
-            {
-                del.DynamicInvoke(result);
-            }
-        }
-
         [Fact]
-        public void OnNewLoginTokenReceived_Subscribe_EventFiresWithCorrectData()
+        public void OnLogReceived_Subscribe_EventFiresWithCorrectData()
         {
             var handlerCalled = false;
-            _eventLog.Clear();
+            var logEventFired = false;
+            var capturedLogEventMessage = string.Empty;
 
-            void TokenReceivedHandler(LoginTokenInfoResult result)
+            void LogReceivedHandler(LogLevel level, string message)
             {
                 handlerCalled = true;
-                _tokenEventFired = true;
-                _capturedTokenResult = result;
-                _eventLog.Add("TokenReceived");
+                logEventFired = true;
+                capturedLogEventMessage = message;
             }
 
-            _userSystem.OnNewLoginTokenReceived += TokenReceivedHandler;
-
-            var tokenResult = new LoginTokenInfoResult(1, false);
-
-            FireLoginTokenEvent(tokenResult);
+            var logSystem = new LogSystem();
+            logSystem.OnLogReceived += LogReceivedHandler;
+            
+            // Enforce GC to ensure the callback survives
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            
+            logSystem.LogMsg(LogLevel.Log, "TestLogMessage");
 
             Assert.True(handlerCalled);
-            Assert.True(_tokenEventFired);
-            Assert.NotNull(_capturedTokenResult);
-            Assert.Contains("TokenReceived", _eventLog);
+            Assert.True(logEventFired);
+            Assert.NotEmpty(capturedLogEventMessage);
         }
 
         [Fact]
-        public void OnNewLoginTokenReceived_MultipleHandlers_AllAreFired()
+        public void OnLogReceived_MultipleHandlers_AllAreFired()
         {
             var handler1Called = false;
             var handler2Called = false;
             var handler3Called = false;
-            _eventLog.Clear();
+            var eventLog = new List<string>();
 
-            void Handler1(LoginTokenInfoResult result)
+            void Handler1(LogLevel level, string message)
             {
                 handler1Called = true;
-                _eventLog.Add("Handler1");
+                eventLog.Add("Handler1");
             }
 
-            void Handler2(LoginTokenInfoResult result)
+            void Handler2(LogLevel level, string message)
             {
                 handler2Called = true;
-                _eventLog.Add("Handler2");
+                eventLog.Add("Handler2");
             }
 
-            void Handler3(LoginTokenInfoResult result)
+            void Handler3(LogLevel level, string message)
             {
                 handler3Called = true;
-                _eventLog.Add("Handler3");
+                eventLog.Add("Handler3");
             }
 
-            _userSystem.OnNewLoginTokenReceived += Handler1;
-            _userSystem.OnNewLoginTokenReceived += Handler2;
-            _userSystem.OnNewLoginTokenReceived += Handler3;
+            var logSystem = new LogSystem();
+            logSystem.OnLogReceived += Handler1;
+            logSystem.OnLogReceived += Handler2;
+            logSystem.OnLogReceived += Handler3;
+            
+            // Enforce GC to ensure the callback survives
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
 
-            var tokenResult = new LoginTokenInfoResult(1, false);
-
-            FireLoginTokenEvent(tokenResult);
+            logSystem.LogMsg(LogLevel.Log, "TestLogMessage");
 
             Assert.True(handler1Called);
             Assert.True(handler2Called);
             Assert.True(handler3Called);
-            Assert.Equal(3, _eventLog.Count);
-            Assert.Contains("Handler1", _eventLog);
-            Assert.Contains("Handler2", _eventLog);
-            Assert.Contains("Handler3", _eventLog);
+            Assert.Equal(3, eventLog.Count);
+            Assert.Contains("Handler1", eventLog);
+            Assert.Contains("Handler2", eventLog);
+            Assert.Contains("Handler3", eventLog);
             
-            _userSystem.OnNewLoginTokenReceived -= Handler3;
-            _userSystem.OnNewLoginTokenReceived -= Handler2;
-            _userSystem.OnNewLoginTokenReceived -= Handler1;
+            logSystem.OnLogReceived -= Handler3;
+            logSystem.OnLogReceived -= Handler2;
+            logSystem.OnLogReceived -= Handler1;
         }
 
         [Fact]
-        public void OnNewLoginTokenReceived_MultipleHandlers_ExecuteInOrder()
+        public void OnLogReceived_MultipleHandlers_ExecuteInOrder()
         {
-            _eventLog.Clear();
+            var eventLog = new List<string>();
             
-            void Handler1(LoginTokenInfoResult result) => _eventLog.Add("1");
-            void Handler2(LoginTokenInfoResult result) => _eventLog.Add("2");
-            void Handler3(LoginTokenInfoResult result) => _eventLog.Add("3");
+            void Handler1(LogLevel level, string message) => eventLog.Add("1");
+            void Handler2(LogLevel level, string message) => eventLog.Add("2");
+            void Handler3(LogLevel level, string message) => eventLog.Add("3");
 
-            _userSystem.OnNewLoginTokenReceived += Handler1;
-            _userSystem.OnNewLoginTokenReceived += Handler2;
-            _userSystem.OnNewLoginTokenReceived += Handler3;
-
-            var tokenResult = new LoginTokenInfoResult(1, false);
-
-            FireLoginTokenEvent(tokenResult);
-
-            Assert.Equal(3, _eventLog.Count);
-            Assert.Equal("1", _eventLog[0]);
-            Assert.Equal("2", _eventLog[1]);
-            Assert.Equal("3", _eventLog[2]);
+            var logSystem = new LogSystem();
+            logSystem.OnLogReceived += Handler1;
+            logSystem.OnLogReceived += Handler2;
+            logSystem.OnLogReceived += Handler3;
             
-            _userSystem.OnNewLoginTokenReceived -= Handler3;
-            _userSystem.OnNewLoginTokenReceived -= Handler2;
-            _userSystem.OnNewLoginTokenReceived -= Handler1;
+            // Enforce GC to ensure the callback survives
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
+            logSystem.LogMsg(LogLevel.Log, "TestLogMessage");
+
+            Assert.Equal(3, eventLog.Count);
+            Assert.Equal("1", eventLog[0]);
+            Assert.Equal("2", eventLog[1]);
+            Assert.Equal("3", eventLog[2]);
+            
+            logSystem.OnLogReceived -= Handler3;
+            logSystem.OnLogReceived -= Handler2;
+            logSystem.OnLogReceived -= Handler1;
         }
 
         [Fact]
-        public void OnNewLoginTokenReceived_Unsubscribe_HandlerNotCalled()
+        public void OnLogReceived_Unsubscribe_HandlerNotCalled()
         {
             var handlerCalled = false;
-            _eventLog.Clear();
+            var eventLog = new List<string>();
 
-            void Handler(LoginTokenInfoResult result)
+            void Handler(LogLevel level, string message)
             {
                 handlerCalled = true;
-                _eventLog.Add("Handler called");
+                eventLog.Add("Handler called");
             }
 
-            _userSystem.OnNewLoginTokenReceived += Handler;
-            _userSystem.OnNewLoginTokenReceived -= Handler;
+            var logSystem = new LogSystem();
+            logSystem.OnLogReceived += Handler;
+            
+            // Enforce GC to ensure the callback survives
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            
+            logSystem.OnLogReceived -= Handler;
 
-            var tokenResult = new LoginTokenInfoResult(1, false);
-
-            FireLoginTokenEvent(tokenResult);
+            logSystem.LogMsg(LogLevel.Log, "TestLogMessage");
 
             Assert.False(handlerCalled);
-            Assert.DoesNotContain("Handler called", _eventLog);
+            Assert.DoesNotContain("Handler called", eventLog);
         }
 
         [Fact]
-        public void OnNewLoginTokenReceived_NoHandlers_NoErrorsOnFire()
+        public void OnLogReceived_NoHandlers_NoErrorsOnFire()
         {
-            _eventLog.Clear();
-            var tokenResult = new LoginTokenInfoResult(1, false);
-
-            FireLoginTokenEvent(tokenResult);
-
-            Assert.Empty(_eventLog);
+            var logSystem = new LogSystem();
+            logSystem.LogMsg(LogLevel.Log, "TestLogMessage");
         }
 
         [Fact]
-        public void OnNewLoginTokenReceived_Handler_ProcessesTokenDataCorrectly()
+        public void OnLogReceived_Handler_ProcessesTokenDataCorrectly()
         {
-            _eventLog.Clear();
             var processed = new List<object>();
 
-            void Processor(LoginTokenInfoResult result)
+            void Processor(LogLevel level, string message)
             {
-                processed.Add(result);
+                processed.Add(message);
             }
 
-            _userSystem.OnNewLoginTokenReceived += Processor;
+            var logSystem = new LogSystem();
+            logSystem.OnLogReceived += Processor;
+            
+            // Enforce GC to ensure the callback survives
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
 
-            var token1 = new LoginTokenInfoResult(1, false);
-            var token2 = new LoginTokenInfoResult(2, false);
+            const string msg1 = "TestLogMessage1";
+            const string msg2 = "TestLogMessage2";
 
-            FireLoginTokenEvent(token1);
-            FireLoginTokenEvent(token2);
+            logSystem.LogMsg(LogLevel.Log, msg1);
+            logSystem.LogMsg(LogLevel.Log, msg2);
 
             Assert.Equal(2, processed.Count);
+            Assert.Equal(msg1, processed[0]);
+            Assert.Equal(msg2, processed[1]);
             
-            _userSystem.OnNewLoginTokenReceived -= Processor;
+            logSystem.OnLogReceived -= Processor;
+        }
+
+        [Fact]
+        public void OnLogReceived_MultipleHandlers_ProcessesLogsCorrectly()
+        {
+            using LogSystem logSystem1 = new LogSystem();
+            Assert.True(logSystem1 != null);
+            using LogSystem logSystem2 = new LogSystem();
+            Assert.True(logSystem2 != null);
+
+            LogLevel? capturedLevel = null;
+            string? capturedMessage = null;
+            int timesCalled = 0;
+            
+            void Handler(LogLevel logLevel, string message)
+            {
+                capturedLevel = logLevel;
+                capturedMessage = message;
+                timesCalled++;
+            };
+            
+            logSystem1.OnLogReceived += Handler;
+            logSystem2.OnLogReceived += Handler;
+            
+            // Enforce GC to ensure callbacks survive
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
+            logSystem1.LogMsg(LogLevel.Log, "First call.");
+
+            Assert.Equal(LogLevel.Log, capturedLevel);
+            Assert.Equal("First call.", capturedMessage);
+            Assert.Equal(1, timesCalled);
+
+            logSystem2.LogMsg(LogLevel.Warning, "Second call.");
+
+            Assert.Equal(LogLevel.Warning, capturedLevel);
+            Assert.Equal("Second call.", capturedMessage);
+            Assert.Equal(2, timesCalled);
         }
     }
 }
