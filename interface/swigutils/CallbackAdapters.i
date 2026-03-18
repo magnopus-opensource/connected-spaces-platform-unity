@@ -100,6 +100,11 @@ MAKE_CALLBACK_ADAPTER(ADAPTER_NAME, ARGLIST(ARG_LIST_WITH_TYPES), void)
  * This is clearer in the generated code */
 %typemap(in) CALLBACK_CPP_SYMBOL {
   $1 = [$input](ARG_LIST_WITH_TYPES) {
+    // Note: checking for nullptr because we could pass that to unsubscribe.
+    if($input == nullptr)
+    {
+        return;
+    }
     return $input->Call(ARG_LIST_WITHOUT_TYPES);
   };
 }
