@@ -69,7 +69,7 @@ jobs:
           find artifacts/desktop-windows-*-UnityExtensions -name "*.dll" -exec cp {} UnityPackage/Plugins/Windows/x86_64/ \;
           
           # Use cp -R for macOS .bundle because they are directories, not single files
-          find artifacts/desktop-macos-*-UnityExtensions -name "*.bundle" -exec cp -R {} UnityPackage/Plugins/macOS/ \;
+          find artifacts/desktop-macos-*-UnityExtensions -name "*.dylib" -exec cp -R {} UnityPackage/Plugins/macOS/ \;
           
           # Copy Include Headers
           # Finds the first 'include' directory in the artifacts and copies its contents.
