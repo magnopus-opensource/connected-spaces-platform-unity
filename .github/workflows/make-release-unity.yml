@@ -76,7 +76,7 @@ jobs:
           # Note that the code shoulod already be the same for all platforms by now.
           INCLUDE_DIR=$(find artifacts -type d -name "include" | head -n 1)
           if [ -n "$INCLUDE_DIR" ]; then
-            cp -R "$INCLUDE_DIR"/* UnityPackage/include/
+            cp -R "$INCLUDE_DIR"/* UnityPackage/Runtime
           fi
           
           # Zip the package
