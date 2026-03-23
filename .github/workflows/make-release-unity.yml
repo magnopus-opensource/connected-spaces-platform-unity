@@ -83,6 +83,8 @@ jobs:
           # Using cp -r to recursively copy all files and folders inside that repo path.
           # The '|| true' ensures the workflow doesn't crash if the folder is ever empty or moved.
           cp -r UnityProject/CspUnityTests/Assets/Plugins/Editor/* UnityPackage/Editor/ || true
+          # Also copy the asmdef file to let Unity detect the script in the Runtime folder
+          find UnityProject/CspUnityTests/Assets/Plugins/include -name "*.asmdef" -exec cp {} UnityPackage/Runtime/ \;
           
           # Zip the package
           cd UnityPackage
