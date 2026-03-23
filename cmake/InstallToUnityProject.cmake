@@ -1,5 +1,5 @@
 # Path to the folder of the Unity project where the generated CSP code and libs will be copied to.
-# 1 - Build the path safely
+
 cmake_path(APPEND CSP_LIB_UNITY_DIR
     "${CMAKE_BINARY_DIR}"
     ".."
@@ -8,25 +8,45 @@ cmake_path(APPEND CSP_LIB_UNITY_DIR
     "Assets"
     "Plugins"
 )
-# 2 - Cache the result
 set(CSP_LIB_UNITY_DIR "${CSP_LIB_UNITY_DIR}"
     CACHE PATH "Path to Unity CSP plugin directory"
 )
 
-# The asmdef file that will be used to establish the build settings for the generated CSP code and libs
-# 1 - Build the path safely
-cmake_path(APPEND _tmp_asmdef_path
+cmake_path(APPEND UNITY_EDITOR_SCRIPTS_DIR
     "${CMAKE_BINARY_DIR}"
     ".."
     "UnityProject"
+    "CspUnityTests"
+    "Assets"
+    "Plugins"
+    "Editor"
+)
+set(UNITY_EDITOR_SCRIPTS_DIR "${UNITY_EDITOR_SCRIPTS_DIR}"
+    CACHE PATH "Path to Unity Editor scripts directory"
+)
+
+# The folder containing extra files we need to copy into the Unity project (such as asmdef and build scripts).
+cmake_path(APPEND _tmp_extra_Unity_files_path
+    "${CMAKE_BINARY_DIR}"
+    ".."
+    "UnityProject"
+    "extra"
+)
+set(EXTRA_UNITY_FILES_PATH "${_tmp_extra_Unity_files_path}"
+    CACHE FILEPATH "Path to Unity extra files"
+)
+
+# The asmdef file that will be used to establish the build settings for the generated CSP code and libs
+cmake_path(APPEND _tmp_asmdef_path
+    "${EXTRA_UNITY_FILES_PATH}"
     "ConnectedSpacesPlatform.Unity.Core.asmdef"
 )
-# 2 - Cache the result
 set(CSP_ASMDEF_PATH "${_tmp_asmdef_path}"
     CACHE FILEPATH "Path to ConnectedSpacesPlatform Unity .asmdef file"
 )
 
 message(STATUS "CSP_LIB_UNITY_DIR='${CSP_LIB_UNITY_DIR}'")
+message(STATUS "UNITY_EDITOR_SCRIPTS_DIR='${UNITY_EDITOR_SCRIPTS_DIR}'")
 message(STATUS "CSP_ASMDEF_PATH='${CSP_ASMDEF_PATH}'")
 
 # Base folder inside Unity project
@@ -80,6 +100,9 @@ install(CODE "
 
     file(MAKE_DIRECTORY \"${UNITY_PLATFORM_DIR}\")
     file(MAKE_DIRECTORY \"${UNITY_CSP_ROOT}/include\")
+    
+    message(\"Deleting Unity editor scripts to replace them with latest ones...\")
+    file(REMOVE_RECURSE \"${UNITY_EDITOR_SCRIPTS_DIR}\")
 
     # Copy C# SWIG bindings
     message(\"Copying SWIG-generated C#...\")
@@ -98,4 +121,10 @@ install(CODE "
     # Copy asmdef
     message(\"Copying asmdef...\")
     file(COPY \"${CSP_ASMDEF_PATH}\" DESTINATION \"${UNITY_CSP_ROOT}/include\")
+    
+    # Copy Unity editor scripts
+    message(\"Copying Unity editor scripts...\")
+    file(MAKE_DIRECTORY \"${UNITY_EDITOR_SCRIPTS_DIR}\")
+    file(COPY \"${EXTRA_UNITY_FILES_PATH}/Editor\" DESTINATION \"${UNITY_CSP_ROOT}\")
+    file(COPY \"${EXTRA_UNITY_FILES_PATH}/Editor.meta\" DESTINATION \"${UNITY_CSP_ROOT}\")
 ")
