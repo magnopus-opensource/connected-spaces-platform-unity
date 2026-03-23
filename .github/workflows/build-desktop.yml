@@ -6,6 +6,17 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      unity_ext_matrix:
+        description: 'JSON array for Unity Extensions'
+        required: false
+        default: '[true, false]'
+  workflow_call: # Allows other workflows to call this one and wait for its artifacts
+    inputs:
+      unity_ext_matrix:
+        type: string
+        required: false
+        default: '[true, false]'
 
 jobs:
   build:
@@ -14,7 +25,8 @@ jobs:
       matrix:
         os: [windows-latest, macos-latest]
         build_type: [Debug, Release]
-        build_with_unity_extensions: [true, false]
+        # If an input is provided, parse it. Otherwise, default to building both.
+        build_with_unity_extensions: ${{ fromJSON(inputs.unity_ext_matrix || '[true, false]') }}
 
     runs-on: ${{ matrix.os }}
     env:

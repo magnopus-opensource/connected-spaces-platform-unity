@@ -6,6 +6,18 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      unity_ext_matrix:
+        description: 'JSON array for Unity Extensions'
+        required: false
+        default: '[true]'
+  workflow_call: # Allows other workflows to call this one and wait for its artifacts
+    inputs:
+      unity_ext_matrix:
+        type: string
+        required: false
+        default: '[true]'
+
 
 jobs:
   build:

@@ -1,0 +1,88 @@
+name: Package Unity Zip
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version label (e.g., v1.0.0)'
+        required: true
+      releaseTag:
+        description: 'Git tag to make for this release'
+        required: true
+
+jobs:
+  # 1. Validate branch first
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify branch is main or test branch
+        run: |
+          if [ "${{ github.ref }}" != "refs/heads/main" || "${{ github.ref }}" != "refs/heads/OPE-3170_ReleasePipelineWorkflowRework"]; then
+            echo "::error::This workflow can only be run on the main branch. You selected: ${{ github.ref }}"
+            exit 1
+          fi
+  
+  # 2. Run builds in parallel
+  build-android:
+    needs: check-branch
+    uses: ./.github/workflows/build-android.yml
+    with:
+      unity_ext_matrix: '[true]' # Only build Unity extensions
+  build-desktop:
+    needs: check-branch
+    uses: ./.github/workflows/build-desktop.yml
+    with:
+      unity_ext_matrix: '[true]' # Only build Unity extensions
+  build-ios:
+    needs: check-branch
+    uses: ./.github/workflows/build-ios.yml
+    with:
+      unity_ext_matrix: '[true]' # Only build Unity extensions
+
+  # 3. Package the results
+  package-unity:
+    needs: [check-branch, build-android, build-desktop, build-ios]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Assemble Unity Folder Structure
+        run: |
+          mkdir -p UnityPackage/Plugins/Android/libs/arm64-v8a
+          mkdir -p UnityPackage/Plugins/iOS
+          mkdir -p UnityPackage/Plugins/macOS
+          mkdir -p UnityPackage/Plugins/Windows/x86_64
+          mkdir -p UnityPackage/Runtime
+          mkdir -p UnityPackage/Editor
+
+          # Using 'find' to scoop up BOTH Debug and Release files simultaneously
+          find artifacts/android-* -name "*.so" -exec cp {} UnityPackage/Plugins/Android/libs/arm64-v8a/ \;
+          find artifacts/iOS-* -name "*.a" -exec cp {} UnityPackage/Plugins/iOS/ \;
+          find artifacts/desktop-windows-*-UnityExtensions -name "*.dll" -exec cp {} UnityPackage/Plugins/Windows/x86_64/ \;
+          
+          # Use cp -R for macOS .bundle because they are directories, not single files
+          find artifacts/desktop-macos-*-UnityExtensions -name "*.bundle" -exec cp -R {} UnityPackage/Plugins/macOS/ \;
+          
+          # Copy Include Headers
+          # Finds the first 'include' directory in the artifacts and copies its contents.
+          # Note that the code shoulod already be the same for all platforms by now.
+          INCLUDE_DIR=$(find artifacts -type d -name "include" | head -n 1)
+          if [ -n "$INCLUDE_DIR" ]; then
+            cp -R "$INCLUDE_DIR"/* UnityPackage/include/
+          fi
+          
+          # Zip the package
+          cd UnityPackage
+          zip -r ../CSP-Unity-${{ github.event.inputs.version }}.zip ./*
+
+      - name: Upload Unity Zip Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CSP-Unity-${{ github.event.inputs.version }}
+          path: CSP-Unity-${{ github.event.inputs.version }}.zip
