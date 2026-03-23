@@ -79,6 +79,11 @@ jobs:
             cp -R "$INCLUDE_DIR"/* UnityPackage/Runtime
           fi
           
+          # Copy Editor Scripts from Repo
+          # Using cp -r to recursively copy all files and folders inside that repo path.
+          # The '|| true' ensures the workflow doesn't crash if the folder is ever empty or moved.
+          cp -r UnityProject/CspUnityTests/Assets/Plugins/Editor/* UnityPackage/Editor/ || true
+          
           # Zip the package
           cd UnityPackage
           zip -r ../CSP-Unity-${{ github.event.inputs.version }}.zip ./*
