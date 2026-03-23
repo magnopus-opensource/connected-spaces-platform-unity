@@ -1,6 +1,8 @@
 name: Package Unity Zip
 
 on:
+  push:
+    branches: [ OPE-3170_ReleasePipelineWorkflowRework ] # TEMPORARY to trigger workflow on push of current branch
   workflow_dispatch:
     inputs:
       version:
