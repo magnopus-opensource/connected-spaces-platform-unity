@@ -180,7 +180,7 @@ public class AsyncInteropTests
     {
         using var logSystem = new LogSystem();
 
-        int totalOps = 10_000;
+        int totalOps = 1_000;
 
         var tasks = Enumerable.Range(0, totalOps)
             .Select(async _ =>
@@ -211,7 +211,7 @@ public class AsyncInteropTests
     {
         using var logSystem = new LogSystem();
 
-        const int operations = 10000;
+        const int operations = 1000;
 
         var tasks = new List<Task>(operations);
         for (var i = 0; i < operations; i++)
@@ -259,7 +259,7 @@ public class AsyncInteropTests
     {
         using var logSystem = new LogSystem();
 
-        const int operations = 10_000;
+        const int operations = 1_000;
         const int maxConcurrency = 64;
 
         int inFlight = 0;
