@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       unity_ext_matrix:
-        description: 'JSON array for Unity Extensions'
+        description: 'This parameter establishes whether SWIG should generate the additional bindings for supporting Unity applications (true) or just the code for supporting general purpose .NET C# applications (false). This is expected to be a JSON array: it is possible to produce both cases by passing [true, false].'
         required: false
         default: '[true, false]'
   workflow_call: # Allows other workflows to call this one and wait for its artifacts
