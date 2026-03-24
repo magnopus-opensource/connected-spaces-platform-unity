@@ -54,28 +54,28 @@ jobs:
         with:
           path: artifacts
 
-      - name: Assemble .NET Folder Structure
+      - name: Assemble DotNet Folder Structure
         run: |
-          mkdir -p libs/Android/arm64-v8a
-          mkdir -p libs/iOS
-          mkdir -p libs/macOS
-          mkdir -p libs/Windows/x86_64
-          mkdir -p include
+          mkdir -p DotNet/libs/Android/arm64-v8a
+          mkdir -p DotNet/libs/iOS
+          mkdir -p DotNet/libs/macOS
+          mkdir -p DotNet/libs/Windows/x86_64
+          mkdir -p DotNet/include
 
           # Using 'find' to scoop up BOTH Debug and Release files simultaneously
-          find artifacts/android-* -name "*.so" -exec cp {} libs/Android/arm64-v8a/ \;
-          find artifacts/iOS-* -name "*.a" -exec cp {} libs/iOS/ \;
-          find artifacts/desktop-windows-* -name "*.dll" -exec cp {} libs/Windows/x86_64/ \;
+          find artifacts/android-* -name "*.so" -exec cp {} DotNet/libs/Android/arm64-v8a/ \;
+          find artifacts/iOS-* -name "*.a" -exec cp {} DotNet/libs/iOS/ \;
+          find artifacts/desktop-windows-* -name "*.dll" -exec cp {} DotNet/libs/Windows/x86_64/ \;
           
           # Use cp -R for macOS .bundle because they are directories, not single files
-          find artifacts/desktop-macos-* -name "*.dylib" -exec cp -R {} libs/macOS/ \;
+          find artifacts/desktop-macos-* -name "*.dylib" -exec cp -R {} DotNet/libs/macOS/ \;
           
           # Copy Include Headers
           # Finds the first 'include' directory in the artifacts and copies its contents.
           # Note that the code shoulod already be the same for all platforms by now.
           INCLUDE_DIR=$(find artifacts -type d -name "include" | head -n 1)
           if [ -n "$INCLUDE_DIR" ]; then
-            cp -R "$INCLUDE_DIR"/* include
+            cp -R "$INCLUDE_DIR"/* DotNet/include
           fi
           
           # Zip the package
