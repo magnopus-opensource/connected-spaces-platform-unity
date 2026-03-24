@@ -18,6 +18,11 @@ namespace Magnopus.Csp.Unity.Tests
 {
     public static class AsyncTest
     {
+        /// <summary>
+        /// Number of asynchronous operations to test the async behaviour. 
+        /// </summary>
+        public const int NumberOfAsyncOperationsToTest = 1000;
+        
 #if UNITY_EDITOR
         /// <summary>
         /// Runs an async Task method as a Unity coroutine.
@@ -197,15 +202,14 @@ namespace Magnopus.Csp.Unity.Tests
             yield return AsyncTest.RunAsync(async () =>
             {
                 var logSystem = new LogSystem();
-                const int operations = 10_000;
                 const int maxConcurrency = 64;
 
                 var semaphore = new SemaphoreSlim(maxConcurrency);
-                var tasks = new List<Task>(operations);
+                var tasks = new List<Task>(AsyncTest.NumberOfAsyncOperationsToTest);
 
                 var sw = Stopwatch.StartNew();
 
-                for (int i = 0; i < operations; i++)
+                for (int i = 0; i < AsyncTest.NumberOfAsyncOperationsToTest; i++)
                 {
                     await semaphore.WaitAsync();
                     tasks.Add(Task.Run(async () =>
@@ -225,6 +229,7 @@ namespace Magnopus.Csp.Unity.Tests
 
                 sw.Stop();
 
+                // Note: there might be additional delay due to task scheduling.
                 Assert.Less(sw.ElapsedMilliseconds, 1500);
             });
         }
@@ -235,10 +240,9 @@ namespace Magnopus.Csp.Unity.Tests
             yield return AsyncTest.RunAsync(async () =>
             {
                 var logSystem = new LogSystem();
-                const int operations = 5_000;
 
-                var tasks = new List<Task>(operations);
-                for (int i = 0; i < operations; i++)
+                var tasks = new List<Task>(AsyncTest.NumberOfAsyncOperationsToTest);
+                for (int i = 0; i < AsyncTest.NumberOfAsyncOperationsToTest; i++)
                 {
                     tasks.Add(logSystem.LogAfterSecondsAsync(true, 0));
                 }
