@@ -26,7 +26,7 @@ jobs:
       matrix:
         os: [windows-latest] # You could also run this on macos, up to you if you want to make the cost tradeoff (10x) for making sure dev environments keep working.
         build_type: [Debug, Release]
-        # If an input is provided, parse it. Otherwise, default to building both.
+        # If an input is provided, parse it. Otherwise, default to building with Unity extensions enabled.
         build_with_unity_extensions: ${{ fromJSON(inputs.unity_ext_matrix || '[true]') }}
 
 

@@ -1,8 +1,6 @@
 name: Make Release
 
 on:
-  push:
-    branches: [ OPE-3170_ReleasePipelineWorkflowRework ] # TEMPORARY - TODO: REMOVE BEFORE PR MERGE
   workflow_dispatch:
     inputs:
       version:

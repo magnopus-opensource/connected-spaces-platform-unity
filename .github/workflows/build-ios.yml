@@ -26,7 +26,7 @@ jobs:
       matrix:
         os: [macos-latest]
         build_type: [Debug, Release]
-        # If an input is provided, parse it. Otherwise, default to building both.
+        # If an input is provided, parse it. Otherwise, default to building with Unity extensions enabled.
         build_with_unity_extensions: ${{ fromJSON(inputs.unity_ext_matrix || '[true]') }}
 
 
