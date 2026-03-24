@@ -17,12 +17,10 @@
 #if UNITY_EDITOR
 
 using System.IO;
-
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
-
 
 public class NativePluginBuildProcessor : IPreprocessBuildWithReport
 {
@@ -36,30 +34,75 @@ public class NativePluginBuildProcessor : IPreprocessBuildWithReport
 
         foreach (var importer in importers)
         {
-            if (!importer.isNativePlugin)
+            if (!importer.isNativePlugin || !importer.assetPath.Contains("ConnectedSpacesPlatform"))
                 continue;
 
-            if (!importer.assetPath.Contains("ConnectedSpacesPlatform"))
-                continue;
-
-            // Only include appropriate CSP binary
-            var ext = Path.GetExtension(importer.assetPath);
-
-            // TODO: Remove this hack that always includes iOS and macOS binaries.
-            // This was put in place because we currently only include release binaries due to debug binary sizes.
-            if (report.summary.platform == BuildTarget.iOS || report.summary.platform == BuildTarget.StandaloneOSX || report.summary.platform == BuildTarget.VisionOS)
-                importer.SetIncludeInBuildDelegate((_) => true);
-            else if (report.summary.options.HasFlag(BuildOptions.Development) && !importer.assetPath.EndsWith($"_D{ext}"))
-                importer.SetIncludeInBuildDelegate((_) => false);
-            else if ((!report.summary.options.HasFlag(BuildOptions.Development)) && importer.assetPath.EndsWith($"_D{ext}"))
-                importer.SetIncludeInBuildDelegate((_) => false);
-
-            // Fix symbol stripping for VisionOS and iOS
-            if (report.summary.platform == BuildTarget.VisionOS || report.summary.platform == BuildTarget.iOS)
-                PlayerSettings.SetAdditionalIl2CppArgs("--linker-flags=\"-Wl,-force_load,libConnectedSpacesPlatform.a\"");
+            ConfigureInclude(report, importer);
         }
 
-        Debug.Log($"NativePluginBuildProcesser: Done {report.summary.platform}.");
+        Debug.Log($"NativePluginBuildProcessor: Done {report.summary.platform}.");
+    }
+
+    private static void ConfigureInclude(BuildReport report, PluginImporter importer)
+    {
+        var platform = report.summary.platform;
+        var options = report.summary.options;
+        var assetPath = importer.assetPath;
+        var extension = Path.GetExtension(assetPath);
+
+        // --- 1. Named Flags for Platform Logic ---
+        // Apple-based platforms often require special handling for static libraries (.a) 
+        // and framework bundling.
+        bool isApplePlatform = platform is BuildTarget.iOS or BuildTarget.StandaloneOSX or BuildTarget.VisionOS;
+        
+        // Specifically iOS and VisionOS use IL2CPP with static linking, which is 
+        // prone to aggressive symbol stripping.
+        bool requiresForceLoadLinkerFlag = platform is BuildTarget.iOS or BuildTarget.VisionOS;
+
+        bool isDevelopmentBuild = options.HasFlag(BuildOptions.Development);
+        bool isDebugBinary = assetPath.EndsWith($"_D{extension}");
+
+        // --- 2. Binary Selection Logic ---
+        
+        // TODO: Remove this hack that always includes iOS and macOS binaries.
+        // This exists because we currently only provide release binaries for these platforms 
+        // to keep the SDK package size manageable.
+        if (isApplePlatform)
+        {
+            importer.SetIncludeInBuildDelegate((_) => true);
+        }
+        else
+        {
+            // For other platforms (Android/Windows), we swap between the Release and 
+            // Debug (_D) versions of the plugin based on the Unity Build Settings.
+            bool shouldInclude = isDevelopmentBuild == isDebugBinary;
+            importer.SetIncludeInBuildDelegate((_) => shouldInclude);
+        }
+
+        // --- 3. Linker Configuration ---
+        
+        if (requiresForceLoadLinkerFlag)
+        {
+            ApplyAppleLinkerFix();
+        }
+    }
+
+    /// <summary>
+    /// Adds specific linker arguments to the IL2CPP build pipeline.
+    /// 
+    /// WHY THIS IS NECESSARY:
+    /// On iOS and VisionOS, the native linker (ld) performs dead-code stripping. 
+    /// Because our C# code interfaces with the 'ConnectedSpacesPlatform' library via P/Invoke, 
+    /// the linker often fails to see these "soft" references. It assumes the static library 
+    /// is unused and strips its symbols, leading to "Entry point not found" crashes at runtime.
+    /// 
+    /// The '-force_load' flag tells the linker to include every object file in the 
+    /// specified archive, regardless of whether it thinks symbols are being used.
+    /// </summary>
+    private static void ApplyAppleLinkerFix()
+    {
+        const string linkerArg = "--linker-flags=\"-Wl,-force_load,libConnectedSpacesPlatform.a\"";
+        PlayerSettings.SetAdditionalIl2CppArgs(linkerArg);
     }
 }
 
