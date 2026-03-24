@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Verify branch is main or test branch
         run: |
-          if [ "${{ github.ref }}" != "refs/heads/main" || "${{ github.ref }}" != "refs/heads/OPE-3170_ReleasePipelineWorkflowRework"]; then
+          if [ "${{ github.ref }}" != "refs/heads/main" ] && [ "${{ github.ref }}" != "refs/heads/OPE-3170_ReleasePipelineWorkflowRework" ]; then
             echo "::error::This workflow can only be run on the main branch. You selected: ${{ github.ref }}"
             exit 1
           fi
@@ -71,18 +71,23 @@ jobs:
           find artifacts/desktop-macos-* -name "*.dylib" -exec cp -R {} DotNet/libs/macOS/ \;
           
           # Copy Include Headers
-          # Finds the first 'include' directory in the artifacts and copies its contents.
-          # Note that the code shoulod already be the same for all platforms by now.
           INCLUDE_DIR=$(find artifacts -type d -name "include" | head -n 1)
           if [ -n "$INCLUDE_DIR" ]; then
             cp -R "$INCLUDE_DIR"/* DotNet/include
           fi
           
-          # Zip the package
-          zip -r ../CSP-DotNet-${{ github.event.inputs.version }}.zip ./*
+          # Navigate into the folder before zipping
+          cd DotNet
+          
+          # Zip the package (with a fallback name 'test-build' for when triggered by a push)
+          zip -r ../CSP-DotNet-${{ github.event.inputs.version || 'test-build' }}.zip ./*
+          
+          # Go back to the root workspace just to be clean
+          cd ..
 
       - name: Upload DotNet Zip Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CSP-DotNet-${{ github.event.inputs.version }}
-          path: CSP-DotNet-${{ github.event.inputs.version }}.zip
+          # Use the exact same fallback name here!
+          name: CSP-DotNet-${{ github.event.inputs.version || 'test-build' }}
+          path: CSP-DotNet-${{ github.event.inputs.version || 'test-build' }}.zip
