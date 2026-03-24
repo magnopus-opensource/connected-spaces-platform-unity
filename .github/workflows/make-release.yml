@@ -1,7 +1,13 @@
 name: Make Release
+
 on:
+  push:
+    branches: [ OPE-3170_ReleasePipelineWorkflowRework ] # TEMPORARY - TODO: REMOVE BEFORE PR MERGE
   workflow_dispatch:
     inputs:
+      version:
+        description: 'Version label for the zip files (e.g., v1.0.0)'
+        required: true
       releaseName:
         description: 'Name of the release'
         required: true
@@ -10,42 +16,39 @@ on:
         required: true
 
 jobs:
-  release:
+  # 1. Run Unity Packaging
+  package-unity:
+    uses: ./.github/workflows/make-release-unity.yml
+    with:
+      # If inputs.version is empty (on push), use 'v1.0.0-test'
+      version: ${{ inputs.version || 'v1.0.0-test' }}
+      releaseTag: ${{ inputs.releaseTag || format('test-tag-{0}', github.run_number) }}
+
+  # 2. Run DotNet Packaging
+  package-dotnet:
+    uses: ./.github/workflows/make-release-dotnet.yml
+    with:
+      version: ${{ inputs.version || 'v1.0.0-test' }}
+      releaseTag: ${{ inputs.releaseTag || format('test-tag-{0}', github.run_number) }}
+
+  # 3. Create the Release
+  publish-release:
+    needs: [package-unity, package-dotnet]
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # This permission is strictly required to create tags and releases
     steps:
-      - name: Download artifacts from Desktop CI
-        uses: dawidd6/action-download-artifact@v13
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
         with:
-          workflow: build-desktop.yml
-          branch: main
-          workflow_conclusion: success
-          path: artifacts/desktop
-          skip_unpack: true
+          path: release-artifacts
+          merge-multiple: true # This pulls all downloaded files into a single folder
 
-      - name: Download artifacts from Android CI
-        uses: dawidd6/action-download-artifact@v13
-        with:
-          workflow: build-android.yml
-          branch: main
-          workflow_conclusion: success
-          path: artifacts/android
-          skip_unpack: true
-
-      - name: Download artifacts from iOS CI
-        uses: dawidd6/action-download-artifact@v13
-        with:
-          workflow: build-ios.yml
-          branch: main
-          workflow_conclusion: success
-          path: artifacts/ios
-          skip_unpack: true
-
-      - name: Create release
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ inputs.releaseName }}
-          tag_name: ${{ inputs.releaseTag }}
-          files: artifacts/**
+          name: ${{ inputs.releaseName || format('Test Release {0}', github.run_number) }}
+          tag_name: ${{ inputs.releaseTag || format('test-tag-{0}', github.run_number) }}
+          target_commitish: ${{ github.sha }}
           generate_release_notes: true
+          files: release-artifacts/*.zip

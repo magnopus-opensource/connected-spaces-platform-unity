@@ -1,8 +1,6 @@
 name: Package DotNet Zip
 
 on:
-  push:
-    branches: [ OPE-3170_ReleasePipelineWorkflowRework ] # TEMPORARY to trigger workflow on push of current branch
   workflow_dispatch:
     inputs:
       version:
@@ -10,6 +8,14 @@ on:
         required: true
       releaseTag:
         description: 'Git tag to make for this release'
+        required: true
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: true
+      releaseTag:
+        type: string
         required: true
 
 jobs:

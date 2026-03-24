@@ -1,8 +1,6 @@
 name: Package Unity Zip
 
 on:
-  push:
-    branches: [ OPE-3170_ReleasePipelineWorkflowRework ] # TEMPORARY to trigger workflow on push of current branch
   workflow_dispatch:
     inputs:
       version:
@@ -10,6 +8,14 @@ on:
         required: true
       releaseTag:
         description: 'Git tag to make for this release'
+        required: true
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: true
+      releaseTag:
+        type: string
         required: true
 
 jobs:
@@ -19,7 +25,7 @@ jobs:
     steps:
       - name: Verify branch is main or test branch
         run: |
-          if [ "${{ github.ref }}" != "refs/heads/main" || "${{ github.ref }}" != "refs/heads/OPE-3170_ReleasePipelineWorkflowRework"]; then
+          if [ "${{ github.ref }}" != "refs/heads/main" ] && [ "${{ github.ref }}" != "refs/heads/OPE-3170_ReleasePipelineWorkflowRework" ]; then
             echo "::error::This workflow can only be run on the main branch. You selected: ${{ github.ref }}"
             exit 1
           fi
@@ -88,10 +94,11 @@ jobs:
           
           # Zip the package
           cd UnityPackage
-          zip -r ../CSP-Unity-${{ github.event.inputs.version }}.zip ./*
+          zip -r ../CSP-Unity-${{ inputs.version || 'test-build' }}.zip ./*
+          cd ..
 
       - name: Upload Unity Zip Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CSP-Unity-${{ github.event.inputs.version }}
-          path: CSP-Unity-${{ github.event.inputs.version }}.zip
+          name: CSP-Unity-${{ inputs.version || 'test-build' }}
+          path: CSP-Unity-${{ inputs.version || 'test-build' }}.zip
