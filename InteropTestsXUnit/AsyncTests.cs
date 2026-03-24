@@ -6,6 +6,11 @@ namespace InteropTestsXUnit;
 
 public class AsyncInteropTests
 {
+    /// <summary>
+    /// Number of asynchronous operations to test the async behaviour. 
+    /// </summary>
+    public const int NumberOfAsyncOperationsToTest = 1000;
+    
     [Fact(DisplayName = "Async success path completes and returns managed result")]
     public async Task Async_Success_CompletesAndReturnsResult()
     {
@@ -211,10 +216,8 @@ public class AsyncInteropTests
     {
         using var logSystem = new LogSystem();
 
-        const int operations = 1000;
-
-        var tasks = new List<Task>(operations);
-        for (var i = 0; i < operations; i++)
+        var tasks = new List<Task>(NumberOfAsyncOperationsToTest);
+        for (var i = 0; i < NumberOfAsyncOperationsToTest; i++)
         {
             tasks.Add(logSystem.LogAfterSecondsAsync(true, 0));
         }
@@ -225,7 +228,7 @@ public class AsyncInteropTests
         // - no deadlock
         // - no callback lost
         // - no corruption
-        Assert.Equal(operations, tasks.Count);
+        Assert.Equal(NumberOfAsyncOperationsToTest, tasks.Count);
     }
 
 
@@ -235,9 +238,7 @@ public class AsyncInteropTests
     {
         using var logSystem = new LogSystem();
 
-        const int operations = 5_000;
-
-        Task[] tasks = Enumerable.Range(0, operations)
+        Task[] tasks = Enumerable.Range(0, NumberOfAsyncOperationsToTest)
             .Select(_ => logSystem.LogAfterSecondsAsync(true, 0))
             .Cast<Task>()
             .ToArray();
@@ -258,15 +259,13 @@ public class AsyncInteropTests
     public async Task AsyncLifetime_BoundedConcurrency()
     {
         using var logSystem = new LogSystem();
-
-        const int operations = 1_000;
         const int maxConcurrency = 64;
 
         int inFlight = 0;
         int maxObservedConcurrency = 0;
 
         await Parallel.ForEachAsync(
-            Enumerable.Range(0, operations),
+            Enumerable.Range(0, NumberOfAsyncOperationsToTest),
             new ParallelOptions { MaxDegreeOfParallelism = maxConcurrency },
             async (_, _) =>
             {
@@ -295,10 +294,8 @@ public class AsyncInteropTests
     {
         using var logSystem = new LogSystem();
 
-        const int operations = 5_000;
-
-        var tasks = new List<Task>(operations);
-        for (var i = 0; i < operations; i++)
+        var tasks = new List<Task>(NumberOfAsyncOperationsToTest);
+        for (var i = 0; i < NumberOfAsyncOperationsToTest; i++)
         {
             tasks.Add(logSystem.LogAfterSecondsAsync(true, 0));
         }
