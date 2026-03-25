@@ -687,7 +687,7 @@ To invoke the full build as normal, running the configure, build and install pha
 rmdir build -r; rmdir install -r; cmake -S . -B build; cmake --build build --config Debug; cmake --install build --config Debug
 ```
 
-By default, the project will download the latest CSP release from github each time you build. If you wish to use a specific, local version of CSP, you can do that via doing `-B build -DCSP_ROOT_DIR="C:/path/to/CSPRelease` in the build command. `CSPRelease` should be a folder packaged in the same format as the downloaded CSP release from github, ie it contains `include`, `lib`, etc.
+By default, the project will download a specific version of CSP release from github using the git tag specified by the cmake variable CSP_TARGET_VERSION (see [GetCSP.cmake](https://github.com/magnopus-opensource/connected-spaces-platform-unity/blob/main/cmake/GetCSP.cmake)) each time you build. If you wish to use a specific local version of CSP, you can do that via doing `-B build -DCSP_ROOT_DIR="C:/path/to/CSPRelease` in the build command. `CSPRelease` should be a folder packaged in the same format as the downloaded CSP release from github, ie it contains `include`, `lib`, etc.
 
 Build artifacts, including the downloaded CSP, can be found in the ephemeral build directory. (`build` if using the above command) Two subfolders are particularly relevant.
 
