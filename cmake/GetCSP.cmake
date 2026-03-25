@@ -40,7 +40,7 @@ endif()
 if(NOT DEFINED CSP_ROOT_DIR)
   set(CSP_ROOT_DIR "${_DEPS_DIR}/connected-spaces-platform" CACHE PATH "Path to Connected Spaces Platform root")
 
-  # This is necessary to find the latest CSP release.
+  # This is necessary to find the specific CSP release version we are looking for.
   # This dependency could be removed if CSP omitted the build number from its release naming.
   # Then we could pin to a CSP_RELEASE_NUMBER variable, and deduce the URL directly.
   find_program(GH_EXECUTABLE gh)
@@ -48,11 +48,13 @@ if(NOT DEFINED CSP_ROOT_DIR)
       message(FATAL_ERROR "GitHub CLI (gh) not found. Please install it and retry. (https://cli.github.com/)")
   endif()
 
-  message(STATUS "Downloading last CSP release according to pattern: '${_CSP_RELEASE_ARTIFACT_PATTERN}'")
+  # Specify the CSP version we want to use for the SWIG build
+  set(CSP_TARGET_VERSION "v6.30.0" CACHE STRING "The CSP release version to download")
+  message(STATUS "Downloading CSP release version: '${CSP_TARGET_VERSION}'")
 
-  # Download Latest CSP Release
+  # Download specific CSP version using a Git tag
   execute_process(
-      COMMAND gh release download --repo magnopus-opensource/connected-spaces-platform --pattern ${_CSP_RELEASE_ARTIFACT_PATTERN} --skip-existing --dir ${_DEPS_DIR}
+      COMMAND gh release download ${CSP_TARGET_VERSION} --repo magnopus-opensource/connected-spaces-platform --pattern ${_CSP_RELEASE_ARTIFACT_PATTERN} --skip-existing --dir ${_DEPS_DIR}
       WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
       RESULT_VARIABLE res
   )
