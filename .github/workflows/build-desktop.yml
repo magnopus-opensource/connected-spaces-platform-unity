@@ -42,7 +42,7 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Configure
-        run: cmake -S . -B build ${{ matrix.build_with_unity_extensions && '-DENABLE_UNITY_EXTENSIONS=ON' || '' }}
+        run: cmake -S . -B build -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
 
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }}
@@ -64,6 +64,6 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: desktop-${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.build_with_unity_extensions && '-UnityExtensions' || '' }}
+          name: desktop-${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.build_with_unity_extensions && '-Unity' || '-DotNet' }}
           path: install/**
           if-no-files-found: error

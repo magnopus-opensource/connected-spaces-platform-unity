@@ -1,6 +1,8 @@
 name: Make Release
 
 on:
+  push:
+    branches: [ OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively ] # TEMPORARY - TODO: Remove before merging
   workflow_dispatch:
     inputs:
       version:
