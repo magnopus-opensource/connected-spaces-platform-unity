@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Verify branch is main or test branch
         run: |
-          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+          if [ "${{ github.ref }}" != "refs/heads/main" ] && [ "${{ github.ref }}" != "refs/heads/OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively" ]; then
             echo "::error::This workflow can only be run on the main branch. You selected: ${{ github.ref }}"
             exit 1
           fi
@@ -59,6 +59,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+          pattern: '*Unity*'
 
       - name: Assemble Unity Folder Structure
         run: |
@@ -72,10 +73,10 @@ jobs:
           # Using 'find' to scoop up BOTH Debug and Release files simultaneously
           find artifacts/android-* -name "*.so" -exec cp {} UnityPackage/Plugins/Android/libs/arm64-v8a/ \;
           find artifacts/iOS-* -name "*.a" -exec cp {} UnityPackage/Plugins/iOS/ \;
-          find artifacts/desktop-windows-*-UnityExtensions -name "*.dll" -exec cp {} UnityPackage/Plugins/Windows/x86_64/ \;
+          find artifacts/desktop-windows-*-Unity -name "*.dll" -exec cp {} UnityPackage/Plugins/Windows/x86_64/ \;
           
-          # Use cp -R for macOS .bundle because they are directories, not single files
-          find artifacts/desktop-macos-*-UnityExtensions -name "*.dylib" -exec cp -R {} UnityPackage/Plugins/macOS/ \;
+          # Use cp -R for macOS .dylib because they are directories, not single files
+          find artifacts/desktop-macos-*-Unity -name "*.dylib" -exec cp -R {} UnityPackage/Plugins/macOS/ \;
           
           # Copy Include Headers
           # Finds the first 'include' directory in the artifacts and copies its contents.
