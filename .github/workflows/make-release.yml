@@ -6,34 +6,81 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version label for the zip files (e.g., v1.0.0)'
+        description: 'Version label (e.g., v0.0.1)'
         required: true
+        default: 'v0.0.1'
       releaseName:
         description: 'Name of the release'
         required: true
       releaseTag:
-        description: 'Git tag to make for this release'
-        required: true
+        description: 'Custom Git tag (leave empty for automatic)'
+        required: false
+      publish_to_npm:
+        description: 'Enable NPM publish'
+        type: boolean
+        default: false
+      is_official_release:
+        description: 'Official release (no hex suffix)'
+        type: boolean
+        default: false
+
+env:
+  DEFAULT_VERSION: '0.0.1'
 
 jobs:
-  # 1. Run Unity Packaging
-  package-unity:
-    uses: ./.github/workflows/make-release-unity.yml
-    with:
-      # If inputs.version is empty (on push), use 'v1.0.0-test'
-      version: ${{ inputs.version || 'v1.0.0-test' }}
-      releaseTag: ${{ inputs.releaseTag || format('test-tag-{0}', github.run_number) }}
+  # 1. A simple setup job to determine the Tag and Version once
+  prep-release:
+    runs-on: ubuntu-latest
+    outputs:
+      release_tag: ${{ steps.calc.outputs.tag }}
+      version: ${{ steps.calc.outputs.version }}
+    steps:
+      - id: calc
+        run: |
+          # 1. Get the base version
+          VER="${{ github.event.inputs.version || env.DEFAULT_VERSION }}"
 
-  # 2. Run DotNet Packaging
+          # 2. Determine the Tag
+          if [ -n "${{ github.event.inputs.releaseTag }}" ]; then
+            TAG="${{ github.event.inputs.releaseTag }}"
+          elif [ "${{ github.event.inputs.is_official_release }}" == "true" ]; then
+            TAG="$VER"
+          else
+            TAG="test-${VER}-${{ github.run_number }}"
+          fi
+
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "version=$VER" >> $GITHUB_OUTPUT
+  
+  # 2. Run Unity Packaging
+  package-unity:
+    needs: prep-release
+    uses: ./.github/workflows/make-release-unity.yml
+    secrets: inherit # This ensures the child can see the GITHUB_TOKEN
+    permissions:
+      contents: read
+      packages: write # This permission is required to publish to GitHub Packages
+    with:
+      version: ${{ needs.prep-release.outputs.version }}
+      releaseTag: ${{ needs.prep-release.outputs.release_tag }}
+      # TEMPORARY: Change from ${{ github.event.inputs.publish_to_npm }} to true
+      # TODO: Remove and use ${{ github.event.inputs.publish_to_npm }} instead, or all commits will publish!
+      publish_to_npm: true
+      # Safety fallback for manual vs push trigger
+      is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
+
+  # 3. Run DotNet Packaging
   package-dotnet:
+    needs: prep-release
     uses: ./.github/workflows/make-release-dotnet.yml
     with:
-      version: ${{ inputs.version || 'v1.0.0-test' }}
-      releaseTag: ${{ inputs.releaseTag || format('test-tag-{0}', github.run_number) }}
+      version: ${{ needs.prep-release.outputs.version }}
+      releaseTag: ${{ needs.prep-release.outputs.release_tag }}
+      is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
 
-  # 3. Create the Release
+  # 4. Create the Release
   publish-release:
-    needs: [package-unity, package-dotnet]
+    needs: [prep-release, package-unity, package-dotnet]
     runs-on: ubuntu-latest
     permissions:
       contents: write # This permission is strictly required to create tags and releases
@@ -47,10 +94,10 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ inputs.releaseName || format('Test Release {0}', github.run_number) }}
-          tag_name: ${{ inputs.releaseTag || format('test-tag-{0}', github.run_number) }}
+          name: ${{ github.event.inputs.releaseName || format('Release {0}', needs.prep-release.outputs.version) }}
+          tag_name: ${{ needs.prep-release.outputs.release_tag }}
           target_commitish: ${{ github.sha }}
           generate_release_notes: true
           files: |
             release-artifacts/*.zip
-            release-artifacts/*.tgz
+            release-artifacts/com.magnopus.csp.unity-*.tgz

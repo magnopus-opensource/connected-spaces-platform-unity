@@ -1,14 +1,22 @@
-name: Package Unity Zip
+name: Package Unity and Publish to GitHub Registry
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version label (e.g., v1.0.0)'
+        description: 'Version label (e.g., v0.0.1)'
         required: true
       releaseTag:
         description: 'Git tag to make for this release'
         required: true
+      publish_to_npm:
+        description: 'Enable NPM publish to GitHub Registry'
+        type: boolean
+        default: false
+      is_official_release:
+        description: 'If true, ignores the random hex suffix'
+        type: boolean
+        default: false
   workflow_call:
     inputs:
       version:
@@ -17,9 +25,18 @@ on:
       releaseTag:
         type: string
         required: true
+      publish_to_npm:
+        type: boolean
+        default: false
+      is_official_release:
+        type: boolean
+        default: false
+
+env:
+  DEFAULT_VERSION: '0.0.1'
 
 jobs:
-  # 1. Validate branch first
+  # Validate branch first
   check-branch:
     runs-on: ubuntu-latest
     steps:
@@ -29,8 +46,8 @@ jobs:
             echo "::error::This workflow can only be run on the main branch. You selected: ${{ github.ref }}"
             exit 1
           fi
-  
-  # 2. Run builds in parallel
+
+  # Run builds in parallel
   build-android:
     needs: check-branch
     uses: ./.github/workflows/build-android.yml
@@ -47,13 +64,48 @@ jobs:
     with:
       unity_ext_matrix: '[true]' # Only build Unity extensions
 
-  # 3. Package the results
+  # Package and Publish
   package-unity:
     needs: [check-branch, build-android, build-desktop, build-ios]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # Required to publish to GitHub Packages
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Calculate Version and Check Collision
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION_INPUT="${{ inputs.version || env.DEFAULT_VERSION }}"
+          CLEAN_VERSION="${VERSION_INPUT#v}"
+          CURRENT_BRANCH="${{ github.ref_name }}"
+          
+          # SAFETY CHECK: Only allow official releases from 'main'
+          if [[ "${{ inputs.is_official_release }}" == "true" && "$CURRENT_BRANCH" == "main" ]]; then
+            echo "✅ Official release confirmed on main. Proceeding without suffix."
+            UNIQUE_VERSION="$CLEAN_VERSION"
+          else
+            if [[ "${{ inputs.is_official_release }}" == "true" ]]; then
+              echo "::warning::Official release requested on '$CURRENT_BRANCH'. Forcing test suffix for safety."
+            fi
+            RANDOM_HASH=$(openssl rand -hex 4 | cut -c1-7)
+            UNIQUE_VERSION="${CLEAN_VERSION}-test.${RANDOM_HASH}"
+          fi
+          
+          echo "UNIQUE_VERSION=$UNIQUE_VERSION" >> $GITHUB_ENV
+          
+          if [[ "${{ inputs.publish_to_npm }}" == "true" ]]; then
+            echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
+            PACKAGE_NAME="@magnopus-opensource/com.magnopus.csp.unity"
+            if npm view "$PACKAGE_NAME@$UNIQUE_VERSION" version --registry=https://npm.pkg.github.com > /dev/null 2>&1; then
+              echo "::error::Version $UNIQUE_VERSION already exists in registry!"
+              exit 1
+            fi
+          fi
 
       - name: Download all artifacts
         uses: actions/download-artifact@v4
@@ -70,51 +122,69 @@ jobs:
           mkdir -p UnityPackage/Runtime
           mkdir -p UnityPackage/Editor
 
-          # Using 'find' to scoop up BOTH Debug and Release files simultaneously
+          # Copy Native Binaries
           find artifacts/android-* -name "*.so" -exec cp {} UnityPackage/Plugins/Android/libs/arm64-v8a/ \;
           find artifacts/iOS-* -name "*.a" -exec cp {} UnityPackage/Plugins/iOS/ \;
           find artifacts/desktop-windows-*-Unity -name "*.dll" -exec cp {} UnityPackage/Plugins/Windows/x86_64/ \;
-          
-          # Use cp -R for macOS .dylib because they are directories, not single files
           find artifacts/desktop-macos-*-Unity -name "*.dylib" -exec cp -R {} UnityPackage/Plugins/macOS/ \;
           
-          # Copy Include Headers
-          # Finds the first 'include' directory in the artifacts and copies its contents.
-          # Note that the code shoulod already be the same for all platforms by now.
+          # Copy SWIG Headers/Source
           INCLUDE_DIR=$(find artifacts -type d -name "include" | head -n 1)
           if [ -n "$INCLUDE_DIR" ]; then
             cp -R "$INCLUDE_DIR"/* UnityPackage/Runtime
           fi
           
           # Copy Editor Scripts from Repo
-          # Using cp -r to recursively copy all files and folders inside that repo path.
-          # The '|| true' ensures the workflow doesn't crash if the folder is ever empty or moved.
           cp -r UnityProject/extra/Editor/* UnityPackage/Editor/ || true
-          # Also copy the asmdef file to let Unity detect the script in the Runtime folder
           cp UnityProject/extra/ConnectedSpacesPlatform.Unity.Core.asmdef UnityPackage/Runtime/ || true
 
-      - name: Generate package.json
+      - name: Generate package.json and Publish
         shell: bash
         run: |
-          # Standard portable shell expansion to strip 'v'
-          VERSION_STR="${{ inputs.version }}"
-          CLEAN_VERSION="${VERSION_STR#v}"
-
-          # Call our universal CMake script
+          VERSION_INPUT="${{ inputs.version || env.DEFAULT_VERSION }}"
+          CLEAN_VERSION="${VERSION_INPUT#v}"
+          # Use UNIQUE_VERSION (with or without hex based on toggle) or fallback to CLEAN_VERSION
+          FINAL_VERSION="${UNIQUE_VERSION:-$CLEAN_VERSION}"
+          
           cmake -D "TEMPLATE=UnityProject/extra/package.json.template" \
-                -D "OUTPUT=UnityPackage/package.json" \
-                -D "VERSION=$CLEAN_VERSION" \
-                -P cmake/GeneratePackageJson.cmake
+             -D "OUTPUT=UnityPackage/package.json" \
+             -D "VERSION=$FINAL_VERSION" \
+             -P cmake/GeneratePackageJson.cmake
+          
+          # Filename for the .tgz release asset
+          tar -czf "com.magnopus.csp.unity-${VERSION_INPUT}.tgz" -C UnityPackage .
 
-      - name: Create Tarball
+      - name: Publish to Registry
+        if: ${{ inputs.publish_to_npm == true }}
         shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Using tar -C to change directory so the 'UnityPackage' folder name 
-          # isn't inside the archive, only its contents.
-          tar -czf "com.magnopus.csp-${{ inputs.version }}.tgz" -C UnityPackage .
-      
+          echo "@magnopus-opensource:registry=https://npm.pkg.github.com" > UnityPackage/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> UnityPackage/.npmrc
+          cd UnityPackage
+          npm publish
+
       - name: Upload Unity Tarball Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: com.magnopus.csp-${{ inputs.version }}
-          path: com.magnopus.csp-${{ inputs.version }}.tgz
+          name: com.magnopus.csp.unity-${{ inputs.version || 'test-build' }}
+          path: "*.tgz"
+
+      - name: Generate Workflow Summary
+        if: always()
+        shell: bash
+        run: |
+          echo "## 📦 Unity Package Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "* **Base Version:** ${{ inputs.version || env.DEFAULT_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "* **Official Release:** ${{ inputs.is_official_release }}" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ inputs.publish_to_npm }}" == "true" ]]; then
+            echo "* **Registry Status:** ✅ Published to GitHub Packages" >> $GITHUB_STEP_SUMMARY
+            echo "* **Internal Version:** \`${{ env.UNIQUE_VERSION }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "* **Registry URL:** [View Package on GitHub](https://github.com/orgs/magnopus-opensource/packages/npm/package/com.magnopus.csp.unity)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "* **Registry Status:** ⏭️ Skipped" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "* **Tarball Created:** \`com.magnopus.csp.unity-${{ inputs.version || env.DEFAULT_VERSION }}.tgz\`" >> $GITHUB_STEP_SUMMARY
