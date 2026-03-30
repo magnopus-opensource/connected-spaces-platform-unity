@@ -3,6 +3,23 @@
  * The module name here should match the standard base name of the .dll */
 %module(directors="1") ConnectedSpacesPlatform
 
+#ifdef SWIGCSHARP
+/* * LibName Resolver:
+ * This constant determines the native library name used by DllImport.
+ * - In Unity (iOS/visionOS): Uses "__Internal" for static linking.
+ * - In Unity (Editor/Android/Desktop) & Pure .NET: Uses "ConnectedSpacesPlatformDotNet".
+ * This allows the same C# source to be used across all supported platforms.
+ */
+%pragma(csharp) imclasscode=%{
+  public const string LibName = 
+#if (UNITY_IOS || UNITY_VISIONOS) && !UNITY_EDITOR
+    "__Internal";
+#else
+    "ConnectedSpacesPlatformDotNet";
+#endif
+%}
+#endif
+
 /* Enable namespaces flags to try and keep original namespaces hierarchy */
 %feature("nspace", 1);
 
