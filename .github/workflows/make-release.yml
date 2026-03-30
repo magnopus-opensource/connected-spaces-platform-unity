@@ -51,4 +51,6 @@ jobs:
           tag_name: ${{ inputs.releaseTag || format('test-tag-{0}', github.run_number) }}
           target_commitish: ${{ github.sha }}
           generate_release_notes: true
-          files: release-artifacts/*.zip
+          files: |
+            release-artifacts/*.zip
+            release-artifacts/*.tgz
