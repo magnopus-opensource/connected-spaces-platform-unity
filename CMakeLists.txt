@@ -55,17 +55,13 @@ if(ENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE)
     set(THROW_EXCEPTION_ON_RESULTBASE_FAILURE_FLAG "-DTHROW_EXCEPTION_ON_RESULTBASE_FAILURE=1")
 endif()
 
-# Decide SWIG dllimport name per platform.
-set(SWIG_DLLIMPORT_NAME "${_WRAPPER_MODULE_NAME}")
-
-if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "visionOS")
-    # Note: on iOS and visionOS we need __Internal on the DllImport of the PInvoke, or it won't find the symbols.
-    # This is because on iOS, the code gets statically linked into the final executable, and __Internal tells the 
-    # runtime to look for symbols in the main executable binary itself, rather than looking for a separate dynamic library.
-    # More info on the issue here: https://gitlab.com/rdi-eg/docs/-/wikis/Targeting-iOS-on-Unity3D-using-C%23-swig-generated-code---pitfalls-and-gotchas/diff?version_id=130894855efdab4f0cbd9882e7dc35554fea92bd&view=inline
-    message(STATUS "Configuring SWIG for iOS / visionOS (__Internal)")
-    set(SWIG_DLLIMPORT_NAME "__Internal")
-endif()
+# SWIG requires literal strings for -dllimport. 
+# To support dynamic platform switching in C#, we use a placeholder string 
+# and post-process the generated PINVOKE class to replace it with a 
+# reference to the 'LibName' constant defined in main.i.
+# This allows us to change the dll name used by the dllimport depending on
+# the targeted platform (see the LibName constant in main.i for more details). 
+set(DLL_NAME_FOR_LINKING "DLL_NAME_FOR_LINKING_TO_BE_PATCHED")
 
 # Setup SWIG invocation
 add_custom_command(
@@ -80,13 +76,20 @@ add_custom_command(
           -I${_INTERNAL_SWG_SEARCH_PATH_GLOBAL} # Global search path for SWIG .i lib files.
           -c++ -csharp
           -module ${_WRAPPER_MODULE_NAME}
-          -dllimport ${SWIG_DLLIMPORT_NAME}
+          -dllimport "${DLL_NAME_FOR_LINKING}"
           -outdir "${_GEN_CS_DIR}"
           -o "${_CPP_WRAPPER_OUT}"
           ${SWIG_UNITY_FLAG} # Optionally enable unity extensions
           ${THROW_EXCEPTION_ON_RESULTBASE_FAILURE_FLAG} # Optionally generate ThrowOnFailure code when ResultBase is returned with failure status code.
           -v # Still could be verboser ... There's other options if you need them
           "${_ROOT_I_FILE}"
+          
+  # Remove the quotes around the placeholder string, so that it is treated as a variable rather than a literal.
+  # This converts [DllImport("DLL_NAME_FOR_LINKING_TO_BE_PATCHED")] -> [DllImport(LibName)]
+  # Note: we use LibName here because that matches the variable in main.i
+  COMMAND ${CMAKE_COMMAND} -E echo "Patching PInvoke attributes..."
+  COMMAND sed -i "" "s/\"${DLL_NAME_FOR_LINKING}\"/ConnectedSpacesPlatformDotNetPINVOKE.LibName/g" "${_GEN_CS_DIR}/ConnectedSpacesPlatformDotNetPINVOKE.cs"
+  
   DEPENDS "${_ROOT_I_FILE}"
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" 
   VERBATIM
@@ -95,7 +98,8 @@ add_custom_command(
 # ---------------- Build SWIG Output ----------------
 if (BUILD_SHARED_LIBS)
   add_library(${_WRAPPER_MODULE_NAME} SHARED "${_CPP_WRAPPER_OUT}")
-  # Pretty important, make sure we're importing symbols. Otherwise you'll get duplicate template instances and such. Bad times.
+  # Pretty important, make sure we're importing symbols. 
+  # Otherwise you'll get duplicate template instances and such. Bad times.
   target_compile_definitions(${_WRAPPER_MODULE_NAME} PRIVATE USING_CSP_DLL)
 else()
   add_library(${_WRAPPER_MODULE_NAME} STATIC "${_CPP_WRAPPER_OUT}")
