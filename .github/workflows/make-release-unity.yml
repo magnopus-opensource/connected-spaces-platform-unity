@@ -92,14 +92,29 @@ jobs:
           cp -r UnityProject/extra/Editor/* UnityPackage/Editor/ || true
           # Also copy the asmdef file to let Unity detect the script in the Runtime folder
           cp UnityProject/extra/ConnectedSpacesPlatform.Unity.Core.asmdef UnityPackage/Runtime/ || true
-          
-          # Zip the package
-          cd UnityPackage
-          zip -r ../CSP-Unity-${{ inputs.version || 'test-build' }}.zip ./*
-          cd ..
 
-      - name: Upload Unity Zip Artifact
+      - name: Generate package.json
+        shell: bash
+        run: |
+          # Standard portable shell expansion to strip 'v'
+          VERSION_STR="${{ inputs.version }}"
+          CLEAN_VERSION="${VERSION_STR#v}"
+
+          # Call our universal CMake script
+          cmake -D "TEMPLATE=UnityProject/extra/package.json.template" \
+                -D "OUTPUT=UnityPackage/package.json" \
+                -D "VERSION=$CLEAN_VERSION" \
+                -P cmake/GeneratePackageJson.cmake
+
+      - name: Create Tarball
+        shell: bash
+        run: |
+          # Using tar -C to change directory so the 'UnityPackage' folder name 
+          # isn't inside the archive, only its contents.
+          tar -czf "com.magnopus.csp-${{ inputs.version }}.tgz" -C UnityPackage .
+      
+      - name: Upload Unity Tarball Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CSP-Unity-${{ inputs.version || 'test-build' }}
-          path: CSP-Unity-${{ inputs.version || 'test-build' }}.zip
+          name: com.magnopus.csp-${{ inputs.version }}
+          path: com.magnopus.csp-${{ inputs.version }}.tgz
