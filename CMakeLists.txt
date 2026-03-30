@@ -87,9 +87,14 @@ add_custom_command(
   # Remove the quotes around the placeholder string, so that it is treated as a variable rather than a literal.
   # This converts [DllImport("DLL_NAME_FOR_LINKING_TO_BE_PATCHED")] -> [DllImport(LibName)]
   # Note: we use LibName here because that matches the variable in main.i
-  COMMAND ${CMAKE_COMMAND} -E echo "Patching PInvoke attributes..."
-  COMMAND sed -i "" "s/\"${DLL_NAME_FOR_LINKING}\"/ConnectedSpacesPlatformDotNetPINVOKE.LibName/g" "${_GEN_CS_DIR}/ConnectedSpacesPlatformDotNetPINVOKE.cs"
-  
+  COMMAND ${CMAKE_COMMAND} -E echo "Patching PInvoke attributes for cross-platform compatibility..."
+    
+    # Cross-platform replacement logic
+    COMMAND ${CMAKE_COMMAND} -D "FILE_TO_PATCH=${_GEN_CS_DIR}/ConnectedSpacesPlatformDotNetPINVOKE.cs"
+                             -D "OLD_STR=\"${DLL_NAME_FOR_LINKING}\""
+                             -D "NEW_STR=ConnectedSpacesPlatformDotNetPINVOKE.LibName"
+                             -P "${CMAKE_SOURCE_DIR}/cmake/PatchPInvoke.cmake"
+
   DEPENDS "${_ROOT_I_FILE}"
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" 
   VERBATIM
