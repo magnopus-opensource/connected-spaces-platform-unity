@@ -1,9 +1,13 @@
 {
-  "name": "com.magnopus.csp",
+  "name": "@magnopus-opensource/com.magnopus.csp.unity",
   "version": "VERSION_PLACEHOLDER",
   "displayName": "Connected Spaces Platform",
-  "description": "C# Wrapper for the Connected Spaces Platform (CSP).",
-  "unity": "2021.3",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "description": "C# Wrapper for the Connected Spaces Platform (CSP) for Unity.",
+  "unity": "6000.0",
+  "unityRelease": "70f1",
   "author": {
     "name": "Magnopus"
   },

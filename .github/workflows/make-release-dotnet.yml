@@ -9,6 +9,10 @@ on:
       releaseTag:
         description: 'Git tag to make for this release'
         required: true
+      is_official_release:
+        description: 'Is this an official release (no test suffix)?'
+        type: boolean
+        default: false
   workflow_call:
     inputs:
       version:
@@ -17,6 +21,12 @@ on:
       releaseTag:
         type: string
         required: true
+      is_official_release:
+        type: boolean
+        default: false
+
+env:
+  DEFAULT_VERSION: '0.0.1'
 
 jobs:
   # 1. Validate branch first
@@ -55,6 +65,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Calculate Filename
+        shell: bash
+        run: |
+          VERSION_INPUT="${{ inputs.version || env.DEFAULT_VERSION }}"
+          CLEAN_VERSION="${VERSION_INPUT#v}"
+          CURRENT_BRANCH="${{ github.ref_name }}"
+          
+          # SAFETY CHECK: Match Unity logic
+          if [[ "${{ inputs.is_official_release }}" == "true" && "$CURRENT_BRANCH" == "main" ]]; then
+             echo "✅ Official DotNet release confirmed."
+             FINAL_FILENAME="CSP-DotNet-${CLEAN_VERSION}"
+          else
+             echo "ℹ️ Using test suffix for DotNet ZIP."
+             FINAL_FILENAME="CSP-DotNet-${CLEAN_VERSION}-test"
+          fi
+          echo "ZIP_NAME=$FINAL_FILENAME" >> $GITHUB_ENV
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -85,16 +112,12 @@ jobs:
           
           # Navigate into the folder before zipping
           cd DotNet
-          
-          # Zip the package (with a fallback name 'test-build' for when triggered by a push)
-          zip -r ../CSP-DotNet-${{ github.event.inputs.version || 'test-build' }}.zip ./*
-          
-          # Go back to the root workspace just to be clean
-          cd ..
+          # Use the environment variable for the filename
+          zip -r "../${{ env.ZIP_NAME }}.zip" ./*
 
       - name: Upload DotNet Zip Artifact
         uses: actions/upload-artifact@v4
         with:
-          # Use the exact same fallback name here!
-          name: CSP-DotNet-${{ github.event.inputs.version || 'test-build' }}
-          path: CSP-DotNet-${{ github.event.inputs.version || 'test-build' }}.zip
+          # Use the variable calculated in the "Calculate Filename" step
+          name: ${{ env.ZIP_NAME }}
+          path: "${{ env.ZIP_NAME }}.zip"
