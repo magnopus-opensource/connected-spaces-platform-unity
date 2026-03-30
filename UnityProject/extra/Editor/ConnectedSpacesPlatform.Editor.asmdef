@@ -1,7 +1,9 @@
 {
-    "name": "NativePluginBuildProcessor",
+    "name": "ConnectedSpacesPlatform.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+      "ConnectedSpacesPlatform.Unity.Core"
+    ],
     "includePlatforms": [
         "Editor"
     ],
