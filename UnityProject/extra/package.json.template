@@ -1,5 +1,5 @@
 {
-  "name": "@magnopus-opensource/com.magnopus.csp.unity",
+  "name": "com.magnopus.csp.unity",
   "version": "VERSION_PLACEHOLDER",
   "displayName": "Connected Spaces Platform",
   "publishConfig": {
