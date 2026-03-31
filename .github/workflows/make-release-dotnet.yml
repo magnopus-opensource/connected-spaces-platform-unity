@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Verify branch
         run: |
-          if [ "${{ github.ref }}" != "refs/heads/main" ] && [ "${{ github.ref }}" != "refs/heads/OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively" ]; then
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
             exit 1
           fi
   
@@ -87,7 +87,7 @@ jobs:
           path: "${{ env.ZIP_NAME }}.zip"
 
       - name: Push Source-Only to release/dotnet
-        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main' || github.ref_name == 'OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively') }}
+        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main') }}
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
