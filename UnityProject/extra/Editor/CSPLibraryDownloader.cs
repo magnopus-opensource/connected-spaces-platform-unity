@@ -123,6 +123,23 @@ namespace Plugins.Editor
                     process.WaitForExit();
                 }
 
+                // Remove duplicated C# source folders that were included in the tarball
+                string[] redundantDirs = { "Runtime", "Editor" };
+                foreach (string dir in redundantDirs)
+                {
+                    string path = Path.Combine(targetFolder, dir);
+                    if (Directory.Exists(path)) Directory.Delete(path, true);
+                    if (File.Exists(path + ".meta")) File.Delete(path + ".meta");
+                }
+
+                // Remove package manifests so they don't clutter the project
+                string[] redundantFiles = { "package.json", "package.json.meta", "package-dist.json", "package-dist.json.meta" };
+                foreach (string file in redundantFiles)
+                {
+                    string path = Path.Combine(targetFolder, file);
+                    if (File.Exists(path)) File.Delete(path);
+                }
+
                 File.Delete(tempPath);
                 AssetDatabase.Refresh();
                 EditorUtility.DisplayDialog("Success", "CSP Binaries installed in Assets/Plugins/CSP/Internal.", "OK");
