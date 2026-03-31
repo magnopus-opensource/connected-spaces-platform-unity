@@ -135,7 +135,7 @@ jobs:
       - name: Push Source-Only to release/unity
         # We only update the distribution branch for official releases from main.
         # This keeps the 'release/unity' branch as a clean, production-only timeline.
-        if: ${{ inputs.is_official_release == true && github.ref_name == 'main' }}
+        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main' || github.ref_name == 'OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively') }} # TEMP FOR TESTING, TODO: REMOVE!
         shell: bash
         run: |
           # Identify the "author" of the commit as the GitHub Actions bot so the push isn't rejected.

@@ -32,40 +32,47 @@ jobs:
     steps:
       - id: calc
         run: |
+          # Fallback to DEFAULT_VERSION if inputs don't exist (on push)
           VER="${{ github.event.inputs.version || env.DEFAULT_VERSION }}"
+          
           if [ -n "${{ github.event.inputs.releaseTag }}" ]; then
             TAG="${{ github.event.inputs.releaseTag }}"
           elif [ "${{ github.event.inputs.is_official_release }}" == "true" ]; then
             TAG="$VER"
           else
+            # For push triggers, this will create a tag like 'test-0.0.1-42'
             TAG="test-${VER}-${{ github.run_number }}"
           fi
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "version=$VER" >> $GITHUB_OUTPUT
   
-  # 2. Run Unity Packaging
+  # Run Unity Packaging
   package-unity:
     needs: prep-release
     uses: ./.github/workflows/make-release-unity.yml
     permissions:
-      contents: write # REQUIRED to push to release/unity
+      contents: write
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
+      # FORCE TO TRUE for testing pushes
+      # TODO: Set back the default to false!
+      is_official_release: ${{ github.event.inputs.is_official_release == true || true }}
 
-  # 3. Run DotNet Packaging
+  # Run DotNet Packaging
   package-dotnet:
     needs: prep-release
     uses: ./.github/workflows/make-release-dotnet.yml
     permissions:
-      contents: write # REQUIRED to push to release/dotnet
+      contents: write
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
+      # FORCE TO TRUE for testing pushes
+      # TODO: Set back the default to false!
+      is_official_release: ${{ github.event.inputs.is_official_release == true || true }}
 
-  # 4. Create the Release
+  # Create the Release
   publish-release:
     needs: [prep-release, package-unity, package-dotnet]
     runs-on: ubuntu-latest
@@ -81,7 +88,9 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ github.event.inputs.releaseName || format('Release {0}', needs.prep-release.outputs.version) }}
+          # Fallback name for push events
+          # TODO: Remove Test from the name once tests cannot push anymore!
+          name: ${{ github.event.inputs.releaseName || format('Test Release {0}', needs.prep-release.outputs.version) }}
           tag_name: ${{ needs.prep-release.outputs.release_tag }}
           target_commitish: ${{ github.sha }}
           generate_release_notes: true
