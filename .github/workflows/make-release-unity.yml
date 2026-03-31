@@ -157,7 +157,7 @@ jobs:
           git fetch origin release/unity || true
           git checkout release/unity || git checkout --orphan release/unity
           
-          # 3. IMPROVED CLEANUP
+          # 3. Cleanup
           git rm -rf . --ignore-unmatch > /dev/null
           ls -A | grep -v "^.git$" | xargs rm -rf
           
