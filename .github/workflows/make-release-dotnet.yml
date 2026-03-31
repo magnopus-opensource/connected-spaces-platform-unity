@@ -3,27 +3,14 @@ name: Package DotNet Zip and Publish to Release Branch
 on:
   workflow_dispatch:
     inputs:
-      version:
-        required: true
-      releaseTag:
-        required: true
-      is_official_release:
-        type: boolean
-        default: false
+      version: { required: true, type: string, description: "Version label (e.g., v0.0.1)" }
+      releaseTag: { required: true, type: string, description: "Git tag to make for this release" }
+      is_official_release: { type: boolean, default: false, description: "If true, pushes to release/dotnet branch"}
   workflow_call:
     inputs:
-      version:
-        type: string
-        required: true
-      releaseTag:
-        type: string
-        required: true
-      is_official_release:
-        type: boolean
-        default: false
-
-env:
-  DEFAULT_VERSION: '0.0.1'
+      version: { type: string, required: true }
+      releaseTag: { type: string, required: true }
+      is_official_release: { type: boolean, default: false }
 
 jobs:
   check-branch:
@@ -38,21 +25,18 @@ jobs:
   build-android:
     needs: check-branch
     uses: ./.github/workflows/build-android.yml
-    with:
-      unity_ext_matrix: '[false]'
+    with: { unity_ext_matrix: '[false]' }
   build-desktop:
     needs: check-branch
     uses: ./.github/workflows/build-desktop.yml
-    with:
-      unity_ext_matrix: '[false]'
+    with: { unity_ext_matrix: '[false]' }
   build-ios:
     needs: check-branch
     uses: ./.github/workflows/build-ios.yml
-    with:
-      unity_ext_matrix: '[false]'
+    with: { unity_ext_matrix: '[false]' }
 
   package-dotnet:
-    needs: [check-branch, build-android, build-desktop, build-ios]
+    needs: [ check-branch, build-android, build-desktop, build-ios ]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -95,44 +79,42 @@ jobs:
           if [ -n "$INCLUDE_DIR" ]; then cp -R "$INCLUDE_DIR"/* DotNet/include; fi
           
           zip -r "${{ env.ZIP_NAME }}.zip" ./DotNet/*
-
-      - name: Push Source-Only to release/dotnet
-        # Logic: Mirror the Unity strategy for .NET consumers.
-        # Keeps a logic-only history for standard C# developers.
-        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main' || github.ref_name == 'OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively') }} # TEMP FOR TESTING, TODO: REMOVE!
-        shell: bash
-        run: |
-          # Identify the "author" of the commit as the GitHub Actions bot so the push isn't rejected.
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Separate logic from artifacts.
-          mkdir -p dist-dotnet
-          cp -r DotNet/* dist-dotnet/
-          
-          # Strip the 400MB native 'libs' folder.
-          # This keeps the .git folder lightweight and prevents performance degradation.
-          rm -rf dist-dotnet/libs 
-          
-          # Switch to the dedicated .NET distribution branch.
-          git fetch origin release/dotnet || true
-          git checkout release/dotnet || git checkout --orphan release/dotnet
-          
-          # Clean out the old version completely to prevent file ghosting.
-          git rm -rf . > /dev/null
-          mv dist-dotnet/* .
-          
-          # Commit and Push the new 'logic snapshot'.
-          git add .
-          git commit -m "DotNet Release ${{ inputs.version }}"
-          git push origin release/dotnet
-          
-          # Create a dotnet-specific tag for version-controlled source reference.
-          git tag -f "dotnet/${{ inputs.version }}"
-          git push origin "dotnet/${{ inputs.version }}"
-
       - name: Upload DotNet Zip Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ZIP_NAME }}
           path: "${{ env.ZIP_NAME }}.zip"
+
+      - name: Push Source-Only to release/dotnet
+        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main' || github.ref_name == 'OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively') }}
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # 1. Stage logic OUTSIDE workspace
+          mkdir -p ../dist-dotnet-temp
+          cp -r DotNet/* ../dist-dotnet-temp/
+          rm -rf ../dist-dotnet-temp/libs 
+          
+          # 2. Switch branch
+          git fetch origin release/dotnet || true
+          git checkout release/dotnet || git checkout --orphan release/dotnet
+          
+          # 3. Cleanup: 
+          # Remove tracked files from Git index first
+          git rm -rf . --ignore-unmatch > /dev/null
+          
+          # Delete all physical files/folders in the root EXCEPT the .git folder
+          # This prevents the "Directory not empty" error
+          ls -A | grep -v "^.git$" | xargs rm -rf
+          
+          # 4. Restore logic
+          mv ../dist-dotnet-temp/* .
+          
+          git add .
+          git commit -m "DotNet Release ${{ inputs.version }}"
+          git push origin release/dotnet
+          git tag -f "dotnet/${{ inputs.version }}"
+          git push origin "dotnet/${{ inputs.version }}"

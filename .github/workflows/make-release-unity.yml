@@ -3,34 +3,14 @@ name: Package Unity and Publish to Release Branch
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: 'Version label (e.g., v0.0.1)'
-        required: true
-      releaseTag:
-        description: 'Git tag to make for this release'
-        required: true
-      publish_to_npm:
-        description: 'DEPRECATED - Moved to Release Branch Strategy'
-        type: boolean
-        default: false
-      is_official_release:
-        description: 'If true, pushes to release/unity branch'
-        type: boolean
-        default: false
+      version: { required: true, type: string, description: "Version label (e.g., v0.0.1)" }
+      releaseTag: { required: true, type: string, description: "Git tag to make for this release" }
+      is_official_release: { type: boolean, default: false, description: "If true, pushes to release/unity branch" }
   workflow_call:
     inputs:
-      version:
-        type: string
-        required: true
-      releaseTag:
-        type: string
-        required: true
-      publish_to_npm:
-        type: boolean
-        default: false
-      is_official_release:
-        type: boolean
-        default: false
+      version: { type: string, required: true }
+      releaseTag: { type: string, required: true }
+      is_official_release: { type: boolean, default: false }
 
 env:
   DEFAULT_VERSION: '0.0.1'
@@ -42,25 +22,22 @@ jobs:
       - name: Verify branch
         run: |
           if [ "${{ github.ref }}" != "refs/heads/main" ] && [ "${{ github.ref }}" != "refs/heads/OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively" ]; then
-            echo "::error::This workflow must run on main or approved test branches."
+            echo "::error::Unauthorized branch"
             exit 1
           fi
 
   build-android:
     needs: check-branch
     uses: ./.github/workflows/build-android.yml
-    with:
-      unity_ext_matrix: '[true]'
+    with: { unity_ext_matrix: '[true]' }
   build-desktop:
     needs: check-branch
     uses: ./.github/workflows/build-desktop.yml
-    with:
-      unity_ext_matrix: '[true]'
+    with: { unity_ext_matrix: '[true]' }
   build-ios:
     needs: check-branch
     uses: ./.github/workflows/build-ios.yml
-    with:
-      unity_ext_matrix: '[true]'
+    with: { unity_ext_matrix: '[true]' }
 
   package-unity:
     needs: [check-branch, build-android, build-desktop, build-ios]
@@ -94,84 +71,60 @@ jobs:
           find artifacts/desktop-windows-*-Unity -name "*.dll" -exec cp {} UnityPackage/Plugins/Windows/x86_64/ \;
           find artifacts/desktop-macos-*-Unity -name "*.dylib" -exec cp -R {} UnityPackage/Plugins/macOS/ \;
           
-          # Copy SWIG Source (Light)
+          # Copy Source/Metadata
           INCLUDE_DIR=$(find artifacts -type d -name "include" | head -n 1)
           if [ -n "$INCLUDE_DIR" ]; then cp -R "$INCLUDE_DIR"/* UnityPackage/Runtime; fi
-          
           cp -r UnityProject/extra/Editor/* UnityPackage/Editor/ || true
           cp UnityProject/extra/ConnectedSpacesPlatform.Unity.Core.asmdef UnityPackage/Runtime/ || true
 
       - name: Generate package.json
         run: |
-          VERSION_INPUT="${{ inputs.version || env.DEFAULT_VERSION }}"
-          CLEAN_VERSION="${VERSION_INPUT#v}"
+          CLEAN_VERSION="${{ inputs.version }}"
+          CLEAN_VERSION="${CLEAN_VERSION#v}"
           cmake -D "TEMPLATE=UnityProject/extra/package.json.template" \
              -D "OUTPUT=UnityPackage/package.json" \
              -D "VERSION=$CLEAN_VERSION" \
              -P cmake/GeneratePackageJson.cmake
 
-      - name: Create Full Tarball (Binary Release)
+      - name: Create Full Tarball (For Release Page)
         run: tar -czf "com.magnopus.csp.unity-${{ inputs.version }}.tgz" -C UnityPackage .
-
-      - name: Generate Distribution Metadata
-        shell: bash
-        run: |
-          # Define the URL where the full tarball will live on the GitHub Release page
-          # Note: We use the releaseTag calculated in the prep-release job
-          RELEASE_TAG="${{ needs.prep-release.outputs.release_tag }}"
-          PACKAGE_VERSION="${{ inputs.version }}"
-          REPO_FULL_NAME="${{ github.repository }}"
-          
-          DOWNLOAD_URL="https://github.com/${REPO_FULL_NAME}/releases/download/${RELEASE_TAG}/com.magnopus.csp.unity-${PACKAGE_VERSION}.tgz"
-          
-          echo "Generating package-dist.json pointing to $DOWNLOAD_URL"
-          
-          echo '{
-            "version": "'$PACKAGE_VERSION'",
-            "downloadUrl": "'$DOWNLOAD_URL'",
-            "packageName": "com.magnopus.csp.unity"
-          }' > UnityPackage/package-dist.json
-
-      - name: Push Source-Only to release/unity
-        # We only update the distribution branch for official releases from main.
-        # This keeps the 'release/unity' branch as a clean, production-only timeline.
-        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main' || github.ref_name == 'OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively') }} # TEMP FOR TESTING, TODO: REMOVE!
-        shell: bash
-        run: |
-          # Identify the "author" of the commit as the GitHub Actions bot so the push isn't rejected.
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Create a 'source-only' version of the package.
-          # This allows developers to diff C# logic without 400MB of binary noise.
-          mkdir -p dist-unity
-          cp -r UnityPackage/* dist-unity/
-          
-          # Remove heavy binaries before committing to Git.
-          # These are hosted on the GitHub Release page instead to prevent repo bloat.
-          rm -rf dist-unity/Plugins 
-          
-          # We use a 'Sync Mirror' approach.
-          # 1. Fetch the existing branch or create a fresh orphan if it's the first run.
-          git fetch origin release/unity || true
-          git checkout release/unity || git checkout --orphan release/unity
-          
-          # 2. Wipe the current branch state to ensure a 1:1 match with the new source.
-          git rm -rf . > /dev/null
-          mv dist-unity/* .
-          
-          # 3. Commit the logic snapshot. This is what developers can 'diff' against.
-          git add .
-          git commit -m "Unity Release ${{ inputs.version }}"
-          git push origin release/unity
-          
-          # 4. Create a specific distribution tag (e.g. unity/v1.0.0).
-          # This is the target for OpenUPM and internal Git-URL installs.
-          git tag -f "unity/${{ inputs.version }}"
-          git push origin "unity/${{ inputs.version }}"
 
       - name: Upload Unity Tarball Artifact
         uses: actions/upload-artifact@v4
         with:
           name: com.magnopus.csp.unity-${{ inputs.version }}
           path: "*.tgz"
+
+      - name: Push Source-Only to release/unity
+        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main' || github.ref_name == 'OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively') }}
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # 1. Metadata and Temp Staging
+          echo '{
+            "version": "${{ inputs.version }}",
+            "downloadUrl": "https://github.com/${{ github.repository }}/releases/download/${{ inputs.releaseTag }}/com.magnopus.csp.unity-${{ inputs.version }}.tgz"
+          }' > UnityPackage/package-dist.json
+          
+          mkdir -p ../dist-unity-temp
+          cp -r UnityPackage/* ../dist-unity-temp/
+          rm -rf ../dist-unity-temp/Plugins 
+          
+          # 2. Switch branch
+          git fetch origin release/unity || true
+          git checkout release/unity || git checkout --orphan release/unity
+          
+          # 3. IMPROVED CLEANUP
+          git rm -rf . --ignore-unmatch > /dev/null
+          ls -A | grep -v "^.git$" | xargs rm -rf
+          
+          # 4. Restore only source files
+          mv ../dist-unity-temp/* .
+          
+          git add .
+          git commit -m "Unity Release ${{ inputs.version }}"
+          git push origin release/unity
+          git tag -f "unity/${{ inputs.version }}"
+          git push origin "unity/${{ inputs.version }}"
