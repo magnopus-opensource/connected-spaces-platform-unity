@@ -77,14 +77,22 @@ jobs:
           cp -r UnityProject/extra/Editor/* UnityPackage/Editor/ || true
           cp UnityProject/extra/ConnectedSpacesPlatform.Unity.Core.asmdef UnityPackage/Runtime/ || true
 
-      - name: Generate package.json
+      - name: Generate Package Metadata
         run: |
           CLEAN_VERSION="${{ inputs.version }}"
           CLEAN_VERSION="${CLEAN_VERSION#v}"
+          
+          # 1. Generate package.json
           cmake -D "TEMPLATE=UnityProject/extra/package.json.template" \
              -D "OUTPUT=UnityPackage/package.json" \
              -D "VERSION=$CLEAN_VERSION" \
              -P cmake/GeneratePackageJson.cmake
+          
+          # 2. Generate package-dist.json before the Python script runs
+          echo '{
+            "version": "${{ inputs.version }}",
+            "downloadUrl": "https://github.com/${{ github.repository }}/releases/download/${{ inputs.releaseTag }}/com.magnopus.csp.unity-${{ inputs.version }}.tgz"
+          }' > UnityPackage/package-dist.json
 
       - name: Generate Missing Unity .meta Files
         shell: python
@@ -140,12 +148,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # 1. Metadata and Temp Staging
-          echo '{
-            "version": "${{ inputs.version }}",
-            "downloadUrl": "https://github.com/${{ github.repository }}/releases/download/${{ inputs.releaseTag }}/com.magnopus.csp.unity-${{ inputs.version }}.tgz"
-          }' > UnityPackage/package-dist.json
-          
+          # 1. Temp Staging
           mkdir -p ../dist-unity-temp
           cp -r UnityPackage/* ../dist-unity-temp/
           rm -rf ../dist-unity-temp/Plugins 
