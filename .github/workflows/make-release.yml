@@ -2,7 +2,7 @@ name: Make Release
 
 on:
   push:
-    branches: [ OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively ] # TEMPORARY - TODO: Remove before merging
+    branches: [ OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively ] # TEMPORARY
   workflow_dispatch:
     inputs:
       version:
@@ -15,12 +15,8 @@ on:
       releaseTag:
         description: 'Custom Git tag (leave empty for automatic)'
         required: false
-      publish_to_npm:
-        description: 'Enable NPM publish'
-        type: boolean
-        default: false
       is_official_release:
-        description: 'Official release (no hex suffix)'
+        description: 'Official release (pushes to release branches)'
         type: boolean
         default: false
 
@@ -28,7 +24,6 @@ env:
   DEFAULT_VERSION: '0.0.1'
 
 jobs:
-  # 1. A simple setup job to determine the Tag and Version once
   prep-release:
     runs-on: ubuntu-latest
     outputs:
@@ -37,10 +32,7 @@ jobs:
     steps:
       - id: calc
         run: |
-          # 1. Get the base version
           VER="${{ github.event.inputs.version || env.DEFAULT_VERSION }}"
-
-          # 2. Determine the Tag
           if [ -n "${{ github.event.inputs.releaseTag }}" ]; then
             TAG="${{ github.event.inputs.releaseTag }}"
           elif [ "${{ github.event.inputs.is_official_release }}" == "true" ]; then
@@ -48,7 +40,6 @@ jobs:
           else
             TAG="test-${VER}-${{ github.run_number }}"
           fi
-
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "version=$VER" >> $GITHUB_OUTPUT
   
@@ -56,23 +47,19 @@ jobs:
   package-unity:
     needs: prep-release
     uses: ./.github/workflows/make-release-unity.yml
-    secrets: inherit # This ensures the child can see the GITHUB_TOKEN
     permissions:
-      contents: read
-      packages: write # This permission is required to publish to GitHub Packages
+      contents: write # REQUIRED to push to release/unity
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      # TEMPORARY: Change from ${{ github.event.inputs.publish_to_npm }} to true
-      # TODO: Remove and use ${{ github.event.inputs.publish_to_npm }} instead, or all commits will publish!
-      publish_to_npm: true
-      # Safety fallback for manual vs push trigger
       is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
 
   # 3. Run DotNet Packaging
   package-dotnet:
     needs: prep-release
     uses: ./.github/workflows/make-release-dotnet.yml
+    permissions:
+      contents: write # REQUIRED to push to release/dotnet
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
@@ -83,13 +70,13 @@ jobs:
     needs: [prep-release, package-unity, package-dotnet]
     runs-on: ubuntu-latest
     permissions:
-      contents: write # This permission is strictly required to create tags and releases
+      contents: write
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: release-artifacts
-          merge-multiple: true # This pulls all downloaded files into a single folder
+          merge-multiple: true
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -100,4 +87,4 @@ jobs:
           generate_release_notes: true
           files: |
             release-artifacts/*.zip
-            release-artifacts/com.magnopus.csp.unity-*.tgz
+            release-artifacts/*.tgz
