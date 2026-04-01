@@ -1,12 +1,15 @@
 name: Make Release
 
 on:
+  # TODO: Remove push trigger once tests cannot push anymore!
+  push:
+    branches: [ OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively ] # Triggers automatically on push
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version label (e.g., v0.0.1)'
+        description: 'Version label (e.g., v0.0.2)'
         required: true
-        default: 'v0.0.1'
+        default: 'v0.0.2'
       releaseName:
         description: 'Name of the release'
         required: true
@@ -19,7 +22,7 @@ on:
         default: false
 
 env:
-  DEFAULT_VERSION: '0.0.1'
+  DEFAULT_VERSION: '0.0.2'
 
 jobs:
   prep-release:
@@ -38,7 +41,7 @@ jobs:
           elif [ "${{ github.event.inputs.is_official_release }}" == "true" ]; then
             TAG="$VER"
           else
-            # For push triggers, this will create a tag like 'test-0.0.1-42'
+            # For push triggers, this will create a tag like 'test-0.0.2-42'
             TAG="test-${VER}-${{ github.run_number }}"
           fi
           echo "tag=$TAG" >> $GITHUB_OUTPUT
@@ -53,7 +56,8 @@ jobs:
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
+      # TODO: Set default back to false once tests cannot push anymore!
+      is_official_release: ${{ github.event.inputs.is_official_release == true || true }}
 
   # Run DotNet Packaging
   package-dotnet:
@@ -64,7 +68,8 @@ jobs:
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
+      # TODO: Set default back to false once tests cannot push anymore!
+      is_official_release: ${{ github.event.inputs.is_official_release == true || true }}
 
   # Create the Release
   publish-release:
@@ -83,7 +88,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           # Fallback name for push events
-          name: ${{ github.event.inputs.releaseName || format('Release {0}', needs.prep-release.outputs.version) }}
+          # TODO: Remove "Test " from the name once tests cannot push anymore!
+          name: ${{ github.event.inputs.releaseName || format('Test Release {0}', needs.prep-release.outputs.version) }}
           tag_name: ${{ needs.prep-release.outputs.release_tag }}
           target_commitish: ${{ github.sha }}
           generate_release_notes: true

@@ -14,7 +14,7 @@ name: Package Unity and Publish to Release Branch
 on:
   workflow_dispatch:
     inputs:
-      version: { required: true, type: string, description: "Version label (e.g., v0.0.1)" }
+      version: { required: true, type: string, description: "Version label (e.g., v0.0.2)" }
       releaseTag: { required: true, type: string, description: "Git tag to make for this release" }
       is_official_release: { type: boolean, default: false, description: "If true, pushes to release/unity branch" }
   workflow_call:
@@ -24,7 +24,7 @@ on:
       is_official_release: { type: boolean, default: false }
 
 env:
-  DEFAULT_VERSION: '0.0.1'
+  DEFAULT_VERSION: '0.0.2'
 
 jobs:
   check-branch:
@@ -32,7 +32,8 @@ jobs:
     steps:
       - name: Verify branch
         run: |
-          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+          # TODO: Remove custom branch check once tests cannot push anymore!
+          if [ "${{ github.ref }}" != "refs/heads/main" ] && [ "${{ github.ref }}" != "refs/heads/OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively" ]; then
             echo "::error::Unauthorized branch"
             exit 1
           fi
@@ -87,5 +88,6 @@ jobs:
           path: "*.tgz"
 
       - name: Push Source-Only to release/unity
-        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main') }}
+        # TODO: Remove custom branch check once tests cannot push anymore!
+        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main' || github.ref_name == 'OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively') }}
         run: ./Utilities/CI/publish_branch.sh "UnityPackage" "release/unity" "${{ inputs.version }}" "Plugins"
