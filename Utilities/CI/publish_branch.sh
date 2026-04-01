@@ -13,11 +13,11 @@ set -e
 # 2. Strips out heavy native binaries (like .dll or .so files) to prevent Git bloat.
 # 3. Securely syncs with the remote branch (or creates an orphan if new).
 # 4. Clears the working directory (preserving the .git folder).
-# 5. Restores the staged source files, commits, tags, and pushes.
+# 5. Restores the staged source files, commits (if changes exist), tags, and pushes.
 #
 # USAGE:
-# ./Utilities/CI/publish_branch.sh <SOURCE_DIR> <TARGET_BRANCH> <VERSION> [EXCLUDE_DIR]
-# Example: ./Utilities/CI/publish_branch.sh "DotNet" "release/dotnet" "v1.0.0" "libs"
+# bash Utilities/CI/publish_branch.sh <SOURCE_DIR> <TARGET_BRANCH> <VERSION> [EXCLUDE_DIR]
+# Example: bash Utilities/CI/publish_branch.sh "DotNet" "release/dotnet" "v0.0.2" "libs"
 # ==============================================================================
 
 SOURCE_DIR=$1
@@ -59,12 +59,20 @@ ls -A | grep -v "^.git$" | xargs rm -rf
 echo "Restoring source files..."
 mv ../dist-temp/* .
 
-echo "Committing and pushing..."
+echo "Checking for changes to commit..."
 git add .
-git commit -m "Release $VERSION"
-git push origin $TARGET_BRANCH
+
+# Safely check if the staging area has any actual changes
+if git diff --staged --quiet; then
+    echo "No changes detected for $TARGET_BRANCH. Working tree is identical."
+    echo "Skipping commit, but proceeding to tag to maintain lockstep versioning."
+else
+    git commit -m "Release $VERSION"
+    git push origin $TARGET_BRANCH
+fi
 
 # Note: Extracts just the 'dotnet' part from 'release/dotnet' for the tag
+# ALWAYS tag the branch to ensure Unity and DotNet stay in lockstep
 TAG_NAME="${TARGET_BRANCH##*/}/$VERSION" 
 git tag -f "$TAG_NAME"
-git push origin "$TAG_NAME"
+git push -f origin "$TAG_NAME"
