@@ -11,7 +11,7 @@ set -e
 # HOW IT WORKS:
 # 1. Stages the target directory in a temporary folder outside the workspace.
 # 2. Strips out heavy native binaries (like .dll or .so files) to prevent Git bloat.
-# 3. Checks out an orphan/clean target branch.
+# 3. Securely syncs with the remote branch (or creates an orphan if new).
 # 4. Clears the working directory (preserving the .git folder).
 # 5. Restores the staged source files, commits, tags, and pushes.
 #
@@ -39,8 +39,17 @@ if [ -n "$EXCLUDE_DIR" ]; then
 fi
 
 echo "Switching to $TARGET_BRANCH..."
-git fetch origin $TARGET_BRANCH || true
-git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
+# Use ls-remote to check if the branch actually exists on the remote repository
+if git ls-remote --exit-code --heads origin $TARGET_BRANCH >/dev/null 2>&1; then
+    echo "Branch $TARGET_BRANCH exists on remote. Syncing to remote tip..."
+    # Fetch the exact remote tip into FETCH_HEAD
+    git fetch origin $TARGET_BRANCH
+    # Force the local branch to perfectly match the remote tip
+    git checkout -B $TARGET_BRANCH FETCH_HEAD
+else
+    echo "Branch $TARGET_BRANCH does not exist. Creating orphan branch..."
+    git checkout --orphan $TARGET_BRANCH
+fi
 
 echo "Cleaning working directory..."
 git rm -rf . --ignore-unmatch > /dev/null
