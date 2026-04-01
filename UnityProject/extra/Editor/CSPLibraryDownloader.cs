@@ -12,6 +12,13 @@ namespace Plugins.Editor
         private const string PackageName = "com.magnopus.csp.unity";
         private const string MenuPath = "MAGNOPUS/Download CSP Libraries";
 
+        // A targeted custom exception for our downstream catchers
+        public class LibraryInstallationException : Exception
+        {
+            public LibraryInstallationException(string message) : base(message) { }
+            public LibraryInstallationException(string message, Exception innerException) : base(message, innerException) { }
+        }
+
         static CSPBinaryDownloader()
         {
             // Check for binaries shortly after the editor opens
@@ -39,12 +46,24 @@ namespace Plugins.Editor
             {
                 if (!File.Exists(metadataPath))
                 {
-                    if (forceManual) Debug.LogError($"[MAGNOPUS] Metadata not found at {metadataPath}. Ensure package is installed via Git.");
+                    if (forceManual) Debug.LogError($"Metadata not found at {metadataPath}. Ensure package is installed via Git.");
                     return;
                 }
 
-                string json = File.ReadAllText(metadataPath);
-                var data = JsonUtility.FromJson<DistributionMetadata>(json);
+                DistributionMetadata data;
+                try
+                {
+                    data = ReadMetadata(metadataPath);
+                }
+                catch (LibraryInstallationException e)
+                {
+                    Debug.LogException(e);
+                    if (forceManual)
+                    {
+                        EditorUtility.DisplayDialog("Error", e.Message, "OK");
+                    }
+                    return;
+                }
 
                 bool proceed = forceManual || EditorUtility.DisplayDialog(
                     "CSP Binaries Missing",
@@ -58,6 +77,28 @@ namespace Plugins.Editor
             }
         }
 
+        private static DistributionMetadata ReadMetadata(string path)
+        {
+            try
+            {
+                string json = File.ReadAllText(path);
+                var data = JsonUtility.FromJson<DistributionMetadata>(json);
+                
+                if (data == null || string.IsNullOrEmpty(data.downloadUrl))
+                    throw new LibraryInstallationException("downloadUrl is empty or malformed in package-dist.json");
+                    
+                return data;
+            }
+            catch (IOException e)
+            {
+                throw new LibraryInstallationException($"Failed to read metadata file at {path}", e);
+            }
+            catch (ArgumentException e)
+            {
+                throw new LibraryInstallationException($"Failed to parse JSON in metadata file at {path}", e);
+            }
+        }
+
         private static void StartEditorDownload(string url, string targetPath)
         {
             UnityWebRequest www = UnityWebRequest.Get(url);
@@ -67,32 +108,68 @@ namespace Plugins.Editor
             EditorApplication.CallbackFunction updateAction = null;
             updateAction = () =>
             {
-                if (www == null) 
-                {
-                    EditorApplication.update -= updateAction;
-                    return;
-                }
+                bool shouldCleanup = false;
 
-                if (!www.isDone)
+                try
                 {
-                    EditorUtility.DisplayProgressBar("Downloading CSP", $"Fetching binaries... {Mathf.RoundToInt(www.downloadProgress * 100)}%", www.downloadProgress);
-                    return;
-                }
+                    if (www == null) 
+                    {
+                        shouldCleanup = true;
+                        return;
+                    }
 
-                // Cleanup
-                EditorUtility.ClearProgressBar();
-                EditorApplication.update -= updateAction;
+                    if (!www.isDone)
+                    {
+                        bool isCanceled = EditorUtility.DisplayCancelableProgressBar(
+                            "Downloading CSP", 
+                            $"Fetching binaries... {Mathf.RoundToInt(www.downloadProgress * 100)}%", 
+                            www.downloadProgress);
 
-                if (www.result == UnityWebRequest.Result.Success)
-                {
-                    ProcessDownload(www.downloadHandler.data, targetPath);
+                        if (isCanceled)
+                        {
+                            www.Abort(); 
+                            shouldCleanup = true;
+                            Debug.Log("CSP Binary download was canceled by the user.");
+                        }
+                        return; // Exit normally, wait for next frame
+                    }
+
+                    // If we reach here, the download naturally finished
+                    shouldCleanup = true;
+
+                    if (www.result == UnityWebRequest.Result.Success)
+                    {
+                        ProcessDownload(www.downloadHandler.data, targetPath);
+                    }
+                    else
+                    {
+                        var webEx = new LibraryInstallationException($"Network error during download: {www.error}");
+                        Debug.LogException(webEx);
+                        EditorUtility.DisplayDialog("Download Failed", $"Could not download binaries: {www.error}", "OK");
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    EditorUtility.DisplayDialog("Download Failed", $"Error: {www.error}", "OK");
+                    // Catch any unexpected errors so they don't break the Editor
+                    Debug.LogException(e);
+                    shouldCleanup = true; 
                 }
-            
-                www.Dispose();
+                finally
+                {
+                    // This guarantees the UI is unblocked and memory is freed, 
+                    // but ONLY when the process is actually terminating!
+                    if (shouldCleanup)
+                    {
+                        EditorUtility.ClearProgressBar();
+                        EditorApplication.update -= updateAction;
+                        
+                        if (www != null)
+                        {
+                            www.Dispose();
+                            www = null; // Null it out to prevent double-disposal
+                        }
+                    }
+                }
             };
 
             EditorApplication.update += updateAction;
@@ -100,29 +177,102 @@ namespace Plugins.Editor
 
         private static void ProcessDownload(byte[] data, string targetFolder)
         {
+            string tempPath = Path.Combine(Application.temporaryCachePath, "csp_binaries.tgz");
+            
             try 
             {
-                if (!Directory.Exists(targetFolder)) Directory.CreateDirectory(targetFolder);
-            
-                string tempPath = Path.Combine(Application.temporaryCachePath, "csp_binaries.tgz");
-                File.WriteAllBytes(tempPath, data);
+                SaveTarball(data, tempPath);
+                ExtractTarball(tempPath, targetFolder);
+                CleanupRedundantFiles(targetFolder);
 
-                Debug.Log($"[MAGNOPUS] Extracting to {targetFolder}...");
-            
-                // Uses system 'tar' (Available on Win 10+, macOS, Linux)
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+                AssetDatabase.Refresh();
+                EditorUtility.DisplayDialog("Success", "CSP Binaries successfully installed.", "OK");
+            }
+            catch (LibraryInstallationException e)
+            {
+                Debug.LogException(e);
+                EditorUtility.DisplayDialog("Extraction Error", $"Failed to install binaries:\n{e.Message}", "OK");
+            }
+            finally
+            {
+                if (File.Exists(tempPath)) 
                 {
-                    FileName = "tar",
-                    Arguments = $"-xf \"{tempPath}\" -C \"{targetFolder}\"",
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
+                    try
+                    {
+                        File.Delete(tempPath);
+                    }
+                    catch
+                    {
+                         /* Ignore cleanup errors in finally block */
+                    }
+                }
+            }
+        }
 
+        private static void SaveTarball(byte[] data, string savePath)
+        {
+            try
+            {
+                File.WriteAllBytes(savePath, data);
+            }
+            catch (IOException e)
+            {
+                throw new LibraryInstallationException($"Could not write temporary tarball to {savePath}", e);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                throw new LibraryInstallationException($"Access denied when writing to {savePath}", e);
+            }
+        }
+
+        private static void ExtractTarball(string archivePath, string targetFolder)
+        {
+            try 
+            {
+                if (!Directory.Exists(targetFolder))
+                {
+                    Directory.CreateDirectory(targetFolder);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new LibraryInstallationException($"Failed to create target directory {targetFolder}", e);
+            }
+
+            Debug.Log($"Extracting to {targetFolder}...");
+            
+            // Uses system 'tar' (Available on Win 10+, macOS, Linux)
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "tar",
+                Arguments = $"-xf \"{archivePath}\" -C \"{targetFolder}\"",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            try
+            {
                 using (var process = System.Diagnostics.Process.Start(startInfo))
                 {
+                    if (process == null) throw new LibraryInstallationException("Failed to initialize tar process.");
+                    
                     process.WaitForExit();
+                    if (process.ExitCode != 0)
+                    {
+                        throw new LibraryInstallationException($"Tar extraction failed with exit code {process.ExitCode}");
+                    }
                 }
+            }
+            catch (System.ComponentModel.Win32Exception e)
+            {
+                throw new LibraryInstallationException("Failed to start the 'tar' command. Ensure it is available on your system.", e);
+            }
+        }
 
+        private static void CleanupRedundantFiles(string targetFolder)
+        {
+            try
+            {
                 // Remove duplicated C# source folders that were included in the tarball
                 string[] redundantDirs = { "Runtime", "Editor" };
                 foreach (string dir in redundantDirs)
@@ -139,14 +289,14 @@ namespace Plugins.Editor
                     string path = Path.Combine(targetFolder, file);
                     if (File.Exists(path)) File.Delete(path);
                 }
-
-                File.Delete(tempPath);
-                AssetDatabase.Refresh();
-                EditorUtility.DisplayDialog("Success", "CSP Binaries installed in Assets/Plugins/CSP/Internal.", "OK");
             }
-            catch (Exception e)
+            catch (IOException e)
             {
-                Debug.LogError($"[MAGNOPUS] Extraction failed: {e.Message}");
+                throw new LibraryInstallationException("Failed to clean up redundant files after extraction.", e);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                throw new LibraryInstallationException("Access denied during cleanup of extracted files.", e);
             }
         }
 
