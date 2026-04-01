@@ -75,7 +75,6 @@ jobs:
         run: ./Utilities/CI/assemble_unity.sh "${{ inputs.version }}" "${{ inputs.releaseTag }}" "${{ github.repository }}"
 
       - name: Generate Missing Unity .meta Files
-        shell: python
         run: python Utilities/CI/generate_unity_meta.py
 
       - name: Create Full Tarball (For Release Page)
