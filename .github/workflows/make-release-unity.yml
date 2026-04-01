@@ -1,3 +1,14 @@
+# ==============================================================================
+# Make Release: Unity
+#
+# PURPOSE:
+# This workflow assembles the C# wrappers and native C++ binaries into a TGZ
+# file for GitHub Releases. 
+#
+# If triggered as an official release (is_official_release = true), it also
+# invokes the `publish_branch.sh` script to push the lightweight source-code-only 
+# package to the 'release/unity' branch, keeping heavy binaries out of Git.
+# ==============================================================================
 name: Package Unity and Publish to Release Branch
 
 on:
@@ -50,87 +61,21 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Make Scripts Executable
+        run: chmod +x Utilities/CI/*.sh
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
           pattern: '*Unity*'
 
-      - name: Assemble Unity Folder Structure
-        run: |
-          mkdir -p UnityPackage/Plugins/Android/libs/arm64-v8a
-          mkdir -p UnityPackage/Plugins/iOS
-          mkdir -p UnityPackage/Plugins/macOS
-          mkdir -p UnityPackage/Plugins/Windows/x86_64
-          mkdir -p UnityPackage/Runtime
-          mkdir -p UnityPackage/Editor
-
-          # Copy Native Binaries (Heavy)
-          find artifacts/android-* -name "*.so" -exec cp {} UnityPackage/Plugins/Android/libs/arm64-v8a/ \;
-          find artifacts/iOS-* -name "*.a" -exec cp {} UnityPackage/Plugins/iOS/ \;
-          find artifacts/desktop-windows-*-Unity -name "*.dll" -exec cp {} UnityPackage/Plugins/Windows/x86_64/ \;
-          find artifacts/desktop-macos-*-Unity -name "*.dylib" -exec cp -R {} UnityPackage/Plugins/macOS/ \;
-          
-          # Copy Source/Metadata
-          INCLUDE_DIR=$(find artifacts -type d -name "include" | head -n 1)
-          if [ -n "$INCLUDE_DIR" ]; then cp -R "$INCLUDE_DIR"/* UnityPackage/Runtime; fi
-          cp -r UnityProject/extra/Editor/* UnityPackage/Editor/ || true
-          cp UnityProject/extra/ConnectedSpacesPlatform.Unity.Core.asmdef UnityPackage/Runtime/ || true
-
-      - name: Generate Package Metadata
-        run: |
-          CLEAN_VERSION="${{ inputs.version }}"
-          CLEAN_VERSION="${CLEAN_VERSION#v}"
-          
-          # 1. Generate package.json
-          cmake -D "TEMPLATE=UnityProject/extra/package.json.template" \
-             -D "OUTPUT=UnityPackage/package.json" \
-             -D "VERSION=$CLEAN_VERSION" \
-             -P cmake/GeneratePackageJson.cmake
-          
-          # 2. Generate package-dist.json before the Python script runs
-          echo '{
-            "version": "${{ inputs.version }}",
-            "downloadUrl": "https://github.com/${{ github.repository }}/releases/download/${{ inputs.releaseTag }}/com.magnopus.csp.unity-${{ inputs.version }}.tgz"
-          }' > UnityPackage/package-dist.json
+      - name: Assemble Unity Package
+        run: ./Utilities/CI/assemble_unity.sh "${{ inputs.version }}" "${{ inputs.releaseTag }}" "${{ github.repository }}"
 
       - name: Generate Missing Unity .meta Files
         shell: python
-        run: |
-          import os, uuid
-          
-          def generate_meta(target_path, is_dir, is_cs):
-              meta_path = target_path + '.meta'
-          
-              # Skip if a .meta file already exists
-              if os.path.exists(meta_path):
-                  return
-          
-              guid = uuid.uuid4().hex
-              content = f"fileFormatVersion: 2\nguid: {guid}\n"
-          
-              if is_dir:
-                  content += "folderAsset: yes\nDefaultImporter:\n  externalObjects: {}\n  userData: \n  assetBundleName: \n  assetBundleVariant: \n"
-              elif is_cs:
-                  content += "MonoImporter:\n  externalObjects: {}\n  serializedVersion: 2\n  iconMap: {}\n  executionOrder: 0\n"
-              else:
-                  content += "DefaultImporter:\n  externalObjects: {}\n  userData: \n  assetBundleName: \n  assetBundleVariant: \n"
-          
-              with open(meta_path, 'w', encoding='utf-8') as f:
-                  f.write(content)
-
-          package_root = 'UnityPackage'
-          
-          for root, dirs, files in os.walk(package_root):
-              for dir_name in dirs:
-                  if dir_name.startswith('.'): continue
-                  target = os.path.join(root, dir_name)
-                  generate_meta(target, is_dir=True, is_cs=False)
-          
-              for file_name in files:
-                  if file_name.endswith('.meta') or file_name.startswith('.'): continue
-                  target = os.path.join(root, file_name)
-                  generate_meta(target, is_dir=False, is_cs=file_name.endswith('.cs'))
+        run: python Utilities/CI/generate_unity_meta.py
 
       - name: Create Full Tarball (For Release Page)
         run: tar -czf "com.magnopus.csp.unity-${{ inputs.version }}.tgz" -C UnityPackage .
@@ -143,29 +88,4 @@ jobs:
 
       - name: Push Source-Only to release/unity
         if: ${{ inputs.is_official_release == true && (github.ref_name == 'main') }}
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # 1. Temp Staging
-          mkdir -p ../dist-unity-temp
-          cp -r UnityPackage/* ../dist-unity-temp/
-          rm -rf ../dist-unity-temp/Plugins 
-          
-          # 2. Switch branch
-          git fetch origin release/unity || true
-          git checkout release/unity || git checkout --orphan release/unity
-          
-          # 3. Cleanup
-          git rm -rf . --ignore-unmatch > /dev/null
-          ls -A | grep -v "^.git$" | xargs rm -rf
-          
-          # 4. Restore only source files
-          mv ../dist-unity-temp/* .
-          
-          git add .
-          git commit -m "Unity Release ${{ inputs.version }}"
-          git push origin release/unity
-          git tag -f "unity/${{ inputs.version }}"
-          git push origin "unity/${{ inputs.version }}"
+        run: ./Utilities/CI/publish_branch.sh "UnityPackage" "release/unity" "${{ inputs.version }}" "Plugins"
