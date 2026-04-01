@@ -58,9 +58,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Make Scripts Executable
-        run: chmod +x Utilities/CI/*.sh
-
       - name: Calculate Filename
         run: |
           CLEAN_VERSION="${{ inputs.version }}"
@@ -78,7 +75,7 @@ jobs:
           pattern: '*DotNet*'
 
       - name: Assemble DotNet Structure
-        run: ./Utilities/CI/assemble_dotnet.sh
+        run: bash Utilities/CI/assemble_dotnet.sh
 
       - name: Zip DotNet
         run: zip -r "${{ env.ZIP_NAME }}.zip" ./DotNet/*
@@ -92,4 +89,4 @@ jobs:
       - name: Push Source-Only to release/dotnet
         # TODO: Remove custom branch check once tests cannot push anymore!
         if: ${{ inputs.is_official_release == true && (github.ref_name == 'main' || github.ref_name == 'OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively') }}
-        run: ./Utilities/CI/publish_branch.sh "DotNet" "release/dotnet" "${{ inputs.version }}" "libs"
+        run: bash Utilities/CI/publish_branch.sh "DotNet" "release/dotnet" "${{ inputs.version }}" "libs"

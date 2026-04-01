@@ -62,9 +62,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Make Scripts Executable
-        run: chmod +x Utilities/CI/*.sh
-
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -72,7 +69,7 @@ jobs:
           pattern: '*Unity*'
 
       - name: Assemble Unity Package
-        run: ./Utilities/CI/assemble_unity.sh "${{ inputs.version }}" "${{ inputs.releaseTag }}" "${{ github.repository }}"
+        run: bash Utilities/CI/assemble_unity.sh "${{ inputs.version }}" "${{ inputs.releaseTag }}" "${{ github.repository }}"
 
       - name: Generate Missing Unity .meta Files
         run: python Utilities/CI/generate_unity_meta.py
@@ -89,4 +86,4 @@ jobs:
       - name: Push Source-Only to release/unity
         # TODO: Remove custom branch check once tests cannot push anymore!
         if: ${{ inputs.is_official_release == true && (github.ref_name == 'main' || github.ref_name == 'OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively') }}
-        run: ./Utilities/CI/publish_branch.sh "UnityPackage" "release/unity" "${{ inputs.version }}" "Plugins"
+        run: bash Utilities/CI/publish_branch.sh "UnityPackage" "release/unity" "${{ inputs.version }}" "Plugins"
