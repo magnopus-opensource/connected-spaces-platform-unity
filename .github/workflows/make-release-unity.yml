@@ -32,8 +32,7 @@ jobs:
     steps:
       - name: Verify branch
         run: |
-          # TODO: Remove custom branch check once tests cannot push anymore!
-          if [ "${{ github.ref }}" != "refs/heads/main" ] && [ "${{ github.ref }}" != "refs/heads/OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively" ]; then
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
             echo "::error::Unauthorized branch"
             exit 1
           fi
@@ -84,6 +83,5 @@ jobs:
           path: "*.tgz"
 
       - name: Push Source-Only to release/unity
-        # TODO: Remove custom branch check once tests cannot push anymore!
-        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main' || github.ref_name == 'OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively') }}
+        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main') }}
         run: bash Utilities/CI/publish_branch.sh "UnityPackage" "release/unity" "${{ inputs.version }}" "Plugins"
