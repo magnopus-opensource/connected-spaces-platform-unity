@@ -1,9 +1,6 @@
 name: Make Release
 
 on:
-  # TODO: Remove push trigger once tests cannot push anymore!
-  push:
-    branches: [ OPE-3175_Fix-workflow-to-use-unity-or-dotnet-exclusively ] # Triggers automatically on push
   workflow_dispatch:
     inputs:
       version:
@@ -56,8 +53,7 @@ jobs:
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      # TODO: Set default back to false once tests cannot push anymore!
-      is_official_release: ${{ github.event.inputs.is_official_release == true || true }}
+      is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
 
   # Run DotNet Packaging
   package-dotnet:
@@ -68,8 +64,7 @@ jobs:
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      # TODO: Set default back to false once tests cannot push anymore!
-      is_official_release: ${{ github.event.inputs.is_official_release == true || true }}
+      is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
 
   # Create the Release
   publish-release:
@@ -88,8 +83,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           # Fallback name for push events
-          # TODO: Remove "Test " from the name once tests cannot push anymore!
-          name: ${{ github.event.inputs.releaseName || format('Test Release {0}', needs.prep-release.outputs.version) }}
+          name: ${{ github.event.inputs.releaseName || format('Release {0}', needs.prep-release.outputs.version) }}
           tag_name: ${{ needs.prep-release.outputs.release_tag }}
           target_commitish: ${{ github.sha }}
           generate_release_notes: true
