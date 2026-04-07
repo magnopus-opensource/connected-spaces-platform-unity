@@ -201,9 +201,13 @@ namespace Plugins.Editor
                     {
                         File.Delete(tempPath);
                     }
-                    catch
+                    catch (DirectoryNotFoundException)
                     {
-                         /* Ignore cleanup errors in finally block */
+                        // don't care
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogException(e);
                     }
                 }
             }
