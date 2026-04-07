@@ -16,7 +16,7 @@ set -e
 # 5. Restores the staged source files, commits (if changes exist), tags, and pushes.
 #
 # USAGE:
-# bash Utilities/CI/publish_branch.sh <SOURCE_DIR> <TARGET_BRANCH> <VERSION> [EXCLUDE_DIR]
+# bash publish_branch.sh <SOURCE_DIR> <TARGET_BRANCH> <VERSION> [EXCLUDE_DIR] [--dry-run]
 # Example: bash Utilities/CI/publish_branch.sh "DotNet" "release/dotnet" "v0.0.2" "libs"
 # ==============================================================================
 
@@ -24,31 +24,38 @@ SOURCE_DIR=$1
 TARGET_BRANCH=$2
 VERSION=$3
 EXCLUDE_DIR=$4 
+DRY_RUN=false
+
+# Check if the last argument is --dry-run
+for arg in "$@"; do
+    if [ "$arg" == "--dry-run" ]; then
+        DRY_RUN=true
+        echo "DRY RUN ENABLED: No changes will be pushed or tagged."
+    fi
+done
 
 git config user.name "github-actions[bot]"
 git config user.email "github-actions[bot]@users.noreply.github.com"
 
 echo "Staging $SOURCE_DIR to temporary directory..."
 mkdir -p ../dist-temp
-cp -r $SOURCE_DIR/* ../dist-temp/
+cp -r "$SOURCE_DIR"/* ../dist-temp/
 
 # Remove the heavy binaries before committing to Git
-if [ -n "$EXCLUDE_DIR" ]; then 
+if [ -n "$EXCLUDE_DIR" ] && [ -d "../dist-temp/$EXCLUDE_DIR" ]; then 
     echo "Excluding $EXCLUDE_DIR from Git..."
-    rm -rf ../dist-temp/$EXCLUDE_DIR 
+    rm -rf "../dist-temp/$EXCLUDE_DIR" 
 fi
 
 echo "Switching to $TARGET_BRANCH..."
 # Use ls-remote to check if the branch actually exists on the remote repository
-if git ls-remote --exit-code --heads origin $TARGET_BRANCH >/dev/null 2>&1; then
-    echo "Branch $TARGET_BRANCH exists on remote. Syncing to remote tip..."
+if git ls-remote --exit-code --heads origin "$TARGET_BRANCH" >/dev/null 2>&1; then
     # Fetch the exact remote tip into FETCH_HEAD
-    git fetch origin $TARGET_BRANCH
+    git fetch origin "$TARGET_BRANCH"
     # Force the local branch to perfectly match the remote tip
-    git checkout -B $TARGET_BRANCH FETCH_HEAD
+    git checkout -B "$TARGET_BRANCH" FETCH_HEAD
 else
-    echo "Branch $TARGET_BRANCH does not exist. Creating orphan branch..."
-    git checkout --orphan $TARGET_BRANCH
+    git checkout --orphan "$TARGET_BRANCH"
 fi
 
 echo "Cleaning working directory..."
@@ -67,12 +74,26 @@ if git diff --staged --quiet; then
     echo "No changes detected for $TARGET_BRANCH. Working tree is identical."
     echo "Skipping commit, but proceeding to tag to maintain lockstep versioning."
 else
-    git commit -m "Release $VERSION"
-    git push origin $TARGET_BRANCH
+    if [ "$DRY_RUN" = true ]; then
+        echo "[DRY RUN] Would commit: 'Release $VERSION'"
+        echo "[DRY RUN] Would push to: origin $TARGET_BRANCH"
+    else
+        git commit -m "Release $VERSION"
+        git push origin "$TARGET_BRANCH"
+    fi
 fi
 
 # Note: Extracts just the 'dotnet' part from 'release/dotnet' for the tag
 # ALWAYS tag the branch to ensure Unity and DotNet stay in lockstep
 TAG_NAME="${TARGET_BRANCH##*/}/$VERSION" 
-git tag -f "$TAG_NAME"
-git push -f origin "$TAG_NAME"
+
+if [ "$DRY_RUN" = true ]; then
+    echo "[DRY RUN] Would tag: $TAG_NAME"
+    echo "[DRY RUN] Would push tag to origin"
+else
+    git tag -f "$TAG_NAME"
+    git push -f origin "$TAG_NAME"
+fi
+
+echo "Process complete."
+if [ "$DRY_RUN" = true ]; then echo "Note: This was a dry run. Remote was not modified."; fi
