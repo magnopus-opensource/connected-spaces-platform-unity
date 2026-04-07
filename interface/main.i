@@ -9,6 +9,17 @@
  * - In Unity (iOS/visionOS): Uses "__Internal" for static linking.
  * - In Unity (Editor/Android/Desktop) & Pure .NET: Uses "ConnectedSpacesPlatformDotNet".
  * This allows the same C# source to be used across all supported platforms.
+ *
+ * We need this because in Unity for example you can choose a target platform before making a build from the Editor,
+ * so the code needs to adapt once building instead of having the hardcoded value for all target platforms.
+ * This justifies the need for LibName to be a variable interpreted for the chosen target platform at compile time.
+ * Similarly, for future proofing this, developers can change the logic of this #if block if they have 
+ * additional rules to treat the output build with static or dynamic linking (aka __Internal vs 
+ * ConnectedSpacesPlatformDotNet dll name).
+ *
+ * Specifically this is required because IL2CPP uses different linkage on iOS (static lib) and e.g. Android (shared) 
+ * so the PInvoke attributes have to specify a different source library (See the example 
+ * here: https://docs.unity3d.com/6000.3/Documentation/Manual/plug-ins-native.html)
  */
 %pragma(csharp) imclasscode=%{
   public const string LibName = 
