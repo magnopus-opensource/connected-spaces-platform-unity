@@ -85,6 +85,15 @@ jobs:
           name: ${{ env.ZIP_NAME }}
           path: "${{ env.ZIP_NAME }}.zip"
 
-      - name: Push Source-Only to release/dotnet
-        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main') }}
-        run: bash Utilities/CI/publish_branch.sh "DotNet" "release/dotnet" "${{ inputs.version }}" "libs"
+      - name: Push Source-Only to release/dotnet or dry run
+        if: ${{ github.ref_name == 'main' }}
+        run: |
+          # Determine if we should actually push or just simulate
+          DRY_RUN_FLAG=""
+          if [[ "${{ inputs.is_official_release }}" != "true" ]]; then
+            DRY_RUN_FLAG="--dry-run"
+            echo "Starting DRY RUN: Verifying release/dotnet assembly without pushing."
+          else
+            echo "Starting OFFICIAL RELEASE: Pushing to release/dotnet."
+          fi
+          bash Utilities/CI/publish_branch.sh "DotNet" "release/dotnet" "${{ inputs.version }}" "libs" $DRY_RUN_FLAG

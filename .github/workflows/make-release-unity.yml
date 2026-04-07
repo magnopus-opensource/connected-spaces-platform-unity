@@ -82,6 +82,15 @@ jobs:
           name: com.magnopus.csp.unity-${{ inputs.version }}
           path: "*.tgz"
 
-      - name: Push Source-Only to release/unity
-        if: ${{ inputs.is_official_release == true && (github.ref_name == 'main') }}
-        run: bash Utilities/CI/publish_branch.sh "UnityPackage" "release/unity" "${{ inputs.version }}" "Plugins"
+      - name: Push Source-Only to release/unity or dry run
+        if: ${{ github.ref_name == 'main' }}
+        run: |
+          # Determine if we should actually push or just simulate
+          DRY_RUN_FLAG=""
+          if [[ "${{ inputs.is_official_release }}" != "true" ]]; then
+            DRY_RUN_FLAG="--dry-run"
+            echo "Starting DRY RUN: Verifying release/unity assembly without pushing."
+          else
+            echo "Starting OFFICIAL RELEASE: Pushing to release/unity."
+          fi
+          bash Utilities/CI/publish_branch.sh "UnityPackage" "release/unity" "${{ inputs.version }}" "Plugins" $DRY_RUN_FLAG
