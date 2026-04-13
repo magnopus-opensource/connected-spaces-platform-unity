@@ -53,7 +53,7 @@ jobs:
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
+      is_official_release: ${{ inputs.is_official_release == true || inputs.is_official_release == 'true' }}
 
   # Run DotNet Packaging
   package-dotnet:
@@ -64,7 +64,7 @@ jobs:
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      is_official_release: ${{ github.event.inputs.is_official_release == true || false }}
+      is_official_release: ${{ inputs.is_official_release == true || inputs.is_official_release == 'true' }}
 
   # Create the Release
   publish-release:
