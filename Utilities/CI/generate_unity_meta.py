@@ -31,15 +31,49 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  serializedVersion: 2\n"
                 "  iconMap: {}\n"
                 "  executionOrder: 0")
+    elif file_path.suffix == '.so':
+        # Safely target Android native plugins, strictly assigning ARM64 and Preload.
+        # The preload makes sure that when the app looks for CSP it finds the lib in memory already loaded at startup.
+        # Without the preload, a dll not found error could arise if not resolved some other way via code.
+        body = ("PluginImporter:\n"
+                "  externalObjects: {}\n"
+                "  serializedVersion: 2\n"
+                "  iconMap: {}\n"
+                "  executionOrder: 0\n"
+                "  defineConstraints: []\n"
+                "  isPreloaded: 1\n"
+                "  isOverridable: 0\n"
+                "  isExplicitlyReferenced: 0\n"
+                "  validateReferences: 1\n"
+                "  platformData:\n"
+                "  - first:\n"
+                "      Any: \n"
+                "    second:\n"
+                "      enabled: 0\n"
+                "      settings:\n"
+                "        Exclude Editor: 1\n"
+                "        Exclude Linux64: 1\n"
+                "        Exclude macOS: 1\n"
+                "        Exclude Win: 1\n"
+                "        Exclude Win64: 1\n"
+                "  - first:\n"
+                "      Android: Android\n"
+                "    second:\n"
+                "      enabled: 1\n"
+                "      settings:\n"
+                "        CPU: ARM64\n"
+                "  userData: \n"
+                "  assetBundleName: \n"
+                "  assetBundleVariant: ")
     else:
         body = ("DefaultImporter:\n"
                 "  externalObjects: {}\n"
                 "  userData: \n"
                 "  assetBundleName: \n"
                 "  assetBundleVariant: ")
-    
+
     content = f"fileFormatVersion: 2\nguid: {guid}\n{body}\n"
-    
+
     # Note: forcing newline format to make sure this persists across platforms
     with meta_path.open("w", encoding="utf-8", newline="\n") as f:
         f.write(content)
