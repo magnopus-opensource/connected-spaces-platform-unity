@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -64,12 +64,24 @@ public class NativePluginBuildProcessor : IPreprocessBuildWithReport
 
         // --- 2. Binary Selection Logic ---
         
-        // TODO: Remove this hack that always includes iOS and macOS binaries.
-        // This exists because we currently only provide release binaries for these platforms 
-        // to keep the SDK package size manageable.
         if (isApplePlatform)
         {
-            importer.SetIncludeInBuildDelegate((_) => true);
+            if (platform == BuildTarget.VisionOS)
+            {
+                // Explicitly check if the user is building for the Vision Pro or the Simulator
+                bool isSimulatorBuild = PlayerSettings.VisionOS.targetSDK == UnityEditor.VisionOS.VisionOSSdk.Simulator;
+                bool isSimulatorPlugin = assetPath.Contains("Simulator");
+                
+                // Only include the plugin if the SDK target perfectly matches the folder it came from
+                importer.SetIncludeInBuildDelegate((_) => isSimulatorBuild == isSimulatorPlugin);
+            }
+            else
+            {
+                // TODO: Remove this hack that always includes iOS and macOS binaries.
+                // This exists because we currently only provide release binaries for these platforms 
+                // to keep the SDK package size manageable.
+                importer.SetIncludeInBuildDelegate((_) => true);
+            }
         }
         else
         {

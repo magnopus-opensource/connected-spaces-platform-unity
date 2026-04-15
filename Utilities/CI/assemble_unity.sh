@@ -9,7 +9,8 @@ mkdir -p UnityPackage/Plugins/Android/libs/arm64-v8a
 mkdir -p UnityPackage/Plugins/iOS
 mkdir -p UnityPackage/Plugins/macOS
 mkdir -p UnityPackage/Plugins/Windows/x86_64
-mkdir -p UnityPackage/Plugins/visionOS
+mkdir -p UnityPackage/Plugins/visionOS/Device
+mkdir -p UnityPackage/Plugins/visionOS/Simulator
 mkdir -p UnityPackage/Runtime
 mkdir -p UnityPackage/Editor
 
@@ -18,7 +19,8 @@ find artifacts/android-* -name "*.so" -exec cp {} UnityPackage/Plugins/Android/l
 find artifacts/iOS-* -name "*.a" -exec cp {} UnityPackage/Plugins/iOS/ \; || true
 find artifacts/desktop-windows-*-Unity -name "*.dll" -exec cp {} UnityPackage/Plugins/Windows/x86_64/ \; || true
 find artifacts/desktop-macos-*-Unity -name "*.dylib" -exec cp -R {} UnityPackage/Plugins/macOS/ \; || true
-find artifacts/visionOS-* -name "*.a" -exec cp {} UnityPackage/Plugins/visionOS/ \; || true
+find artifacts/visionOS-xros-* -name "*.a" -exec cp {} UnityPackage/Plugins/visionOS/Device/ \; || true
+find artifacts/visionOS-xrsimulator-* -name "*.a" -exec cp {} UnityPackage/Plugins/visionOS/Simulator/ \; || true
 
 # Copy Source/Metadata
 INCLUDE_DIR=$(find artifacts -type d -name "include" | head -n 1 || true)

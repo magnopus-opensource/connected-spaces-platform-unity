@@ -11,12 +11,20 @@ on:
         description: 'This parameter establishes whether SWIG should generate the additional bindings for supporting Unity applications (true) or just the code for supporting general purpose .NET C# applications (false).'
         required: false
         default: '[true]'
+      target_sdk_matrix:
+        description: 'Target SDKs: ["xros"] (Device), ["xrsimulator"] (Simulator), or both'
+        required: false
+        default: '["xros", "xrsimulator"]'
   workflow_call: # Allows other workflows to call this one and wait for its artifacts
     inputs:
       unity_ext_matrix:
         type: string
         required: false
         default: '[true]'
+      target_sdk_matrix:
+        type: string
+        required: false
+        default: '["xros", "xrsimulator"]'
 
 jobs:
   build:
@@ -27,6 +35,8 @@ jobs:
         build_type: [Debug, Release]
         # If an input is provided, parse it. Otherwise, default to building with Unity extensions enabled.
         build_with_unity_extensions: ${{ fromJSON(inputs.unity_ext_matrix || '[true]') }}
+        # Evaluate the target SDK dynamically
+        target_sdk: ${{ fromJSON(inputs.target_sdk_matrix || '["xros", "xrsimulator"]') }}
 
     runs-on: ${{ matrix.os }}
     env:
@@ -42,8 +52,7 @@ jobs:
           xcode-version: '26.4'
 
       - name: Configure
-        # Note: If you ever want to build for the visionOS Simulator (to test on a Mac without a physical headset), you need to set DCMAKE_OSX_SYSROOT as xrsimulator.
-        run: cmake -S . -B build -G Xcode -DCMAKE_SYSTEM_NAME=visionOS -DCMAKE_OSX_SYSROOT=xros -DCMAKE_OSX_ARCHITECTURES="arm64" -DBUILD_SHARED_LIBS=OFF -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
+        run: cmake -S . -B build -G Xcode -DCMAKE_SYSTEM_NAME=visionOS -DCMAKE_OSX_SYSROOT=${{ matrix.target_sdk }} -DCMAKE_OSX_ARCHITECTURES="arm64" -DBUILD_SHARED_LIBS=OFF -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
 
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }}
@@ -56,6 +65,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: visionOS-${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.build_with_unity_extensions && '-Unity' || '-DotNet' }}
+          # Append the target_sdk to the artifact name so Device and Simulator files don't overwrite each other
+          name: visionOS-${{ matrix.target_sdk }}-${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.build_with_unity_extensions && '-Unity' || '-DotNet' }}
           path: install/**
           if-no-files-found: error
