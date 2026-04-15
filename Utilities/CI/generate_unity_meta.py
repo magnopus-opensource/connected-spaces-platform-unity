@@ -66,7 +66,9 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  assetBundleName: \n"
                 "  assetBundleVariant: ")
     elif file_path.suffix == '.a' and 'visionOS' in file_path.parts:
-        # Target visionOS static libraries specifically. Static libraries don't need preloading like Android .so files.
+        # Determine if this binary is for the Simulator or Device based on its folder
+        sdk_target = 'Simulator' if 'Simulator' in file_path.parts else 'Device'
+
         body = ("PluginImporter:\n"
                 "  externalObjects: {}\n"
                 "  serializedVersion: 2\n"
@@ -94,6 +96,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "      enabled: 1\n"
                 "      settings:\n"
                 "        CPU: ARM64\n"
+                f"        SDK: {sdk_target}\n"
                 "  userData: \n"
                 "  assetBundleName: \n"
                 "  assetBundleVariant: ")
