@@ -49,9 +49,13 @@ jobs:
     needs: check-branch
     uses: ./.github/workflows/build-ios.yml
     with: { unity_ext_matrix: '[true]' }
+  build-visionos:
+    needs: check-branch
+    uses: ./.github/workflows/build-visionos.yml
+    with: { unity_ext_matrix: '[true]' }
 
   package-unity:
-    needs: [check-branch, build-android, build-desktop, build-ios]
+    needs: [check-branch, build-android, build-desktop, build-ios, build-visionos]
     runs-on: ubuntu-latest
     permissions:
       contents: write

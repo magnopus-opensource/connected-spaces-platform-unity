@@ -1,0 +1,61 @@
+name: CMake Build visionOS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      unity_ext_matrix:
+        description: 'This parameter establishes whether SWIG should generate the additional bindings for supporting Unity applications (true) or just the code for supporting general purpose .NET C# applications (false).'
+        required: false
+        default: '[true]'
+  workflow_call: # Allows other workflows to call this one and wait for its artifacts
+    inputs:
+      unity_ext_matrix:
+        type: string
+        required: false
+        default: '[true]'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        build_type: [Debug, Release]
+        # If an input is provided, parse it. Otherwise, default to building with Unity extensions enabled.
+        build_with_unity_extensions: ${{ fromJSON(inputs.unity_ext_matrix || '[true]') }}
+
+    runs-on: ${{ matrix.os }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '26.4'
+
+      - name: Configure
+        # Note: If you ever want to build for the visionOS Simulator (to test on a Mac without a physical headset), you need to set DCMAKE_OSX_SYSROOT as xrsimulator.
+        run: cmake -S . -B build -G Xcode -DCMAKE_SYSTEM_NAME=visionOS -DCMAKE_OSX_SYSROOT=xros -DCMAKE_OSX_ARCHITECTURES="arm64" -DBUILD_SHARED_LIBS=OFF -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
+
+      - name: Build
+        run: cmake --build build --config ${{ matrix.build_type }}
+        env:
+          CMAKE_BUILD_PARALLEL_LEVEL: ${{ runner.job_count }}
+
+      - name: Install
+        run: cmake --install build --config ${{ matrix.build_type }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: visionOS-${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.build_with_unity_extensions && '-Unity' || '-DotNet' }}
+          path: install/**
+          if-no-files-found: error
