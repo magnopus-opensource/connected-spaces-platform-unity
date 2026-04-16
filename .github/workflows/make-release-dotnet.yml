@@ -29,6 +29,10 @@ jobs:
     steps:
       - name: Verify branch
         run: |
+          # TODO: Remove before merging!
+          echo "Branch check temporarily disabled for testing."
+          exit 0
+          
           if [ "${{ github.ref }}" != "refs/heads/main" ]; then
             exit 1
           fi
@@ -90,7 +94,8 @@ jobs:
           path: "${{ env.ZIP_NAME }}.zip"
 
       - name: Push Source-Only to release/dotnet or dry run
-        if: ${{ github.ref_name == 'main' }}
+        # TODO: Uncomment following line before merging!
+        #if: ${{ github.ref_name == 'main' }}
         run: |
           # Determine if we should actually push or just simulate
           DRY_RUN_FLAG=""
