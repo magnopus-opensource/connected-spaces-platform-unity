@@ -67,7 +67,7 @@ namespace Plugins.Editor
 
                 bool proceed = forceManual || EditorUtility.DisplayDialog(
                     "CSP Binaries Missing",
-                    $"The {PackageName} package requires native binaries ({data.version}).\n\nDownload approx 400MB from GitHub?",
+                    $"The {PackageName} package requires native binaries ({data.version}).\n\nDownload approx 780MB from GitHub?",
                     "Download", "Skip");
 
                 if (proceed)

@@ -69,7 +69,7 @@ public class NativePluginBuildProcessor : IPreprocessBuildWithReport
             if (platform == BuildTarget.VisionOS)
             {
                 // Explicitly check if the user is building for the Vision Pro or the Simulator
-                bool isSimulatorBuild = PlayerSettings.VisionOS.targetSDK == UnityEditor.VisionOS.VisionOSSdk.Simulator;
+                bool isSimulatorBuild = PlayerSettings.VisionOS.sdkVersion == UnityEditor.VisionOSSdkVersion.Simulator;
                 bool isSimulatorPlugin = assetPath.Contains("Simulator");
                 
                 // Only include the plugin if the SDK target perfectly matches the folder it came from
