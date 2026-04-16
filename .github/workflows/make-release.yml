@@ -107,6 +107,7 @@ jobs:
           tag_name: ${{ needs.prep-release.outputs.release_tag }}
           target_commitish: ${{ github.sha }}
           generate_release_notes: true
+          # Add the ** wildcard so it searches inside the subfolders too
           files: |
-            release-artifacts/*.zip
-            release-artifacts/*.tgz
+            release-artifacts/**/*.zip
+            release-artifacts/**/*.tgz
