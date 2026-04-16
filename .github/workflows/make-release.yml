@@ -1,6 +1,10 @@
 name: Make Release
 
 on:
+  # TODO: Remove push trigger before merging!
+  push:
+    branches:
+      - 'feat/OPE-3178_Create-visionOS-workflow'
   workflow_dispatch:
     inputs:
       version:
@@ -27,22 +31,35 @@ jobs:
     outputs:
       release_tag: ${{ steps.calc.outputs.tag }}
       version: ${{ steps.calc.outputs.version }}
+      # TODO: Remove this test overridden official flag before merging!
+      is_official: ${{ steps.calc.outputs.is_official }}
     steps:
       - id: calc
         run: |
           # Fallback to DEFAULT_VERSION if inputs don't exist (on push)
           VER="${{ github.event.inputs.version || env.DEFAULT_VERSION }}"
           
+          # TODO: REMOVE BEFORE MERGING! Force official release behavior if triggered by a push
+          IS_OFFICIAL="${{ github.event.inputs.is_official_release || 'false' }}"
+          if [ "${{ github.event_name }}" == "push" ]; then
+            IS_OFFICIAL="true"
+          fi
+          
           if [ -n "${{ github.event.inputs.releaseTag }}" ]; then
             TAG="${{ github.event.inputs.releaseTag }}"
-          elif [ "${{ github.event.inputs.is_official_release }}" == "true" ]; then
+          # TODO: Replace next line with the commented following one before merging!
+          elif [ "$IS_OFFICIAL" == "true" ]; then
+          #elif [ "${{ github.event.inputs.is_official_release }}" == "true" ]; then
             TAG="$VER"
           else
-            # For push triggers, this will create a tag like 'test-0.0.2-42'
+            # For manual test triggers, this will create a tag like 'test-0.0.2-42'
             TAG="test-${VER}-${{ github.run_number }}"
           fi
+          
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "version=$VER" >> $GITHUB_OUTPUT
+          # TODO: Remove next line before merging!
+          echo "is_official=$IS_OFFICIAL" >> $GITHUB_OUTPUT
   
   # Run Unity Packaging
   package-unity:
@@ -53,7 +70,9 @@ jobs:
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      is_official_release: ${{ inputs.is_official_release == true || inputs.is_official_release == 'true' }}
+      # TODO: Replace following line with the commented one before merging!
+      is_official_release: ${{ needs.prep-release.outputs.is_official == 'true' }}
+      #is_official_release: ${{ inputs.is_official_release == true || inputs.is_official_release == 'true' }}
 
   # Run DotNet Packaging
   package-dotnet:
@@ -64,7 +83,9 @@ jobs:
     with:
       version: ${{ needs.prep-release.outputs.version }}
       releaseTag: ${{ needs.prep-release.outputs.release_tag }}
-      is_official_release: ${{ inputs.is_official_release == true || inputs.is_official_release == 'true' }}
+      # TODO: Replace following line with the commented one before merging!
+      is_official_release: ${{ needs.prep-release.outputs.is_official == 'true' }}
+      #is_official_release: ${{ inputs.is_official_release == true || inputs.is_official_release == 'true' }}
 
   # Create the Release
   publish-release:
