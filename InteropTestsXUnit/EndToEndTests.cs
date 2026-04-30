@@ -48,10 +48,9 @@ public class EndToEndTests : IDisposable
     {
         UserSystem userSystem = SystemsManager.Get().GetUserSystem();
         string GUID = Guid.NewGuid().ToString();
-        string uniqueUserName = $"CSharp-TestUser{GUID}";
         string uniqueEmail = $"testnopus.pokemon+{GUID}@magnopus.com";
 
-        ProfileResult createUserResult = await userSystem.CreateUserAsync(uniqueUserName, "DisplayName", uniqueEmail, TEST_ACCOUNT_PASSWORD, false, true, null, null);
+        ProfileResult createUserResult = await userSystem.CreateUserAsync("DisplayName", uniqueEmail, TEST_ACCOUNT_PASSWORD, false, true, null, null);
         Profile prof = createUserResult.GetProfile();
         return prof;
     }
@@ -100,7 +99,7 @@ public class EndToEndTests : IDisposable
         // Login with temp user
         Profile testUser = await MakeTestUser();
         UserSystem userSystem = SystemsManager.Get().GetUserSystem();
-        await userSystem.LoginAsync("", testUser.Email, TEST_ACCOUNT_PASSWORD, true, true, null);
+        await userSystem.LoginAsync(testUser.Email, TEST_ACCOUNT_PASSWORD, true, true, null);
         Assert.Equal(csp.common.ELoginState.LoggedIn, userSystem.GetLoginState().State);
 
         Space space = await MakeTestSpace();
@@ -122,7 +121,7 @@ public class EndToEndTests : IDisposable
         // Login with temp user
         Profile testUser = await MakeTestUser();
         UserSystem userSystem = SystemsManager.Get().GetUserSystem();
-        await userSystem.LoginAsync("", testUser.Email, TEST_ACCOUNT_PASSWORD, true, true, null);
+        await userSystem.LoginAsync(testUser.Email, TEST_ACCOUNT_PASSWORD, true, true, null);
         Assert.Equal(csp.common.ELoginState.LoggedIn, userSystem.GetLoginState().State);
 
         /* A little nervous this test may suffer from determinism issues due to distributed effects.
@@ -138,7 +137,7 @@ public class EndToEndTests : IDisposable
 
         // Create an asset
         string assetName = $"TestCSharpAsset{Guid.NewGuid()}";
-        AssetResult createAssetResult = await assetSystem.CreateAssetAsync(createAssetCollectionResult.GetAssetCollection(), assetName, null, EThirdPartyPlatform.UNITY, EAssetType.IMAGE);
+        AssetResult createAssetResult = await assetSystem.CreateAssetAsync(createAssetCollectionResult.GetAssetCollection(), assetName, null, EThirdPartyPlatform.Unity, EAssetType.IMAGE);
         Assert.Equal(EResultCode.Success, createAssetResult.GetResultCode());
 
         // Destroy an asset
@@ -157,7 +156,7 @@ public class EndToEndTests : IDisposable
         // Login with temp user
         Profile testUser = await MakeTestUser();
         UserSystem userSystem = SystemsManager.Get().GetUserSystem();
-        await userSystem.LoginAsync("", testUser.Email, TEST_ACCOUNT_PASSWORD, true, true, null);
+        await userSystem.LoginAsync(testUser.Email, TEST_ACCOUNT_PASSWORD, true, true, null);
         Assert.Equal(csp.common.ELoginState.LoggedIn, userSystem.GetLoginState().State);
 
         //Allow self messaging for this test
