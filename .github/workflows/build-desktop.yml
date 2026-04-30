@@ -53,15 +53,22 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Build CSP
+      - name: Build CSP (Windows)
         if: env.BUILDING_FROM_BRANCH == 'true' && runner.os == 'Windows'
         uses: ./.github/actions/build-csp-windows
         with:
           csp_branch: ${{inputs.csp_branch}}
           build_type: ${{ matrix.build_type }}
 
+      - name: Build CSP (macOS)
+        if: env.BUILDING_FROM_BRANCH == 'true' && runner.os == 'macOS'
+        uses: ./.github/actions/build-csp-macos
+        with:
+          csp_branch: ${{inputs.csp_branch}}
+          build_type: ${{ matrix.build_type }}
+
       - name: Install CSP Consumer Dependencies (temp) # We shouldn't need to do this forever, the new CSP build system is just under development and we haven't properly expunged public symbols yet.
-        if: env.BUILDING_FROM_BRANCH == 'true' && runner.os == 'Windows'
+        if: env.BUILDING_FROM_BRANCH == 'true'
         run: |
           pip install "conan==2.27.0"
           conan install . --output-folder=build --build=missing -s build_type=${{ matrix.build_type }};

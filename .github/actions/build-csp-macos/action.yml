@@ -1,0 +1,87 @@
+name: Build CSP macOS
+description: Composite action that checks out, installs dependencies, and builds CSP as a shared library on macOS in the requested build type (Debug or Release). Outputs installs to "CSP/install" dir, creating an `include`, `bin` and `lib` directory. Targets Apple Silicon (arm64) via the upstream osx_arm Conan profile. To run this, you need to have run actions/checkout in the consuming workflow, with a fetch-depth of 0 such that git tags are available.
+
+inputs:
+  csp_branch:
+    description: CSP branch to build, defaults to main.
+    required: false
+    default: 'main'
+  build_type:
+    description: Debug or Release
+    required: true
+    default: 'Debug'
+
+runs:
+  using: composite
+  steps:
+
+    - name: Checkout connected-spaces-platform
+      uses: actions/checkout@v4
+      with:
+        repository: magnopus-opensource/connected-spaces-platform
+        path: CSP
+        ref: ${{inputs.csp_branch}}
+        fetch-depth: 0 # Required for git describe to find version tags, which we need for CSP_VERSION
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+        cache: pip
+
+    - name: Install Conan
+      shell: bash
+      run: pip install "conan==2.27.0"
+
+    # Split restore/save: the save step is gated on `success()` so an interrupted or failed
+    # `conan install` cannot poison the cache with a partial `~/.conan2/p`.
+    - name: Cache Conan packages (restore)
+      id: conan-cache
+      uses: actions/cache/restore@v4
+      with:
+        path: ~/.conan2/p # Conan 2 package cache
+        key: conan-macos-${{ inputs.build_type }}-${{ hashFiles('CSP/conanfile.py', 'CSP/profiles/host/osx_arm') }}
+        restore-keys: conan-macos-${{ inputs.build_type }}- # Get the most recent cache even if hash doesn't exactly match, as a fallback.
+
+    - name: Detect Conan build profile
+      shell: bash
+      run: conan profile detect --force
+
+    - name: Conan install
+      shell: bash
+      working-directory: "./CSP"
+      run: >
+        conan install .
+        --profile:host=profiles/host/osx_arm
+        -s build_type=${{inputs.build_type}}
+        --build=missing
+
+    - name: Cache Conan packages (save)
+      if: success() && steps.conan-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: ~/.conan2/p
+        key: conan-macos-${{ inputs.build_type }}-${{ hashFiles('CSP/conanfile.py', 'CSP/profiles/host/osx_arm') }}
+
+    - name: Install wrapper generator dependencies
+      shell: bash
+      run: pip install chevron==0.14.0 jinja2==3.1.2
+
+    # Run the legacy wrapper generator — its output is included directly in CSPFoundation.cpp. Should go away eventually
+    - name: Run wrapper generator
+      shell: bash
+      run: python CSP/Tools/WrapperGenerator/WrapperGenerator.py
+
+    - name: Configure
+      shell: bash
+      working-directory: "./CSP"
+      run: cmake --preset ${{ inputs.build_type == 'Debug' && 'debug-shared' || 'release-shared' }}
+
+    - name: Build
+      shell: bash
+      working-directory: "./CSP"
+      run: cmake --build --preset ${{ inputs.build_type == 'Debug' && 'debug-shared' || 'release-shared' }} --parallel
+
+    - name: Install
+      shell: bash
+      working-directory: "./CSP"
+      run: cmake --install build/${{inputs.build_type}} --prefix install
