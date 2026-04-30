@@ -3,6 +3,10 @@
 # In the future, this might want to produce something friendlier for CSharp,
 # currently it ships the necessary .dll/.so's, as well as the .cs files that serve as includes.
 # I'm not totally sure about the ecosystem. Do you ship .csproj files?
+# Some variables, like _CSP_LIB_DIR and _CSP_BUILT_SHARED, may be being set
+# from the branching between legacy and non legacy builds in the top-level CMakeLists.txt.
+# They should be functionally identical as far as the install is concerned for both modes,
+# but be aware nonetheless.
 
 set(INSTALL_DIR "${CMAKE_SOURCE_DIR}/install" CACHE FILEPATH "Directory to install output .cs and shared libraries")
 
@@ -50,39 +54,38 @@ install(
 
 # The actual underlying CSP library, needs to sit alongside the bindings.
 # Including this makes this a complete artifact.
-if (BUILD_SHARED_LIBS)
+if (CSP_BUILT_SHARED)
   install(
-    FILES $<TARGET_FILE:_CSP>
+    FILES $<TARGET_FILE:${_CSP_TARGET_NAME}>
     DESTINATION ${INSTALL_DIR}/bin
   )
-endif()
-
-if(APPLE)
-    if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "visionOS")
-        # Copy the original CSP libraries alongside the one we created via SWIG
-        install(DIRECTORY "${_CSP_LIB_DIR}/"
-                DESTINATION "${INSTALL_DIR}/lib")
-    endif()
 endif()
 
 # Finally the underlying CSP's debug symbols on windows platforms (no pdb equivalent on unix).
 # TARGET_PDB_FILE is not available for imported targets (why though?)
 # So do it more explicitly.
-if(MSVC AND BUILD_SHARED_LIBS)
+if(MSVC AND CSP_BUILT_SHARED)
+  # OPTIONAL: the new (non-legacy) CSP build system does not yet ship PDBs.
+  # Once it does, these will start installing automatically with no code change.
   install(FILES "${_CSP_LIB_DIR}/ConnectedSpacesPlatform_D.pdb"
           DESTINATION "${INSTALL_DIR}/bin"
-          CONFIGURATIONS Debug)
+          CONFIGURATIONS Debug
+          OPTIONAL)
 
   install(FILES "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.pdb"
           DESTINATION "${INSTALL_DIR}/bin"
-          CONFIGURATIONS RelWithDebInfo)
-elseif(APPLE AND BUILD_SHARED_LIBS)
+          CONFIGURATIONS RelWithDebInfo
+          OPTIONAL)
+elseif(APPLE AND CSP_BUILT_SHARED)
     # This is redundant I think, CSP could build DWARF with debug symbols embedded, I don't think dSYMs are the norm?
+    # OPTIONAL: the new (non-legacy) CSP build system does not yet ship dSYMs.
     install(DIRECTORY "${_CSP_LIB_DIR}/libConnectedSpacesPlatform_D.dylib.dSYM"
             DESTINATION "${INSTALL_DIR}/bin"
-            CONFIGURATIONS Debug)
-          
+            CONFIGURATIONS Debug
+            OPTIONAL)
+
     install(DIRECTORY "${_CSP_LIB_DIR}/libConnectedSpacesPlatform.dylib.dSYM"
             DESTINATION "${INSTALL_DIR}/bin"
-            CONFIGURATIONS RelWithDebInfo)
+            CONFIGURATIONS RelWithDebInfo
+            OPTIONAL)
 endif()
