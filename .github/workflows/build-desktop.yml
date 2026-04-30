@@ -11,12 +11,24 @@ on:
         description: 'This parameter establishes whether SWIG should generate the additional bindings for supporting Unity applications (true) or just the code for supporting general purpose .NET C# applications (false). This is expected to be a JSON array: it is possible to produce both cases by passing [true, false].'
         required: false
         default: '[true, false]'
+      csp_branch: 
+        description: 'If set, will build a specific version of CSP from a CSP branch using the new cmake build system, then run with that.'
+        type: string
+        required: false
+        default: ''
   workflow_call: # Allows other workflows to call this one and wait for its artifacts
     inputs:
       unity_ext_matrix:
         type: string
         required: false
         default: '[true, false]'
+      csp_branch: # If set, will build a specific version of CSP from a CSP branch using the new cmake build system, then run with that.
+        type: string
+        required: false
+        default: ''
+
+env:
+  BUILDING_FROM_BRANCH: ${{ inputs.csp_branch != '' }}
 
 jobs:
   build:
@@ -41,11 +53,29 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: Build CSP
+        if: env.BUILDING_FROM_BRANCH == 'true' && runner.os == 'Windows'
+        uses: ./.github/actions/build-csp-windows
+        with:
+          csp_branch: ${{inputs.csp_branch}}
+          build_type: ${{ matrix.build_type }}
+
+      - name: Install CSP Consumer Dependencies (temp) # We shouldn't need to do this forever, the new CSP build system is just under development and we haven't properly expunged public symbols yet.
+        if: env.BUILDING_FROM_BRANCH == 'true' && runner.os == 'Windows'
+        run: |
+          pip install "conan==2.27.0"
+          conan install . --output-folder=build --build=missing -s build_type=${{ matrix.build_type }};
+
       - name: Configure
-        run: cmake -S . -B build -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
+        run: > 
+          cmake -S . -B build 
+          -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
+          ${{ env.BUILDING_FROM_BRANCH == 'true' && '-DLEGACY_BUILD_SYSTEM=Off' || '' }}
+          ${{ env.BUILDING_FROM_BRANCH == 'true' && format('-DCMAKE_PREFIX_PATH={0}/CSP/install', github.workspace) || '' }}
+          ${{ env.BUILDING_FROM_BRANCH == 'true' && '-DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake"' || '' }}
 
       - name: Build
-        run: cmake --build build --config ${{ matrix.build_type }}
+        run: cmake --build build --config ${{ matrix.build_type }} 
         env:
           CMAKE_BUILD_PARALLEL_LEVEL: ${{ runner.job_count }}
 
