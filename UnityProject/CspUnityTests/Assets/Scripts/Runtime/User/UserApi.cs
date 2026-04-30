@@ -827,7 +827,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             try
             {
                 using FoundationSystems.StringResult result =
-                    await userSystem.GetThirdPartyProviderAuthorizeURLAsync(authProvider, redirectURL);
+                    await userSystem.GetThirdPartyProviderAuthoriseURLAsync(authProvider, redirectURL);
 
                 string response = result.GetValue();
 

@@ -206,12 +206,12 @@ public class InnerObjectPinTests
         string guid = Guid.NewGuid().ToString();
         string testAccountPW = "3R{d2}3C<x[J7=jU";
         ProfileResult createUserResult = await userSystem.CreateUserAsync(
-            "DisplayName",
+            $"CSharp-TestUser{guid}", "DisplayName",
             $"testnopus.pokemon+{guid}@magnopus.com",
             testAccountPW, false, true, null, null);
         Profile testUser = createUserResult.GetProfile();
 
-        await userSystem.LoginAsync(testUser.Email, testAccountPW, true, true, null);
+        await userSystem.LoginAsync("", testUser.Email, testAccountPW, true, true, null);
         Assert.Equal(ELoginState.LoggedIn, userSystem.GetLoginState().State);
 
         // Create space in a non-async, non-inlineable method so the SpaceResult

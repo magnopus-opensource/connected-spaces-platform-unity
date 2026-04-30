@@ -1189,8 +1189,8 @@ MAKE_AWAITABLE(csp::systems::UserSystem,
            ARGLIST(csp.systems.LoginStateResult result),
            ARGLIST(csp.systems.LoginStateResult),
            ARGLIST(result),
-           ARGLIST(string email, string password, bool createMultiplayerConnection, bool? userHasVerifiedAge, csp.systems.TokenOptions? tokenOptions),
-           ARGLIST(email, password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions)
+           ARGLIST(string userName, string email, string password, bool createMultiplayerConnection, bool? userHasVerifiedAge, csp.systems.TokenOptions? tokenOptions),
+           ARGLIST(userName, email, password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions)
 )
 
 MAKE_AWAITABLE(csp::systems::UserSystem,
@@ -1227,14 +1227,14 @@ MAKE_AWAITABLE(csp::systems::UserSystem,
 )
 
 MAKE_AWAITABLE(csp::systems::UserSystem,
-           GetThirdPartyProviderAuthorizeURL,
+           GetThirdPartyProviderAuthoriseURL,
            StringResultCallback,
            StringResultCallbackAdapter,
            ARGLIST(csp.systems.StringResult result),
            ARGLIST(csp.systems.StringResult),
            ARGLIST(result),
-           ARGLIST(csp.systems.EThirdPartyAuthenticationProviders authProvider, string redirectURL, csp.systems.EThirdPartyPlatform? clientType),
-           ARGLIST(authProvider, redirectURL, clientType)
+           ARGLIST(csp.systems.EThirdPartyAuthenticationProviders authProvider, string redirectURL),
+           ARGLIST(authProvider, redirectURL)
 )
 
 MAKE_AWAITABLE(csp::systems::UserSystem,
@@ -1264,8 +1264,8 @@ MAKE_AWAITABLE(csp::systems::UserSystem,
            ARGLIST(csp.systems.ProfileResult result),
            ARGLIST(csp.systems.ProfileResult),
            ARGLIST(result),
-           ARGLIST(string? displayName, string email, string password, bool receiveNewsletter, bool userHasVerifiedAge, string? redirectUrl, string? inviteToken),
-           ARGLIST(displayName, email, password, receiveNewsletter, userHasVerifiedAge, redirectUrl, inviteToken)
+           ARGLIST(string? userName, string? displayName, string email, string password, bool receiveNewsletter, bool userHasVerifiedAge, string? redirectUrl, string? inviteToken),
+           ARGLIST(userName, displayName, email, password, receiveNewsletter, userHasVerifiedAge, redirectUrl, inviteToken)
 )
 
 MAKE_AWAITABLE(csp::systems::UserSystem,
@@ -1275,8 +1275,8 @@ MAKE_AWAITABLE(csp::systems::UserSystem,
            ARGLIST(csp.systems.ProfileResult result),
            ARGLIST(csp.systems.ProfileResult),
            ARGLIST(result),
-           ARGLIST(string displayName, string email, string password),
-           ARGLIST(displayName, email, password)
+           ARGLIST(string userName, string displayName, string email, string password),
+           ARGLIST(userName, displayName, email, password)
 )
 
 MAKE_AWAITABLE_ZERO(csp::systems::UserSystem,
