@@ -74,8 +74,9 @@ jobs:
           conan install . --output-folder=build --build=missing -s build_type=${{ matrix.build_type }};
 
       - name: Configure
-        run: > 
-          cmake -S . -B build 
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
           ${{ env.BUILDING_FROM_BRANCH == 'true' && '-DLEGACY_BUILD_SYSTEM=Off' || '' }}
           ${{ env.BUILDING_FROM_BRANCH == 'true' && format('-DCMAKE_PREFIX_PATH={0}/CSP/install', github.workspace) || '' }}
