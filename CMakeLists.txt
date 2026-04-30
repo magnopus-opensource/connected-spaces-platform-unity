@@ -6,7 +6,21 @@ set(_DEPS_DIR "${CMAKE_BINARY_DIR}/_deps")
 include(FetchContent)
 include(cmake/Options.cmake)
 include(cmake/GetSwig.cmake)
-include(cmake/GetCSP.cmake)
+
+if(LEGACY_BUILD_SYSTEM)
+  include(cmake/GetCSP.cmake)
+  set(CSP_INCLUDE_DIR "${_CSP_INCLUDE_DIR}")
+  set(_CSP_TARGET_NAME "_CSP")
+  # Assume if we're building shared, then we're trying to build from a shared CSP
+  # Not technically correct, the non-legacy build system provides a mechanism
+  # to make the distinction as is proper.
+  set(CSP_BUILT_SHARED ${BUILD_SHARED_LIBS})
+else()
+  find_package(CSP CONFIG REQUIRED)
+  set(_CSP_TARGET_NAME "CSP::csp-lib")
+  get_target_property(_CSP_LIB_DIR ${_CSP_TARGET_NAME} LOCATION)
+  get_filename_component(_CSP_LIB_DIR "${_CSP_LIB_DIR}" DIRECTORY)
+endif()
 
 # Global configuration. This should have RelWithDebugInfo in it also, 
 # but we don't have CSP libs for it yet. Impressed that CMake forced
@@ -63,6 +77,26 @@ endif()
 # the targeted platform (see the LibName constant in main.i for more details). 
 set(DLL_NAME_FOR_LINKING "DLL_NAME_FOR_LINKING_TO_BE_PATCHED")
 
+# Preprocess CSP includes to guard the legacy wrapper gen NO_EXPORT declarations so they don't confuse us
+if(GUARD_CSP_NO_EXPORTS)
+    # Trim the CSP_NO_EXPORT stuff off so SWIG dosen't try to generate it
+  find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
+  message("Guarding CSP include dir files from NO_EXPORT sections")
+
+  set(CSP_FILTERED_INCLUDE_DIR "${CMAKE_BINARY_DIR}/csp_filtered_include")
+  execute_process(
+    COMMAND "${Python3_EXECUTABLE}"
+            "${CMAKE_SOURCE_DIR}/Utilities/GuardNoExports/GuardNoExports.py"
+            "${CSP_INCLUDE_DIR}"          
+            "${CSP_FILTERED_INCLUDE_DIR}" 
+      COMMAND_ERROR_IS_FATAL ANY)
+
+  # Rebind Cmake state to point to the new filtered include dir
+  set(CSP_INCLUDE_DIR "${CSP_FILTERED_INCLUDE_DIR}")
+  set_target_properties(${_CSP_TARGET_NAME} PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CSP_FILTERED_INCLUDE_DIR}")
+endif()
+
 # Setup SWIG invocation
 add_custom_command(
   OUTPUT "${_CPP_WRAPPER_OUT}"
@@ -70,7 +104,7 @@ add_custom_command(
   COMMAND ${CMAKE_COMMAND} -E remove_directory "${_GEN_CS_DIR}"
   COMMAND "${CMAKE_COMMAND}" -E make_directory "${_GEN_CPP_DIR}" "${_GEN_CS_DIR}"
   COMMAND "${SWIG_EXE}"
-          -I${_CSP_INCLUDE_DIR} # So we can #include CSP's .h files.
+          -I${CSP_INCLUDE_DIR} # So we can #include CSP's .h files.
           -I${ROOT_I_DIR} # So we can %include our own .i files.
           -I${_INTERNAL_SWG_SEARCH_PATH_CSHARP} # C# search path for SWIG .i lib files. (This should be first as some are named the same)
           -I${_INTERNAL_SWG_SEARCH_PATH_GLOBAL} # Global search path for SWIG .i lib files.
@@ -103,12 +137,26 @@ add_custom_command(
 # ---------------- Build SWIG Output ----------------
 if (BUILD_SHARED_LIBS)
   add_library(${_WRAPPER_MODULE_NAME} SHARED "${_CPP_WRAPPER_OUT}")
-  # Pretty important, make sure we're importing symbols. 
-  # Otherwise you'll get duplicate template instances and such. Bad times.
-  target_compile_definitions(${_WRAPPER_MODULE_NAME} PRIVATE USING_CSP_DLL)
 else()
   add_library(${_WRAPPER_MODULE_NAME} STATIC "${_CPP_WRAPPER_OUT}")
 endif()
+
+# Force /MD (Release runtime) to match CSP DLL runtime library settings
+# This is an unexpected choice from CSP's end. I hope this changes.
+# https://github.com/magnopus-opensource/connected-spaces-platform/blob/15f530fdd7a8b1782772338eee637e989057c815/premake5_helpers.lua#L124
+if(MSVC AND LEGACY_BUILD_SYSTEM)
+  target_compile_options(${_WRAPPER_MODULE_NAME} PRIVATE
+    $<$<CONFIG:Debug>:/MD>
+    $<$<CONFIG:Release>:/MD>
+  )
+endif()
+
+if (CSP_BUILT_SHARED)
+  # Pretty important, make sure we're importing symbols. 
+  # Otherwise you'll get duplicate template instances and such. Bad times.
+  target_compile_definitions(${_WRAPPER_MODULE_NAME} PRIVATE USING_CSP_DLL)
+endif()
+
 set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
   CXX_STANDARD 17
   CXX_STANDARD_REQUIRED YES
@@ -117,22 +165,12 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
 )
 
 # Add CSP Target to our output library, this produces a final API that can use CSP.
-target_link_libraries(${_WRAPPER_MODULE_NAME} PRIVATE _CSP)
+target_link_libraries(${_WRAPPER_MODULE_NAME} PRIVATE ${_CSP_TARGET_NAME})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "visionOS")
     # Additionally, on iOS and visionOS we have to force load the CSP static library because the dynamic lookup doesn't 
     # work with static libraries, and we don't have a choice but to use static libs on iOS.
-    target_link_options(${_WRAPPER_MODULE_NAME} PRIVATE "-Wl,-force_load,$<TARGET_FILE:_CSP>")
-endif()
-
-# Force /MD (Release runtime) to match CSP DLL runtime library settings
-# This is an unexpected choice from CSP's end. I hope this changes.
-# https://github.com/magnopus-opensource/connected-spaces-platform/blob/15f530fdd7a8b1782772338eee637e989057c815/premake5_helpers.lua#L124
-if(MSVC)
-  target_compile_options(${_WRAPPER_MODULE_NAME} PRIVATE
-    $<$<CONFIG:Debug>:/MD>
-    $<$<CONFIG:Release>:/MD>
-  )
+    target_link_options(${_WRAPPER_MODULE_NAME} PRIVATE "-Wl,-force_load,$<TARGET_FILE:${_CSP_TARGET_NAME}>")
 endif()
 
 # Ensure the wrapper can resolve @rpath by looking in its own folder at runtime.
