@@ -54,6 +54,11 @@ runs:
     - name: Conan install
       shell: pwsh
       working-directory: "./CSP"
+      env:
+        # CMake 4 dropped support for cmake_minimum_required(VERSION <3.5), which
+        # some older transitive Conan recipes (e.g. asyncplusplus/1.2) still
+        # declare. We don't maintain pre-3.5 CMake compatibility.
+        CMAKE_POLICY_VERSION_MINIMUM: '3.5'
       run: >
         conan install .
         --profile:host=profiles/host/windows_ninja
