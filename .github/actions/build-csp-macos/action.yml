@@ -84,7 +84,7 @@ runs:
     - name: Build
       shell: bash
       working-directory: "./CSP"
-      run: cmake --build --preset ${{ inputs.build_type == 'Debug' && 'debug-shared' || 'release-shared' }} --parallel
+      run: cmake --build --preset ${{ inputs.build_type == 'Debug' && 'debug-shared' || 'release-shared' }} --parallel 2
 
     - name: Install
       shell: bash
