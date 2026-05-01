@@ -161,6 +161,9 @@ if (CSP_BUILT_SHARED)
   target_compile_definitions(${_WRAPPER_MODULE_NAME} PRIVATE USING_CSP_DLL)
 endif()
 
+# Make it so the wrapper module always builds after codegen happens
+add_dependencies(${_WRAPPER_MODULE_NAME} SWIGCodegen)
+
 set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
   CXX_STANDARD 17
   CXX_STANDARD_REQUIRED YES
