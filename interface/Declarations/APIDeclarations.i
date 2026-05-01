@@ -54,6 +54,7 @@
 %include "CSP/Multiplayer/Conversation/Conversation.i"
 
 /* Component Interfaces */
+%include "CSP/Multiplayer/Components/Interfaces/IAudioControlComponent.i"
 %include "CSP/Multiplayer/Components/Interfaces/IEnableableComponent.i"
 %include "CSP/Multiplayer/Components/Interfaces/IExternalResourceComponent.i"
 %include "CSP/Multiplayer/Components/Interfaces/IPositionComponent.i"
