@@ -97,9 +97,10 @@ if(GUARD_CSP_NO_EXPORTS)
   set_target_properties(${_CSP_TARGET_NAME} PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CSP_FILTERED_INCLUDE_DIR}")
 endif()
 
-# Setup SWIG invocation
-add_custom_command(
-  OUTPUT "${_CPP_WRAPPER_OUT}"
+# Setup SWIG invocation.
+# Setup as a custom target so code generation reruns on every build, rather than on every fresh configure.
+# Means you don't need to reconfigure all the time, and are be able to change .i files and rebuild in your editor as you'd expect.
+add_custom_target(SWIGCodegen ALL
   COMMAND ${CMAKE_COMMAND} -E remove_directory "${_GEN_CPP_DIR}" # Clean up first
   COMMAND ${CMAKE_COMMAND} -E remove_directory "${_GEN_CS_DIR}"
   COMMAND "${CMAKE_COMMAND}" -E make_directory "${_GEN_CPP_DIR}" "${_GEN_CS_DIR}"
@@ -117,22 +118,25 @@ add_custom_command(
           ${THROW_EXCEPTION_ON_RESULTBASE_FAILURE_FLAG} # Optionally generate ThrowOnFailure code when ResultBase is returned with failure status code.
           -v # Still could be verboser ... There's other options if you need them
           "${_ROOT_I_FILE}"
-          
+
   # Remove the quotes around the placeholder string, so that it is treated as a variable rather than a literal.
   # This converts [DllImport("DLL_NAME_FOR_LINKING_TO_BE_PATCHED")] -> [DllImport(LibName)]
   # Note: we use LibName here because that matches the variable in main.i
   COMMAND ${CMAKE_COMMAND} -E echo "Patching PInvoke attributes for cross-platform compatibility..."
-    
-    # Cross-platform replacement logic
-    COMMAND ${CMAKE_COMMAND} -D "FILE_TO_PATCH=${_GEN_CS_DIR}/ConnectedSpacesPlatformDotNetPINVOKE.cs"
-                             -D "OLD_STR=\"${DLL_NAME_FOR_LINKING}\""
-                             -D "NEW_STR=ConnectedSpacesPlatformDotNetPINVOKE.LibName"
-                             -P "${CMAKE_SOURCE_DIR}/cmake/PatchPInvoke.cmake"
 
-  DEPENDS "${_ROOT_I_FILE}"
-  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" 
+  # Cross-platform replacement logic
+  COMMAND ${CMAKE_COMMAND} -D "FILE_TO_PATCH=${_GEN_CS_DIR}/ConnectedSpacesPlatformDotNetPINVOKE.cs"
+                           -D "OLD_STR=\"${DLL_NAME_FOR_LINKING}\""
+                           -D "NEW_STR=ConnectedSpacesPlatformDotNetPINVOKE.LibName"
+                           -P "${CMAKE_SOURCE_DIR}/cmake/PatchPInvoke.cmake"
+
+  BYPRODUCTS "${_CPP_WRAPPER_OUT}"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
   VERBATIM
 )
+
+# The wrapper source is generated at build time; tell CMake not to expect it at configure time.
+set_source_files_properties("${_CPP_WRAPPER_OUT}" PROPERTIES GENERATED TRUE)
 
 # ---------------- Build SWIG Output ----------------
 if (BUILD_SHARED_LIBS)
