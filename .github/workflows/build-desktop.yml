@@ -11,6 +11,11 @@ on:
         description: 'This parameter establishes whether SWIG should generate the additional bindings for supporting Unity applications (true) or just the code for supporting general purpose .NET C# applications (false). This is expected to be a JSON array: it is possible to produce both cases by passing [true, false].'
         required: false
         default: '[true, false]'
+      platform_matrix:
+        description: 'What platforms to run these checks on. Expected to be a JSON array ["windows-latest", "macos-latest"]'
+        type: string
+        required: false
+        default: '["windows-latest", "macos-latest"]'
       csp_branch: 
         description: 'If set, will build a specific version of CSP from a CSP branch using the new cmake build system, then run with that.'
         type: string
@@ -22,6 +27,10 @@ on:
         type: string
         required: false
         default: '[true, false]'
+      platform_matrix: # What platforms to run these checks on. Expected to be a JSON array ["windows-latest", "macos-latest"]
+        type: string
+        required: false
+        default: '["windows-latest", "macos-latest"]'
       csp_branch: # If set, will build a specific version of CSP from a CSP branch using the new cmake build system, then run with that.
         type: string
         required: false
@@ -39,7 +48,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest]
+        os: ${{ fromJSON(inputs.platform_matrix || '["windows-latest", "macos-latest"]') }}
         build_type: [Debug, Release]
         # If an input is provided, parse it. Otherwise, default to building both.
         build_with_unity_extensions: ${{ fromJSON(inputs.unity_ext_matrix || '[true, false]') }}
