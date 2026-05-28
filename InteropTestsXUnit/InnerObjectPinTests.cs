@@ -212,7 +212,7 @@ public class InnerObjectPinTests
         Profile testUser = createUserResult.GetProfile();
 
         await userSystem.LoginAsync(testUser.Email, testAccountPW, true, true, null);
-        Assert.Equal(ELoginState.LoggedIn, userSystem.GetLoginState().State);
+        Assert.Equal(ELoginState.LoggedIn, userSystem.GetLoginState().GetLoginStateValue());
 
         // Create space in a non-async, non-inlineable method so the SpaceResult
         // is a true stack local that dies when the method returns.
