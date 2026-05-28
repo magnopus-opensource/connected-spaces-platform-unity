@@ -101,7 +101,7 @@ public class EndToEndTests : IDisposable
         Profile testUser = await MakeTestUser();
         UserSystem userSystem = SystemsManager.Get().GetUserSystem();
         await userSystem.LoginAsync(testUser.Email, TEST_ACCOUNT_PASSWORD, true, true, null);
-        Assert.Equal(csp.common.ELoginState.LoggedIn, userSystem.GetLoginState().State);
+        Assert.Equal(csp.common.ELoginState.LoggedIn, userSystem.GetLoginState().GetLoginStateValue());
 
         Space space = await MakeTestSpace();
 
@@ -123,7 +123,7 @@ public class EndToEndTests : IDisposable
         Profile testUser = await MakeTestUser();
         UserSystem userSystem = SystemsManager.Get().GetUserSystem();
         await userSystem.LoginAsync(testUser.Email, TEST_ACCOUNT_PASSWORD, true, true, null);
-        Assert.Equal(csp.common.ELoginState.LoggedIn, userSystem.GetLoginState().State);
+        Assert.Equal(csp.common.ELoginState.LoggedIn, userSystem.GetLoginState().GetLoginStateValue());
 
         /* A little nervous this test may suffer from determinism issues due to distributed effects.
          * Just because you get a response dosen't necessarily mean it's in the DB caching layer, but i'm not
@@ -158,7 +158,7 @@ public class EndToEndTests : IDisposable
         Profile testUser = await MakeTestUser();
         UserSystem userSystem = SystemsManager.Get().GetUserSystem();
         await userSystem.LoginAsync(testUser.Email, TEST_ACCOUNT_PASSWORD, true, true, null);
-        Assert.Equal(csp.common.ELoginState.LoggedIn, userSystem.GetLoginState().State);
+        Assert.Equal(csp.common.ELoginState.LoggedIn, userSystem.GetLoginState().GetLoginStateValue());
 
         //Allow self messaging for this test
         MultiplayerConnection multiplayerConnection = SystemsManager.Get().GetMultiplayerConnection();
