@@ -78,6 +78,16 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::multiplayer::MultiplayerConnection
 )
 
+/* csp::multiplayer::OfflineRealtimeEngine events */
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnEntityFetchComplete,
+    EntityFetchCompleteCallback,
+    SetEntityFetchCompleteCallback,
+    uint,
+    csp::multiplayer::OfflineRealtimeEngine
+)
+
 /* csp::multiplayer::SpaceEntity events */
 
 MAKE_EVENT_FOR_CALLBACK(
