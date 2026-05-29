@@ -42,6 +42,16 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::common::LogSystem
 )
 
+/* csp::multiplayer::ConversationSpaceComponent events */
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnConversationUpdate,
+    ConversationNetworkEventCallback,
+    SetConversationUpdateCallback,
+    csp.common.ConversationNetworkEventData,
+    csp::multiplayer::ConversationSpaceComponent
+)
+
 /* csp::systems::AssetSystem events */
 MAKE_EVENT_FOR_CALLBACK(
     UploadAssetDataExOnProgress,
