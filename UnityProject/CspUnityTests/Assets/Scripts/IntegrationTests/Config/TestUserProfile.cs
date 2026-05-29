@@ -18,7 +18,6 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.Config
     {
         public string UserId = "";
         public string Email = "";
-        public string Username = "";
         public string Password = "";
         public TestUserProfileType TestUserType;
     }

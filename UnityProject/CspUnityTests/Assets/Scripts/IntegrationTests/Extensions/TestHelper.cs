@@ -143,7 +143,6 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.Extensions
             return new TestUserProfile
             {
                 UserId = primaryUserProfileResult.UserId,
-                Username = primaryUserProfileResult.UserName,
                 Email = primaryUserProfileResult.Email,
                 Password = primaryUserPassword,
                 TestUserType = userProfileType
