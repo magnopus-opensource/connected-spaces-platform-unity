@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum FiducialMarkerPropertyKeys {
+public enum FiducialMarkerPropertyKeys : ushort {
   Name_DEPRECATED,
   MarkerAssetId,
   AssetCollectionId,

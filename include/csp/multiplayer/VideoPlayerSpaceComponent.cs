@@ -12,7 +12,7 @@ namespace csp.multiplayer {
 
 #nullable enable
 
-public class VideoPlayerSpaceComponent : csp.multiplayer.ComponentBase, IEnableableComponent, ITransformComponent, IPositionComponent, IRotationComponent, IScaleComponent, IVisibleComponent {
+public class VideoPlayerSpaceComponent : csp.multiplayer.ComponentBase, IAudioControlComponent, IEnableableComponent, ITransformComponent, IPositionComponent, IRotationComponent, IScaleComponent, IVisibleComponent {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal VideoPlayerSpaceComponent(global::System.IntPtr cPtr, bool cMemoryOwn) : base(ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_SWIGUpcast(cPtr), cMemoryOwn) {
@@ -47,6 +47,11 @@ public class VideoPlayerSpaceComponent : csp.multiplayer.ComponentBase, IEnablea
       }
       base.Dispose(disposing);
     }
+  }
+
+  [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+  global::System.Runtime.InteropServices.HandleRef IAudioControlComponent.GetInterfaceCPtr() {
+    return new global::System.Runtime.InteropServices.HandleRef(this, ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_IAudioControlComponent_GetInterfaceCPtr(swigCPtr.Handle));
   }
 
   [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
@@ -248,17 +253,6 @@ public class VideoPlayerSpaceComponent : csp.multiplayer.ComponentBase, IEnablea
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public float GetAttenuationRadius() {
-    float ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_GetAttenuationRadius(swigCPtr);
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public void SetAttenuationRadius(float Value) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_SetAttenuationRadius(swigCPtr, Value);
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-  }
-
   public csp.multiplayer.VideoPlayerPlaybackState GetPlaybackState() {
     csp.multiplayer.VideoPlayerPlaybackState ret = (csp.multiplayer.VideoPlayerPlaybackState)ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_GetPlaybackState(swigCPtr);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
@@ -322,6 +316,39 @@ public class VideoPlayerSpaceComponent : csp.multiplayer.ComponentBase, IEnablea
 
   public void SetIsStereoFlipped(bool Value) {
     ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_SetIsStereoFlipped(swigCPtr, Value);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public virtual csp.multiplayer.AudioType GetAudioType() {
+    csp.multiplayer.AudioType ret = (csp.multiplayer.AudioType)ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_GetAudioType(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual void SetAudioType(csp.multiplayer.AudioType Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_SetAudioType(swigCPtr, (int)Value);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public virtual float GetAttenuationRadius() {
+    float ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_GetAttenuationRadius(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual void SetAttenuationRadius(float Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_SetAttenuationRadius(swigCPtr, Value);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public virtual float GetVolume() {
+    float ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_GetVolume(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual void SetVolume(float Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_VideoPlayerSpaceComponent_SetVolume(swigCPtr, Value);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 

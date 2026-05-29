@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum ConversationPropertyKeys {
+public enum ConversationPropertyKeys : ushort {
   ConversationId = 0,
   IsVisible,
   IsActive,

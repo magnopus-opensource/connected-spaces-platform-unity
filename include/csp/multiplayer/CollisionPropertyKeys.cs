@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum CollisionPropertyKeys {
+public enum CollisionPropertyKeys : ushort {
   Position = 0,
   Rotation,
   Scale,
@@ -19,6 +19,7 @@ public enum CollisionPropertyKeys {
   CollisionAssetId,
   AssetCollectionId,
   ThirdPartyComponentRef,
+  IsEnabled,
   Num
 }
 

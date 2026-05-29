@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum ScriptComponentPropertyKeys {
+public enum ScriptComponentPropertyKeys : ushort {
   ScriptSource = 1,
   OwnerId,
   ScriptScope,

@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum GaussianSplatPropertyKeys {
+public enum GaussianSplatPropertyKeys : ushort {
   Name_DEPRECATED = 0,
   ExternalResourceAssetId,
   ExternalResourceAssetCollectionId,

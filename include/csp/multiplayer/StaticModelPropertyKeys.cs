@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum StaticModelPropertyKeys {
+public enum StaticModelPropertyKeys : ushort {
   Name_DEPRECATED = 0,
   ExternalResourceAssetId,
   ExternalResourceAssetCollectionId,

@@ -11,9 +11,10 @@
 namespace csp.systems {
 
 public enum EThirdPartyPlatform {
-  NONE,
-  UNREAL,
-  UNITY
+  None,
+  Unreal,
+  Unity,
+  Web
 }
 
 }

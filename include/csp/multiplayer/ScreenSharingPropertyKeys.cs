@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum ScreenSharingPropertyKeys {
+public enum ScreenSharingPropertyKeys : ushort {
   Position = 0,
   Rotation,
   Scale,

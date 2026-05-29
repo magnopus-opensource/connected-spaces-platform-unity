@@ -12,7 +12,7 @@ namespace csp.multiplayer {
 
 #nullable enable
 
-public class CollisionSpaceComponent : csp.multiplayer.ComponentBase, IThirdPartyComponentRef, ITransformComponent, IPositionComponent, IRotationComponent, IScaleComponent {
+public class CollisionSpaceComponent : csp.multiplayer.ComponentBase, IThirdPartyComponentRef, ITransformComponent, IPositionComponent, IRotationComponent, IScaleComponent, IEnableableComponent {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal CollisionSpaceComponent(global::System.IntPtr cPtr, bool cMemoryOwn) : base(ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CollisionSpaceComponent_SWIGUpcast(cPtr), cMemoryOwn) {
@@ -72,6 +72,11 @@ public class CollisionSpaceComponent : csp.multiplayer.ComponentBase, IThirdPart
   [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
   global::System.Runtime.InteropServices.HandleRef IScaleComponent.GetInterfaceCPtr() {
     return new global::System.Runtime.InteropServices.HandleRef(this, ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CollisionSpaceComponent_IScaleComponent_GetInterfaceCPtr(swigCPtr.Handle));
+  }
+
+  [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+  global::System.Runtime.InteropServices.HandleRef IEnableableComponent.GetInterfaceCPtr() {
+    return new global::System.Runtime.InteropServices.HandleRef(this, ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CollisionSpaceComponent_IEnableableComponent_GetInterfaceCPtr(swigCPtr.Handle));
   }
 
 
@@ -249,6 +254,17 @@ public class CollisionSpaceComponent : csp.multiplayer.ComponentBase, IThirdPart
 
   public virtual void SetThirdPartyComponentRef(string InValue) {
     ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CollisionSpaceComponent_SetThirdPartyComponentRef(swigCPtr, InValue);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public virtual bool GetIsEnabled() {
+    bool ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CollisionSpaceComponent_GetIsEnabled(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual void SetIsEnabled(bool Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CollisionSpaceComponent_SetIsEnabled(swigCPtr, Value);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 

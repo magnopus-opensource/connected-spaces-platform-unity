@@ -12,7 +12,7 @@ namespace csp.multiplayer {
 
 #nullable enable
 
-public class AudioSpaceComponent : csp.multiplayer.ComponentBase, IEnableableComponent, IPositionComponent, IThirdPartyComponentRef {
+public class AudioSpaceComponent : csp.multiplayer.ComponentBase, IAudioControlComponent, IEnableableComponent, IPositionComponent, IThirdPartyComponentRef {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal AudioSpaceComponent(global::System.IntPtr cPtr, bool cMemoryOwn) : base(ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_SWIGUpcast(cPtr), cMemoryOwn) {
@@ -47,6 +47,11 @@ public class AudioSpaceComponent : csp.multiplayer.ComponentBase, IEnableableCom
       }
       base.Dispose(disposing);
     }
+  }
+
+  [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+  global::System.Runtime.InteropServices.HandleRef IAudioControlComponent.GetInterfaceCPtr() {
+    return new global::System.Runtime.InteropServices.HandleRef(this, ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_IAudioControlComponent_GetInterfaceCPtr(swigCPtr.Handle));
   }
 
   [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
@@ -113,17 +118,6 @@ public class AudioSpaceComponent : csp.multiplayer.ComponentBase, IEnableableCom
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public csp.multiplayer.AudioType GetAudioType() {
-    csp.multiplayer.AudioType ret = (csp.multiplayer.AudioType)ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_GetAudioType(swigCPtr);
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public void SetAudioType(csp.multiplayer.AudioType Value) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_SetAudioType(swigCPtr, (int)Value);
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-  }
-
   public string GetAudioAssetId() {
     string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_GetAudioAssetId(swigCPtr);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
@@ -143,17 +137,6 @@ public class AudioSpaceComponent : csp.multiplayer.ComponentBase, IEnableableCom
 
   public void SetAssetCollectionId(string Value) {
     ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_SetAssetCollectionId(swigCPtr, Value);
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-  }
-
-  public float GetAttenuationRadius() {
-    float ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_GetAttenuationRadius(swigCPtr);
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public void SetAttenuationRadius(float Value) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_SetAttenuationRadius(swigCPtr, Value);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -179,13 +162,35 @@ public class AudioSpaceComponent : csp.multiplayer.ComponentBase, IEnableableCom
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public float GetVolume() {
+  public virtual csp.multiplayer.AudioType GetAudioType() {
+    csp.multiplayer.AudioType ret = (csp.multiplayer.AudioType)ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_GetAudioType(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual void SetAudioType(csp.multiplayer.AudioType Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_SetAudioType(swigCPtr, (int)Value);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public virtual float GetAttenuationRadius() {
+    float ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_GetAttenuationRadius(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual void SetAttenuationRadius(float Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_SetAttenuationRadius(swigCPtr, Value);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public virtual float GetVolume() {
     float ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_GetVolume(swigCPtr);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public void SetVolume(float Value) {
+  public virtual void SetVolume(float Value) {
     ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_SetVolume(swigCPtr, Value);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }

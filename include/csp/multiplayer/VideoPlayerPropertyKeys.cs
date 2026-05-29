@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum VideoPlayerPropertyKeys {
+public enum VideoPlayerPropertyKeys : ushort {
   Name_DEPRECATED = 0,
   VideoAssetId,
   VideoAssetURL,
@@ -34,6 +34,8 @@ public enum VideoPlayerPropertyKeys {
   IsVirtualVisible,
   StereoVideoType,
   IsStereoFlipped,
+  Volume,
+  AudioType,
   Num
 }
 

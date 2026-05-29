@@ -7783,6 +7783,24 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_multiplayer_AnnotationThumbnailCollectionResult")]
   public static extern void delete_csp_multiplayer_AnnotationThumbnailCollectionResult(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IAudioControlComponentSwigImpl_GetAudioType")]
+  public static extern int csp_multiplayer_IAudioControlComponentSwigImpl_GetAudioType(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IAudioControlComponentSwigImpl_SetAudioType")]
+  public static extern void csp_multiplayer_IAudioControlComponentSwigImpl_SetAudioType(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IAudioControlComponentSwigImpl_GetAttenuationRadius")]
+  public static extern float csp_multiplayer_IAudioControlComponentSwigImpl_GetAttenuationRadius(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IAudioControlComponentSwigImpl_SetAttenuationRadius")]
+  public static extern void csp_multiplayer_IAudioControlComponentSwigImpl_SetAttenuationRadius(global::System.Runtime.InteropServices.HandleRef jarg1, float jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IAudioControlComponentSwigImpl_GetVolume")]
+  public static extern float csp_multiplayer_IAudioControlComponentSwigImpl_GetVolume(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IAudioControlComponentSwigImpl_SetVolume")]
+  public static extern void csp_multiplayer_IAudioControlComponentSwigImpl_SetVolume(global::System.Runtime.InteropServices.HandleRef jarg1, float jarg2);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IEnableableComponentSwigImpl_GetIsEnabled")]
   public static extern bool csp_multiplayer_IEnableableComponentSwigImpl_GetIsEnabled(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -8047,12 +8065,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_SetPlaybackState")]
   public static extern void csp_multiplayer_AudioSpaceComponent_SetPlaybackState(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_GetAudioType")]
-  public static extern int csp_multiplayer_AudioSpaceComponent_GetAudioType(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_SetAudioType")]
-  public static extern void csp_multiplayer_AudioSpaceComponent_SetAudioType(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
-
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_GetAudioAssetId")]
   public static extern string csp_multiplayer_AudioSpaceComponent_GetAudioAssetId(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -8065,12 +8077,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_SetAssetCollectionId")]
   public static extern void csp_multiplayer_AudioSpaceComponent_SetAssetCollectionId(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_GetAttenuationRadius")]
-  public static extern float csp_multiplayer_AudioSpaceComponent_GetAttenuationRadius(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_SetAttenuationRadius")]
-  public static extern void csp_multiplayer_AudioSpaceComponent_SetAttenuationRadius(global::System.Runtime.InteropServices.HandleRef jarg1, float jarg2);
-
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_GetIsLoopPlayback")]
   public static extern bool csp_multiplayer_AudioSpaceComponent_GetIsLoopPlayback(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -8082,6 +8088,18 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_SetTimeSincePlay")]
   public static extern void csp_multiplayer_AudioSpaceComponent_SetTimeSincePlay(global::System.Runtime.InteropServices.HandleRef jarg1, float jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_GetAudioType")]
+  public static extern int csp_multiplayer_AudioSpaceComponent_GetAudioType(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_SetAudioType")]
+  public static extern void csp_multiplayer_AudioSpaceComponent_SetAudioType(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_GetAttenuationRadius")]
+  public static extern float csp_multiplayer_AudioSpaceComponent_GetAttenuationRadius(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_SetAttenuationRadius")]
+  public static extern void csp_multiplayer_AudioSpaceComponent_SetAttenuationRadius(global::System.Runtime.InteropServices.HandleRef jarg1, float jarg2);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_GetVolume")]
   public static extern float csp_multiplayer_AudioSpaceComponent_GetVolume(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -8460,6 +8478,12 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_CollisionSpaceComponent_SetThirdPartyComponentRef")]
   public static extern void csp_multiplayer_CollisionSpaceComponent_SetThirdPartyComponentRef(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_CollisionSpaceComponent_GetIsEnabled")]
+  public static extern bool csp_multiplayer_CollisionSpaceComponent_GetIsEnabled(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_CollisionSpaceComponent_SetIsEnabled")]
+  public static extern void csp_multiplayer_CollisionSpaceComponent_SetIsEnabled(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_CollisionSpaceComponent_NativeFromBaseCast")]
   public static extern global::System.IntPtr csp_multiplayer_CollisionSpaceComponent_NativeFromBaseCast(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -9685,12 +9709,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_SetIsAutoResize")]
   public static extern void csp_multiplayer_VideoPlayerSpaceComponent_SetIsAutoResize(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_GetAttenuationRadius")]
-  public static extern float csp_multiplayer_VideoPlayerSpaceComponent_GetAttenuationRadius(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_SetAttenuationRadius")]
-  public static extern void csp_multiplayer_VideoPlayerSpaceComponent_SetAttenuationRadius(global::System.Runtime.InteropServices.HandleRef jarg1, float jarg2);
-
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_GetPlaybackState")]
   public static extern int csp_multiplayer_VideoPlayerSpaceComponent_GetPlaybackState(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -9726,6 +9744,24 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_SetIsStereoFlipped")]
   public static extern void csp_multiplayer_VideoPlayerSpaceComponent_SetIsStereoFlipped(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_GetAudioType")]
+  public static extern int csp_multiplayer_VideoPlayerSpaceComponent_GetAudioType(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_SetAudioType")]
+  public static extern void csp_multiplayer_VideoPlayerSpaceComponent_SetAudioType(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_GetAttenuationRadius")]
+  public static extern float csp_multiplayer_VideoPlayerSpaceComponent_GetAttenuationRadius(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_SetAttenuationRadius")]
+  public static extern void csp_multiplayer_VideoPlayerSpaceComponent_SetAttenuationRadius(global::System.Runtime.InteropServices.HandleRef jarg1, float jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_GetVolume")]
+  public static extern float csp_multiplayer_VideoPlayerSpaceComponent_GetVolume(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_SetVolume")]
+  public static extern void csp_multiplayer_VideoPlayerSpaceComponent_SetVolume(global::System.Runtime.InteropServices.HandleRef jarg1, float jarg2);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_GetIsVisible")]
   public static extern bool csp_multiplayer_VideoPlayerSpaceComponent_GetIsVisible(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -12586,12 +12622,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_BasicProfile_UserId_get")]
   public static extern string csp_systems_BasicProfile_UserId_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_BasicProfile_UserName_set")]
-  public static extern void csp_systems_BasicProfile_UserName_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_BasicProfile_UserName_get")]
-  public static extern string csp_systems_BasicProfile_UserName_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_BasicProfile_DisplayName_set")]
   public static extern void csp_systems_BasicProfile_DisplayName_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
@@ -12694,11 +12724,23 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_ThirdPartyProviderDetails_ProviderAuthScopes_get")]
   public static extern global::System.IntPtr csp_systems_ThirdPartyProviderDetails_ProviderAuthScopes_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_ThirdPartyProviderDetails_AuthoriseURL_set")]
-  public static extern void csp_systems_ThirdPartyProviderDetails_AuthoriseURL_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_ThirdPartyProviderDetails_ProviderAuthURL_set")]
+  public static extern void csp_systems_ThirdPartyProviderDetails_ProviderAuthURL_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_ThirdPartyProviderDetails_AuthoriseURL_get")]
-  public static extern string csp_systems_ThirdPartyProviderDetails_AuthoriseURL_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_ThirdPartyProviderDetails_ProviderAuthURL_get")]
+  public static extern string csp_systems_ThirdPartyProviderDetails_ProviderAuthURL_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_ThirdPartyProviderDetails_ThirdPartyAuthStateId_set")]
+  public static extern void csp_systems_ThirdPartyProviderDetails_ThirdPartyAuthStateId_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_ThirdPartyProviderDetails_ThirdPartyAuthStateId_get")]
+  public static extern string csp_systems_ThirdPartyProviderDetails_ThirdPartyAuthStateId_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_ThirdPartyProviderDetails_ProviderRedirectURL_set")]
+  public static extern void csp_systems_ThirdPartyProviderDetails_ProviderRedirectURL_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_ThirdPartyProviderDetails_ProviderRedirectURL_get")]
+  public static extern string csp_systems_ThirdPartyProviderDetails_ProviderRedirectURL_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_systems_ThirdPartyProviderDetails")]
   public static extern global::System.IntPtr new_csp_systems_ThirdPartyProviderDetails();
@@ -12725,7 +12767,7 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   public static extern void csp_systems_UserSystem_SetNewLoginTokenReceivedCallback(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_Login")]
-  public static extern void csp_systems_UserSystem_Login(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, string jarg4, bool jarg5, global::System.Runtime.InteropServices.HandleRef jarg6, global::System.Runtime.InteropServices.HandleRef jarg7, global::System.Runtime.InteropServices.HandleRef jarg8);
+  public static extern void csp_systems_UserSystem_Login(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, bool jarg4, global::System.Runtime.InteropServices.HandleRef jarg5, global::System.Runtime.InteropServices.HandleRef jarg6, global::System.Runtime.InteropServices.HandleRef jarg7);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_LoginWithRefreshToken")]
   public static extern void csp_systems_UserSystem_LoginWithRefreshToken(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, bool jarg4, global::System.Runtime.InteropServices.HandleRef jarg5, global::System.Runtime.InteropServices.HandleRef jarg6);
@@ -12739,8 +12781,8 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_GetSupportedThirdPartyAuthenticationProviders")]
   public static extern global::System.IntPtr csp_systems_UserSystem_GetSupportedThirdPartyAuthenticationProviders(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_GetThirdPartyProviderAuthoriseURL")]
-  public static extern void csp_systems_UserSystem_GetThirdPartyProviderAuthoriseURL(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_GetThirdPartyProviderAuthorizeURL")]
+  public static extern void csp_systems_UserSystem_GetThirdPartyProviderAuthorizeURL(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4, global::System.Runtime.InteropServices.HandleRef jarg5);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_LoginToThirdPartyAuthenticationProvider")]
   public static extern void csp_systems_UserSystem_LoginToThirdPartyAuthenticationProvider(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, bool jarg4, global::System.Runtime.InteropServices.HandleRef jarg5, global::System.Runtime.InteropServices.HandleRef jarg6, global::System.Runtime.InteropServices.HandleRef jarg7);
@@ -12749,10 +12791,10 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   public static extern void csp_systems_UserSystem_Logout(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_CreateUser")]
-  public static extern void csp_systems_UserSystem_CreateUser(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, string jarg4, string jarg5, bool jarg6, bool jarg7, string jarg8, string jarg9, global::System.Runtime.InteropServices.HandleRef jarg10);
+  public static extern void csp_systems_UserSystem_CreateUser(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, string jarg4, bool jarg5, bool jarg6, string jarg7, string jarg8, global::System.Runtime.InteropServices.HandleRef jarg9);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_UpgradeGuestAccount")]
-  public static extern void csp_systems_UserSystem_UpgradeGuestAccount(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, string jarg4, string jarg5, global::System.Runtime.InteropServices.HandleRef jarg6);
+  public static extern void csp_systems_UserSystem_UpgradeGuestAccount(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, string jarg4, global::System.Runtime.InteropServices.HandleRef jarg5);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_ConfirmUserEmail")]
   public static extern void csp_systems_UserSystem_ConfirmUserEmail(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
@@ -14752,6 +14794,9 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AnnotationThumbnailCollectionResult_SWIGUpcast")]
   public static extern global::System.IntPtr csp_multiplayer_AnnotationThumbnailCollectionResult_SWIGUpcast(global::System.IntPtr jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IAudioControlComponentSwigImpl_IAudioControlComponent_GetInterfaceCPtr")]
+  public static extern global::System.IntPtr csp_multiplayer_IAudioControlComponentSwigImpl_IAudioControlComponent_GetInterfaceCPtr(global::System.IntPtr jarg1);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IEnableableComponentSwigImpl_IEnableableComponent_GetInterfaceCPtr")]
   public static extern global::System.IntPtr csp_multiplayer_IEnableableComponentSwigImpl_IEnableableComponent_GetInterfaceCPtr(global::System.IntPtr jarg1);
 
@@ -14827,6 +14872,9 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AnimatedModelSpaceComponent_SWIGUpcast")]
   public static extern global::System.IntPtr csp_multiplayer_AnimatedModelSpaceComponent_SWIGUpcast(global::System.IntPtr jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_IAudioControlComponent_GetInterfaceCPtr")]
+  public static extern global::System.IntPtr csp_multiplayer_AudioSpaceComponent_IAudioControlComponent_GetInterfaceCPtr(global::System.IntPtr jarg1);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_AudioSpaceComponent_IEnableableComponent_GetInterfaceCPtr")]
   public static extern global::System.IntPtr csp_multiplayer_AudioSpaceComponent_IEnableableComponent_GetInterfaceCPtr(global::System.IntPtr jarg1);
 
@@ -14895,6 +14943,9 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_CollisionSpaceComponent_IScaleComponent_GetInterfaceCPtr")]
   public static extern global::System.IntPtr csp_multiplayer_CollisionSpaceComponent_IScaleComponent_GetInterfaceCPtr(global::System.IntPtr jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_CollisionSpaceComponent_IEnableableComponent_GetInterfaceCPtr")]
+  public static extern global::System.IntPtr csp_multiplayer_CollisionSpaceComponent_IEnableableComponent_GetInterfaceCPtr(global::System.IntPtr jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_CollisionSpaceComponent_SWIGUpcast")]
   public static extern global::System.IntPtr csp_multiplayer_CollisionSpaceComponent_SWIGUpcast(global::System.IntPtr jarg1);
@@ -15141,6 +15192,9 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_TextSpaceComponent_SWIGUpcast")]
   public static extern global::System.IntPtr csp_multiplayer_TextSpaceComponent_SWIGUpcast(global::System.IntPtr jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_IAudioControlComponent_GetInterfaceCPtr")]
+  public static extern global::System.IntPtr csp_multiplayer_VideoPlayerSpaceComponent_IAudioControlComponent_GetInterfaceCPtr(global::System.IntPtr jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_VideoPlayerSpaceComponent_IEnableableComponent_GetInterfaceCPtr")]
   public static extern global::System.IntPtr csp_multiplayer_VideoPlayerSpaceComponent_IEnableableComponent_GetInterfaceCPtr(global::System.IntPtr jarg1);

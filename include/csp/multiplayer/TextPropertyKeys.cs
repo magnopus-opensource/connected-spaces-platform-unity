@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum TextPropertyKeys {
+public enum TextPropertyKeys : ushort {
   Position,
   Rotation,
   Scale,

@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum ExternalLinkPropertyKeys {
+public enum ExternalLinkPropertyKeys : ushort {
   Name_DEPRECATED = 0,
   LinkUrl,
   Position,

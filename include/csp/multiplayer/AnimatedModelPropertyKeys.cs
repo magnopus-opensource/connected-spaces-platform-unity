@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum AnimatedModelPropertyKeys {
+public enum AnimatedModelPropertyKeys : ushort {
   Name_DEPRECATED = 0,
   ExternalResourceAssetId,
   ExternalResourceAssetCollectionId,

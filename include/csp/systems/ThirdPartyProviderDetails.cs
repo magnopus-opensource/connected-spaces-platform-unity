@@ -101,13 +101,37 @@ public class ThirdPartyProviderDetails : global::System.IDisposable {
 
   }
 
-  public string AuthoriseURL {
+  public string ProviderAuthURL {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ThirdPartyProviderDetails_AuthoriseURL_set(swigCPtr, value);
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ThirdPartyProviderDetails_ProviderAuthURL_set(swigCPtr, value);
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
-      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ThirdPartyProviderDetails_AuthoriseURL_get(swigCPtr);
+      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ThirdPartyProviderDetails_ProviderAuthURL_get(swigCPtr);
+      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+      return ret;
+    } 
+  }
+
+  public string ThirdPartyAuthStateId {
+    set {
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ThirdPartyProviderDetails_ThirdPartyAuthStateId_set(swigCPtr, value);
+      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    } 
+    get {
+      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ThirdPartyProviderDetails_ThirdPartyAuthStateId_get(swigCPtr);
+      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+      return ret;
+    } 
+  }
+
+  public string ProviderRedirectURL {
+    set {
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ThirdPartyProviderDetails_ProviderRedirectURL_set(swigCPtr, value);
+      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    } 
+    get {
+      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ThirdPartyProviderDetails_ProviderRedirectURL_get(swigCPtr);
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
       return ret;
     } 

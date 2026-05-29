@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum ComponentType {
+public enum ComponentType : ushort {
   Invalid = 0,
   Core = 1,
   UIController_DEPRECATED = 2,

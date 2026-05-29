@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum SplinePropertyKeys {
+public enum SplinePropertyKeys : ushort {
   Waypoints = 0,
   Num
 }

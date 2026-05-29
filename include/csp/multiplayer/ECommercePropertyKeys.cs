@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum ECommercePropertyKeys {
+public enum ECommercePropertyKeys : ushort {
   Position = 0,
   ProductId,
   Num

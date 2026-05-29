@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum CinematicCameraPropertyKeys {
+public enum CinematicCameraPropertyKeys : ushort {
   Position = 0,
   Rotation,
   IsEnabled,

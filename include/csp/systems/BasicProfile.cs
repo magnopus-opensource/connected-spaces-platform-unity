@@ -71,18 +71,6 @@ public class BasicProfile : global::System.IDisposable {
     } 
   }
 
-  public string UserName {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_BasicProfile_UserName_set(swigCPtr, value);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_BasicProfile_UserName_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
-  }
-
   public string DisplayName {
     set {
       ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_BasicProfile_DisplayName_set(swigCPtr, value);

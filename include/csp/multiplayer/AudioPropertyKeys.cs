@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum AudioPropertyKeys {
+public enum AudioPropertyKeys : ushort {
   Position = 0,
   PlaybackState,
   AudioType,

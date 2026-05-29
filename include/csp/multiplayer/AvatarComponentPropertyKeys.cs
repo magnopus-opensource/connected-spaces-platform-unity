@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum AvatarComponentPropertyKeys {
+public enum AvatarComponentPropertyKeys : ushort {
   AvatarId = 0,
   UserId,
   State,
