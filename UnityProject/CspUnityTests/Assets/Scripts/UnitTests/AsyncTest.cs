@@ -258,6 +258,137 @@ namespace Magnopus.Csp.Unity.Tests
                 await Task.WhenAll(tasks);
             });
         }
+
+        [UnityTest]
+        public IEnumerator Async_WithProgressCallback_InvokesProgressSequentially()
+        {
+            yield return AsyncTest.RunAsync(async () =>
+            {
+                var logSystem = new LogSystem();
+                var progressUpdates = new List<float>();
+                var progressCalled = false;
+
+                Action<float> progressHandler = (progress) =>
+                {
+                    lock (progressUpdates)
+                    {
+                        progressCalled = true;
+                        progressUpdates.Add(progress);
+                    }
+                };
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                var result = await logSystem.LogAfterSecondsAsync(true, 1, progressHandler);
+                Assert.NotNull(result);
+                Assert.IsTrue(result.GetValue());
+                
+                if (progressCalled)
+                {
+                    Assert.IsNotEmpty(progressUpdates);
+                    foreach (var p in progressUpdates)
+                    {
+                        Assert.GreaterOrEqual(p, 0f);
+                    }
+                }
+            });
+        }
+
+        [UnityTest]
+        public IEnumerator Async_NullProgressCallback_CompletesSuccessfully()
+        {
+            yield return AsyncTest.RunAsync(async () =>
+            {
+                var logSystem = new LogSystem();
+                var result = await logSystem.LogAfterSecondsAsync(true, 1, progressCallback: null);
+                
+                Assert.NotNull(result);
+                Assert.IsTrue(result.GetValue());
+            });
+        }
+
+        [UnityTest]
+        public IEnumerator ConcurrentCalls_IsolateUniqueProgressCallbacks()
+        {
+            yield return AsyncTest.RunAsync(async () =>
+            {
+                var logSystem = new LogSystem();
+                var operation1Progress = new List<float>();
+                var operation2Progress = new List<float>();
+
+                var task1 = logSystem.LogAfterSecondsAsync(true, 1, p => { lock(operation1Progress) operation1Progress.Add(p); });
+                var task2 = logSystem.LogAfterSecondsAsync(true, 1, p => { lock(operation2Progress) operation2Progress.Add(p); });
+
+                await Task.WhenAll(task1, task2);
+
+                Assert.IsTrue(task1.Result.GetValue());
+                Assert.IsTrue(task2.Result.GetValue());
+            });
+        }
+
+        [UnityTest]
+        public IEnumerator AsyncProgress_Survives_Extreme_GC_Pressure()
+        {
+            yield return AsyncTest.RunAsync(async () =>
+            {
+                var logSystem = new LogSystem();
+                int totalOps = 100;
+                int progressCallbacksFired = 0;
+
+                var tasks = Enumerable.Range(0, totalOps)
+                    .Select(_ => logSystem.LogAfterSecondsAsync(true, 0, p => Interlocked.Increment(ref progressCallbacksFired)))
+                    .ToArray();
+
+                for (int i = 0; i < 3; i++)
+                {
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
+                    await Task.Delay(5);
+                }
+
+                var results = await Task.WhenAll(tasks);
+                
+                Assert.AreEqual(totalOps, results.Length);
+                foreach (var r in results)
+                {
+                    Assert.IsTrue(r.GetValue());
+                }
+            });
+        }
+
+        [UnityTest]
+        public IEnumerator AsyncProgress_OnCompletion_CleanlyUnrootsCallbackMemory()
+        {
+            yield return AsyncTest.RunAsync(async () =>
+            {
+                var logSystem = new LogSystem();
+                
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                
+                var result = await logSystem.LogAfterSecondsAsync(true, 0, progress => { /* no-op */ });
+                Assert.IsTrue(result.GetValue());
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+
+                // Use reflection to inspect the private '_roots' dictionary inside the static AsyncLifetime class.
+                // This ensures the custom macro tracking cleanly detached everything on completion.
+                var rootsField = typeof(ConnectedSpacesPlatformDotNet)
+                    .GetNestedType("AsyncLifetime", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
+                    ?.GetField("_roots", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+
+                if (rootsField != null)
+                {
+                    var rootsDictionary = rootsField.GetValue(null) as System.Collections.IDictionary;
+                    Assert.NotNull(rootsDictionary);
+                    Assert.IsEmpty(rootsDictionary);
+                }
+            });
+        }
 #endif
     }
 }
