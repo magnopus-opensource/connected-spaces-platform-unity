@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum ReflectionPropertyKeys {
+public enum ReflectionPropertyKeys : ushort {
   Name_DEPRECATED,
   ReflectionAssetId,
   AssetCollectionId,

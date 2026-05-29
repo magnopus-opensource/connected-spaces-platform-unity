@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum HotspotPropertyKeys {
+public enum HotspotPropertyKeys : ushort {
   Position,
   Rotation,
   Name_DEPRECATED,

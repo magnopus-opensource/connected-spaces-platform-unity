@@ -65,10 +65,10 @@ public class UserSystem : csp.systems.SystemBase {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void Login(string UserName, string Email, string Password, bool CreateMultiplayerConnection, bool? UserHasVerifiedAge, csp.systems.TokenOptions TokenOptions, LoginStateResultCallbackAdapter Callback) {
+  public void Login(string Email, string Password, bool CreateMultiplayerConnection, bool? UserHasVerifiedAge, csp.systems.TokenOptions TokenOptions, LoginStateResultCallbackAdapter Callback) {
     csp.common.OptBool opt_UserHasVerifiedAge = UserHasVerifiedAge.HasValue ? new csp.common.OptBool(UserHasVerifiedAge.Value) : new csp.common.OptBool();
     {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_UserSystem_Login(swigCPtr, UserName, Email, Password, CreateMultiplayerConnection, csp.common.OptBool.getCPtr(opt_UserHasVerifiedAge), csp.systems.TokenOptions.getCPtr(TokenOptions), LoginStateResultCallbackAdapter.getCPtr(Callback));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_UserSystem_Login(swigCPtr, Email, Password, CreateMultiplayerConnection, csp.common.OptBool.getCPtr(opt_UserHasVerifiedAge), csp.systems.TokenOptions.getCPtr(TokenOptions), LoginStateResultCallbackAdapter.getCPtr(Callback));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     }
   }
@@ -100,9 +100,12 @@ public class UserSystem : csp.systems.SystemBase {
     return ret;
   }
 
-  public void GetThirdPartyProviderAuthoriseURL(csp.systems.EThirdPartyAuthenticationProviders AuthProvider, string RedirectURL, StringResultCallbackAdapter Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_UserSystem_GetThirdPartyProviderAuthoriseURL(swigCPtr, (int)AuthProvider, RedirectURL, StringResultCallbackAdapter.getCPtr(Callback));
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  public void GetThirdPartyProviderAuthorizeURL(csp.systems.EThirdPartyAuthenticationProviders AuthProvider, string RedirectURL, csp.systems.EThirdPartyPlatform? ClientType, StringResultCallbackAdapter Callback) {
+    csp.common.OptEThirdPartyPlatform opt_ClientType = ClientType.HasValue ? new csp.common.OptEThirdPartyPlatform(ClientType.Value) : new csp.common.OptEThirdPartyPlatform();
+    {
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_UserSystem_GetThirdPartyProviderAuthorizeURL(swigCPtr, (int)AuthProvider, RedirectURL, csp.common.OptEThirdPartyPlatform.getCPtr(opt_ClientType), StringResultCallbackAdapter.getCPtr(Callback));
+      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    }
   }
 
   public void LoginToThirdPartyAuthenticationProvider(string ThirdPartyToken, string ThirdPartyStateId, bool CreateMultiplayerConnection, bool? UserHasVerifiedAge, csp.systems.TokenOptions TokenOptions, LoginStateResultCallbackAdapter Callback) {
@@ -118,13 +121,13 @@ public class UserSystem : csp.systems.SystemBase {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void CreateUser(string UserName, string DisplayName, string Email, string Password, bool ReceiveNewsletter, bool UserHasVerifiedAge, string RedirectUrl, string InviteToken, ProfileResultCallbackAdapter Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_UserSystem_CreateUser(swigCPtr, UserName, DisplayName, Email, Password, ReceiveNewsletter, UserHasVerifiedAge, RedirectUrl, InviteToken, ProfileResultCallbackAdapter.getCPtr(Callback));
+  public void CreateUser(string DisplayName, string Email, string Password, bool ReceiveNewsletter, bool UserHasVerifiedAge, string RedirectUrl, string InviteToken, ProfileResultCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_UserSystem_CreateUser(swigCPtr, DisplayName, Email, Password, ReceiveNewsletter, UserHasVerifiedAge, RedirectUrl, InviteToken, ProfileResultCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void UpgradeGuestAccount(string UserName, string DisplayName, string Email, string Password, ProfileResultCallbackAdapter Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_UserSystem_UpgradeGuestAccount(swigCPtr, UserName, DisplayName, Email, Password, ProfileResultCallbackAdapter.getCPtr(Callback));
+  public void UpgradeGuestAccount(string DisplayName, string Email, string Password, ProfileResultCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_UserSystem_UpgradeGuestAccount(swigCPtr, DisplayName, Email, Password, ProfileResultCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -199,7 +202,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginAsync(string userName,string email,string password,bool createMultiplayerConnection,bool? userHasVerifiedAge,csp.systems.TokenOptions? tokenOptions)
+  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginAsync(string email,string password,bool createMultiplayerConnection,bool? userHasVerifiedAge,csp.systems.TokenOptions? tokenOptions)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.LoginStateResult> tcs = 
@@ -269,7 +272,7 @@ public class UserSystem : csp.systems.SystemBase {
 
     // Run the method with the provided arguments and the callback
     // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
-    Login(userName,email,password,createMultiplayerConnection,userHasVerifiedAge,tokenOptions, callback);
+    Login(email,password,createMultiplayerConnection,userHasVerifiedAge,tokenOptions, callback);
 
     return tcs.Task;
   }
@@ -503,7 +506,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.StringResult> GetThirdPartyProviderAuthoriseURLAsync(csp.systems.EThirdPartyAuthenticationProviders authProvider,string redirectURL)
+  public System.Threading.Tasks.Task<csp.systems.StringResult> GetThirdPartyProviderAuthorizeURLAsync(csp.systems.EThirdPartyAuthenticationProviders authProvider,string redirectURL,csp.systems.EThirdPartyPlatform? clientType)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult> tcs = 
@@ -531,7 +534,7 @@ public class UserSystem : csp.systems.SystemBase {
                 // It's a result base
 
                 // Convert the failing result to a throw if we have that option enabled
-                _result.ThrowOnFailure(nameof(GetThirdPartyProviderAuthoriseURLAsync));
+                _result.ThrowOnFailure(nameof(GetThirdPartyProviderAuthorizeURLAsync));
 
 
                 // Use _result here because we need to call ResultBase api, but we still pass the fully specified type in the TrySetResult
@@ -573,7 +576,7 @@ public class UserSystem : csp.systems.SystemBase {
 
     // Run the method with the provided arguments and the callback
     // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
-    GetThirdPartyProviderAuthoriseURL(authProvider,redirectURL, callback);
+    GetThirdPartyProviderAuthorizeURL(authProvider,redirectURL,clientType, callback);
 
     return tcs.Task;
   }
@@ -730,7 +733,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.ProfileResult> CreateUserAsync(string? userName,string? displayName,string email,string password,bool receiveNewsletter,bool userHasVerifiedAge,string? redirectUrl,string? inviteToken)
+  public System.Threading.Tasks.Task<csp.systems.ProfileResult> CreateUserAsync(string? displayName,string email,string password,bool receiveNewsletter,bool userHasVerifiedAge,string? redirectUrl,string? inviteToken)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ProfileResult> tcs = 
@@ -800,13 +803,13 @@ public class UserSystem : csp.systems.SystemBase {
 
     // Run the method with the provided arguments and the callback
     // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
-    CreateUser(userName,displayName,email,password,receiveNewsletter,userHasVerifiedAge,redirectUrl,inviteToken, callback);
+    CreateUser(displayName,email,password,receiveNewsletter,userHasVerifiedAge,redirectUrl,inviteToken, callback);
 
     return tcs.Task;
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.ProfileResult> UpgradeGuestAccountAsync(string userName,string displayName,string email,string password)
+  public System.Threading.Tasks.Task<csp.systems.ProfileResult> UpgradeGuestAccountAsync(string displayName,string email,string password)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ProfileResult> tcs = 
@@ -876,7 +879,7 @@ public class UserSystem : csp.systems.SystemBase {
 
     // Run the method with the provided arguments and the callback
     // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
-    UpgradeGuestAccount(userName,displayName,email,password, callback);
+    UpgradeGuestAccount(displayName,email,password, callback);
 
     return tcs.Task;
   }

@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum ImagePropertyKeys {
+public enum ImagePropertyKeys : ushort {
   Name_DEPRECATED,
   ImageAssetId,
   AssetCollectionId,

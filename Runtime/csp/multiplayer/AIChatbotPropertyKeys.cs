@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum AIChatbotPropertyKeys {
+public enum AIChatbotPropertyKeys : ushort {
   Position = 0,
   Voice,
   GuardrailAssetCollectionId,

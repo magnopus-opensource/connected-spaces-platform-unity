@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum CustomComponentPropertyKeys {
+public enum CustomComponentPropertyKeys : ushort {
   ApplicationOrigin,
   CustomPropertyList,
   Num

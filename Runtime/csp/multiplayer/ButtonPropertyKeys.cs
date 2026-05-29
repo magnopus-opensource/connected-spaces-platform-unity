@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum ButtonPropertyKeys {
+public enum ButtonPropertyKeys : ushort {
   Name_DEPRECATED = 0,
   LabelText,
   IconAssetId,

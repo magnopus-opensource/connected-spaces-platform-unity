@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum PortalPropertyKeys {
+public enum PortalPropertyKeys : ushort {
   SpaceId = 0,
   IsVisible,
   IsActive,

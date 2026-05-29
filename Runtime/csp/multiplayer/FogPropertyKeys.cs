@@ -10,7 +10,7 @@
 
 namespace csp.multiplayer {
 
-public enum FogPropertyKeys {
+public enum FogPropertyKeys : ushort {
   FogMode = 0,
   Position,
   Rotation,

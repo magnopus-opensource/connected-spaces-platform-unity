@@ -11,7 +11,6 @@
 namespace csp.common {
 
 public enum ELoginState : byte {
-  LoginThirdPartyProviderDetailsRequested,
   LoginRequested,
   LoggedIn,
   LogoutRequested,
