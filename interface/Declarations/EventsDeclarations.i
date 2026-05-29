@@ -18,6 +18,47 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::common::LogSystem
 )
 
+/* csp::systems::AssetSystem events */
+MAKE_EVENT_FOR_CALLBACK(
+    UploadAssetDataExOnProgress,
+    ProgressCallback,
+    SetUploadAssetDataExOnProgressCallback,
+    csp.ProgressEventArgs,
+    csp::systems::AssetSystem
+)
+
+MAKE_EVENT_FOR_CALLBACK(
+    UploadAssetDataOnProgress,
+    ProgressCallback,
+    SetUploadAssetDataOnProgressCallback,
+    csp.ProgressEventArgs,
+    csp::systems::AssetSystem
+)
+
+MAKE_EVENT_FOR_CALLBACK(
+    RegisterAssetToLODChainOnProgress,
+    ProgressCallback,
+    SetRegisterAssetToLODChainOnProgressCallback,
+    csp.ProgressEventArgs,
+    csp::systems::AssetSystem
+)
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnAssetDetailBlobChanged,
+    AssetDetailBlobChangedCallback,
+    SetAssetDetailBlobChangedCallback,
+    csp.common.AssetDetailBlobChangedNetworkEventData,
+    csp::systems::AssetSystem
+)
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnMaterialChanged,
+    MaterialChangedCallback,
+    SetMaterialChangedCallback,
+    csp.common.MaterialChangedParams,
+    csp::systems::AssetSystem
+)
+
 /* csp::systems::UserSystem events */
 MAKE_EVENT_FOR_CALLBACK(
     OnNewLoginTokenReceived,
