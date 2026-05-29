@@ -59,6 +59,16 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::systems::AssetSystem
 )
 
+/* csp::systems::HotspotSequenceSystem events */
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnHotspotSequenceChanged,
+    SequenceChangedCallback,
+    SetHotspotSequenceChangedCallback,
+    csp.common.SequenceChangedNetworkEventData,
+    csp::systems::HotspotSequenceSystem
+)
+
 /* csp::systems::UserSystem events */
 MAKE_EVENT_FOR_CALLBACK(
     OnNewLoginTokenReceived,
