@@ -18,6 +18,30 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::common::LogSystem
 )
 
+MAKE_EVENT_FOR_CALLBACK(
+    OnEvent,
+    EventCallback,
+    SetEventCallback,
+    string,
+    csp::common::LogSystem
+)
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnBeginMarker,
+    BeginMarkerCallback,
+    SetBeginMarkerCallback,
+    string,
+    csp::common::LogSystem
+)
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnEndMarker,
+    EndMarkerCallback,
+    SetEndMarkerCallback,
+    System.IntPtr,
+    csp::common::LogSystem
+)
+
 /* csp::systems::AssetSystem events */
 MAKE_EVENT_FOR_CALLBACK(
     UploadAssetDataExOnProgress,
