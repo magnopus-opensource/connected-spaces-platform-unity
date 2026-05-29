@@ -88,6 +88,24 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::multiplayer::OfflineRealtimeEngine
 )
 
+/* csp::multiplayer::OnlineRealtimeEngine events */
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnRemoteEntityCreated,
+    EntityCreatedCallback,
+    SetRemoteEntityCreatedCallback,
+    csp.multiplayer.SpaceEntity,
+    csp::multiplayer::OnlineRealtimeEngine
+)
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnEntityFetchComplete,
+    EntityFetchCompleteCallback,
+    SetEntityFetchCompleteCallback,
+    uint,
+    csp::multiplayer::OnlineRealtimeEngine
+)
+
 /* csp::multiplayer::SpaceEntity events */
 
 MAKE_EVENT_FOR_CALLBACK(
