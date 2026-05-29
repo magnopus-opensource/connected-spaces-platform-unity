@@ -52,6 +52,32 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::multiplayer::ConversationSpaceComponent
 )
 
+/* csp::multiplayer::MultiplayerConnection events */
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnConnection,
+    ConnectionCallback,
+    SetConnectionCallback,
+    string,
+    csp::multiplayer::MultiplayerConnection
+)
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnDisconnection,
+    DisconnectionCallback,
+    SetDisconnectionCallback,
+    string,
+    csp::multiplayer::MultiplayerConnection
+)
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnNetworkInterruption,
+    NetworkInterruptionCallback,
+    SetNetworkInterruptionCallback,
+    string,
+    csp::multiplayer::MultiplayerConnection
+)
+
 /* csp::systems::AssetSystem events */
 MAKE_EVENT_FOR_CALLBACK(
     UploadAssetDataExOnProgress,
