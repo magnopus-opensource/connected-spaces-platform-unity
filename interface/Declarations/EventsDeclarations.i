@@ -78,6 +78,24 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::multiplayer::MultiplayerConnection
 )
 
+/* csp::multiplayer::SpaceEntity events */
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnUpdate,
+    UpdateCallback,
+    SetUpdateCallback,
+    ARGLIST(csp.multiplayer.SpaceEntity, csp.multiplayer.SpaceEntityUpdateFlags, csp.common.ComponentUpdateInfoArray),
+    csp::multiplayer::SpaceEntity
+)
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnDestroy,
+    DestroyCallback,
+    SetDestroyCallback,
+    bool,
+    csp::multiplayer::SpaceEntity
+)
+
 /* csp::systems::AssetSystem events */
 MAKE_EVENT_FOR_CALLBACK(
     UploadAssetDataExOnProgress,
