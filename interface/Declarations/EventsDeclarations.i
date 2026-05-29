@@ -175,6 +175,16 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::systems::HotspotSequenceSystem
 )
 
+/* csp::systems::SpaceSystem events */
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnAsyncCallCompleted,
+    AsyncCallCompletedCallback,
+    SetAsyncCallCompletedCallback,
+    csp.common.AsyncCallCompletedEventData,
+    csp::systems::SpaceSystem
+)
+
 /* csp::systems::UserSystem events */
 MAKE_EVENT_FOR_CALLBACK(
     OnNewLoginTokenReceived,
