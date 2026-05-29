@@ -151,7 +151,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(string.Empty, email,
+                FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(email,
                     password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions);
 
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
@@ -209,7 +209,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(username, string.Empty,
+                FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(string.Empty,
                     password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions);
 
                 FoundationCommon.LoginState result = loginResult.GetLoginState();
@@ -449,7 +449,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
 
             try
             {
-                FoundationSystems.ProfileResult result = await userSystem.CreateUserAsync(username, displayName,
+                FoundationSystems.ProfileResult result = await userSystem.CreateUserAsync(displayName,
                     email, password, receiveNewsletter, userHasVerifiedAge, redirectUrl, inviteToken);
 
                 var responseBody = result.GetResponseBody();
@@ -633,7 +633,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             try
             {
                 FoundationSystems.ProfileResult result =
-                    await userSystem.UpgradeGuestAccountAsync(userName, displayName, email, password);
+                    await userSystem.UpgradeGuestAccountAsync(displayName, email, password);
 
                 FoundationSystems.Profile profile = result.GetProfile();
                 if (profile == null)
@@ -827,7 +827,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
             try
             {
                 using FoundationSystems.StringResult result =
-                    await userSystem.GetThirdPartyProviderAuthorizeURLAsync(authProvider, redirectURL);
+                    await userSystem.GetThirdPartyProviderAuthorizeURLAsync(authProvider, redirectURL, FoundationSystems.EThirdPartyPlatform.Unity);
 
                 string response = result.GetValue();
 

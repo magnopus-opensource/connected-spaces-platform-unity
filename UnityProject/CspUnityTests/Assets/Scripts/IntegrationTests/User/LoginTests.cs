@@ -44,10 +44,10 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
             (HttpStatusCode.OK, true, ()=> GetTestUserProfile(TestUserProfileType.Primary).Email, ()=> GetTestUserProfile(TestUserProfileType.Primary).Password, true)
         };
 
-        private static (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, Func<string> Username, Func<string> Password, bool UserHasVerifiedAge)[] loginAsUsernameValues = 
+        private static (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, Func<string> Password, bool UserHasVerifiedAge)[] loginAsUsernameValues = 
         {
-            (HttpStatusCode.Forbidden, false, ()=> "username", ()=> "password", false),
-            (HttpStatusCode.OK, true, ()=> GetTestUserProfile(TestUserProfileType.Primary).Username, ()=> GetTestUserProfile(TestUserProfileType.Primary).Password, true)
+            (HttpStatusCode.Forbidden, false, ()=> "password", false),
+            (HttpStatusCode.OK, true, ()=> GetTestUserProfile(TestUserProfileType.Primary).Password, true)
         };
 
         private static (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, string UserId, string Token)[] loginWithTokenValues = 
