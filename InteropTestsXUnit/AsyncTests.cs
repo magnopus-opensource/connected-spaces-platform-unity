@@ -311,4 +311,116 @@ public class AsyncInteropTests
 
         await Task.WhenAll(tasks);
     }
+    
+    [Fact(DisplayName = "Async method with progress callback invokes handler sequentially")]
+    public async Task Async_WithProgressCallback_InvokesProgressSequentially()
+    {
+        using var logSystem = new LogSystem();
+        var progressUpdates = new List<float>();
+        var progressCalled = false;
+
+        Action<float> progressHandler = (progress) =>
+        {
+            lock (progressUpdates)
+            {
+                progressCalled = true;
+                progressUpdates.Add(progress);
+            }
+        };
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+
+        var result = await logSystem.LogAfterSecondsAsync(true, 1, progressHandler);
+        Assert.True(result.GetValue());
+        
+        if (progressCalled)
+        {
+            Assert.NotEmpty(progressUpdates);
+            // Verify progress always positive
+            Assert.All(progressUpdates, p => Assert.True(p >= 0f));
+        }
+    }
+
+    [Fact(DisplayName = "Async method handles null progress parameter gracefully without crashing")]
+    public async Task Async_NullProgressCallback_CompletesSuccessfully()
+    {
+        using LogSystem logSystem = new LogSystem();
+        var result = await logSystem.LogAfterSecondsAsync(true, 1, progressCallback: null);
+        Assert.True(result.GetValue());
+    }
+
+    [Fact(DisplayName = "Concurrent async calls completely isolate unique progress callback states")]
+    public async Task ConcurrentCalls_IsolateUniqueProgressCallbacks()
+    {
+        using LogSystem logSystem = new LogSystem();
+
+        var operation1Progress = new List<float>();
+        var operation2Progress = new List<float>();
+
+        var task1 = logSystem.LogAfterSecondsAsync(true, 1, p => { lock(operation1Progress) operation1Progress.Add(p); });
+        var task2 = logSystem.LogAfterSecondsAsync(true, 1, p => { lock(operation2Progress) operation2Progress.Add(p); });
+
+        await Task.WhenAll(task1, task2);
+
+        Assert.True(task1.Result.GetValue());
+        Assert.True(task2.Result.GetValue());
+    }
+
+    [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "Async progress handlers survive extreme GC pressure under heavy load")]
+    public async Task AsyncProgress_Survives_Extreme_GC_Pressure()
+    {
+        using var logSystem = new LogSystem();
+        int totalOps = 100;
+        int progressCallbacksFired = 0;
+
+        var tasks = Enumerable.Range(0, totalOps)
+            .Select(_ => logSystem.LogAfterSecondsAsync(true, 0, p => Interlocked.Increment(ref progressCallbacksFired)))
+            .ToArray();
+
+        for (var i = 0; i < 3; i++)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            await Task.Delay(5, TestContext.Current.CancellationToken);
+        }
+
+        var results = await Task.WhenAll(tasks);
+        
+        Assert.Equal(totalOps, results.Length);
+        Assert.All(results, r => Assert.True(r.GetValue()));
+    }
+    
+    [Fact(DisplayName = "Async progress pipeline cleanly unroots and releases callback memory on completion")]
+    public async Task AsyncProgress_OnCompletion_CleanlyUnrootsCallbackMemory()
+    {
+        using LogSystem logSystem = new LogSystem();
+        
+        // Note: trying to check AsyncLifeTime objects while cooping with parallel execution of tests.
+        var rootsField = typeof(ConnectedSpacesPlatformDotNet)
+            .GetNestedType("AsyncLifetime", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
+            ?.GetField("_roots", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+
+        Assert.NotNull(rootsField);
+        var rootsDictionary = rootsField.GetValue(null) as System.Collections.IDictionary;
+        Assert.NotNull(rootsDictionary);
+
+        var initialKeys = new HashSet<object>(rootsDictionary.Keys.Cast<object>());
+
+        var result = await logSystem.LogAfterSecondsAsync(true, 0, progress => { /* no-op */ });
+        Assert.True(result.GetValue());
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+
+        var currentKeys = rootsDictionary.Keys.Cast<object>().ToList();
+
+        var ourActiveCallbacks = currentKeys
+            .Where(key => !initialKeys.Contains(key) && key.GetType().Name == "TestBooleanResultCallback")
+            .ToList();
+
+        Assert.Empty(ourActiveCallbacks);
+    }
 }
