@@ -25,6 +25,12 @@ namespace extra
             TestBooleanResult(csp::systems::EResultCode ResCode, uint16_t HttpResCode, csp::systems::ERequestFailureReason Reason)
                 : ResultBase(ResCode, HttpResCode, Reason) {}
 
+            void SetRequestProgress(float ProgressPercentage)
+            {
+                RequestProgress = ProgressPercentage;
+                ResponseProgress = ProgressPercentage;
+            }
+
             void SetResult(csp::systems::EResultCode ResCode, uint16_t HttpResCode)
             {
                 ResultBase::SetResult(ResCode, HttpResCode);
@@ -90,6 +96,55 @@ namespace extra
         }).detach();
     }
 
+    /// <summary>
+    /// Test function explicitly designed to isolate progress callback pipelines.
+    /// By default send exactly 4 progress increments over 4 equal intervals based on total seconds.
+    /// </summary>
+    void LogAfterSecondsWithProgress(bool value, int seconds, extra::test::TestBooleanResultCallback callback, int totalProgressSteps = 4)
+    {
+        std::thread([value, seconds, callback, totalProgressSteps]() mutable 
+        {
+            const int acceptedHttpCode = 202;
+
+            if (seconds > 0)
+            {
+                auto stepDuration = std::chrono::milliseconds((seconds * 1000) / totalProgressSteps);
+                for (int i = 1; i < totalProgressSteps; ++i)
+                {
+                    std::this_thread::sleep_for(stepDuration);
+
+                    extra::test::TestBooleanResult progressResult(
+                        csp::systems::EResultCode::InProgress,
+                        acceptedHttpCode
+                    );
+                    
+                    float calculatedProgress = (static_cast<float>(i) / totalProgressSteps) * 100.0f;
+                    progressResult.SetRequestProgress(calculatedProgress);
+                    callback(progressResult);
+                }
+                
+                std::this_thread::sleep_for(stepDuration);
+            }
+            else
+            {
+                // Fallback for an instant execution: fire a quick 50% midpoint update
+                extra::test::TestBooleanResult instantProgress(csp::systems::EResultCode::InProgress, acceptedHttpCode);
+                instantProgress.SetRequestProgress(50.0f);
+                callback(instantProgress);
+            }
+
+            // Construct terminal result context block
+            extra::test::TestBooleanResult result(
+                value ? csp::systems::EResultCode::Success : csp::systems::EResultCode::Failed,
+                value ? 200 : 500
+            );
+            result.SetValue(value);
+            result.SetRequestProgress(100.0f);
+
+            callback(result);
+        }).detach();
+    }
+
     /// <summary> 
 	/// Throws an exception to test that it is properly propagated to C#.
     /// Note: SWIG cannot catch this exception because the thread is detached and the callback is not invoked. This is
@@ -135,6 +190,17 @@ MAKE_AWAITABLE(csp::common::LogSystem,
           ARGLIST(result),
 		  ARGLIST(bool boolValue, int seconds),
 		  ARGLIST(boolValue, seconds)
+)
+
+MAKE_AWAITABLE(csp::common::LogSystem,
+          LogAfterSecondsWithProgress,
+          TestBooleanResultCallback,
+          TestBooleanResultCallbackAdapter,
+          ARGLIST(extra.test.TestBooleanResult result),
+          ARGLIST(extra.test.TestBooleanResult),
+          ARGLIST(result),
+          ARGLIST(bool boolValue, int seconds),
+          ARGLIST(boolValue, seconds)
 )
 
 MAKE_AWAITABLE_ZERO(csp::common::LogSystem,
