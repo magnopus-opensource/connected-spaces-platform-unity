@@ -176,64 +176,6 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         }
 
         /// <summary>
-        /// Requests the Foundation layer to Login with username and password.
-        /// May throw a <seealso cref="CspResultEndpointException"/> on error.
-        /// </summary>
-        /// <param name="username"> username of the user </param>
-        /// <param name="password"> password of the user </param>
-        /// <param name="createMultiplayerConnection">Whether to create a multiplayer connection.
-        /// If false, this session will not establish a SignalR connection to backend services, and thus be unable to
-        /// receive messages or events. This session will also be unable to enter online spaces via an OnlineRealtimeEngine.
-        /// If true, this session will receive events, and may enter both online and offline spaces.</param>
-        /// <param name="userHasVerifiedAge"> Optional: Whether the user has confirmed they are above the required age or not. Null if the user has not confirmed either.</param>
-        /// <param name="tokenOptions">Optional override for default token options.
-        /// The default token expiry length is configured by MCS and defaults to 30 minutes.
-        /// Value must be less than the default expiry length, or it will be ignored.</param>
-        /// <returns> Returns login information </returns>
-        public async Task<LoginInfo> LoginWithUsernameAsync(string username, string password, bool createMultiplayerConnection, 
-            bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions)
-        {
-            // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                throw new CspResultEndpointException($"Did not login, parameter: {nameof(username)} was null.", HttpStatusCode.Unauthorized);
-            }
-
-            // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                throw new CspResultEndpointException($"Did not login, parameter: {nameof(password)} was null.", HttpStatusCode.Unauthorized);
-            }
-
-            Debug.Log($"Logging in with Username {username} ...");
-
-            try
-            {
-                FoundationSystems.LoginStateResult loginResult = await userSystem.LoginAsync(string.Empty,
-                    password, createMultiplayerConnection, userHasVerifiedAge, tokenOptions);
-
-                FoundationCommon.LoginState result = loginResult.GetLoginState();
-                if (result == null)
-                {
-                    throw new CspResultEndpointException("Did not login, endpoint result was null.",
-                        HttpStatusCode.InternalServerError);
-                }
-
-                return result;
-            }
-            catch (CspResultEndpointException ex)
-            {
-                Debug.LogError($"Login failed: {ex.Message}");
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"An unexpected error occurred during login: {ex}");
-                throw new CspResultEndpointException("An unexpected error occurred during login.", HttpStatusCode.InternalServerError, ex);
-            }
-        }
-
-        /// <summary>
         /// Requests the Foundation layer to Login as a guest.
         /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
@@ -410,7 +352,6 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// Requests the Foundation layer to create a new account for the user using the given email and password.
         /// May throw a <seealso cref="CspResultEndpointException"/> on error.
         /// </summary>
-        /// <param name="username"> optional username of the new account. Set the Username if you want to be able to login using a username. </param>
         /// <param name="displayName"> visual name that other users may see when connected online </param>
         /// <param name="email"> email of the new account </param>
         /// <param name="password"> password of the new account </param>
@@ -419,14 +360,8 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// <param name="redirectUrl"> optional: url used by the backend services to send the user to the desired page </param>
         /// <param name="inviteToken"> optional: token provided to the user that can be used to auto-confirm their account </param>
         /// <returns> the profile information of the created account </returns>
-        public async Task<Profile> CreateUserAsync(string username, string displayName, string email, string password, bool receiveNewsletter, bool userHasVerifiedAge, string redirectUrl, string inviteToken)
+        public async Task<Profile> CreateUserAsync(string displayName, string email, string password, bool receiveNewsletter, bool userHasVerifiedAge, string redirectUrl, string inviteToken)
         {
-            // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                throw new CspResultEndpointException($"Did not create account, parameter: {nameof(username)} was null.", HttpStatusCode.Unauthorized);
-            }
-
             // TODO: https://magnopus.atlassian.net/browse/OF-207 don't check params once foundation does
             if (string.IsNullOrWhiteSpace(displayName))
             {

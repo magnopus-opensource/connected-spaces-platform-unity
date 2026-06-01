@@ -44,12 +44,6 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
             (HttpStatusCode.OK, true, ()=> GetTestUserProfile(TestUserProfileType.Primary).Email, ()=> GetTestUserProfile(TestUserProfileType.Primary).Password, true)
         };
 
-        private static (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, Func<string> Password, bool UserHasVerifiedAge)[] loginAsUsernameValues = 
-        {
-            (HttpStatusCode.Forbidden, false, ()=> "password", false),
-            (HttpStatusCode.OK, true, ()=> GetTestUserProfile(TestUserProfileType.Primary).Password, true)
-        };
-
         private static (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, string UserId, string Token)[] loginWithTokenValues = 
         {
             (HttpStatusCode.BadRequest, false, "userId", "token")
@@ -130,45 +124,6 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
                 // Note: create multiplayer connection since we use online realtime engine, and no token option passed.
                 var loginResult = await TestHelper.WrapEndpoint(() => userService.LoginAsync(
                     value.Email?.Invoke(), value.Password?.Invoke(), true, value.UserHasVerifiedAge, null));
-                if (!TestHelper.IsSuccessCase(value.ExpectedCode))
-                {
-                    LogAssert.ignoreFailingMessages = false;
-                }
-
-                // Assert:
-                Assert.AreEqual((ushort)value.ExpectedCode, loginResult.ReturnCode);
-                Assert.AreEqual(!string.IsNullOrWhiteSpace(loginResult.ReturnData?.UserId), value.ExpectedReturnValue);
-
-                // Min wait between endpoint calls
-                await Task.Delay(ConfigSettings.MinWaitBetweenEndpointsMilliseconds);
-
-                if (TestHelper.IsSuccessCase(value.ExpectedCode))
-                {
-                    string authToken = userService.GetValidAuthToken();
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(authToken));
-
-                    await userService.LogoutAsync();
-                    await Task.Delay(ConfigSettings.MinWaitBetweenEndpointsMilliseconds);
-                }
-            });
-
-        /// <summary>
-        /// Using the login with username and password endpoint with various params to get specific exceptions and success cases.
-        /// </summary>
-        [UnityTest]
-        public IEnumerator LoginAsUsernameCases([ValueSource(nameof(loginAsUsernameValues))] (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, Func<string> Username, Func<string> Password, bool UserHasVerifiedAge) value)
-            => AsyncTest.RunAsync(async () =>
-            {
-                Assert.IsTrue(isInitialized);
-
-                // Action:
-                if (!TestHelper.IsSuccessCase(value.ExpectedCode))
-                {
-                    LogAssert.ignoreFailingMessages = true;
-                }
-                // Note: create multiplayer connection since we use online realtime engine, and no token option passed.
-                var loginResult = await TestHelper.WrapEndpoint(() => userService.LoginWithUsernameAsync(
-                    value.Username?.Invoke(), value.Password?.Invoke(), true, value.UserHasVerifiedAge, null));
                 if (!TestHelper.IsSuccessCase(value.ExpectedCode))
                 {
                     LogAssert.ignoreFailingMessages = false;
