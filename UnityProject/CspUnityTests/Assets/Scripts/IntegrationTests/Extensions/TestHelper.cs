@@ -135,7 +135,6 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.Extensions
             var primaryEmail = primaryUsername + "@magnopus.com";
             var primaryUserPassword = $"{DateTime.Now.Ticks}{DateTime.Now.Ticks}";
             var primaryUserProfileResult = await userService.CreateUserAsync(
-                primaryUsername, 
                 displayName,
                 primaryEmail,
                 primaryUserPassword,false,true,string.Empty,string.Empty);

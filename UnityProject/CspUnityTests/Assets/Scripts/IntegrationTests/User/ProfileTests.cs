@@ -29,12 +29,12 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
             (HttpStatusCode.OK, true, ()=> LoginTests.GetTestUserProfile(TestUserProfileType.Primary).UserId)
         };
 
-        private static (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, string Username, string DisplayName, Func<string> Email, string Password, bool ReceiveNewsletter, bool UserHasVerifiedAge, string RedirectUrl, string InviteToken)[] createUserValues = 
+        private static (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, string DisplayName, Func<string> Email, string Password, bool ReceiveNewsletter, bool UserHasVerifiedAge, string RedirectUrl, string InviteToken)[] createUserValues = 
         {
-            (HttpStatusCode.Unauthorized, false, null, null, ()=> ConfigSettings.PrimaryUser.BaseUsername + DateTime.Now.Ticks + "@magnopus.com", null, false, false, null, null),
+            (HttpStatusCode.Unauthorized, false, null, ()=> ConfigSettings.PrimaryUser.BaseUsername + DateTime.Now.Ticks + "@magnopus.com", null, false, false, null, null),
             // Commenting out tests that use bad emails until we use seeded data
             //(HttpStatusCode.BadRequest, false, "username", "displayName", "email", "password", false, null)
-            (HttpStatusCode.Conflict, false, "username", "displayName", ()=> ConfigSettings.PrimaryUser.BaseUsername +  DateTime.Now.Ticks + "@magnopus.com", "password", false,true, null, null)
+            (HttpStatusCode.Conflict, false, "displayName", () => LoginTests.GetTestUserProfile(TestUserProfileType.Primary).Email, "password", false, true, null, null)
         };
 
         private static (HttpStatusCode ExpectedCode, string UserId)[] deleteUserValues = 
@@ -136,7 +136,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
         /// Using the get profile by Id endpoint with various params to get specific exceptions and success cases.
         /// </summary>
         [UnityTest]
-        public IEnumerator CreateUserCases([ValueSource(nameof(createUserValues))] (HttpStatusCode ExpectedCode, bool ExpectedReturnValue, string Username,
+        public IEnumerator CreateUserCases([ValueSource(nameof(createUserValues))] (HttpStatusCode ExpectedCode, bool ExpectedReturnValue,
             string DisplayName, Func<string> Email, string Password, bool ReceiveNewsletter, bool UserHasVerifiedAge, string RedirectUrl, string InviteToken) value)
             => AsyncTest.RunAsync(async () =>
             {
@@ -147,7 +147,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
                 {
                     LogAssert.ignoreFailingMessages = true;
                 }
-                var profileResult = await TestHelper.WrapEndpoint(() => userService.CreateUserAsync(value.Username, value.DisplayName, value.Email?.Invoke(), value.Password, value.ReceiveNewsletter, value.UserHasVerifiedAge, value.RedirectUrl, value.InviteToken));
+                var profileResult = await TestHelper.WrapEndpoint(() => userService.CreateUserAsync(value.DisplayName, value.Email?.Invoke(), value.Password, value.ReceiveNewsletter, value.UserHasVerifiedAge, value.RedirectUrl, value.InviteToken));
                 if (!TestHelper.IsSuccessCase(value.ExpectedCode))
                 {
                     LogAssert.ignoreFailingMessages = false;

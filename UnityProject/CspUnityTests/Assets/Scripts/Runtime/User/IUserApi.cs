@@ -26,14 +26,12 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         LoginState GetLoginState();
         Task<LoginInfo> LoginAsync(string email, string password, bool createMultiplayerConnection, 
             bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions);
-        Task<LoginInfo> LoginWithUsernameAsync(string username, string password, bool createMultiplayerConnection, 
-            bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions);
         Task<LoginInfo> LoginAsGuestAsync(bool createMultiplayerConnection, bool? guestHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions);
         Task<LoginInfo> LoginAsGuestWithDeferredProfileCreationAsync(bool? guestHasVerifiedAge);
         Task<LoginInfo> LoginWithTokenAsync(string userId, string token, bool createMultiplayerConnection, FoundationSystems.TokenOptions? tokenOptions);
         Task LogoutAsync();
         string GetValidAuthToken();
-        Task<Profile> CreateUserAsync(string username, string displayName, string email, string password, bool receiveNewsletter, bool userHasVerifiedAge, string redirectUrl, string inviteToken);
+        Task<Profile> CreateUserAsync(string displayName, string email, string password, bool receiveNewsletter, bool userHasVerifiedAge, string redirectUrl, string inviteToken);
         Task DeleteUserAsync(string userId);
         Task<Profile> GetProfileByIdAsync(string userId);
         Task<BasicProfile[]> GetProfilesByUserIdsAsync(string[] userIds);
