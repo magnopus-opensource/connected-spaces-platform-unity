@@ -317,29 +317,23 @@ public class AsyncInteropTests
     {
         using var logSystem = new LogSystem();
         var progressUpdates = new List<float>();
-        var progressCalled = false;
 
-        Action<float> progressHandler = (progress) =>
+        var result = await logSystem.LogAfterSecondsWithProgressAsync(true, 1, progress =>
         {
             lock (progressUpdates)
             {
-                progressCalled = true;
                 progressUpdates.Add(progress);
             }
-        };
+        });
 
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
-
-        var result = await logSystem.LogAfterSecondsAsync(true, 1, progressHandler);
         Assert.True(result.GetValue());
         
-        if (progressCalled)
-        {
-            Assert.NotEmpty(progressUpdates);
-            // Verify progress always positive
-            Assert.All(progressUpdates, p => Assert.True(p >= 0f));
-        }
+        // We expect exactly 3 InProgress ticks (25, 50, 75). 
+        // (The terminal 100% success is intercepted by macro's tcs completion layer)
+        Assert.Equal(3, progressUpdates.Count);
+        Assert.Equal(25.0f, progressUpdates[0]);
+        Assert.Equal(50.0f, progressUpdates[1]);
+        Assert.Equal(75.0f, progressUpdates[2]);
     }
 
     [Fact(DisplayName = "Async method handles null progress parameter gracefully without crashing")]
@@ -396,31 +390,28 @@ public class AsyncInteropTests
     public async Task AsyncProgress_OnCompletion_CleanlyUnrootsCallbackMemory()
     {
         using LogSystem logSystem = new LogSystem();
-        
-        // Note: trying to check AsyncLifeTime objects while cooping with parallel execution of tests.
-        var rootsField = typeof(ConnectedSpacesPlatformDotNet)
-            .GetNestedType("AsyncLifetime", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-            ?.GetField("_roots", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        var progressFiredCount = 0;
 
-        Assert.NotNull(rootsField);
-        var rootsDictionary = rootsField.GetValue(null) as System.Collections.IDictionary;
-        Assert.NotNull(rootsDictionary);
+        System.Action<float>? progressHandler = (progress) =>
+        {
+            progressFiredCount++;
+        };
 
-        var initialKeys = new HashSet<object>(rootsDictionary.Keys.Cast<object>());
+        var handlerWeakRef = new WeakReference(progressHandler);
+        var result = await logSystem.LogAfterSecondsWithProgressAsync(true, 1, progressHandler);
 
-        var result = await logSystem.LogAfterSecondsAsync(true, 0, progress => { /* no-op */ });
         Assert.True(result.GetValue());
+        Assert.True(progressFiredCount > 0, "The progress update callback layer failed to execute.");
 
+        // Sever our own local strong reference so the GC is free to collect it
+        progressHandler = null;
+
+        // Force an immediate Garbage Collection sweep
         GC.Collect();
         GC.WaitForPendingFinalizers();
         GC.Collect();
 
-        var currentKeys = rootsDictionary.Keys.Cast<object>().ToList();
-
-        var ourActiveCallbacks = currentKeys
-            .Where(key => !initialKeys.Contains(key) && key.GetType().Name == "TestBooleanResultCallback")
-            .ToList();
-
-        Assert.Empty(ourActiveCallbacks);
+        // If the framework cleanly unrooted the callback pipeline, the progress handler object is gone from memory.
+        Assert.False(handlerWeakRef.IsAlive, "The progress handler delegate is still alive in memory, indicating a root leak.");
     }
 }
