@@ -55,22 +55,17 @@ namespace Magnopus.Csp.Unity.Tests
                 yield break;
             }
             
-            // Unwrap AggregateException so NUnit reports correctly
-            if (task.Exception != null)
+            if (task.Exception?.InnerException != null)
             {
-                if (task.Exception.InnerException != null)
-                {
-                    throw task.Exception.InnerException;
-                }
+                throw task.Exception.InnerException;
             }
-            else
-            {
-                throw new Exception("Task faulted without exception details.");
-            }
+            
+            throw new Exception("Task faulted without exception details.");
         }
     }
     
     [TestFixture]
+    [Parallelizable(ParallelScope.None)]
     public class LogSystemAsyncTests
     {
         [UnityTest]
@@ -268,30 +263,20 @@ namespace Magnopus.Csp.Unity.Tests
                 var progressUpdates = new List<float>();
                 var progressCalled = false;
 
-                Action<float> progressHandler = (progress) =>
+                var result = await logSystem.LogAfterSecondsWithProgressAsync(true, 1, progress =>
                 {
                     lock (progressUpdates)
                     {
-                        progressCalled = true;
                         progressUpdates.Add(progress);
                     }
-                };
+                });
 
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
-                var result = await logSystem.LogAfterSecondsAsync(true, 1, progressHandler);
                 Assert.NotNull(result);
                 Assert.IsTrue(result.GetValue());
-                
-                if (progressCalled)
-                {
-                    Assert.IsNotEmpty(progressUpdates);
-                    foreach (var p in progressUpdates)
-                    {
-                        Assert.GreaterOrEqual(p, 0f);
-                    }
-                }
+                Assert.AreEqual(3, progressUpdates.Count);
+                Assert.AreEqual(25.0f, progressUpdates[0]);
+                Assert.AreEqual(50.0f, progressUpdates[1]);
+                Assert.AreEqual(75.0f, progressUpdates[2]);
             });
         }
 
@@ -364,29 +349,28 @@ namespace Magnopus.Csp.Unity.Tests
             yield return AsyncTest.RunAsync(async () =>
             {
                 var logSystem = new LogSystem();
-                
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                
-                var result = await logSystem.LogAfterSecondsAsync(true, 0, progress => { /* no-op */ });
-                Assert.IsTrue(result.GetValue());
+                var progressFiredCount = 0;
 
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-
-                // Use reflection to inspect the private '_roots' dictionary inside the static AsyncLifetime class.
-                // This ensures the custom macro tracking cleanly detached everything on completion.
-                var rootsField = typeof(ConnectedSpacesPlatformDotNet)
-                    .GetNestedType("AsyncLifetime", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
-                    ?.GetField("_roots", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-
-                if (rootsField != null)
+                Action<float>? progressHandler = (progress) =>
                 {
-                    var rootsDictionary = rootsField.GetValue(null) as System.Collections.IDictionary;
-                    Assert.NotNull(rootsDictionary);
-                    Assert.IsEmpty(rootsDictionary);
-                }
+                    progressFiredCount++;
+                };
+
+                var handlerWeakRef = new WeakReference(progressHandler);
+
+                var result = await logSystem.LogAfterSecondsWithProgressAsync(true, 1, progressHandler);
+                Assert.IsTrue(result.GetValue());
+                Assert.Greater(progressFiredCount, 0);
+
+                // Nullify our local variable to clear our strong reference link
+                progressHandler = null;
+
+                // Force garbage collection sweeps within the Unity runner context
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+                
+                Assert.False(handlerWeakRef.IsAlive, "The progress handler delegate leaked and remains rooted in memory.");
             });
         }
 #endif
