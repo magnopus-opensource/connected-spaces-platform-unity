@@ -340,25 +340,36 @@ public class AsyncInteropTests
     public async Task Async_NullProgressCallback_CompletesSuccessfully()
     {
         using LogSystem logSystem = new LogSystem();
-        var result = await logSystem.LogAfterSecondsAsync(true, 1, progressCallback: null);
+        var result = await logSystem.LogAfterSecondsWithProgressAsync(true, 1, progressCallback: null);
         Assert.True(result.GetValue());
     }
 
     [Fact(DisplayName = "Concurrent async calls completely isolate unique progress callback states")]
     public async Task ConcurrentCalls_IsolateUniqueProgressCallbacks()
     {
-        using LogSystem logSystem = new LogSystem();
+        using LogSystem logSystem = new();
 
         var operation1Progress = new List<float>();
         var operation2Progress = new List<float>();
 
-        var task1 = logSystem.LogAfterSecondsAsync(true, 1, p => { lock(operation1Progress) operation1Progress.Add(p); });
-        var task2 = logSystem.LogAfterSecondsAsync(true, 1, p => { lock(operation2Progress) operation2Progress.Add(p); });
+        var task1 = logSystem.LogAfterSecondsWithProgressAsync(true, 1, p => { lock(operation1Progress) operation1Progress.Add(p); });
+        var task2 = logSystem.LogAfterSecondsWithProgressAsync(true, 2, p => { lock(operation2Progress) operation2Progress.Add(p); });
 
         await Task.WhenAll(task1, task2);
 
         Assert.True(task1.Result.GetValue());
         Assert.True(task2.Result.GetValue());
+
+        Assert.NotEmpty(operation1Progress);
+        Assert.NotEmpty(operation2Progress);
+        
+        // Assert the intermediate callbacks worked
+        Assert.Equal(75.0f, operation1Progress.Last());
+        Assert.Equal(75.0f, operation2Progress.Last());
+
+        // Assert the terminal result hit 100%
+        Assert.Equal(100.0f, task1.Result.GetRequestProgress());
+        Assert.Equal(100.0f, task2.Result.GetRequestProgress());
     }
 
     [EnvironmentFact("RUN_LONG_RUNNING_TESTS", DisplayName = "Async progress handlers survive extreme GC pressure under heavy load")]
@@ -369,7 +380,7 @@ public class AsyncInteropTests
         int progressCallbacksFired = 0;
 
         var tasks = Enumerable.Range(0, totalOps)
-            .Select(_ => logSystem.LogAfterSecondsAsync(true, 0, p => Interlocked.Increment(ref progressCallbacksFired)))
+            .Select(_ => logSystem.LogAfterSecondsWithProgressAsync(true, 0, p => Interlocked.Increment(ref progressCallbacksFired)))
             .ToArray();
 
         for (var i = 0; i < 3; i++)
