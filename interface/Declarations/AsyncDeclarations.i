@@ -108,6 +108,13 @@ MAKE_ACTION_ADAPTER(ConversationUpdateCallback,
                      ARGLIST(csp.common.ConversationNetworkEventData),
                      ARGLIST(eventData));
 
+/* ComponentBase Action Adapters */
+MAKE_ACTION_ADAPTER(EntityActionHandler,
+                     EntityActionCallbackAdapter,
+                     ARGLIST(csp.multiplayer.ComponentBase component, string actionName, string actionParams),
+                     ARGLIST(csp.multiplayer.ComponentBase, string, string),
+                     ARGLIST(component, actionName, actionParams));
+
 /* AssetSystem Action Adapters */
 MAKE_ACTION_ADAPTER(AssetDetailBlobChangedCallback,
                      AssetDetailBlobChangedCallbackAdapter,
