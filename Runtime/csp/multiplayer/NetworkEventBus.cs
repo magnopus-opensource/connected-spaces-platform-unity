@@ -97,7 +97,7 @@ public class NetworkEventBus : global::System.IDisposable {
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.ErrorCode> SendNetworkEventAsync(string eventName,csp.common.ReplicatedValueArray args)
+  public System.Threading.Tasks.Task<csp.multiplayer.ErrorCode> SendNetworkEventAsync(string eventName,csp.common.ReplicatedValueArray args, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode> tcs = 
@@ -140,6 +140,11 @@ public class NetworkEventBus : global::System.IDisposable {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -173,7 +178,7 @@ public class NetworkEventBus : global::System.IDisposable {
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.ErrorCode> SendNetworkEventToClientAsync(string eventName,csp.common.ReplicatedValueArray args,ulong targetClientId)
+  public System.Threading.Tasks.Task<csp.multiplayer.ErrorCode> SendNetworkEventToClientAsync(string eventName,csp.common.ReplicatedValueArray args,ulong targetClientId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode> tcs = 
@@ -215,6 +220,11 @@ public class NetworkEventBus : global::System.IDisposable {
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else

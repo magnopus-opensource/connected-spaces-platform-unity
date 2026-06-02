@@ -103,7 +103,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.ProductInfoResult> GetProductInformationAsync(string spaceId,string productId)
+  public System.Threading.Tasks.Task<csp.systems.ProductInfoResult> GetProductInformationAsync(string spaceId,string productId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ProductInfoResult> tcs = 
@@ -146,6 +146,11 @@ public class ECommerceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -179,7 +184,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.ProductInfoCollectionResult> GetProductInfoCollectionByVariantIdsAsync(string spaceId,csp.common.StringArray variantIds)
+  public System.Threading.Tasks.Task<csp.systems.ProductInfoCollectionResult> GetProductInfoCollectionByVariantIdsAsync(string spaceId,csp.common.StringArray variantIds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ProductInfoCollectionResult> tcs = 
@@ -222,6 +227,11 @@ public class ECommerceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -255,7 +265,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.CheckoutInfoResult> GetCheckoutInformationAsync(string spaceId,string cartId)
+  public System.Threading.Tasks.Task<csp.systems.CheckoutInfoResult> GetCheckoutInformationAsync(string spaceId,string cartId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.CheckoutInfoResult> tcs = 
@@ -298,6 +308,11 @@ public class ECommerceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -331,7 +346,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.CartInfoResult> CreateCartAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.CartInfoResult> CreateCartAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.CartInfoResult> tcs = 
@@ -374,6 +389,11 @@ public class ECommerceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -407,7 +427,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.CartInfoResult> GetCartAsync(string spaceId,string cartId)
+  public System.Threading.Tasks.Task<csp.systems.CartInfoResult> GetCartAsync(string spaceId,string cartId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.CartInfoResult> tcs = 
@@ -450,6 +470,11 @@ public class ECommerceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -483,7 +508,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.GetShopifyStoresResult> GetShopifyStoresAsync(bool? isActive)
+  public System.Threading.Tasks.Task<csp.systems.GetShopifyStoresResult> GetShopifyStoresAsync(bool? isActive, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.GetShopifyStoresResult> tcs = 
@@ -526,6 +551,11 @@ public class ECommerceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -559,7 +589,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AddShopifyStoreResult> AddShopifyStoreAsync(string storeName,string spaceId,bool isEcommerceActive,string privateAccessToken)
+  public System.Threading.Tasks.Task<csp.systems.AddShopifyStoreResult> AddShopifyStoreAsync(string storeName,string spaceId,bool isEcommerceActive,string privateAccessToken, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AddShopifyStoreResult> tcs = 
@@ -602,6 +632,11 @@ public class ECommerceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -635,7 +670,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AddShopifyStoreResult> SetECommerceActiveInSpaceAsync(string storeName,string spaceId,bool isEcommerceActive)
+  public System.Threading.Tasks.Task<csp.systems.AddShopifyStoreResult> SetECommerceActiveInSpaceAsync(string storeName,string spaceId,bool isEcommerceActive, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AddShopifyStoreResult> tcs = 
@@ -678,6 +713,11 @@ public class ECommerceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -711,7 +751,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.ValidateShopifyStoreResult> ValidateShopifyStoreAsync(string storeName,string privateAccessToken)
+  public System.Threading.Tasks.Task<csp.systems.ValidateShopifyStoreResult> ValidateShopifyStoreAsync(string storeName,string privateAccessToken, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ValidateShopifyStoreResult> tcs = 
@@ -754,6 +794,11 @@ public class ECommerceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -787,7 +832,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.CartInfoResult> UpdateCartInformationAsync(csp.systems.CartInfo cartInformation)
+  public System.Threading.Tasks.Task<csp.systems.CartInfoResult> UpdateCartInformationAsync(csp.systems.CartInfo cartInformation, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.CartInfoResult> tcs = 
@@ -829,6 +874,11 @@ public class ECommerceSystem : csp.systems.SystemBase {
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else

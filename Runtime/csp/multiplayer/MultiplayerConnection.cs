@@ -110,7 +110,7 @@ public class MultiplayerConnection : global::System.IDisposable {
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.ErrorCode> SetAllowSelfMessagingFlagAsync(bool allowSelfMessaging)
+  public System.Threading.Tasks.Task<csp.multiplayer.ErrorCode> SetAllowSelfMessagingFlagAsync(bool allowSelfMessaging, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode> tcs = 
@@ -153,6 +153,11 @@ public class MultiplayerConnection : global::System.IDisposable {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -184,6 +189,165 @@ public class MultiplayerConnection : global::System.IDisposable {
 
     return tcs.Task;
   }
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.ConnectionCallback? _OnConnectionAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<string> OnConnection
+    {
+        add
+        {
+            if (_OnConnectionAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnConnectionAdapter = new ConnectedSpacesPlatformDotNet.ConnectionCallback(value);
+                // Register with native code
+                SetConnectionCallback(_OnConnectionAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnConnectionAdapter!.Invoked += value;
+                // Note: we should not need to call the SetConnectionCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnConnectionAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnConnectionAdapter);
+                var eventName = nameof(OnConnection);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnConnectionAdapter.Invoked -= value;
+
+            if (!_OnConnectionAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetConnectionCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnConnectionAdapter = null;
+            }
+        }
+    }
+
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.DisconnectionCallback? _OnDisconnectionAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<string> OnDisconnection
+    {
+        add
+        {
+            if (_OnDisconnectionAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnDisconnectionAdapter = new ConnectedSpacesPlatformDotNet.DisconnectionCallback(value);
+                // Register with native code
+                SetDisconnectionCallback(_OnDisconnectionAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnDisconnectionAdapter!.Invoked += value;
+                // Note: we should not need to call the SetDisconnectionCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnDisconnectionAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnDisconnectionAdapter);
+                var eventName = nameof(OnDisconnection);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnDisconnectionAdapter.Invoked -= value;
+
+            if (!_OnDisconnectionAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetDisconnectionCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnDisconnectionAdapter = null;
+            }
+        }
+    }
+
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.NetworkInterruptionCallback? _OnNetworkInterruptionAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<string> OnNetworkInterruption
+    {
+        add
+        {
+            if (_OnNetworkInterruptionAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnNetworkInterruptionAdapter = new ConnectedSpacesPlatformDotNet.NetworkInterruptionCallback(value);
+                // Register with native code
+                SetNetworkInterruptionCallback(_OnNetworkInterruptionAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnNetworkInterruptionAdapter!.Invoked += value;
+                // Note: we should not need to call the SetNetworkInterruptionCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnNetworkInterruptionAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnNetworkInterruptionAdapter);
+                var eventName = nameof(OnNetworkInterruption);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnNetworkInterruptionAdapter.Invoked -= value;
+
+            if (!_OnNetworkInterruptionAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetNetworkInterruptionCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnNetworkInterruptionAdapter = null;
+            }
+        }
+    }
+
 
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.

@@ -98,7 +98,7 @@ public class AnchorSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AnchorResult> CreateAnchorAsync(csp.systems.AnchorProvider thirdPartyAnchorProvider,string thirdPartyAnchorId,string assetCollectionId,csp.systems.GeoLocation location,csp.systems.OlyAnchorPosition position,csp.systems.OlyRotation rotation,csp.common.StringDict? spatialKeyValue,csp.common.StringArray? tags)
+  public System.Threading.Tasks.Task<csp.systems.AnchorResult> CreateAnchorAsync(csp.systems.AnchorProvider thirdPartyAnchorProvider,string thirdPartyAnchorId,string assetCollectionId,csp.systems.GeoLocation location,csp.systems.OlyAnchorPosition position,csp.systems.OlyRotation rotation,csp.common.StringDict? spatialKeyValue,csp.common.StringArray? tags, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AnchorResult> tcs = 
@@ -141,6 +141,11 @@ public class AnchorSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -174,7 +179,7 @@ public class AnchorSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AnchorResult> CreateAnchorInSpaceAsync(csp.systems.AnchorProvider thirdPartyAnchorProvider,string thirdPartyAnchorId,string spaceId,ulong spaceEntityId,string assetCollectionId,csp.systems.GeoLocation location,csp.systems.OlyAnchorPosition position,csp.systems.OlyRotation rotation,csp.common.StringDict? spatialKeyValue,csp.common.StringArray? tags)
+  public System.Threading.Tasks.Task<csp.systems.AnchorResult> CreateAnchorInSpaceAsync(csp.systems.AnchorProvider thirdPartyAnchorProvider,string thirdPartyAnchorId,string spaceId,ulong spaceEntityId,string assetCollectionId,csp.systems.GeoLocation location,csp.systems.OlyAnchorPosition position,csp.systems.OlyRotation rotation,csp.common.StringDict? spatialKeyValue,csp.common.StringArray? tags, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AnchorResult> tcs = 
@@ -217,6 +222,11 @@ public class AnchorSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -250,7 +260,7 @@ public class AnchorSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteAnchorsAsync(csp.common.StringArray anchorIds)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteAnchorsAsync(csp.common.StringArray anchorIds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -293,6 +303,11 @@ public class AnchorSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -326,7 +341,7 @@ public class AnchorSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AnchorCollectionResult> GetAnchorsInAreaAsync(csp.systems.GeoLocation originLocation,double areaRadius,csp.common.StringArray? spatialKeys,csp.common.StringArray? spatialValues,csp.common.StringArray? tags,bool? allTags,csp.common.StringArray? spaceIds,int? skip,int? limit)
+  public System.Threading.Tasks.Task<csp.systems.AnchorCollectionResult> GetAnchorsInAreaAsync(csp.systems.GeoLocation originLocation,double areaRadius,csp.common.StringArray? spatialKeys,csp.common.StringArray? spatialValues,csp.common.StringArray? tags,bool? allTags,csp.common.StringArray? spaceIds,int? skip,int? limit, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AnchorCollectionResult> tcs = 
@@ -369,6 +384,11 @@ public class AnchorSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -402,7 +422,7 @@ public class AnchorSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AnchorCollectionResult> GetAnchorsInSpaceAsync(string spaceId,int? skip,int? limit)
+  public System.Threading.Tasks.Task<csp.systems.AnchorCollectionResult> GetAnchorsInSpaceAsync(string spaceId,int? skip,int? limit, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AnchorCollectionResult> tcs = 
@@ -445,6 +465,11 @@ public class AnchorSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -478,7 +503,7 @@ public class AnchorSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AnchorCollectionResult> GetAnchorsByAssetCollectionIdAsync(string assetCollectionId,int? skip,int? limit)
+  public System.Threading.Tasks.Task<csp.systems.AnchorCollectionResult> GetAnchorsByAssetCollectionIdAsync(string assetCollectionId,int? skip,int? limit, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AnchorCollectionResult> tcs = 
@@ -521,6 +546,11 @@ public class AnchorSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -554,7 +584,7 @@ public class AnchorSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AnchorResolutionResult> CreateAnchorResolutionAsync(string anchorId,bool successfullyResolved,int resolveAttempted,double resolveTime,csp.common.StringArray tags)
+  public System.Threading.Tasks.Task<csp.systems.AnchorResolutionResult> CreateAnchorResolutionAsync(string anchorId,bool successfullyResolved,int resolveAttempted,double resolveTime,csp.common.StringArray tags, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AnchorResolutionResult> tcs = 
@@ -596,6 +626,11 @@ public class AnchorSystem : csp.systems.SystemBase {
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else

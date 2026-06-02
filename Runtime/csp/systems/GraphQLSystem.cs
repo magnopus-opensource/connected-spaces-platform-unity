@@ -60,7 +60,7 @@ public class GraphQLSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.GraphQLResult> RunRequestAsync(string requestBody)
+  public System.Threading.Tasks.Task<csp.systems.GraphQLResult> RunRequestAsync(string requestBody, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.GraphQLResult> tcs = 
@@ -103,6 +103,11 @@ public class GraphQLSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -136,7 +141,7 @@ public class GraphQLSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.GraphQLResult> RunQueryAsync(string queryText)
+  public System.Threading.Tasks.Task<csp.systems.GraphQLResult> RunQueryAsync(string queryText, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.GraphQLResult> tcs = 
@@ -178,6 +183,11 @@ public class GraphQLSystem : csp.systems.SystemBase {
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else

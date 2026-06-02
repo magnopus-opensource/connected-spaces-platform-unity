@@ -284,7 +284,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
 }
 
 
-  public System.Threading.Tasks.Task<csp.systems.StringResult> CreateConversationAsync(string message)
+  public System.Threading.Tasks.Task<csp.systems.StringResult> CreateConversationAsync(string message, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult> tcs = 
@@ -327,6 +327,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -359,7 +364,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteConversationAsync()
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteConversationAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -402,6 +407,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -435,7 +445,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.MessageResult> AddMessageAsync(string message)
+  public System.Threading.Tasks.Task<csp.multiplayer.MessageResult> AddMessageAsync(string message, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageResult> tcs = 
@@ -478,6 +488,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -511,7 +526,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteMessageAsync(string messageId)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteMessageAsync(string messageId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -554,6 +569,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -587,7 +607,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.MessageCollectionResult> GetMessagesFromConversationAsync(int? resultsSkipNumber,int? resultsMaxNumber)
+  public System.Threading.Tasks.Task<csp.multiplayer.MessageCollectionResult> GetMessagesFromConversationAsync(int? resultsSkipNumber,int? resultsMaxNumber, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageCollectionResult> tcs = 
@@ -630,6 +650,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -662,7 +687,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.multiplayer.ConversationResult> GetConversationInfoAsync()
+  public System.Threading.Tasks.Task<csp.multiplayer.ConversationResult> GetConversationInfoAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ConversationResult> tcs = 
@@ -705,6 +730,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -738,7 +768,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.ConversationResult> UpdateConversationAsync(csp.multiplayer.MessageUpdateParams newData)
+  public System.Threading.Tasks.Task<csp.multiplayer.ConversationResult> UpdateConversationAsync(csp.multiplayer.MessageUpdateParams newData, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ConversationResult> tcs = 
@@ -781,6 +811,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -814,7 +849,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.MessageResult> GetMessageInfoAsync(string messageId)
+  public System.Threading.Tasks.Task<csp.multiplayer.MessageResult> GetMessageInfoAsync(string messageId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageResult> tcs = 
@@ -857,6 +892,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -890,7 +930,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.MessageResult> UpdateMessageAsync(string messageId,csp.multiplayer.MessageUpdateParams newData)
+  public System.Threading.Tasks.Task<csp.multiplayer.MessageResult> UpdateMessageAsync(string messageId,csp.multiplayer.MessageUpdateParams newData, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageResult> tcs = 
@@ -933,6 +973,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -965,7 +1010,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.multiplayer.NumberOfRepliesResult> GetNumberOfRepliesAsync()
+  public System.Threading.Tasks.Task<csp.multiplayer.NumberOfRepliesResult> GetNumberOfRepliesAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.NumberOfRepliesResult> tcs = 
@@ -1008,6 +1053,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1040,7 +1090,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
 
   }
 
-  public System.Threading.Tasks.Task<csp.multiplayer.AnnotationResult> GetConversationAnnotationAsync()
+  public System.Threading.Tasks.Task<csp.multiplayer.AnnotationResult> GetConversationAnnotationAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult> tcs = 
@@ -1083,6 +1133,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1116,7 +1171,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.AnnotationResult> SetConversationAnnotationAsync(csp.multiplayer.AnnotationUpdateParams annotationParams,csp.systems.BufferAssetDataSource annotation,csp.systems.BufferAssetDataSource annotationThumbnail)
+  public System.Threading.Tasks.Task<csp.multiplayer.AnnotationResult> SetConversationAnnotationAsync(csp.multiplayer.AnnotationUpdateParams annotationParams,csp.systems.BufferAssetDataSource annotation,csp.systems.BufferAssetDataSource annotationThumbnail, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult> tcs = 
@@ -1159,6 +1214,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1191,7 +1251,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteConversationAnnotationAsync()
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteConversationAnnotationAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1234,6 +1294,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1267,7 +1332,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.AnnotationResult> GetAnnotationAsync(string messageId)
+  public System.Threading.Tasks.Task<csp.multiplayer.AnnotationResult> GetAnnotationAsync(string messageId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult> tcs = 
@@ -1310,6 +1375,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1343,7 +1413,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.AnnotationResult> SetAnnotationAsync(string messageId,csp.multiplayer.AnnotationUpdateParams updateParams,csp.systems.BufferAssetDataSource annotation,csp.systems.BufferAssetDataSource annotationThumbnail)
+  public System.Threading.Tasks.Task<csp.multiplayer.AnnotationResult> SetAnnotationAsync(string messageId,csp.multiplayer.AnnotationUpdateParams updateParams,csp.systems.BufferAssetDataSource annotation,csp.systems.BufferAssetDataSource annotationThumbnail, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult> tcs = 
@@ -1386,6 +1456,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1419,7 +1494,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteAnnotationAsync(string messageId)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteAnnotationAsync(string messageId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1462,6 +1537,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1494,7 +1574,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.multiplayer.AnnotationThumbnailCollectionResult> GetAnnotationThumbnailsForConversationAsync()
+  public System.Threading.Tasks.Task<csp.multiplayer.AnnotationThumbnailCollectionResult> GetAnnotationThumbnailsForConversationAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationThumbnailCollectionResult> tcs = 
@@ -1536,6 +1616,11 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else

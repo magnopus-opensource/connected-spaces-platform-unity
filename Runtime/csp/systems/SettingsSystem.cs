@@ -130,7 +130,7 @@ public class SettingsSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> SetNDAStatusAsync(bool inValue)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> SetNDAStatusAsync(bool inValue, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -173,6 +173,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -205,7 +210,7 @@ public class SettingsSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.BooleanResult> GetNDAStatusAsync()
+  public System.Threading.Tasks.Task<csp.systems.BooleanResult> GetNDAStatusAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.BooleanResult> tcs = 
@@ -248,6 +253,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -281,7 +291,7 @@ public class SettingsSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> SetNewsletterStatusAsync(bool inValue)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> SetNewsletterStatusAsync(bool inValue, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -324,6 +334,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -356,7 +371,7 @@ public class SettingsSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.BooleanResult> GetNewsletterStatusAsync()
+  public System.Threading.Tasks.Task<csp.systems.BooleanResult> GetNewsletterStatusAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.BooleanResult> tcs = 
@@ -399,6 +414,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -432,7 +452,7 @@ public class SettingsSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> AddRecentlyVisitedSpaceAsync(string inSpaceID)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> AddRecentlyVisitedSpaceAsync(string inSpaceID, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -475,6 +495,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -507,7 +532,7 @@ public class SettingsSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.StringArrayResult> GetRecentlyVisitedSpacesAsync()
+  public System.Threading.Tasks.Task<csp.systems.StringArrayResult> GetRecentlyVisitedSpacesAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.StringArrayResult> tcs = 
@@ -550,6 +575,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -582,7 +612,7 @@ public class SettingsSystem : csp.systems.SystemBase {
 
   }
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> ClearRecentlyVisitedSpacesAsync()
+  public System.Threading.Tasks.Task<csp.systems.NullResult> ClearRecentlyVisitedSpacesAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -625,6 +655,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -658,7 +693,7 @@ public class SettingsSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> AddBlockedSpaceAsync(string inSpaceID)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> AddBlockedSpaceAsync(string inSpaceID, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -701,6 +736,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -734,7 +774,7 @@ public class SettingsSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> RemoveBlockedSpaceAsync(string inSpaceID)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> RemoveBlockedSpaceAsync(string inSpaceID, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -777,6 +817,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -809,7 +854,7 @@ public class SettingsSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.StringArrayResult> GetBlockedSpacesAsync()
+  public System.Threading.Tasks.Task<csp.systems.StringArrayResult> GetBlockedSpacesAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.StringArrayResult> tcs = 
@@ -852,6 +897,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -884,7 +934,7 @@ public class SettingsSystem : csp.systems.SystemBase {
 
   }
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> ClearBlockedSpacesAsync()
+  public System.Threading.Tasks.Task<csp.systems.NullResult> ClearBlockedSpacesAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -927,6 +977,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -960,7 +1015,7 @@ public class SettingsSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateAvatarPortraitAsync(csp.systems.FileAssetDataSource newAvatarPortrait)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateAvatarPortraitAsync(csp.systems.FileAssetDataSource newAvatarPortrait, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1003,6 +1058,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1036,7 +1096,7 @@ public class SettingsSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.UriResult> GetAvatarPortraitAsync(string inUserID)
+  public System.Threading.Tasks.Task<csp.systems.UriResult> GetAvatarPortraitAsync(string inUserID, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UriResult> tcs = 
@@ -1079,6 +1139,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1112,7 +1177,7 @@ public class SettingsSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateAvatarPortraitWithBufferAsync(csp.systems.BufferAssetDataSource newAvatarPortrait)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateAvatarPortraitWithBufferAsync(csp.systems.BufferAssetDataSource newAvatarPortrait, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1155,6 +1220,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1188,7 +1258,7 @@ public class SettingsSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> SetAvatarInfoAsync(csp.systems.AvatarType inType,string inIdentifier,bool inAvatarVisible)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> SetAvatarInfoAsync(csp.systems.AvatarType inType,string inIdentifier,bool inAvatarVisible, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1231,6 +1301,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1263,7 +1338,7 @@ public class SettingsSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.AvatarInfoResult> GetAvatarInfoAsync()
+  public System.Threading.Tasks.Task<csp.systems.AvatarInfoResult> GetAvatarInfoAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AvatarInfoResult> tcs = 
@@ -1305,6 +1380,11 @@ public class SettingsSystem : csp.systems.SystemBase {
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else

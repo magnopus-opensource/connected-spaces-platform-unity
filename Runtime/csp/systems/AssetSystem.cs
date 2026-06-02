@@ -217,7 +217,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetCollectionResult> CreateAssetCollectionAsync(string? spaceId,string? parentAssetCollectionId,string assetCollectionName,csp.common.StringDict? metadata,csp.systems.EAssetCollectionType type,csp.common.StringArray? tags)
+  public System.Threading.Tasks.Task<csp.systems.AssetCollectionResult> CreateAssetCollectionAsync(string? spaceId,string? parentAssetCollectionId,string assetCollectionName,csp.common.StringDict? metadata,csp.systems.EAssetCollectionType type,csp.common.StringArray? tags, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult> tcs = 
@@ -260,6 +260,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -293,7 +298,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteAssetCollectionAsync(csp.systems.AssetCollection assetCollection)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteAssetCollectionAsync(csp.systems.AssetCollection assetCollection, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -336,6 +341,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -369,7 +379,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteMultipleAssetCollectionsAsync(csp.common.AssetCollectionArray assetCollections)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteMultipleAssetCollectionsAsync(csp.common.AssetCollectionArray assetCollections, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -412,6 +422,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -445,7 +460,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetCollectionsResult> CopyAssetCollectionsToSpaceAsync(csp.common.AssetCollectionArray sourceAssetCollections,string destSpaceId,bool copyAsync)
+  public System.Threading.Tasks.Task<csp.systems.AssetCollectionsResult> CopyAssetCollectionsToSpaceAsync(csp.common.AssetCollectionArray sourceAssetCollections,string destSpaceId,bool copyAsync, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionsResult> tcs = 
@@ -488,6 +503,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -521,7 +541,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetCollectionResult> GetAssetCollectionByIdAsync(string assetCollectionId)
+  public System.Threading.Tasks.Task<csp.systems.AssetCollectionResult> GetAssetCollectionByIdAsync(string assetCollectionId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult> tcs = 
@@ -564,6 +584,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -597,7 +622,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetCollectionResult> GetAssetCollectionByNameAsync(string assetCollectionName)
+  public System.Threading.Tasks.Task<csp.systems.AssetCollectionResult> GetAssetCollectionByNameAsync(string assetCollectionName, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult> tcs = 
@@ -640,6 +665,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -673,7 +703,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetCollectionsResult> FindAssetCollectionsAsync(csp.common.StringArray? ids,string? parentId,csp.common.StringArray? names,csp.common.EAssetCollectionTypeArray? types,csp.common.StringArray? tags,csp.common.StringArray? spaceIds,int? resultsSkipNumber,int? resultsMaxNumber)
+  public System.Threading.Tasks.Task<csp.systems.AssetCollectionsResult> FindAssetCollectionsAsync(csp.common.StringArray? ids,string? parentId,csp.common.StringArray? names,csp.common.EAssetCollectionTypeArray? types,csp.common.StringArray? tags,csp.common.StringArray? spaceIds,int? resultsSkipNumber,int? resultsMaxNumber, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionsResult> tcs = 
@@ -716,6 +746,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -749,7 +784,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetCollectionResult> UpdateAssetCollectionMetadataAsync(csp.systems.AssetCollection assetCollection,csp.common.StringDict newMetadata,csp.common.StringArray? tags)
+  public System.Threading.Tasks.Task<csp.systems.AssetCollectionResult> UpdateAssetCollectionMetadataAsync(csp.systems.AssetCollection assetCollection,csp.common.StringDict newMetadata,csp.common.StringArray? tags, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult> tcs = 
@@ -792,6 +827,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -825,7 +865,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetCollectionCountResult> GetAssetCollectionCountAsync(csp.common.StringArray? ids,string? parentId,csp.common.StringArray? names,csp.common.EAssetCollectionTypeArray? types,csp.common.StringArray? tags,csp.common.StringArray? spaceIds)
+  public System.Threading.Tasks.Task<csp.systems.AssetCollectionCountResult> GetAssetCollectionCountAsync(csp.common.StringArray? ids,string? parentId,csp.common.StringArray? names,csp.common.EAssetCollectionTypeArray? types,csp.common.StringArray? tags,csp.common.StringArray? spaceIds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionCountResult> tcs = 
@@ -868,6 +908,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -901,7 +946,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetResult> CreateAssetAsync(csp.systems.AssetCollection assetCollection,string name,string? thirdPartyPackagedAssetIdentifier,csp.systems.EThirdPartyPlatform? thirdPartyPlatform,csp.systems.EAssetType type)
+  public System.Threading.Tasks.Task<csp.systems.AssetResult> CreateAssetAsync(csp.systems.AssetCollection assetCollection,string name,string? thirdPartyPackagedAssetIdentifier,csp.systems.EThirdPartyPlatform? thirdPartyPlatform,csp.systems.EAssetType type, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult> tcs = 
@@ -944,6 +989,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -977,7 +1027,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetResult> UpdateAssetAsync(csp.systems.Asset asset)
+  public System.Threading.Tasks.Task<csp.systems.AssetResult> UpdateAssetAsync(csp.systems.Asset asset, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult> tcs = 
@@ -1020,6 +1070,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1053,7 +1108,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteAssetAsync(csp.systems.AssetCollection assetCollection,csp.systems.Asset asset)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteAssetAsync(csp.systems.AssetCollection assetCollection,csp.systems.Asset asset, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1096,6 +1151,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1129,7 +1189,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetsResult> GetAssetsInCollectionAsync(csp.systems.AssetCollection assetCollection)
+  public System.Threading.Tasks.Task<csp.systems.AssetsResult> GetAssetsInCollectionAsync(csp.systems.AssetCollection assetCollection, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetsResult> tcs = 
@@ -1172,6 +1232,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1205,7 +1270,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetResult> GetAssetByIdAsync(string assetCollectionId,string assetId)
+  public System.Threading.Tasks.Task<csp.systems.AssetResult> GetAssetByIdAsync(string assetCollectionId,string assetId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult> tcs = 
@@ -1248,6 +1313,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1281,7 +1351,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetsResult> GetAssetsByCollectionIdsAsync(csp.common.StringArray assetCollectionIds)
+  public System.Threading.Tasks.Task<csp.systems.AssetsResult> GetAssetsByCollectionIdsAsync(csp.common.StringArray assetCollectionIds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetsResult> tcs = 
@@ -1324,6 +1394,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1357,7 +1432,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetsResult> GetAssetsByCriteriaAsync(csp.common.StringArray assetCollectionIds,csp.common.StringArray? assetIds,csp.common.StringArray? assetNames,csp.common.EAssetTypeArray? assetTypes)
+  public System.Threading.Tasks.Task<csp.systems.AssetsResult> GetAssetsByCriteriaAsync(csp.common.StringArray assetCollectionIds,csp.common.StringArray? assetIds,csp.common.StringArray? assetNames,csp.common.EAssetTypeArray? assetTypes, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetsResult> tcs = 
@@ -1400,6 +1475,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1433,7 +1513,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.UriResult> UploadAssetDataAsync(csp.systems.AssetCollection assetCollection,csp.systems.Asset asset,csp.systems.AssetDataSource assetDataSource)
+  public System.Threading.Tasks.Task<csp.systems.UriResult> UploadAssetDataAsync(csp.systems.AssetCollection assetCollection,csp.systems.Asset asset,csp.systems.AssetDataSource assetDataSource, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UriResult> tcs = 
@@ -1476,6 +1556,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1509,7 +1594,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.UriResult> UploadAssetDataExAsync(csp.systems.AssetCollection assetCollection,csp.systems.Asset asset,csp.systems.AssetDataSource assetDataSource,csp.common.CancellationToken cancellationToken)
+  public System.Threading.Tasks.Task<csp.systems.UriResult> UploadAssetDataExAsync(csp.systems.AssetCollection assetCollection,csp.systems.Asset asset,csp.systems.AssetDataSource assetDataSource,csp.common.CancellationToken cancellationToken, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UriResult> tcs = 
@@ -1552,6 +1637,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1585,7 +1675,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetDataResult> DownloadAssetDataAsync(csp.systems.Asset asset)
+  public System.Threading.Tasks.Task<csp.systems.AssetDataResult> DownloadAssetDataAsync(csp.systems.Asset asset, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetDataResult> tcs = 
@@ -1628,6 +1718,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1661,7 +1756,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetDataResult> DownloadAssetDataExAsync(csp.systems.Asset asset,csp.common.CancellationToken cancellationToken)
+  public System.Threading.Tasks.Task<csp.systems.AssetDataResult> DownloadAssetDataExAsync(csp.systems.Asset asset,csp.common.CancellationToken cancellationToken, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetDataResult> tcs = 
@@ -1704,6 +1799,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1737,7 +1837,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.UInt64Result> GetAssetDataSizeAsync(csp.systems.Asset asset)
+  public System.Threading.Tasks.Task<csp.systems.UInt64Result> GetAssetDataSizeAsync(csp.systems.Asset asset, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UInt64Result> tcs = 
@@ -1780,6 +1880,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1813,7 +1918,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.LODChainResult> GetLODChainAsync(csp.systems.AssetCollection assetCollection)
+  public System.Threading.Tasks.Task<csp.systems.LODChainResult> GetLODChainAsync(csp.systems.AssetCollection assetCollection, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.LODChainResult> tcs = 
@@ -1856,6 +1961,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1889,7 +1999,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AssetResult> RegisterAssetToLODChainAsync(csp.systems.AssetCollection assetCollection,csp.systems.Asset asset,int lodLevel)
+  public System.Threading.Tasks.Task<csp.systems.AssetResult> RegisterAssetToLODChainAsync(csp.systems.AssetCollection assetCollection,csp.systems.Asset asset,int lodLevel, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult> tcs = 
@@ -1932,6 +2042,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1965,7 +2080,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.MaterialResult> CreateMaterialAsync(string name,csp.systems.EShaderType shaderType,string spaceId,csp.common.StringDict metadata,csp.common.StringArray assetTags)
+  public System.Threading.Tasks.Task<csp.systems.MaterialResult> CreateMaterialAsync(string name,csp.systems.EShaderType shaderType,string spaceId,csp.common.StringDict metadata,csp.common.StringArray assetTags, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialResult> tcs = 
@@ -2008,6 +2123,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2041,7 +2161,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateMaterialAsync(csp.systems.Material material)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateMaterialAsync(csp.systems.Material material, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -2084,6 +2204,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2117,7 +2242,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteMaterialAsync(csp.systems.Material material)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteMaterialAsync(csp.systems.Material material, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -2160,6 +2285,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2193,7 +2323,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.MaterialsResult> GetMaterialsAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.MaterialsResult> GetMaterialsAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialsResult> tcs = 
@@ -2236,6 +2366,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2269,7 +2404,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.MaterialResult> GetMaterialAsync(string assetCollectionId,string assetId)
+  public System.Threading.Tasks.Task<csp.systems.MaterialResult> GetMaterialAsync(string assetCollectionId,string assetId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialResult> tcs = 
@@ -2312,6 +2447,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2345,7 +2485,7 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.MaterialResult> GetMaterialFromUriAsync(csp.systems.AssetCollection assetCollection,string assetId,string uri)
+  public System.Threading.Tasks.Task<csp.systems.MaterialResult> GetMaterialFromUriAsync(csp.systems.AssetCollection assetCollection,string assetId,string uri, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialResult> tcs = 
@@ -2388,6 +2528,11 @@ public class AssetSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2419,6 +2564,112 @@ public class AssetSystem : csp.systems.SystemBase {
 
     return tcs.Task;
   }
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.AssetDetailBlobChangedCallback? _OnAssetDetailBlobChangedAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<csp.common.AssetDetailBlobChangedNetworkEventData> OnAssetDetailBlobChanged
+    {
+        add
+        {
+            if (_OnAssetDetailBlobChangedAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnAssetDetailBlobChangedAdapter = new ConnectedSpacesPlatformDotNet.AssetDetailBlobChangedCallback(value);
+                // Register with native code
+                SetAssetDetailBlobChangedCallback(_OnAssetDetailBlobChangedAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnAssetDetailBlobChangedAdapter!.Invoked += value;
+                // Note: we should not need to call the SetAssetDetailBlobChangedCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnAssetDetailBlobChangedAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnAssetDetailBlobChangedAdapter);
+                var eventName = nameof(OnAssetDetailBlobChanged);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnAssetDetailBlobChangedAdapter.Invoked -= value;
+
+            if (!_OnAssetDetailBlobChangedAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetAssetDetailBlobChangedCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnAssetDetailBlobChangedAdapter = null;
+            }
+        }
+    }
+
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.MaterialChangedCallback? _OnMaterialChangedAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<csp.common.MaterialChangedParams> OnMaterialChanged
+    {
+        add
+        {
+            if (_OnMaterialChangedAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnMaterialChangedAdapter = new ConnectedSpacesPlatformDotNet.MaterialChangedCallback(value);
+                // Register with native code
+                SetMaterialChangedCallback(_OnMaterialChangedAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnMaterialChangedAdapter!.Invoked += value;
+                // Note: we should not need to call the SetMaterialChangedCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnMaterialChangedAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnMaterialChangedAdapter);
+                var eventName = nameof(OnMaterialChanged);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnMaterialChangedAdapter.Invoked -= value;
+
+            if (!_OnMaterialChangedAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetMaterialChangedCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnMaterialChangedAdapter = null;
+            }
+        }
+    }
+
 
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.

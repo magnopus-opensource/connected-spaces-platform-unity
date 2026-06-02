@@ -392,7 +392,7 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.SpaceEntity> CreateChildEntityAsync(string name,csp.multiplayer.SpaceTransform spaceTransform)
+  public System.Threading.Tasks.Task<csp.multiplayer.SpaceEntity> CreateChildEntityAsync(string name,csp.multiplayer.SpaceTransform spaceTransform, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
@@ -435,6 +435,11 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -467,7 +472,7 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<bool> DestroyAsync()
+  public System.Threading.Tasks.Task<bool> DestroyAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<bool> tcs = 
@@ -510,6 +515,11 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -541,6 +551,112 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
     return tcs.Task;
 
   }
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.UpdateCallback? _OnUpdateAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<csp.multiplayer.SpaceEntity,csp.multiplayer.SpaceEntityUpdateFlags,csp.common.ComponentUpdateInfoArray> OnUpdate
+    {
+        add
+        {
+            if (_OnUpdateAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnUpdateAdapter = new ConnectedSpacesPlatformDotNet.UpdateCallback(value);
+                // Register with native code
+                SetUpdateCallback(_OnUpdateAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnUpdateAdapter!.Invoked += value;
+                // Note: we should not need to call the SetUpdateCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnUpdateAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnUpdateAdapter);
+                var eventName = nameof(OnUpdate);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnUpdateAdapter.Invoked -= value;
+
+            if (!_OnUpdateAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetUpdateCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnUpdateAdapter = null;
+            }
+        }
+    }
+
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.DestroyCallback? _OnDestroyAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<bool> OnDestroy
+    {
+        add
+        {
+            if (_OnDestroyAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnDestroyAdapter = new ConnectedSpacesPlatformDotNet.DestroyCallback(value);
+                // Register with native code
+                SetDestroyCallback(_OnDestroyAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnDestroyAdapter!.Invoked += value;
+                // Note: we should not need to call the SetDestroyCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnDestroyAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnDestroyAdapter);
+                var eventName = nameof(OnDestroy);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnDestroyAdapter.Invoked -= value;
+
+            if (!_OnDestroyAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetDestroyCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnDestroyAdapter = null;
+            }
+        }
+    }
+
 
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.

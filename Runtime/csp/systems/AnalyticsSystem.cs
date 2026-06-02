@@ -65,7 +65,7 @@ public class AnalyticsSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> SendAnalyticsEventAsync(string productContextSection,string category,string interactionType,string? subCategory,csp.common.StringDict? metadata)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> SendAnalyticsEventAsync(string productContextSection,string category,string interactionType,string? subCategory,csp.common.StringDict? metadata, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -108,6 +108,11 @@ public class AnalyticsSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -140,7 +145,7 @@ public class AnalyticsSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> FlushAnalyticsEventsQueueAsync()
+  public System.Threading.Tasks.Task<csp.systems.NullResult> FlushAnalyticsEventsQueueAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -182,6 +187,11 @@ public class AnalyticsSystem : csp.systems.SystemBase {
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else

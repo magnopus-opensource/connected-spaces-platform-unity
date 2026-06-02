@@ -7021,6 +7021,9 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_extra_test_TestBooleanResult__SWIG_1")]
   public static extern global::System.IntPtr new_extra_test_TestBooleanResult__SWIG_1(int jarg1, ushort jarg2, int jarg3);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_extra_test_TestBooleanResult_SetRequestProgress")]
+  public static extern void extra_test_TestBooleanResult_SetRequestProgress(global::System.Runtime.InteropServices.HandleRef jarg1, float jarg2);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_extra_test_TestBooleanResult_SetResult")]
   public static extern void extra_test_TestBooleanResult_SetResult(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, ushort jarg3);
 
@@ -7077,6 +7080,12 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_LogSystem_LogAfterSeconds")]
   public static extern void csp_common_LogSystem_LogAfterSeconds(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2, int jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_LogSystem_LogAfterSecondsWithProgress__SWIG_0")]
+  public static extern void csp_common_LogSystem_LogAfterSecondsWithProgress__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2, int jarg3, global::System.Runtime.InteropServices.HandleRef jarg4, int jarg5);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_LogSystem_LogAfterSecondsWithProgress__SWIG_1")]
+  public static extern void csp_common_LogSystem_LogAfterSecondsWithProgress__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2, int jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_LogSystem_LogAndThrow")]
   public static extern void csp_common_LogSystem_LogAndThrow(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);

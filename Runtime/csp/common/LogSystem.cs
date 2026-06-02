@@ -178,8 +178,177 @@ public class LogSystem : global::System.IDisposable {
     }
 
 
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.EventCallback? _OnEventAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<string> OnEvent
+    {
+        add
+        {
+            if (_OnEventAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnEventAdapter = new ConnectedSpacesPlatformDotNet.EventCallback(value);
+                // Register with native code
+                SetEventCallback(_OnEventAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnEventAdapter!.Invoked += value;
+                // Note: we should not need to call the SetEventCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnEventAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnEventAdapter);
+                var eventName = nameof(OnEvent);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnEventAdapter.Invoked -= value;
+
+            if (!_OnEventAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetEventCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnEventAdapter = null;
+            }
+        }
+    }
+
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.BeginMarkerCallback? _OnBeginMarkerAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<string> OnBeginMarker
+    {
+        add
+        {
+            if (_OnBeginMarkerAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnBeginMarkerAdapter = new ConnectedSpacesPlatformDotNet.BeginMarkerCallback(value);
+                // Register with native code
+                SetBeginMarkerCallback(_OnBeginMarkerAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnBeginMarkerAdapter!.Invoked += value;
+                // Note: we should not need to call the SetBeginMarkerCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnBeginMarkerAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnBeginMarkerAdapter);
+                var eventName = nameof(OnBeginMarker);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnBeginMarkerAdapter.Invoked -= value;
+
+            if (!_OnBeginMarkerAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetBeginMarkerCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnBeginMarkerAdapter = null;
+            }
+        }
+    }
+
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.EndMarkerCallback? _OnEndMarkerAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<System.IntPtr> OnEndMarker
+    {
+        add
+        {
+            if (_OnEndMarkerAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnEndMarkerAdapter = new ConnectedSpacesPlatformDotNet.EndMarkerCallback(value);
+                // Register with native code
+                SetEndMarkerCallback(_OnEndMarkerAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnEndMarkerAdapter!.Invoked += value;
+                // Note: we should not need to call the SetEndMarkerCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnEndMarkerAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnEndMarkerAdapter);
+                var eventName = nameof(OnEndMarker);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnEndMarkerAdapter.Invoked -= value;
+
+            if (!_OnEndMarkerAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetEndMarkerCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnEndMarkerAdapter = null;
+            }
+        }
+    }
+
+
   public void LogAfterSeconds(bool value, int seconds, TestBooleanResultCallbackAdapter callback) {
     ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LogSystem_LogAfterSeconds(swigCPtr, value, seconds, TestBooleanResultCallbackAdapter.getCPtr(callback));
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void LogAfterSecondsWithProgress(bool value, int seconds, TestBooleanResultCallbackAdapter callback, int totalProgressSteps) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LogSystem_LogAfterSecondsWithProgress__SWIG_0(swigCPtr, value, seconds, TestBooleanResultCallbackAdapter.getCPtr(callback), totalProgressSteps);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void LogAfterSecondsWithProgress(bool value, int seconds, TestBooleanResultCallbackAdapter callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LogSystem_LogAfterSecondsWithProgress__SWIG_1(swigCPtr, value, seconds, TestBooleanResultCallbackAdapter.getCPtr(callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -194,7 +363,7 @@ public class LogSystem : global::System.IDisposable {
   }
 
 
-  public System.Threading.Tasks.Task<extra.test.TestBooleanResult> LogAfterSecondsAsync(bool boolValue,int seconds)
+  public System.Threading.Tasks.Task<extra.test.TestBooleanResult> LogAfterSecondsAsync(bool boolValue,int seconds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<extra.test.TestBooleanResult> tcs = 
@@ -237,6 +406,11 @@ public class LogSystem : global::System.IDisposable {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -269,7 +443,88 @@ public class LogSystem : global::System.IDisposable {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<extra.test.TestBooleanResult> LogAndThrowAsync()
+
+  public System.Threading.Tasks.Task<extra.test.TestBooleanResult> LogAfterSecondsWithProgressAsync(bool boolValue,int seconds, System.Action<float>? progressCallback = null)
+  {
+    // Create a TaskCompletionSource to represent the async operation.
+    System.Threading.Tasks.TaskCompletionSource<extra.test.TestBooleanResult> tcs = 
+        new System.Threading.Tasks.TaskCompletionSource<extra.test.TestBooleanResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
+
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    ConnectedSpacesPlatformDotNet.TestBooleanResultCallback callback =
+        new ConnectedSpacesPlatformDotNet.TestBooleanResultCallback();
+
+    // Define the callback that will be called by the C++ code
+    System.Action<extra.test.TestBooleanResult>? handler = null;
+    handler = new ((extra.test.TestBooleanResult result) =>
+    {
+        try
+        {
+           /* This is a bit jank. Due to the desire to use passthrough macros between async
+            * and actions, we have this result param which yes, can be
+            * a comma separated list for action style callbacks, but in async (awaitable) functions,
+            * it's only ever a single name.
+            * It ISNT always a ResultBase type (although that would simplify things if CSP would do that...)
+            * Sometime's it's just a space entity, or a bool, or something else. */
+
+            if((object)result is csp.systems.ResultBase _result)
+            {
+                // It's a result base
+
+                // Convert the failing result to a throw if we have that option enabled
+                _result.ThrowOnFailure(nameof(LogAfterSecondsWithProgressAsync));
+
+
+                // Use _result here because we need to call ResultBase api, but we still pass the fully specified type in the TrySetResult
+                // Remember that callbacks also have `init` and `inProgress` status's. We will often receive this callback more than once,
+                // only finish when we get a final status.  
+                if (_result.GetResultCode() == csp.systems.EResultCode.Success ||
+                    _result.GetResultCode() == csp.systems.EResultCode.Failed)
+                {
+                    tcs.TrySetResult(result);
+                    // Now that the callback has been invoked and returned success or failure, we no longer need to
+                    // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
+                    // Instead, if the result was still pending we would have still needed to await and keep this alive.
+                    callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
+            }
+            else
+            {
+                // It's something else
+                tcs.TrySetResult(result);
+                // Now that the callback has been invoked, we unsubscribe, so that if there is no other subscriber
+                // the callback gets automatically unrooted. We do this because we do not expect
+                // any more callbacks to come since this is not a ResultBase with pending status. This will
+                // trigger the GC of the callback safely, since we no longer await for it.
+                callback.Invoked -= handler;
+            }
+        }
+        catch (System.Exception ex)
+        {
+            // If any other exception occurs, we set it on the task completion source. Failsafe.
+            tcs.TrySetException(ex);
+        }
+    });
+
+    // Subscribe to the callback. 
+    // Note that this will automatically root the callback since it has at least one subscriber.
+    callback.Invoked += handler;
+
+/*@SWIG@*/;
+
+    // Run the method with the provided arguments and the callback
+    // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
+    LogAfterSecondsWithProgress(boolValue,seconds, callback);
+
+    return tcs.Task;
+  }
+
+  public System.Threading.Tasks.Task<extra.test.TestBooleanResult> LogAndThrowAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<extra.test.TestBooleanResult> tcs = 
@@ -311,6 +566,11 @@ public class LogSystem : global::System.IDisposable {
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else
