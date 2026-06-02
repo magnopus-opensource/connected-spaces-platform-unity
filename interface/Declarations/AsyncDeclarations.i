@@ -102,11 +102,18 @@ MAKE_ACTION_ADAPTER(EntityFetchCompleteCallback,
                      ARGLIST(numEntitiesFetched));
 
 /* ConversationSpaceComponent Action Adapters */
-MAKE_ACTION_ADAPTER(ConversationUpdateCallback,
+MAKE_ACTION_ADAPTER(ConversationNetworkEventCallback,
                      ConversationNetworkEventCallbackAdapter,
                      ARGLIST(csp.common.ConversationNetworkEventData eventData),
                      ARGLIST(csp.common.ConversationNetworkEventData),
                      ARGLIST(eventData));
+
+/* Asset Progress Action Adapter */
+MAKE_ACTION_ADAPTER(ProgressCallback,
+                     ProgressCallbackAdapter,
+                     ARGLIST(float progress),
+                     ARGLIST(float),
+                     ARGLIST(progress));
 
 /* ComponentBase Action Adapters */
 MAKE_ACTION_ADAPTER(EntityActionHandler,
