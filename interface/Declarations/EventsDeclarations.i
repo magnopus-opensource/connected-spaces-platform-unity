@@ -175,6 +175,16 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::systems::HotspotSequenceSystem
 )
 
+/* csp::systems::SequenceSystem events */
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnSequenceChanged,
+    SequenceChangedCallback,
+    SetSequenceChangedCallback,
+    csp.common.SequenceChangedNetworkEventData,
+    csp::systems::SequenceSystem
+)
+
 /* csp::systems::SpaceSystem events */
 
 MAKE_EVENT_FOR_CALLBACK(
