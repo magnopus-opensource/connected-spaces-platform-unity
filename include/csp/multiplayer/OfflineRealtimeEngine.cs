@@ -190,7 +190,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.SpaceEntity> CreateAvatarAsync(string name,string userId,csp.multiplayer.SpaceTransform transform,bool isVisible,csp.multiplayer.AvatarState state,string avatarId,csp.multiplayer.AvatarPlayMode avatarPlayMode,csp.multiplayer.LocomotionModel locomotionModel)
+  public System.Threading.Tasks.Task<csp.multiplayer.SpaceEntity> CreateAvatarAsync(string name,string userId,csp.multiplayer.SpaceTransform transform,bool isVisible,csp.multiplayer.AvatarState state,string avatarId,csp.multiplayer.AvatarPlayMode avatarPlayMode,csp.multiplayer.LocomotionModel locomotionModel, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
@@ -233,6 +233,11 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -266,7 +271,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
   }
 
 
-  public System.Threading.Tasks.Task<csp.multiplayer.SpaceEntity> CreateEntityAsync(string name,csp.multiplayer.SpaceTransform transform,ulong? parentId)
+  public System.Threading.Tasks.Task<csp.multiplayer.SpaceEntity> CreateEntityAsync(string name,csp.multiplayer.SpaceTransform transform,ulong? parentId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
@@ -309,6 +314,11 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -342,7 +352,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
   }
 
 
-  public System.Threading.Tasks.Task<bool> DestroyEntityAsync(csp.multiplayer.SpaceEntity entity)
+  public System.Threading.Tasks.Task<bool> DestroyEntityAsync(csp.multiplayer.SpaceEntity entity, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<bool> tcs = 
@@ -385,6 +395,11 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -416,6 +431,59 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
 
     return tcs.Task;
   }
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.EntityFetchCompleteCallback? _OnEntityFetchCompleteAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<uint> OnEntityFetchComplete
+    {
+        add
+        {
+            if (_OnEntityFetchCompleteAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnEntityFetchCompleteAdapter = new ConnectedSpacesPlatformDotNet.EntityFetchCompleteCallback(value);
+                // Register with native code
+                SetEntityFetchCompleteCallback(_OnEntityFetchCompleteAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnEntityFetchCompleteAdapter!.Invoked += value;
+                // Note: we should not need to call the SetEntityFetchCompleteCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnEntityFetchCompleteAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnEntityFetchCompleteAdapter);
+                var eventName = nameof(OnEntityFetchComplete);
+
+                System.Console.Error.WriteLine($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnEntityFetchCompleteAdapter.Invoked -= value;
+
+            if (!_OnEntityFetchCompleteAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetEntityFetchCompleteCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnEntityFetchCompleteAdapter = null;
+            }
+        }
+    }
+
 
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.

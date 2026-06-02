@@ -202,7 +202,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginAsync(string email,string password,bool createMultiplayerConnection,bool? userHasVerifiedAge,csp.systems.TokenOptions? tokenOptions)
+  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginAsync(string email,string password,bool createMultiplayerConnection,bool? userHasVerifiedAge,csp.systems.TokenOptions? tokenOptions, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.LoginStateResult> tcs = 
@@ -245,6 +245,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -278,7 +283,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginWithRefreshTokenAsync(string userId,string refreshToken,bool createMultiplayerConnection,csp.systems.TokenOptions? tokenOptions)
+  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginWithRefreshTokenAsync(string userId,string refreshToken,bool createMultiplayerConnection,csp.systems.TokenOptions? tokenOptions, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.LoginStateResult> tcs = 
@@ -321,6 +326,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -354,7 +364,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginAsGuestAsync(bool createMultiplayerConnection,bool? userHasVerifiedAge,csp.systems.TokenOptions? tokenOptions)
+  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginAsGuestAsync(bool createMultiplayerConnection,bool? userHasVerifiedAge,csp.systems.TokenOptions? tokenOptions, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.LoginStateResult> tcs = 
@@ -397,6 +407,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -430,7 +445,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginAsGuestWithDeferredProfileCreationAsync(bool? userHasVerifiedAge)
+  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginAsGuestWithDeferredProfileCreationAsync(bool? userHasVerifiedAge, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.LoginStateResult> tcs = 
@@ -473,6 +488,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -506,7 +526,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.StringResult> GetThirdPartyProviderAuthorizeURLAsync(csp.systems.EThirdPartyAuthenticationProviders authProvider,string redirectURL,csp.systems.EThirdPartyPlatform? clientType)
+  public System.Threading.Tasks.Task<csp.systems.StringResult> GetThirdPartyProviderAuthorizeURLAsync(csp.systems.EThirdPartyAuthenticationProviders authProvider,string redirectURL,csp.systems.EThirdPartyPlatform? clientType, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult> tcs = 
@@ -549,6 +569,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -582,7 +607,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginToThirdPartyAuthenticationProviderAsync(string thirdPartyToken,string thirdPartyStateId,bool createMultiplayerConnection,bool? userHasVerifiedAge,csp.systems.TokenOptions? tokenOptions)
+  public System.Threading.Tasks.Task<csp.systems.LoginStateResult> LoginToThirdPartyAuthenticationProviderAsync(string thirdPartyToken,string thirdPartyStateId,bool createMultiplayerConnection,bool? userHasVerifiedAge,csp.systems.TokenOptions? tokenOptions, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.LoginStateResult> tcs = 
@@ -625,6 +650,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -657,7 +687,7 @@ public class UserSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> LogoutAsync()
+  public System.Threading.Tasks.Task<csp.systems.NullResult> LogoutAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -700,6 +730,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -733,7 +768,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.ProfileResult> CreateUserAsync(string? displayName,string email,string password,bool receiveNewsletter,bool userHasVerifiedAge,string? redirectUrl,string? inviteToken)
+  public System.Threading.Tasks.Task<csp.systems.ProfileResult> CreateUserAsync(string? displayName,string email,string password,bool receiveNewsletter,bool userHasVerifiedAge,string? redirectUrl,string? inviteToken, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ProfileResult> tcs = 
@@ -776,6 +811,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -809,7 +849,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.ProfileResult> UpgradeGuestAccountAsync(string displayName,string email,string password)
+  public System.Threading.Tasks.Task<csp.systems.ProfileResult> UpgradeGuestAccountAsync(string displayName,string email,string password, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ProfileResult> tcs = 
@@ -852,6 +892,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -884,7 +929,7 @@ public class UserSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> ConfirmUserEmailAsync()
+  public System.Threading.Tasks.Task<csp.systems.NullResult> ConfirmUserEmailAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -927,6 +972,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -960,7 +1010,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> ResetUserPasswordAsync(string token,string userId,string newPassword)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> ResetUserPasswordAsync(string token,string userId,string newPassword, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1003,6 +1053,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1036,7 +1091,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateUserDisplayNameAsync(string userId,string newUserDisplayName)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateUserDisplayNameAsync(string userId,string newUserDisplayName, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1079,6 +1134,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1112,7 +1172,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteUserAsync(string userId)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteUserAsync(string userId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1155,6 +1215,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1188,7 +1253,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> ForgotPasswordAsync(string email,string? redirectUrl,string? emailLinkUrl,bool useTokenChangePasswordUrl)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> ForgotPasswordAsync(string email,string? redirectUrl,string? emailLinkUrl,bool useTokenChangePasswordUrl, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1231,6 +1296,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1264,7 +1334,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.ProfileResult> GetProfileByUserIdAsync(string inUserId)
+  public System.Threading.Tasks.Task<csp.systems.ProfileResult> GetProfileByUserIdAsync(string inUserId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ProfileResult> tcs = 
@@ -1307,6 +1377,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1340,7 +1415,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.BasicProfilesResult> GetProfilesByUserIdAsync(csp.common.StringArray inUserIds)
+  public System.Threading.Tasks.Task<csp.systems.BasicProfilesResult> GetProfilesByUserIdAsync(csp.common.StringArray inUserIds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.BasicProfilesResult> tcs = 
@@ -1383,6 +1458,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1416,7 +1496,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.BasicProfilesResult> GetBasicProfilesByUserIdAsync(csp.common.StringArray inUserIds)
+  public System.Threading.Tasks.Task<csp.systems.BasicProfilesResult> GetBasicProfilesByUserIdAsync(csp.common.StringArray inUserIds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.BasicProfilesResult> tcs = 
@@ -1459,6 +1539,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1491,7 +1576,7 @@ public class UserSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> PingAsync()
+  public System.Threading.Tasks.Task<csp.systems.NullResult> PingAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1534,6 +1619,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1567,7 +1657,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> ResendVerificationEmailAsync(string inEmail,string? inRedirectUrl)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> ResendVerificationEmailAsync(string inEmail,string? inRedirectUrl, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1610,6 +1700,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1643,7 +1738,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.StringResult> GetCustomerPortalUrlAsync(string userId)
+  public System.Threading.Tasks.Task<csp.systems.StringResult> GetCustomerPortalUrlAsync(string userId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult> tcs = 
@@ -1686,6 +1781,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1719,7 +1819,7 @@ public class UserSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.StringResult> GetCheckoutSessionUrlAsync(csp.systems.TierNames tier)
+  public System.Threading.Tasks.Task<csp.systems.StringResult> GetCheckoutSessionUrlAsync(csp.systems.TierNames tier, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult> tcs = 
@@ -1761,6 +1861,11 @@ public class UserSystem : csp.systems.SystemBase {
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else

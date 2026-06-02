@@ -264,7 +264,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpaceResult> EnterSpaceAsync(string spaceId,csp.common.IRealtimeEngine realtimeEngine)
+  public System.Threading.Tasks.Task<csp.systems.SpaceResult> EnterSpaceAsync(string spaceId,csp.common.IRealtimeEngine realtimeEngine, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
@@ -307,6 +307,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -339,7 +344,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> ExitSpaceAsync()
+  public System.Threading.Tasks.Task<csp.systems.NullResult> ExitSpaceAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -382,6 +387,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -415,7 +425,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpaceResult> CreateSpaceAsync(string name,string description,csp.systems.SpaceAttributes attributes,csp.systems.InviteUserRoleInfoCollection? inviteUsers,csp.common.StringDict metadata,csp.systems.FileAssetDataSource? fileThumbnail,csp.common.StringArray? tags)
+  public System.Threading.Tasks.Task<csp.systems.SpaceResult> CreateSpaceAsync(string name,string description,csp.systems.SpaceAttributes attributes,csp.systems.InviteUserRoleInfoCollection? inviteUsers,csp.common.StringDict metadata,csp.systems.FileAssetDataSource? fileThumbnail,csp.common.StringArray? tags, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
@@ -458,6 +468,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -491,7 +506,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpaceResult> CreateSpaceWithBufferAsync(string name,string description,csp.systems.SpaceAttributes attributes,csp.systems.InviteUserRoleInfoCollection? inviteUsers,csp.common.StringDict metadata,csp.systems.BufferAssetDataSource thumbnail,csp.common.StringArray? tags)
+  public System.Threading.Tasks.Task<csp.systems.SpaceResult> CreateSpaceWithBufferAsync(string name,string description,csp.systems.SpaceAttributes attributes,csp.systems.InviteUserRoleInfoCollection? inviteUsers,csp.common.StringDict metadata,csp.systems.BufferAssetDataSource thumbnail,csp.common.StringArray? tags, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
@@ -534,6 +549,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -567,7 +587,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.BasicSpaceResult> UpdateSpaceAsync(string spaceId,string? name,string? description,csp.systems.SpaceAttributes? type,csp.common.StringArray? tags)
+  public System.Threading.Tasks.Task<csp.systems.BasicSpaceResult> UpdateSpaceAsync(string spaceId,string? name,string? description,csp.systems.SpaceAttributes? type,csp.common.StringArray? tags, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.BasicSpaceResult> tcs = 
@@ -610,6 +630,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -643,7 +668,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteSpaceAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteSpaceAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -686,6 +711,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -718,7 +748,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.SpacesResult> GetSpacesAsync()
+  public System.Threading.Tasks.Task<csp.systems.SpacesResult> GetSpacesAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesResult> tcs = 
@@ -761,6 +791,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -794,7 +829,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.BasicSpacesResult> GetSpacesByAttributesAsync(bool? isDiscoverable,bool? isArchived,bool? requiresInvite,int? resultsSkip,int? resultsMax,csp.common.StringArray? mustContainTags,csp.common.StringArray? mustExcludeTags,bool? mustIncludeAllTags)
+  public System.Threading.Tasks.Task<csp.systems.BasicSpacesResult> GetSpacesByAttributesAsync(bool? isDiscoverable,bool? isArchived,bool? requiresInvite,int? resultsSkip,int? resultsMax,csp.common.StringArray? mustContainTags,csp.common.StringArray? mustExcludeTags,bool? mustIncludeAllTags, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.BasicSpacesResult> tcs = 
@@ -837,6 +872,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -870,7 +910,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpacesResult> GetSpacesByIdsAsync(csp.common.StringArray requestedSpaceIDs)
+  public System.Threading.Tasks.Task<csp.systems.SpacesResult> GetSpacesByIdsAsync(csp.common.StringArray requestedSpaceIDs, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesResult> tcs = 
@@ -913,6 +953,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -946,7 +991,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpacesResult> GetSpacesForUserIdAsync(string userId)
+  public System.Threading.Tasks.Task<csp.systems.SpacesResult> GetSpacesForUserIdAsync(string userId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesResult> tcs = 
@@ -989,6 +1034,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1022,7 +1072,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpaceResult> GetSpaceAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.SpaceResult> GetSpaceAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
@@ -1065,6 +1115,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1098,7 +1153,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> InviteToSpaceAsync(string spaceId,string email,bool? isModeratorRole,string? emailLinkUrl,string? signupUrl)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> InviteToSpaceAsync(string spaceId,string email,bool? isModeratorRole,string? emailLinkUrl,string? signupUrl, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1141,6 +1196,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1174,7 +1234,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> BulkInviteToSpaceAsync(string spaceId,csp.systems.InviteUserRoleInfoCollection inviteUsers)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> BulkInviteToSpaceAsync(string spaceId,csp.systems.InviteUserRoleInfoCollection inviteUsers, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1217,6 +1277,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1250,7 +1315,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.PendingInvitesResult> GetPendingUserInvitesAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.PendingInvitesResult> GetPendingUserInvitesAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.PendingInvitesResult> tcs = 
@@ -1293,6 +1358,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1326,7 +1396,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.AcceptedInvitesResult> GetAcceptedUserInvitesAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.AcceptedInvitesResult> GetAcceptedUserInvitesAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AcceptedInvitesResult> tcs = 
@@ -1369,6 +1439,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1402,7 +1477,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> RemoveUserFromSpaceAsync(string spaceId,string userId)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> RemoveUserFromSpaceAsync(string spaceId,string userId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1445,6 +1520,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1478,7 +1558,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpaceResult> AddUserToSpaceAsync(string spaceId,string userId)
+  public System.Threading.Tasks.Task<csp.systems.SpaceResult> AddUserToSpaceAsync(string spaceId,string userId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
@@ -1521,6 +1601,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1554,7 +1639,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SiteResult> AddSiteInfoAsync(string spaceId,csp.systems.Site siteInfo)
+  public System.Threading.Tasks.Task<csp.systems.SiteResult> AddSiteInfoAsync(string spaceId,csp.systems.Site siteInfo, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SiteResult> tcs = 
@@ -1597,6 +1682,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1630,7 +1720,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> RemoveSiteInfoAsync(string spaceId,csp.systems.Site siteInfo)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> RemoveSiteInfoAsync(string spaceId,csp.systems.Site siteInfo, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1673,6 +1763,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1706,7 +1801,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SitesCollectionResult> GetSitesInfoAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.SitesCollectionResult> GetSitesInfoAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SitesCollectionResult> tcs = 
@@ -1749,6 +1844,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1782,7 +1882,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateUserRoleAsync(string spaceId,csp.systems.UserRoleInfo newUserRoleInfo)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateUserRoleAsync(string spaceId,csp.systems.UserRoleInfo newUserRoleInfo, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1825,6 +1925,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1858,7 +1963,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.UserRoleCollectionResult> GetUsersRolesAsync(string spaceId,csp.common.StringArray requestedUserIds)
+  public System.Threading.Tasks.Task<csp.systems.UserRoleCollectionResult> GetUsersRolesAsync(string spaceId,csp.common.StringArray requestedUserIds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UserRoleCollectionResult> tcs = 
@@ -1901,6 +2006,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -1934,7 +2044,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateSpaceMetadataAsync(string spaceId,csp.common.StringDict newMetadata)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateSpaceMetadataAsync(string spaceId,csp.common.StringDict newMetadata, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1977,6 +2087,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2010,7 +2125,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpacesMetadataResult> GetSpacesMetadataAsync(csp.common.StringArray spaces)
+  public System.Threading.Tasks.Task<csp.systems.SpacesMetadataResult> GetSpacesMetadataAsync(csp.common.StringArray spaces, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesMetadataResult> tcs = 
@@ -2053,6 +2168,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2086,7 +2206,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpaceMetadataResult> GetSpaceMetadataAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.SpaceMetadataResult> GetSpaceMetadataAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceMetadataResult> tcs = 
@@ -2129,6 +2249,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2162,7 +2287,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateSpaceThumbnailAsync(string spaceId,csp.systems.FileAssetDataSource newThumbnail)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateSpaceThumbnailAsync(string spaceId,csp.systems.FileAssetDataSource newThumbnail, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -2205,6 +2330,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2238,7 +2368,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateSpaceThumbnailWithBufferAsync(string spaceId,csp.systems.BufferAssetDataSource newThumbnail)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> UpdateSpaceThumbnailWithBufferAsync(string spaceId,csp.systems.BufferAssetDataSource newThumbnail, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -2281,6 +2411,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2314,7 +2449,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.UriResult> GetSpaceThumbnailAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.UriResult> GetSpaceThumbnailAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UriResult> tcs = 
@@ -2357,6 +2492,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2390,7 +2530,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> AddUserToSpaceBanListAsync(string spaceId,string requestedUserId)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> AddUserToSpaceBanListAsync(string spaceId,string requestedUserId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -2433,6 +2573,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2466,7 +2611,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteUserFromSpaceBanListAsync(string spaceId,string requestedUserId)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteUserFromSpaceBanListAsync(string spaceId,string requestedUserId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -2509,6 +2654,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2542,7 +2692,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpaceGeoLocationResult> UpdateSpaceGeoLocationAsync(string spaceId,csp.systems.GeoLocation? location,float? orientation,csp.common.GeoLocationArray? geoFence)
+  public System.Threading.Tasks.Task<csp.systems.SpaceGeoLocationResult> UpdateSpaceGeoLocationAsync(string spaceId,csp.systems.GeoLocation? location,float? orientation,csp.common.GeoLocationArray? geoFence, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceGeoLocationResult> tcs = 
@@ -2585,6 +2735,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2618,7 +2773,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpaceGeoLocationResult> GetSpaceGeoLocationAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.SpaceGeoLocationResult> GetSpaceGeoLocationAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceGeoLocationResult> tcs = 
@@ -2661,6 +2816,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2694,7 +2854,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteSpaceGeoLocationAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteSpaceGeoLocationAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -2737,6 +2897,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2770,7 +2935,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SpaceResult> DuplicateSpaceAsync(string spaceId,string newName,csp.systems.SpaceAttributes newAttributes,csp.common.StringArray? memberGroupIds,bool shallowCopy)
+  public System.Threading.Tasks.Task<csp.systems.SpaceResult> DuplicateSpaceAsync(string spaceId,string newName,csp.systems.SpaceAttributes newAttributes,csp.common.StringArray? memberGroupIds,bool shallowCopy, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
@@ -2813,6 +2978,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2846,7 +3016,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DuplicateSpaceAsyncAsync(string spaceId,string newName,csp.systems.SpaceAttributes newAttributes,csp.common.StringArray? memberGroupIds,bool shallowCopy)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DuplicateSpaceAsyncAsync(string spaceId,string newName,csp.systems.SpaceAttributes newAttributes,csp.common.StringArray? memberGroupIds,bool shallowCopy, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -2889,6 +3059,11 @@ public class SpaceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -2920,6 +3095,59 @@ public class SpaceSystem : csp.systems.SystemBase {
 
     return tcs.Task;
   }
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.AsyncCallCompletedCallback? _OnAsyncCallCompletedAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<csp.common.AsyncCallCompletedEventData> OnAsyncCallCompleted
+    {
+        add
+        {
+            if (_OnAsyncCallCompletedAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnAsyncCallCompletedAdapter = new ConnectedSpacesPlatformDotNet.AsyncCallCompletedCallback(value);
+                // Register with native code
+                SetAsyncCallCompletedCallback(_OnAsyncCallCompletedAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnAsyncCallCompletedAdapter!.Invoked += value;
+                // Note: we should not need to call the SetAsyncCallCompletedCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnAsyncCallCompletedAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnAsyncCallCompletedAdapter);
+                var eventName = nameof(OnAsyncCallCompleted);
+
+                System.Console.Error.WriteLine($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnAsyncCallCompletedAdapter.Invoked -= value;
+
+            if (!_OnAsyncCallCompletedAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetAsyncCallCompletedCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnAsyncCallCompletedAdapter = null;
+            }
+        }
+    }
+
 
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.

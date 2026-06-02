@@ -57,6 +57,11 @@ public class TestBooleanResult : csp.systems.ResultBase {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public void SetRequestProgress(float ProgressPercentage) {
+    ConnectedSpacesPlatformDotNetPINVOKE.extra_test_TestBooleanResult_SetRequestProgress(swigCPtr, ProgressPercentage);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public void SetResult(csp.systems.EResultCode ResCode, ushort HttpResCode) {
     ConnectedSpacesPlatformDotNetPINVOKE.extra_test_TestBooleanResult_SetResult(swigCPtr, (int)ResCode, HttpResCode);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();

@@ -68,7 +68,7 @@ public class PointOfInterestSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.POIResult> CreatePOIAsync(string title,string description,string name,csp.common.StringArray? tags,csp.systems.EPointOfInterestType type,string owner,csp.systems.GeoLocation location,csp.systems.AssetCollection assetCollection)
+  public System.Threading.Tasks.Task<csp.systems.POIResult> CreatePOIAsync(string title,string description,string name,csp.common.StringArray? tags,csp.systems.EPointOfInterestType type,string owner,csp.systems.GeoLocation location,csp.systems.AssetCollection assetCollection, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.POIResult> tcs = 
@@ -111,6 +111,11 @@ public class PointOfInterestSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -144,7 +149,7 @@ public class PointOfInterestSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeletePOIAsync(csp.systems.PointOfInterest poi)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeletePOIAsync(csp.systems.PointOfInterest poi, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -187,6 +192,11 @@ public class PointOfInterestSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -220,7 +230,7 @@ public class PointOfInterestSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.POICollectionResult> GetPOIsInAreaAsync(csp.systems.GeoLocation originLocation,double areaRadius,csp.systems.EPointOfInterestType? type)
+  public System.Threading.Tasks.Task<csp.systems.POICollectionResult> GetPOIsInAreaAsync(csp.systems.GeoLocation originLocation,double areaRadius,csp.systems.EPointOfInterestType? type, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.POICollectionResult> tcs = 
@@ -262,6 +272,11 @@ public class PointOfInterestSystem : csp.systems.SystemBase {
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else

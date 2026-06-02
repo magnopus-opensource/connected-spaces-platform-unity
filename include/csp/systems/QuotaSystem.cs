@@ -95,7 +95,7 @@ public class QuotaSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.FeatureLimitResult> GetTotalSpaceSizeInKilobytesAsync(string spaceId)
+  public System.Threading.Tasks.Task<csp.systems.FeatureLimitResult> GetTotalSpaceSizeInKilobytesAsync(string spaceId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureLimitResult> tcs = 
@@ -138,6 +138,11 @@ public class QuotaSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -171,7 +176,7 @@ public class QuotaSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.FeaturesLimitResult> GetTierFeatureProgressForUserAsync(csp.common.TierFeaturesArray featureNames)
+  public System.Threading.Tasks.Task<csp.systems.FeaturesLimitResult> GetTierFeatureProgressForUserAsync(csp.common.TierFeaturesArray featureNames, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeaturesLimitResult> tcs = 
@@ -214,6 +219,11 @@ public class QuotaSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -247,7 +257,7 @@ public class QuotaSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.FeaturesLimitResult> GetTierFeatureProgressForSpaceAsync(string spaceId,csp.common.TierFeaturesArray featureNames)
+  public System.Threading.Tasks.Task<csp.systems.FeaturesLimitResult> GetTierFeatureProgressForSpaceAsync(string spaceId,csp.common.TierFeaturesArray featureNames, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeaturesLimitResult> tcs = 
@@ -290,6 +300,11 @@ public class QuotaSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -323,7 +338,7 @@ public class QuotaSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.UserTierResult> SetUserTierAsync(csp.systems.TierNames tier,string userId)
+  public System.Threading.Tasks.Task<csp.systems.UserTierResult> SetUserTierAsync(csp.systems.TierNames tier,string userId, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UserTierResult> tcs = 
@@ -366,6 +381,11 @@ public class QuotaSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -398,7 +418,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.UserTierResult> GetCurrentUserTierAsync()
+  public System.Threading.Tasks.Task<csp.systems.UserTierResult> GetCurrentUserTierAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UserTierResult> tcs = 
@@ -441,6 +461,11 @@ public class QuotaSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -474,7 +499,7 @@ public class QuotaSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.FeatureQuotaResult> GetTierFeatureQuotaAsync(csp.systems.TierNames tierName,csp.systems.TierFeatures featureName)
+  public System.Threading.Tasks.Task<csp.systems.FeatureQuotaResult> GetTierFeatureQuotaAsync(csp.systems.TierNames tierName,csp.systems.TierFeatures featureName, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureQuotaResult> tcs = 
@@ -517,6 +542,11 @@ public class QuotaSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -550,7 +580,7 @@ public class QuotaSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.FeaturesQuotaResult> GetTierFeaturesQuotaAsync(csp.systems.TierNames tierName)
+  public System.Threading.Tasks.Task<csp.systems.FeaturesQuotaResult> GetTierFeaturesQuotaAsync(csp.systems.TierNames tierName, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeaturesQuotaResult> tcs = 
@@ -593,6 +623,11 @@ public class QuotaSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -625,7 +660,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.FeatureLimitResult> GetTotalSpacesOwnedByUserAsync()
+  public System.Threading.Tasks.Task<csp.systems.FeatureLimitResult> GetTotalSpacesOwnedByUserAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureLimitResult> tcs = 
@@ -668,6 +703,11 @@ public class QuotaSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -701,7 +741,7 @@ public class QuotaSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.FeatureLimitResult> GetConcurrentUsersInSpaceAsync(string spaceID)
+  public System.Threading.Tasks.Task<csp.systems.FeatureLimitResult> GetConcurrentUsersInSpaceAsync(string spaceID, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureLimitResult> tcs = 
@@ -743,6 +783,11 @@ public class QuotaSystem : csp.systems.SystemBase {
                     // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
                 }
             }
             else

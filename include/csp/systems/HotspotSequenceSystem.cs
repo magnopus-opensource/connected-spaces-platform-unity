@@ -99,7 +99,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.HotspotGroupResult> CreateHotspotGroupAsync(string groupName,csp.common.StringArray hotspotIds)
+  public System.Threading.Tasks.Task<csp.systems.HotspotGroupResult> CreateHotspotGroupAsync(string groupName,csp.common.StringArray hotspotIds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
@@ -142,6 +142,11 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -175,7 +180,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.HotspotGroupResult> RenameHotspotGroupAsync(string groupName,string newGroupName)
+  public System.Threading.Tasks.Task<csp.systems.HotspotGroupResult> RenameHotspotGroupAsync(string groupName,string newGroupName, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
@@ -218,6 +223,11 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -251,7 +261,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.HotspotGroupResult> UpdateHotspotGroupAsync(string groupName,csp.common.StringArray hotspotIds)
+  public System.Threading.Tasks.Task<csp.systems.HotspotGroupResult> UpdateHotspotGroupAsync(string groupName,csp.common.StringArray hotspotIds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
@@ -294,6 +304,11 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -327,7 +342,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.HotspotGroupResult> GetHotspotGroupAsync(string groupName)
+  public System.Threading.Tasks.Task<csp.systems.HotspotGroupResult> GetHotspotGroupAsync(string groupName, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
@@ -370,6 +385,11 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -402,7 +422,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     return tcs.Task;
   }
 
-  public System.Threading.Tasks.Task<csp.systems.HotspotGroupsResult> GetHotspotGroupsAsync()
+  public System.Threading.Tasks.Task<csp.systems.HotspotGroupsResult> GetHotspotGroupsAsync(System.Action<float>? progressCallback = null)
   {  
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupsResult> tcs = 
@@ -445,6 +465,11 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -478,7 +503,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteHotspotGroupAsync(string groupName)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteHotspotGroupAsync(string groupName, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -521,6 +546,11 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -554,7 +584,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> RemoveItemFromGroupsAsync(string itemID)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> RemoveItemFromGroupsAsync(string itemID, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -597,6 +627,11 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -628,6 +663,59 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
 
     return tcs.Task;
   }
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.SequenceChangedCallback? _OnHotspotSequenceChangedAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<csp.common.SequenceChangedNetworkEventData> OnHotspotSequenceChanged
+    {
+        add
+        {
+            if (_OnHotspotSequenceChangedAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnHotspotSequenceChangedAdapter = new ConnectedSpacesPlatformDotNet.SequenceChangedCallback(value);
+                // Register with native code
+                SetHotspotSequenceChangedCallback(_OnHotspotSequenceChangedAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnHotspotSequenceChangedAdapter!.Invoked += value;
+                // Note: we should not need to call the SetHotspotSequenceChangedCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnHotspotSequenceChangedAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnHotspotSequenceChangedAdapter);
+                var eventName = nameof(OnHotspotSequenceChanged);
+
+                System.Console.Error.WriteLine($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnHotspotSequenceChangedAdapter.Invoked -= value;
+
+            if (!_OnHotspotSequenceChangedAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetHotspotSequenceChangedCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnHotspotSequenceChangedAdapter = null;
+            }
+        }
+    }
+
 
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.

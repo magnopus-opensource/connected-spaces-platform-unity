@@ -95,7 +95,7 @@ public class SequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SequenceResult> CreateSequenceAsync(string sequenceKey,string referenceType,string referenceId,csp.common.StringArray items,csp.common.StringDict metaData)
+  public System.Threading.Tasks.Task<csp.systems.SequenceResult> CreateSequenceAsync(string sequenceKey,string referenceType,string referenceId,csp.common.StringArray items,csp.common.StringDict metaData, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult> tcs = 
@@ -138,6 +138,11 @@ public class SequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -171,7 +176,7 @@ public class SequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SequenceResult> UpdateSequenceAsync(string sequenceKey,string referenceType,string referenceId,csp.common.StringArray items,csp.common.StringDict metaData)
+  public System.Threading.Tasks.Task<csp.systems.SequenceResult> UpdateSequenceAsync(string sequenceKey,string referenceType,string referenceId,csp.common.StringArray items,csp.common.StringDict metaData, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult> tcs = 
@@ -214,6 +219,11 @@ public class SequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -247,7 +257,7 @@ public class SequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SequenceResult> RenameSequenceAsync(string oldSequenceKey,string newSequenceKey)
+  public System.Threading.Tasks.Task<csp.systems.SequenceResult> RenameSequenceAsync(string oldSequenceKey,string newSequenceKey, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult> tcs = 
@@ -290,6 +300,11 @@ public class SequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -323,7 +338,7 @@ public class SequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SequencesResult> GetSequencesByCriteriaAsync(csp.common.StringArray sequenceKeys,string? keyRegex,string? referenceType,csp.common.StringArray referenceIds,csp.common.StringDict metaData)
+  public System.Threading.Tasks.Task<csp.systems.SequencesResult> GetSequencesByCriteriaAsync(csp.common.StringArray sequenceKeys,string? keyRegex,string? referenceType,csp.common.StringArray referenceIds,csp.common.StringDict metaData, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequencesResult> tcs = 
@@ -366,6 +381,11 @@ public class SequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -399,7 +419,7 @@ public class SequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SequencesResult> GetAllSequencesContainingItemsAsync(csp.common.StringArray items,string? referenceType,csp.common.StringArray referenceIds)
+  public System.Threading.Tasks.Task<csp.systems.SequencesResult> GetAllSequencesContainingItemsAsync(csp.common.StringArray items,string? referenceType,csp.common.StringArray referenceIds, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequencesResult> tcs = 
@@ -442,6 +462,11 @@ public class SequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -475,7 +500,7 @@ public class SequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SequenceResult> GetSequenceAsync(string sequenceKey)
+  public System.Threading.Tasks.Task<csp.systems.SequenceResult> GetSequenceAsync(string sequenceKey, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult> tcs = 
@@ -518,6 +543,11 @@ public class SequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -551,7 +581,7 @@ public class SequenceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteSequencesAsync(csp.common.StringArray sequenceKeys)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> DeleteSequencesAsync(csp.common.StringArray sequenceKeys, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -594,6 +624,11 @@ public class SequenceSystem : csp.systems.SystemBase {
                     // Instead, if the result was still pending we would have still needed to await and keep this alive.
                     callback.Invoked -= handler;
                 }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
             }
             else
             {
@@ -625,6 +660,59 @@ public class SequenceSystem : csp.systems.SystemBase {
 
     return tcs.Task;
   }
+
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.SequenceChangedCallback? _OnSequenceChangedAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<csp.common.SequenceChangedNetworkEventData> OnSequenceChanged
+    {
+        add
+        {
+            if (_OnSequenceChangedAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnSequenceChangedAdapter = new ConnectedSpacesPlatformDotNet.SequenceChangedCallback(value);
+                // Register with native code
+                SetSequenceChangedCallback(_OnSequenceChangedAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnSequenceChangedAdapter!.Invoked += value;
+                // Note: we should not need to call the SetSequenceChangedCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnSequenceChangedAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnSequenceChangedAdapter);
+                var eventName = nameof(OnSequenceChanged);
+
+                System.Console.Error.WriteLine($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnSequenceChangedAdapter.Invoked -= value;
+
+            if (!_OnSequenceChangedAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetSequenceChangedCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnSequenceChangedAdapter = null;
+            }
+        }
+    }
+
 
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.
