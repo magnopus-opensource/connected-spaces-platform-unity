@@ -498,6 +498,12 @@ MAKE_CALLBACK(csp::multiplayer::ConversationSpaceComponent::ConversationUpdateCa
                       ARGLIST(csp::common::ConversationNetworkEventData eventData),
                       ARGLIST(eventData))
 
+/* Progress callback */
+MAKE_CALLBACK(csp::systems::ProgressCallback,
+              ProgressCallbackAdapter,
+              ARGLIST(float progress),
+              ARGLIST(progress))
+
 
 /*********** CALLBACK NAMESPACE ADAPTATION **********/
 /* First, know that callbacks (std::functions) are going through the Fulton transform (https://swig.org/Doc4.4/SWIGPlus.html)
