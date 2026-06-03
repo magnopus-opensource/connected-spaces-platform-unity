@@ -200,6 +200,16 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
 
 include(cmake/PackageInstall.cmake)
 
+# Do not remove this install directive.
+# Removing this causes Xcode "Undefined symbols for architecture arm64".
+if(APPLE)
+    if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "visionOS")
+        # Copy the original CSP libraries alongside the one we created via SWIG
+        install(DIRECTORY "${_CSP_LIB_DIR}/"
+                DESTINATION "${INSTALL_DIR}/lib")
+    endif()
+endif()
+
 # If desired, automatically copy the generated code and libs into the Unity test project.
 if(COPY_OUTPUT_TO_UNITY_TEST_PROJECT)
   message(STATUS "\nStarting the copy of latest generated C# code and libraries to the Unity test project...")
