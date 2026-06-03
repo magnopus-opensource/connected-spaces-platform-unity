@@ -125,29 +125,6 @@ MAKE_EVENT_FOR_CALLBACK(
 )
 
 /* csp::systems::AssetSystem events */
-MAKE_EVENT_FOR_CALLBACK(
-    UploadAssetDataExOnProgress,
-    ProgressCallback,
-    SetUploadAssetDataExOnProgressCallback,
-    csp.ProgressEventArgs,
-    csp::systems::AssetSystem
-)
-
-MAKE_EVENT_FOR_CALLBACK(
-    UploadAssetDataOnProgress,
-    ProgressCallback,
-    SetUploadAssetDataOnProgressCallback,
-    csp.ProgressEventArgs,
-    csp::systems::AssetSystem
-)
-
-MAKE_EVENT_FOR_CALLBACK(
-    RegisterAssetToLODChainOnProgress,
-    ProgressCallback,
-    SetRegisterAssetToLODChainOnProgressCallback,
-    csp.ProgressEventArgs,
-    csp::systems::AssetSystem
-)
 
 MAKE_EVENT_FOR_CALLBACK(
     OnAssetDetailBlobChanged,
