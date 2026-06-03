@@ -1,6 +1,6 @@
 {
   "name": "com.magnopus.csp.unity",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "displayName": "Connected Spaces Platform",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

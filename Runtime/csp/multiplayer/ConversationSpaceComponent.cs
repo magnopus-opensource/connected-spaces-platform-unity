@@ -1654,6 +1654,59 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
 
   }
 
+
+    // Single native action adapter instance for this event
+    private ConnectedSpacesPlatformDotNet.ConversationNetworkEventCallback? _OnConversationUpdateAdapter;
+
+    /// <summary>
+    /// C# event exposing the native callback.
+    /// Subscribers are automatically registered/unregistered with native code.
+    /// </summary>
+    public event System.Action<csp.common.ConversationNetworkEventData> OnConversationUpdate
+    {
+        add
+        {
+            if (_OnConversationUpdateAdapter == null)
+            {
+                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
+                _OnConversationUpdateAdapter = new ConnectedSpacesPlatformDotNet.ConversationNetworkEventCallback(value);
+                // Register with native code
+                SetConversationUpdateCallback(_OnConversationUpdateAdapter);
+            }
+            else
+            {
+                // We already had an adapter existing, just subscribe to the event.
+                _OnConversationUpdateAdapter!.Invoked += value;
+                // Note: we should not need to call the SetConversationUpdateCallback again since it was supposed to be set on adapter creation.
+            }
+        }
+        remove
+        {
+            if (_OnConversationUpdateAdapter == null)
+            {
+                // This should not happen
+                var eventNameAdapter = nameof(_OnConversationUpdateAdapter);
+                var eventName = nameof(OnConversationUpdate);
+
+                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
+
+                return;
+            }
+
+            _OnConversationUpdateAdapter.Invoked -= value;
+
+            if (!_OnConversationUpdateAdapter.HasSubscribers)
+            {
+                // Unregister from native code
+                SetConversationUpdateCallback(null);
+
+                // No more subscribers, clean up adapter
+                _OnConversationUpdateAdapter = null;
+            }
+        }
+    }
+
+
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.
   public object OuterObjectPin { private get; set; }
