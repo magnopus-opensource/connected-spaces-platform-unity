@@ -1546,6 +1546,18 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_ConversationNetworkEventCallbackAdapter_director_connect")]
   public static extern void ConversationNetworkEventCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, ConversationNetworkEventCallbackAdapter.SwigDelegateConversationNetworkEventCallbackAdapter_0 delegate0);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_ProgressCallbackAdapter")]
+  public static extern void delete_ProgressCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_ProgressCallbackAdapter_Call")]
+  public static extern void ProgressCallbackAdapter_Call(global::System.Runtime.InteropServices.HandleRef jarg1, float jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_ProgressCallbackAdapter")]
+  public static extern global::System.IntPtr new_ProgressCallbackAdapter();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_ProgressCallbackAdapter_director_connect")]
+  public static extern void ProgressCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, ProgressCallbackAdapter.SwigDelegateProgressCallbackAdapter_0 delegate0);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_FeatureFlag_Type_set")]
   public static extern void csp_FeatureFlag_Type_set(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
