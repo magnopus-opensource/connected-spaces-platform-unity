@@ -2,6 +2,7 @@ namespace InteropTestsXUnit;
 
 using csp;
 using csp.common;
+using csp.multiplayer;
 
 public class PropertiesTests
 
@@ -35,32 +36,25 @@ public class PropertiesTests
     [Fact]
     public void ListProperty()
     {
-        LoginState loginState = new LoginState();
+        using (TempMockScriptRunner mockScriptRunner = new TempMockScriptRunner())
+        {
+            using LogSystem logSystem = new LogSystem();
+            using OfflineRealtimeEngine realtimeEngine = new OfflineRealtimeEngine(logSystem, mockScriptRunner);
 
-        // Crashes! (System.AccessViolationException: 'Attempted to read or write protected memory. This is often an indication that other memory is corrupt.')
-        // Anything we can do about this to promote to a friendlier exception? Probably a general case error for setting non-nullable things to null.
-        // loginState.DefaultApplicationSettings = null;
+            using SpaceEntity spaceEntityParent = new SpaceEntity(realtimeEngine, mockScriptRunner, logSystem);
 
-        Assert.Equal(0, loginState.DefaultApplicationSettings.Count);
+            csp.multiplayer.SplineSpaceComponent splineSpaceComponent = new csp.multiplayer.SplineSpaceComponent(logSystem, spaceEntityParent);
 
-        // Add some elements
-        loginState.DefaultApplicationSettings.Add(new ApplicationSettings());
-        loginState.DefaultApplicationSettings.Add(new ApplicationSettings());
+            Assert.Empty(splineSpaceComponent.GetWaypoints());
 
-        Assert.Equal(2, loginState.DefaultApplicationSettings.Count);
+            // Insert two waypoints
+            splineSpaceComponent.SetWaypoints([new Vector3(1, 2, 3), new Vector3(4, 5, 6)]);
 
-        //Set a brand new list.
-        ApplicationSettingsList newList = new ApplicationSettingsList();
-        ApplicationSettings newSettings = new ApplicationSettings();
-        newSettings.ApplicationName = "TestName";
-        newList.Add(newSettings);
-        loginState.DefaultApplicationSettings = newList;
-
-        Assert.Equal(1, loginState.DefaultApplicationSettings.Count);
-        Assert.Equal("TestName", loginState.DefaultApplicationSettings.First().ApplicationName);
-
-        loginState.DefaultApplicationSettings.Clear();
-        Assert.Equal(0, loginState.DefaultApplicationSettings.Count);
+            // Verify the waypoints were set correctly
+            Assert.Equal(2, splineSpaceComponent.GetWaypoints().Count);
+            Assert.Equal(new Vector3(1, 2, 3), splineSpaceComponent.GetWaypoints()[0]);
+            Assert.Equal(new Vector3(4, 5, 6), splineSpaceComponent.GetWaypoints()[1]);
+        }
     }
 
     [Fact]
