@@ -12,3 +12,9 @@
     return $null;
   }
 }
+
+// -----------------------------------------------------------------------------
+// Global Zombie Pointer Safety Guard
+// Prevents dead SWIG proxy objects from passing invalid handles down to C++
+// -----------------------------------------------------------------------------
+%typemap(csin) SWIGTYPE * "($csinput != null && $csclassname.getCPtr($csinput).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException(\"$csinput\", \"Catastrophic Error: Cannot pass a zombie SWIG object with a deleted native pointer.\") : $csclassname.getCPtr($csinput)"
