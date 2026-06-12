@@ -101,7 +101,7 @@ public class PointOfInterest : global::System.IDisposable {
 
   public csp.common.StringDict Title {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_PointOfInterest_Title_set(swigCPtr, csp.common.StringDict.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_PointOfInterest_Title_set(swigCPtr, (value != null && csp.common.StringDict.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.StringDict.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -119,7 +119,7 @@ public class PointOfInterest : global::System.IDisposable {
 
   public csp.common.StringDict Description {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_PointOfInterest_Description_set(swigCPtr, csp.common.StringDict.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_PointOfInterest_Description_set(swigCPtr, (value != null && csp.common.StringDict.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.StringDict.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -161,7 +161,7 @@ public class PointOfInterest : global::System.IDisposable {
 
   public csp.common.StringArray Tags {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_PointOfInterest_Tags_set(swigCPtr, csp.common.StringArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_PointOfInterest_Tags_set(swigCPtr, (value != null && csp.common.StringArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.StringArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -191,7 +191,7 @@ public class PointOfInterest : global::System.IDisposable {
 
   public csp.systems.GeoLocation Location {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_PointOfInterest_Location_set(swigCPtr, csp.systems.GeoLocation.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_PointOfInterest_Location_set(swigCPtr, (value != null && csp.systems.GeoLocation.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.GeoLocation.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

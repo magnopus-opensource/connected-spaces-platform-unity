@@ -159,7 +159,7 @@ public class LoginState : global::System.IDisposable {
 
   public csp.common.ApplicationSettingsList DefaultApplicationSettings {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_DefaultApplicationSettings_set(swigCPtr, csp.common.ApplicationSettingsList.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_DefaultApplicationSettings_set(swigCPtr, (value != null && csp.common.ApplicationSettingsList.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.ApplicationSettingsList.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -177,7 +177,7 @@ public class LoginState : global::System.IDisposable {
 
   public csp.common.SettingsCollectionList DefaultSettings {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_DefaultSettings_set(swigCPtr, csp.common.SettingsCollectionList.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_DefaultSettings_set(swigCPtr, (value != null && csp.common.SettingsCollectionList.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.SettingsCollectionList.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

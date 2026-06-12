@@ -113,7 +113,7 @@ public class ProductVariantInfo : global::System.IDisposable {
 
   public csp.systems.ProductMediaInfo Media {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductVariantInfo_Media_set(swigCPtr, csp.systems.ProductMediaInfo.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductVariantInfo_Media_set(swigCPtr, (value != null && csp.systems.ProductMediaInfo.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.ProductMediaInfo.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -131,7 +131,7 @@ public class ProductVariantInfo : global::System.IDisposable {
 
   public csp.common.VariantOptionInfoArray Options {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductVariantInfo_Options_set(swigCPtr, csp.common.VariantOptionInfoArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductVariantInfo_Options_set(swigCPtr, (value != null && csp.common.VariantOptionInfoArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.VariantOptionInfoArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -149,7 +149,7 @@ public class ProductVariantInfo : global::System.IDisposable {
 
   public csp.systems.CurrencyInfo UnitPrice {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductVariantInfo_UnitPrice_set(swigCPtr, csp.systems.CurrencyInfo.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductVariantInfo_UnitPrice_set(swigCPtr, (value != null && csp.systems.CurrencyInfo.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.CurrencyInfo.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

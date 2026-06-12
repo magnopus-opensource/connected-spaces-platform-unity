@@ -59,7 +59,7 @@ public class ComponentBase : global::System.IDisposable {
     }
   }
 
-  public ComponentBase(csp.multiplayer.ComponentType Type, csp.common.LogSystem LogSystem, csp.multiplayer.SpaceEntity Parent) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_ComponentBase((int)Type, csp.common.LogSystem.getCPtr(LogSystem), csp.multiplayer.SpaceEntity.getCPtr(Parent)), true) {
+  public ComponentBase(csp.multiplayer.ComponentType Type, csp.common.LogSystem LogSystem, csp.multiplayer.SpaceEntity Parent) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_ComponentBase((int)Type, (LogSystem != null && csp.common.LogSystem.getCPtr(LogSystem).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("LogSystem", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.LogSystem.getCPtr(LogSystem), (Parent != null && csp.multiplayer.SpaceEntity.getCPtr(Parent).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("Parent", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(Parent)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 

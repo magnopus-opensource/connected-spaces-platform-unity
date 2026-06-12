@@ -100,7 +100,7 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public SpaceEntity(csp.common.IRealtimeEngine InEntitySystem, csp.common.IJSScriptRunner ScriptRunner, csp.common.LogSystem LogSystem) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_SpaceEntity__SWIG_1(InEntitySystem == null ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : InEntitySystem.GetInterfaceCPtr(), ScriptRunner.GetInterfaceCPtr(), csp.common.LogSystem.getCPtr(LogSystem)), true) {
+  public SpaceEntity(csp.common.IRealtimeEngine InEntitySystem, csp.common.IJSScriptRunner ScriptRunner, csp.common.LogSystem LogSystem) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_SpaceEntity__SWIG_1(InEntitySystem == null ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : InEntitySystem.GetInterfaceCPtr(), ScriptRunner.GetInterfaceCPtr(), (LogSystem != null && csp.common.LogSystem.getCPtr(LogSystem).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("LogSystem", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.LogSystem.getCPtr(LogSystem)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -398,7 +398,7 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EntityCreatedCallback callback =
         new ConnectedSpacesPlatformDotNet.EntityCreatedCallback();
 
@@ -456,6 +456,10 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -478,7 +482,7 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
     System.Threading.Tasks.TaskCompletionSource<bool> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<bool>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.DestroyCallback callback =
         new ConnectedSpacesPlatformDotNet.DestroyCallback();
 
@@ -536,6 +540,10 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 

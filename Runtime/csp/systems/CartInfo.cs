@@ -89,7 +89,7 @@ public class CartInfo : global::System.IDisposable {
 
   public csp.common.CartLineArray CartLines {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CartInfo_CartLines_set(swigCPtr, csp.common.CartLineArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CartInfo_CartLines_set(swigCPtr, (value != null && csp.common.CartLineArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.CartLineArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

@@ -255,7 +255,7 @@ public class SpaceEntityPtrList : global::System.IDisposable, global::System.Col
   }
 
   public void Insert(uint Index, csp.multiplayer.SpaceEntity item) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_SpaceEntityPtrList_Insert__SWIG_0(swigCPtr, Index, csp.multiplayer.SpaceEntity.getCPtr(item));
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_SpaceEntityPtrList_Insert__SWIG_0(swigCPtr, Index, (item != null && csp.multiplayer.SpaceEntity.getCPtr(item).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("item", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(item));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -265,7 +265,7 @@ public class SpaceEntityPtrList : global::System.IDisposable, global::System.Col
   }
 
   public void Add(csp.multiplayer.SpaceEntity x) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_SpaceEntityPtrList_Add(swigCPtr, csp.multiplayer.SpaceEntity.getCPtr(x));
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_SpaceEntityPtrList_Add(swigCPtr, (x != null && csp.multiplayer.SpaceEntity.getCPtr(x).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("x", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(x));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 

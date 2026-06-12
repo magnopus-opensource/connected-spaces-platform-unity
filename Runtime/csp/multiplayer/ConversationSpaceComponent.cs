@@ -77,7 +77,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   }
 
 
-  public ConversationSpaceComponent(csp.common.LogSystem LogSystem, csp.multiplayer.SpaceEntity Parent) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_ConversationSpaceComponent(csp.common.LogSystem.getCPtr(LogSystem), csp.multiplayer.SpaceEntity.getCPtr(Parent)), true) {
+  public ConversationSpaceComponent(csp.common.LogSystem LogSystem, csp.multiplayer.SpaceEntity Parent) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_ConversationSpaceComponent((LogSystem != null && csp.common.LogSystem.getCPtr(LogSystem).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("LogSystem", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.LogSystem.getCPtr(LogSystem), (Parent != null && csp.multiplayer.SpaceEntity.getCPtr(Parent).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("Parent", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(Parent)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -290,7 +290,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.StringResultCallback callback =
         new ConnectedSpacesPlatformDotNet.StringResultCallback();
 
@@ -348,6 +348,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -370,7 +374,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -428,6 +432,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -451,7 +459,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.MessageResultCallback callback =
         new ConnectedSpacesPlatformDotNet.MessageResultCallback();
 
@@ -509,6 +517,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -532,7 +544,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -590,6 +602,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -613,7 +629,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.MessageCollectionResultCallback callback =
         new ConnectedSpacesPlatformDotNet.MessageCollectionResultCallback();
 
@@ -671,6 +687,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -693,7 +713,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ConversationResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ConversationResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.ConversationResultCallback callback =
         new ConnectedSpacesPlatformDotNet.ConversationResultCallback();
 
@@ -751,6 +771,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -774,7 +798,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ConversationResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ConversationResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.ConversationResultCallback callback =
         new ConnectedSpacesPlatformDotNet.ConversationResultCallback();
 
@@ -832,6 +856,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -855,7 +883,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.MessageResultCallback callback =
         new ConnectedSpacesPlatformDotNet.MessageResultCallback();
 
@@ -913,6 +941,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -936,7 +968,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.MessageResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.MessageResultCallback callback =
         new ConnectedSpacesPlatformDotNet.MessageResultCallback();
 
@@ -994,6 +1026,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -1016,7 +1052,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.NumberOfRepliesResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.NumberOfRepliesResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NumberOfRepliesResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NumberOfRepliesResultCallback();
 
@@ -1074,6 +1110,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -1096,7 +1136,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AnnotationResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AnnotationResultCallback();
 
@@ -1154,6 +1194,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -1177,7 +1221,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AnnotationResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AnnotationResultCallback();
 
@@ -1235,6 +1279,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -1257,7 +1305,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -1315,6 +1363,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -1338,7 +1390,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AnnotationResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AnnotationResultCallback();
 
@@ -1396,6 +1448,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -1419,7 +1475,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AnnotationResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AnnotationResultCallback();
 
@@ -1477,6 +1533,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -1500,7 +1560,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -1558,6 +1618,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -1580,7 +1644,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationThumbnailCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.AnnotationThumbnailCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AnnotationThumbnailCollectionResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AnnotationThumbnailCollectionResultCallback();
 
@@ -1638,6 +1702,10 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -1712,7 +1780,7 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
   public object OuterObjectPin { private get; set; }
 
   internal static csp.multiplayer.ConversationSpaceComponent NativeFromBaseCast(csp.multiplayer.ComponentBase baseObj) {
-    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ConversationSpaceComponent_NativeFromBaseCast(csp.multiplayer.ComponentBase.getCPtr(baseObj));
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ConversationSpaceComponent_NativeFromBaseCast((baseObj != null && csp.multiplayer.ComponentBase.getCPtr(baseObj).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("baseObj", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.ComponentBase.getCPtr(baseObj));
     csp.multiplayer.ConversationSpaceComponent ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.multiplayer.ConversationSpaceComponent(cPtr, false);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;

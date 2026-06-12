@@ -73,7 +73,7 @@ public class SpaceGeoLocation : global::System.IDisposable {
 
   public csp.systems.GeoLocation Location {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SpaceGeoLocation_Location_set(swigCPtr, csp.systems.GeoLocation.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SpaceGeoLocation_Location_set(swigCPtr, (value != null && csp.systems.GeoLocation.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.GeoLocation.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -103,7 +103,7 @@ public class SpaceGeoLocation : global::System.IDisposable {
 
   public csp.common.GeoLocationArray GeoFence {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SpaceGeoLocation_GeoFence_set(swigCPtr, csp.common.GeoLocationArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SpaceGeoLocation_GeoFence_set(swigCPtr, (value != null && csp.common.GeoLocationArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.GeoLocationArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

@@ -141,7 +141,7 @@ public class Asset : global::System.IDisposable {
 
   public csp.common.EAssetPlatformArray Platforms {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Asset_Platforms_set(swigCPtr, csp.common.EAssetPlatformArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Asset_Platforms_set(swigCPtr, (value != null && csp.common.EAssetPlatformArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.EAssetPlatformArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -159,7 +159,7 @@ public class Asset : global::System.IDisposable {
 
   public csp.common.StringArray Styles {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Asset_Styles_set(swigCPtr, csp.common.StringArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Asset_Styles_set(swigCPtr, (value != null && csp.common.StringArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.StringArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

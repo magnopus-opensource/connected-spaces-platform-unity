@@ -113,7 +113,7 @@ public class ProductInfo : global::System.IDisposable {
 
   public csp.common.ProductVariantInfoArray Variants {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductInfo_Variants_set(swigCPtr, csp.common.ProductVariantInfoArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductInfo_Variants_set(swigCPtr, (value != null && csp.common.ProductVariantInfoArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.ProductVariantInfoArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -131,7 +131,7 @@ public class ProductInfo : global::System.IDisposable {
 
   public csp.common.StringArray Tags {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductInfo_Tags_set(swigCPtr, csp.common.StringArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductInfo_Tags_set(swigCPtr, (value != null && csp.common.StringArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.StringArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -149,7 +149,7 @@ public class ProductInfo : global::System.IDisposable {
 
   public csp.common.ProductMediaInfoArray Media {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductInfo_Media_set(swigCPtr, csp.common.ProductMediaInfoArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_ProductInfo_Media_set(swigCPtr, (value != null && csp.common.ProductMediaInfoArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.ProductMediaInfoArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

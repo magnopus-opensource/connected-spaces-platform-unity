@@ -100,7 +100,7 @@ public class EntityScript : global::System.IDisposable {
   }
 
   public void SetScriptSpaceComponent(csp.multiplayer.ScriptSpaceComponent InEnityScriptComponent) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_EntityScript_SetScriptSpaceComponent(swigCPtr, csp.multiplayer.ScriptSpaceComponent.getCPtr(InEnityScriptComponent));
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_EntityScript_SetScriptSpaceComponent(swigCPtr, (InEnityScriptComponent != null && csp.multiplayer.ScriptSpaceComponent.getCPtr(InEnityScriptComponent).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("InEnityScriptComponent", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.ScriptSpaceComponent.getCPtr(InEnityScriptComponent));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 

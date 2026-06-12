@@ -112,7 +112,7 @@ public class AnimatedModelSpaceComponent : csp.multiplayer.ComponentBase, ITrans
   }
 
 
-  public AnimatedModelSpaceComponent(csp.common.LogSystem LogSystem, csp.multiplayer.SpaceEntity Parent) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_AnimatedModelSpaceComponent(csp.common.LogSystem.getCPtr(LogSystem), csp.multiplayer.SpaceEntity.getCPtr(Parent)), true) {
+  public AnimatedModelSpaceComponent(csp.common.LogSystem LogSystem, csp.multiplayer.SpaceEntity Parent) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_AnimatedModelSpaceComponent((LogSystem != null && csp.common.LogSystem.getCPtr(LogSystem).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("LogSystem", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.LogSystem.getCPtr(LogSystem), (Parent != null && csp.multiplayer.SpaceEntity.getCPtr(Parent).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("Parent", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(Parent)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -328,7 +328,7 @@ public class AnimatedModelSpaceComponent : csp.multiplayer.ComponentBase, ITrans
   public object OuterObjectPin { private get; set; }
 
   internal static csp.multiplayer.AnimatedModelSpaceComponent NativeFromBaseCast(csp.multiplayer.ComponentBase baseObj) {
-    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AnimatedModelSpaceComponent_NativeFromBaseCast(csp.multiplayer.ComponentBase.getCPtr(baseObj));
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AnimatedModelSpaceComponent_NativeFromBaseCast((baseObj != null && csp.multiplayer.ComponentBase.getCPtr(baseObj).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("baseObj", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.ComponentBase.getCPtr(baseObj));
     csp.multiplayer.AnimatedModelSpaceComponent ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.multiplayer.AnimatedModelSpaceComponent(cPtr, false);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;

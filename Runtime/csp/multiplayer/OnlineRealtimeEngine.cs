@@ -88,7 +88,7 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
   }
 
   public virtual void DestroyEntity(csp.multiplayer.SpaceEntity Entity, BoolCallbackAdapter Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_DestroyEntity(swigCPtr, csp.multiplayer.SpaceEntity.getCPtr(Entity), BoolCallbackAdapter.getCPtr(Callback));
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_DestroyEntity(swigCPtr, (Entity != null && csp.multiplayer.SpaceEntity.getCPtr(Entity).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("Entity", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(Entity), BoolCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -174,13 +174,13 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
   }
 
   public virtual csp.multiplayer.ModifiableStatus IsEntityModifiable(csp.multiplayer.SpaceEntity SpaceEntity) {
-    csp.multiplayer.ModifiableStatus ret = (csp.multiplayer.ModifiableStatus)ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_IsEntityModifiable(swigCPtr, csp.multiplayer.SpaceEntity.getCPtr(SpaceEntity));
+    csp.multiplayer.ModifiableStatus ret = (csp.multiplayer.ModifiableStatus)ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_IsEntityModifiable(swigCPtr, (SpaceEntity != null && csp.multiplayer.SpaceEntity.getCPtr(SpaceEntity).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("SpaceEntity", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(SpaceEntity));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void QueueEntityUpdate(csp.multiplayer.SpaceEntity Entity) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_QueueEntityUpdate(swigCPtr, csp.multiplayer.SpaceEntity.getCPtr(Entity));
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_QueueEntityUpdate(swigCPtr, (Entity != null && csp.multiplayer.SpaceEntity.getCPtr(Entity).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("Entity", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(Entity));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -210,7 +210,7 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
   }
 
   public void ClaimScriptOwnership(csp.multiplayer.SpaceEntity Entity) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_ClaimScriptOwnership(swigCPtr, csp.multiplayer.SpaceEntity.getCPtr(Entity));
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_ClaimScriptOwnership(swigCPtr, (Entity != null && csp.multiplayer.SpaceEntity.getCPtr(Entity).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("Entity", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(Entity));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -254,7 +254,7 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EntityCreatedCallback callback =
         new ConnectedSpacesPlatformDotNet.EntityCreatedCallback();
 
@@ -312,6 +312,10 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -335,7 +339,7 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EntityCreatedCallback callback =
         new ConnectedSpacesPlatformDotNet.EntityCreatedCallback();
 
@@ -393,6 +397,10 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -416,7 +424,7 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
     System.Threading.Tasks.TaskCompletionSource<bool> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<bool>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.DestroyCallback callback =
         new ConnectedSpacesPlatformDotNet.DestroyCallback();
 
@@ -474,6 +482,10 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 

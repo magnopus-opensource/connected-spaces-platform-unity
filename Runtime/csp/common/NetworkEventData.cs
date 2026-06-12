@@ -85,7 +85,7 @@ public class NetworkEventData : global::System.IDisposable {
 
   public csp.common.ReplicatedValueArray EventValues {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_NetworkEventData_EventValues_set(swigCPtr, csp.common.ReplicatedValueArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_NetworkEventData_EventValues_set(swigCPtr, (value != null && csp.common.ReplicatedValueArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.ReplicatedValueArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

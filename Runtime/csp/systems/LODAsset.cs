@@ -61,7 +61,7 @@ public class LODAsset : global::System.IDisposable {
 
   public csp.systems.Asset Asset {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_LODAsset_Asset_set(swigCPtr, csp.systems.Asset.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_LODAsset_Asset_set(swigCPtr, (value != null && csp.systems.Asset.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.Asset.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

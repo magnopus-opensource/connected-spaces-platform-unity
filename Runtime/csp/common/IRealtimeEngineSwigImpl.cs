@@ -84,7 +84,7 @@ public class IRealtimeEngineSwigImpl : IRealtimeEngine, global::System.IDisposab
   }
 
   public virtual void DestroyEntity(csp.multiplayer.SpaceEntity Entity, BoolCallbackAdapter Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_IRealtimeEngineSwigImpl_DestroyEntity(swigCPtr, csp.multiplayer.SpaceEntity.getCPtr(Entity), BoolCallbackAdapter.getCPtr(Callback));
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_IRealtimeEngineSwigImpl_DestroyEntity(swigCPtr, (Entity != null && csp.multiplayer.SpaceEntity.getCPtr(Entity).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("Entity", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(Entity), BoolCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -175,7 +175,7 @@ public class IRealtimeEngineSwigImpl : IRealtimeEngine, global::System.IDisposab
   }
 
   public virtual csp.multiplayer.ModifiableStatus IsEntityModifiable(csp.multiplayer.SpaceEntity SpaceEntity) {
-    csp.multiplayer.ModifiableStatus ret = (csp.multiplayer.ModifiableStatus)ConnectedSpacesPlatformDotNetPINVOKE.csp_common_IRealtimeEngineSwigImpl_IsEntityModifiable(swigCPtr, csp.multiplayer.SpaceEntity.getCPtr(SpaceEntity));
+    csp.multiplayer.ModifiableStatus ret = (csp.multiplayer.ModifiableStatus)ConnectedSpacesPlatformDotNetPINVOKE.csp_common_IRealtimeEngineSwigImpl_IsEntityModifiable(swigCPtr, (SpaceEntity != null && csp.multiplayer.SpaceEntity.getCPtr(SpaceEntity).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("SpaceEntity", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(SpaceEntity));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

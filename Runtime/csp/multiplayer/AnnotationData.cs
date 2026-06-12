@@ -109,7 +109,7 @@ public class AnnotationData : global::System.IDisposable {
 
   public csp.common.Vector3 AuthorCameraPosition {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AnnotationData_AuthorCameraPosition_set(swigCPtr, csp.common.Vector3.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AnnotationData_AuthorCameraPosition_set(swigCPtr, (value != null && csp.common.Vector3.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.Vector3.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -127,7 +127,7 @@ public class AnnotationData : global::System.IDisposable {
 
   public csp.common.Vector4 AuthorCameraRotation {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AnnotationData_AuthorCameraRotation_set(swigCPtr, csp.common.Vector4.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AnnotationData_AuthorCameraRotation_set(swigCPtr, (value != null && csp.common.Vector4.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.Vector4.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

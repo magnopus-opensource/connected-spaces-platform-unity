@@ -95,7 +95,7 @@ public class Space : csp.systems.BasicSpace {
 
   public csp.common.StringArray UserIds {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Space_UserIds_set(swigCPtr, csp.common.StringArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Space_UserIds_set(swigCPtr, (value != null && csp.common.StringArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.StringArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -113,7 +113,7 @@ public class Space : csp.systems.BasicSpace {
 
   public csp.common.StringArray ModeratorIds {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Space_ModeratorIds_set(swigCPtr, csp.common.StringArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Space_ModeratorIds_set(swigCPtr, (value != null && csp.common.StringArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.StringArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -131,7 +131,7 @@ public class Space : csp.systems.BasicSpace {
 
   public csp.common.StringArray BannedUserIds {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Space_BannedUserIds_set(swigCPtr, csp.common.StringArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Space_BannedUserIds_set(swigCPtr, (value != null && csp.common.StringArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.StringArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
