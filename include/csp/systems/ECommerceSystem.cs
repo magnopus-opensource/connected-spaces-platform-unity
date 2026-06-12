@@ -109,7 +109,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ProductInfoResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.ProductInfoResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.ProductInfoResultCallback callback =
         new ConnectedSpacesPlatformDotNet.ProductInfoResultCallback();
 
@@ -167,6 +167,10 @@ public class ECommerceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -190,7 +194,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ProductInfoCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.ProductInfoCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.ProductInfoCollectionResultCallback callback =
         new ConnectedSpacesPlatformDotNet.ProductInfoCollectionResultCallback();
 
@@ -248,6 +252,10 @@ public class ECommerceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -271,7 +279,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.CheckoutInfoResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.CheckoutInfoResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.CheckoutInfoResultCallback callback =
         new ConnectedSpacesPlatformDotNet.CheckoutInfoResultCallback();
 
@@ -329,6 +337,10 @@ public class ECommerceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -352,7 +364,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.CartInfoResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.CartInfoResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.CartInfoResultCallback callback =
         new ConnectedSpacesPlatformDotNet.CartInfoResultCallback();
 
@@ -410,6 +422,10 @@ public class ECommerceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -433,7 +449,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.CartInfoResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.CartInfoResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.CartInfoResultCallback callback =
         new ConnectedSpacesPlatformDotNet.CartInfoResultCallback();
 
@@ -491,6 +507,10 @@ public class ECommerceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -514,7 +534,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.GetShopifyStoresResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.GetShopifyStoresResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.GetShopifyStoresResultCallback callback =
         new ConnectedSpacesPlatformDotNet.GetShopifyStoresResultCallback();
 
@@ -572,6 +592,10 @@ public class ECommerceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -595,7 +619,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AddShopifyStoreResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AddShopifyStoreResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AddShopifyStoreResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AddShopifyStoreResultCallback();
 
@@ -653,6 +677,10 @@ public class ECommerceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -676,7 +704,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AddShopifyStoreResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AddShopifyStoreResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AddShopifyStoreResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AddShopifyStoreResultCallback();
 
@@ -734,6 +762,10 @@ public class ECommerceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -757,7 +789,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.ValidateShopifyStoreResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.ValidateShopifyStoreResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.ValidateShopifyStoreResultCallback callback =
         new ConnectedSpacesPlatformDotNet.ValidateShopifyStoreResultCallback();
 
@@ -815,6 +847,10 @@ public class ECommerceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -838,7 +874,7 @@ public class ECommerceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.CartInfoResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.CartInfoResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.CartInfoResultCallback callback =
         new ConnectedSpacesPlatformDotNet.CartInfoResultCallback();
 
@@ -896,6 +932,10 @@ public class ECommerceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 

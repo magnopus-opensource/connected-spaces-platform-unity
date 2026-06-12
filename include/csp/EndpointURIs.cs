@@ -61,7 +61,7 @@ public class EndpointURIs : global::System.IDisposable {
 
   public csp.ServiceDefinition UserService {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_UserService_set(swigCPtr, csp.ServiceDefinition.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_UserService_set(swigCPtr, (value != null && csp.ServiceDefinition.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.ServiceDefinition.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -79,7 +79,7 @@ public class EndpointURIs : global::System.IDisposable {
 
   public csp.ServiceDefinition PrototypeService {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_PrototypeService_set(swigCPtr, csp.ServiceDefinition.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_PrototypeService_set(swigCPtr, (value != null && csp.ServiceDefinition.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.ServiceDefinition.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -97,7 +97,7 @@ public class EndpointURIs : global::System.IDisposable {
 
   public csp.ServiceDefinition SpatialDataService {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_SpatialDataService_set(swigCPtr, csp.ServiceDefinition.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_SpatialDataService_set(swigCPtr, (value != null && csp.ServiceDefinition.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.ServiceDefinition.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -115,7 +115,7 @@ public class EndpointURIs : global::System.IDisposable {
 
   public csp.ServiceDefinition MultiplayerService {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_MultiplayerService_set(swigCPtr, csp.ServiceDefinition.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_MultiplayerService_set(swigCPtr, (value != null && csp.ServiceDefinition.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.ServiceDefinition.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -133,7 +133,7 @@ public class EndpointURIs : global::System.IDisposable {
 
   public csp.ServiceDefinition AggregationService {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_AggregationService_set(swigCPtr, csp.ServiceDefinition.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_AggregationService_set(swigCPtr, (value != null && csp.ServiceDefinition.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.ServiceDefinition.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -151,7 +151,7 @@ public class EndpointURIs : global::System.IDisposable {
 
   public csp.ServiceDefinition TrackingService {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_TrackingService_set(swigCPtr, csp.ServiceDefinition.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_TrackingService_set(swigCPtr, (value != null && csp.ServiceDefinition.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.ServiceDefinition.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -169,7 +169,7 @@ public class EndpointURIs : global::System.IDisposable {
 
   public csp.ServiceDefinition MaintenanceWindow {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_MaintenanceWindow_set(swigCPtr, csp.ServiceDefinition.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_MaintenanceWindow_set(swigCPtr, (value != null && csp.ServiceDefinition.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.ServiceDefinition.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -187,7 +187,7 @@ public class EndpointURIs : global::System.IDisposable {
 
   public csp.ServiceDefinition MultiplayerConnection {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_MultiplayerConnection_set(swigCPtr, csp.ServiceDefinition.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_EndpointURIs_MultiplayerConnection_set(swigCPtr, (value != null && csp.ServiceDefinition.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.ServiceDefinition.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

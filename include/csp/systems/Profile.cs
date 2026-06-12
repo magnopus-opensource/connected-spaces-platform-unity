@@ -79,7 +79,7 @@ public class Profile : csp.systems.BasicProfile {
 
   public csp.common.StringArray Roles {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Profile_Roles_set(swigCPtr, csp.common.StringArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Profile_Roles_set(swigCPtr, (value != null && csp.common.StringArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.StringArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

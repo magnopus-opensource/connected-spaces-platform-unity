@@ -73,7 +73,7 @@ public class LODChain : global::System.IDisposable {
 
   public csp.common.LODAssetArray LODAssets {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_LODChain_LODAssets_set(swigCPtr, csp.common.LODAssetArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_LODChain_LODAssets_set(swigCPtr, (value != null && csp.common.LODAssetArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.LODAssetArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

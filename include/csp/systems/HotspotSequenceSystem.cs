@@ -49,7 +49,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     }
   }
 
-  public HotspotSequenceSystem(csp.systems.SequenceSystem SequenceSystem, csp.systems.SpaceSystem SpaceSystem, csp.multiplayer.NetworkEventBus EventBus, csp.common.LogSystem LogSystem) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_systems_HotspotSequenceSystem(csp.systems.SequenceSystem.getCPtr(SequenceSystem), csp.systems.SpaceSystem.getCPtr(SpaceSystem), csp.multiplayer.NetworkEventBus.getCPtr(EventBus), csp.common.LogSystem.getCPtr(LogSystem)), true) {
+  public HotspotSequenceSystem(csp.systems.SequenceSystem SequenceSystem, csp.systems.SpaceSystem SpaceSystem, csp.multiplayer.NetworkEventBus EventBus, csp.common.LogSystem LogSystem) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_systems_HotspotSequenceSystem((SequenceSystem != null && csp.systems.SequenceSystem.getCPtr(SequenceSystem).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("SequenceSystem", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.SequenceSystem.getCPtr(SequenceSystem), (SpaceSystem != null && csp.systems.SpaceSystem.getCPtr(SpaceSystem).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("SpaceSystem", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.SpaceSystem.getCPtr(SpaceSystem), csp.multiplayer.NetworkEventBus.getCPtr(EventBus), csp.common.LogSystem.getCPtr(LogSystem)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -105,7 +105,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback callback =
         new ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback();
 
@@ -163,6 +163,10 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -186,7 +190,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback callback =
         new ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback();
 
@@ -244,6 +248,10 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -267,7 +275,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback callback =
         new ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback();
 
@@ -325,6 +333,10 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -348,7 +360,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback callback =
         new ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback();
 
@@ -406,6 +418,10 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -428,7 +444,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupsResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupsResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.HotspotGroupsResultCallback callback =
         new ConnectedSpacesPlatformDotNet.HotspotGroupsResultCallback();
 
@@ -486,6 +502,10 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -509,7 +529,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -567,6 +587,10 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -590,7 +614,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -648,6 +672,10 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 

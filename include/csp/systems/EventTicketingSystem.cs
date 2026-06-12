@@ -94,7 +94,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TicketedEventResultCallback callback =
         new ConnectedSpacesPlatformDotNet.TicketedEventResultCallback();
 
@@ -152,6 +152,10 @@ public class EventTicketingSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -175,7 +179,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TicketedEventResultCallback callback =
         new ConnectedSpacesPlatformDotNet.TicketedEventResultCallback();
 
@@ -233,6 +237,10 @@ public class EventTicketingSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -256,7 +264,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TicketedEventCollectionResultCallback callback =
         new ConnectedSpacesPlatformDotNet.TicketedEventCollectionResultCallback();
 
@@ -314,6 +322,10 @@ public class EventTicketingSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -337,7 +349,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.EventTicketResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.EventTicketResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EventTicketResultCallback callback =
         new ConnectedSpacesPlatformDotNet.EventTicketResultCallback();
 
@@ -395,6 +407,10 @@ public class EventTicketingSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -418,7 +434,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventVendorAuthInfoResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventVendorAuthInfoResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TicketedEventVendorAuthorizeInfoCallback callback =
         new ConnectedSpacesPlatformDotNet.TicketedEventVendorAuthorizeInfoCallback();
 
@@ -476,6 +492,10 @@ public class EventTicketingSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -499,7 +519,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceIsTicketedResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceIsTicketedResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceIsTicketedResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceIsTicketedResultCallback();
 
@@ -557,6 +577,10 @@ public class EventTicketingSystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 

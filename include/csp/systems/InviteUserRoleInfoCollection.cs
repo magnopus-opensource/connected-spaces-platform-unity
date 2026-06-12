@@ -93,7 +93,7 @@ public class InviteUserRoleInfoCollection : global::System.IDisposable {
 
   public csp.common.InviteUserRoleInfoArray InviteUserRoleInfos {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_InviteUserRoleInfoCollection_InviteUserRoleInfos_set(swigCPtr, csp.common.InviteUserRoleInfoArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_InviteUserRoleInfoCollection_InviteUserRoleInfos_set(swigCPtr, (value != null && csp.common.InviteUserRoleInfoArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.InviteUserRoleInfoArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

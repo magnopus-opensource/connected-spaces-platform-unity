@@ -71,12 +71,12 @@ public class TempMockScriptRunner : IJSScriptRunner, global::System.IDisposable 
   }
 
   public void RegisterScriptBinding(csp.common.IScriptBindingSwigImpl arg0) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_TempMockScriptRunner_RegisterScriptBinding(swigCPtr, csp.common.IScriptBindingSwigImpl.getCPtr(arg0));
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_TempMockScriptRunner_RegisterScriptBinding(swigCPtr, (arg0 != null && csp.common.IScriptBindingSwigImpl.getCPtr(arg0).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("arg0", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.IScriptBindingSwigImpl.getCPtr(arg0));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void UnregisterScriptBinding(csp.common.IScriptBindingSwigImpl arg0) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_TempMockScriptRunner_UnregisterScriptBinding(swigCPtr, csp.common.IScriptBindingSwigImpl.getCPtr(arg0));
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_TempMockScriptRunner_UnregisterScriptBinding(swigCPtr, (arg0 != null && csp.common.IScriptBindingSwigImpl.getCPtr(arg0).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("arg0", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.IScriptBindingSwigImpl.getCPtr(arg0));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 

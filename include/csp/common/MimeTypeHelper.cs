@@ -71,7 +71,7 @@ public class MimeTypeHelper : global::System.IDisposable {
 
   public csp.common.MimeTypes MimeType {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_MimeTypeHelper_MimeType_set(swigCPtr, csp.common.MimeTypes.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_MimeTypeHelper_MimeType_set(swigCPtr, (value != null && csp.common.MimeTypes.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.MimeTypes.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -89,7 +89,7 @@ public class MimeTypeHelper : global::System.IDisposable {
 
   public csp.common.FileExtensions FileExtension {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_MimeTypeHelper_FileExtension_set(swigCPtr, csp.common.FileExtensions.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_MimeTypeHelper_FileExtension_set(swigCPtr, (value != null && csp.common.FileExtensions.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.FileExtensions.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

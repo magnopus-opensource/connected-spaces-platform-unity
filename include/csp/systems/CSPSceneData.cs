@@ -65,7 +65,7 @@ public class CSPSceneData : global::System.IDisposable {
 
   public csp.systems.Space Space {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CSPSceneData_Space_set(swigCPtr, csp.systems.Space.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CSPSceneData_Space_set(swigCPtr, (value != null && csp.systems.Space.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.Space.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -83,7 +83,7 @@ public class CSPSceneData : global::System.IDisposable {
 
   public csp.common.AssetCollectionArray AssetCollections {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CSPSceneData_AssetCollections_set(swigCPtr, csp.common.AssetCollectionArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CSPSceneData_AssetCollections_set(swigCPtr, (value != null && csp.common.AssetCollectionArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.AssetCollectionArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -101,7 +101,7 @@ public class CSPSceneData : global::System.IDisposable {
 
   public csp.common.AssetArray Assets {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CSPSceneData_Assets_set(swigCPtr, csp.common.AssetArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CSPSceneData_Assets_set(swigCPtr, (value != null && csp.common.AssetArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.AssetArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -119,7 +119,7 @@ public class CSPSceneData : global::System.IDisposable {
 
   public csp.common.SequenceArray Sequences {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CSPSceneData_Sequences_set(swigCPtr, csp.common.SequenceArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CSPSceneData_Sequences_set(swigCPtr, (value != null && csp.common.SequenceArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.SequenceArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -137,7 +137,7 @@ public class CSPSceneData : global::System.IDisposable {
 
   public csp.common.AnchorArray Anchors {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CSPSceneData_Anchors_set(swigCPtr, csp.common.AnchorArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_CSPSceneData_Anchors_set(swigCPtr, (value != null && csp.common.AnchorArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.AnchorArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

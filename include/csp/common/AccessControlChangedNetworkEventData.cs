@@ -63,7 +63,7 @@ public class AccessControlChangedNetworkEventData : csp.common.NetworkEventData 
 
   public csp.common.SpaceUserRoleArray UserRoles {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_AccessControlChangedNetworkEventData_UserRoles_set(swigCPtr, csp.common.SpaceUserRoleArray.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_AccessControlChangedNetworkEventData_UserRoles_set(swigCPtr, (value != null && csp.common.SpaceUserRoleArray.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.SpaceUserRoleArray.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

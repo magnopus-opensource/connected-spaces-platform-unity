@@ -63,7 +63,7 @@ public class ConversationNetworkEventData : csp.common.NetworkEventData {
 
   public csp.multiplayer.MessageInfo MessageInfo {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_ConversationNetworkEventData_MessageInfo_set(swigCPtr, csp.multiplayer.MessageInfo.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_ConversationNetworkEventData_MessageInfo_set(swigCPtr, (value != null && csp.multiplayer.MessageInfo.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.MessageInfo.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {

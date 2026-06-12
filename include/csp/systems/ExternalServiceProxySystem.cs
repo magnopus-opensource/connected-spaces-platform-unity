@@ -66,7 +66,7 @@ public class ExternalServiceProxySystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.StringResultCallback callback =
         new ConnectedSpacesPlatformDotNet.StringResultCallback();
 
@@ -124,6 +124,10 @@ public class ExternalServiceProxySystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 
@@ -147,7 +151,7 @@ public class ExternalServiceProxySystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.StringResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.StringResultCallback callback =
         new ConnectedSpacesPlatformDotNet.StringResultCallback();
 
@@ -205,6 +209,10 @@ public class ExternalServiceProxySystem : csp.systems.SystemBase {
         {
             // If any other exception occurs, we set it on the task completion source. Failsafe.
             tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
         }
     });
 

@@ -87,7 +87,7 @@ public class AudioSpaceComponent : csp.multiplayer.ComponentBase, IAudioControlC
   }
 
 
-  public AudioSpaceComponent(csp.common.LogSystem LogSystem, csp.multiplayer.SpaceEntity Parent) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_AudioSpaceComponent(csp.common.LogSystem.getCPtr(LogSystem), csp.multiplayer.SpaceEntity.getCPtr(Parent)), true) {
+  public AudioSpaceComponent(csp.common.LogSystem LogSystem, csp.multiplayer.SpaceEntity Parent) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_AudioSpaceComponent((LogSystem != null && csp.common.LogSystem.getCPtr(LogSystem).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("LogSystem", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.LogSystem.getCPtr(LogSystem), (Parent != null && csp.multiplayer.SpaceEntity.getCPtr(Parent).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("Parent", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(Parent)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -222,7 +222,7 @@ public class AudioSpaceComponent : csp.multiplayer.ComponentBase, IAudioControlC
   public object OuterObjectPin { private get; set; }
 
   internal static csp.multiplayer.AudioSpaceComponent NativeFromBaseCast(csp.multiplayer.ComponentBase baseObj) {
-    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_NativeFromBaseCast(csp.multiplayer.ComponentBase.getCPtr(baseObj));
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_AudioSpaceComponent_NativeFromBaseCast((baseObj != null && csp.multiplayer.ComponentBase.getCPtr(baseObj).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("baseObj", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.ComponentBase.getCPtr(baseObj));
     csp.multiplayer.AudioSpaceComponent ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.multiplayer.AudioSpaceComponent(cPtr, false);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;

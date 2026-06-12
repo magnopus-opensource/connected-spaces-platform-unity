@@ -101,7 +101,7 @@ public class Site : global::System.IDisposable {
 
   public csp.systems.GeoLocation Location {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Site_Location_set(swigCPtr, csp.systems.GeoLocation.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Site_Location_set(swigCPtr, (value != null && csp.systems.GeoLocation.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.GeoLocation.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
@@ -119,7 +119,7 @@ public class Site : global::System.IDisposable {
 
   public csp.systems.OlyRotation Rotation {
     set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Site_Rotation_set(swigCPtr, csp.systems.OlyRotation.getCPtr(value));
+      ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_Site_Rotation_set(swigCPtr, (value != null && csp.systems.OlyRotation.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.OlyRotation.getCPtr(value));
       if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     } 
     get {
