@@ -112,6 +112,8 @@ namespace Plugins.Editor
                 ExtractTarball(tempDownloadPath, localPluginsPath);
                 CleanupRedundantFiles(localPluginsPath);
                 File.Create(targetVersionFile).Dispose();
+                
+                SanitizeMetaFiles(localPluginsPath);
 
                 AssetDatabase.Refresh();
                 Debug.Log($"[CSP-CI] Successfully installed native binaries version: {data.version}");
@@ -206,6 +208,8 @@ namespace Plugins.Editor
                                 ExtractTarball(tempDownloadPath, localPluginsPath);
                                 CleanupRedundantFiles(localPluginsPath);
                                 File.Create(targetVersionFile).Dispose();
+
+                                SanitizeMetaFiles(localPluginsPath);
 
                                 AssetDatabase.Refresh();
                                 Debug.Log($"[CSP] Successfully installed native binaries version: {data.version}");
@@ -339,6 +343,30 @@ namespace Plugins.Editor
             catch (UnauthorizedAccessException e)
             {
                 throw new LibraryInstallationException("Access denied during cleanup of extracted files.", e);
+            }
+        }
+        
+        private static void SanitizeMetaFiles(string targetFolder)
+        {
+            try
+            {
+                string[] metaFiles = Directory.GetFiles(targetFolder, "*.meta", SearchOption.AllDirectories);
+
+                foreach (string file in metaFiles)
+                {
+                    string content = File.ReadAllText(file);
+                    
+                    // Replace Windows CRLF with Unix LF
+                    if (content.Contains("\r\n"))
+                    {
+                        string fixedContent = content.Replace("\r\n", "\n");
+                        File.WriteAllText(file, fixedContent);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"[CSP] Failed to sanitize meta files. Unity may show YAML warnings: {e.Message}");
             }
         }
 
