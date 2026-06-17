@@ -54,7 +54,19 @@ namespace Plugins.Editor
         [MenuItem(MenuPath)]
         public static async void ManualDownloadTrigger()
         {
-            await RunEditorWorkflowAsync(true);
+            try
+            {
+                await RunEditorWorkflowAsync(true);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[CSP] Manual binary download failed: {ex.Message}\n{ex.StackTrace}");
+                UnityEditor.EditorUtility.DisplayDialog(
+                    "CSP Binary Download Failed", 
+                    $"An error occurred while downloading or extracting the native binaries.\n\n{ex.Message}\n\nCheck the Unity Console for more details.", 
+                    "OK"
+                );
+            }
         }
 
         // --- DEDICATED CI PIPELINE (Deadlock Free) ---
