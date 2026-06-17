@@ -276,15 +276,23 @@ namespace Plugins.Editor
 
         private static DistributionMetadata ReadMetadata(string path)
         {
-            string json = File.ReadAllText(path);
-            var data = JsonUtility.FromJson<DistributionMetadata>(json);
-
-            if (data == null || string.IsNullOrEmpty(data.downloadUrl))
+            try
             {
-                throw new LibraryInstallationException("downloadUrl is empty in package-dist.json");
-            }
+                string json = File.ReadAllText(path);
+                var data = JsonUtility.FromJson<DistributionMetadata>(json);
 
-            return data;
+                if (data == null || string.IsNullOrEmpty(data.downloadUrl))
+                {
+                    throw new LibraryInstallationException("downloadUrl is empty in package-dist.json");
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                throw new LibraryInstallationException(
+                    $"Failed to read or parse metadata at path: '{path}'.\nUnderlying error: {ex.Message}", ex);
+            }
         }
 
         private static void ExtractTarball(string archivePath, string targetFolder)
