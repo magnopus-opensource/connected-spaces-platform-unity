@@ -14,6 +14,9 @@ namespace Plugins.Editor
         private const string PackageName = "com.magnopus.csp.unity";
         private const string MenuPath = "MAGNOPUS/Download CSP Libraries";
 
+        // Mutual exclusion lock to prevent concurrent downloads from editor and manual triggers
+        private static bool _isWorkflowRunning = false;
+
         // A targeted custom exception for our downstream catchers
         public class LibraryInstallationException : Exception
         {
@@ -115,8 +118,8 @@ namespace Plugins.Editor
                     {
                         using (HttpClient client = new HttpClient())
                         {
-                            // Disable the default 100-second timeout for large artifact downloads
-                            client.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
+                            // A large, finite timeout prevents CI jobs from hanging indefinitely on stalled networks
+                            client.Timeout = TimeSpan.FromMinutes(10);
 
                             using (HttpResponseMessage response = await client.GetAsync(data.downloadUrl, HttpCompletionOption.ResponseHeadersRead))
                             {
@@ -164,122 +167,146 @@ namespace Plugins.Editor
         // --- DEDICATED EDITOR PIPELINE (UI Responsive) ---
         private static async Task RunEditorWorkflowAsync(bool forceManual)
         {
-            string packagePath = Path.GetFullPath($"Packages/{PackageName}");
-            var packageInfo = UnityEditor.PackageManager.PackageInfo.FindForAssetPath($"Packages/{PackageName}");
-            
-            if (packageInfo != null)
-            {
-                packagePath = packageInfo.resolvedPath; 
-            }
-
-            string metadataPath = Path.Combine(packagePath, "package-dist.json");
-            string localPluginsPath = Path.Combine(Application.dataPath, "Plugins/CSP/Internal");
-
-            if (!File.Exists(metadataPath))
+            // Prevent concurrent executions
+            if (_isWorkflowRunning)
             {
                 if (forceManual)
                 {
-                    throw new LibraryInstallationException($"Metadata not found at {metadataPath}. Ensure package is installed.");
+                    EditorUtility.DisplayDialog(
+                        "Download in Progress", 
+                        "A download or extraction is already in progress. Please wait for it to complete.", 
+                        "OK"
+                    );
                 }
-
                 return;
             }
 
-            DistributionMetadata data = ReadMetadata(metadataPath);
-
-            // Check if the folder exists and if the specific target version marker exists
-            string targetVersionFile = Path.Combine(localPluginsPath, $".version-{data.version}");
-            
-            bool needsDownload = !Directory.Exists(localPluginsPath) || !File.Exists(targetVersionFile) || forceManual;
-
-            if (needsDownload)
+            try
             {
-                bool proceed = true;
+                _isWorkflowRunning = true; // Lock the workflow
 
-                if (forceManual)
+                string packagePath = Path.GetFullPath($"Packages/{PackageName}");
+                var packageInfo = UnityEditor.PackageManager.PackageInfo.FindForAssetPath($"Packages/{PackageName}");
+                
+                if (packageInfo != null)
                 {
-                    proceed = EditorUtility.DisplayDialog(
-                        "Download CSP Binaries",
-                        $"Force download native binaries ({data.version})?\n\nThis will download approx 780MB from GitHub.",
-                        "Download",
-                        "Cancel");
-                }
-                else
-                {
-                    Debug.Log($"[CSP] Outdated or missing binaries detected (Target: {data.version}). Starting download...");
+                    packagePath = packageInfo.resolvedPath; 
                 }
 
-                if (proceed)
+                string metadataPath = Path.Combine(packagePath, "package-dist.json");
+                string localPluginsPath = Path.Combine(Application.dataPath, "Plugins/CSP/Internal");
+
+                if (!File.Exists(metadataPath))
                 {
-                    string tempDownloadPath = Path.Combine(Application.temporaryCachePath, "csp_binaries.tgz");
-                    
-                    using (UnityWebRequest www = UnityWebRequest.Get(data.downloadUrl))
+                    if (forceManual)
                     {
-                        www.downloadHandler = new DownloadHandlerFile(tempDownloadPath);
-                        var operation = www.SendWebRequest();
+                        throw new LibraryInstallationException($"Metadata not found at {metadataPath}. Ensure package is installed.");
+                    }
 
-                        try
+                    return;
+                }
+
+                DistributionMetadata data = ReadMetadata(metadataPath);
+
+                // Check if the folder exists and if the specific target version marker exists
+                string targetVersionFile = Path.Combine(localPluginsPath, $".version-{data.version}");
+                
+                bool needsDownload = !Directory.Exists(localPluginsPath) || !File.Exists(targetVersionFile) || forceManual;
+
+                if (needsDownload)
+                {
+                    bool proceed = true;
+
+                    if (forceManual)
+                    {
+                        proceed = EditorUtility.DisplayDialog(
+                            "Download CSP Binaries",
+                            $"Force download native binaries ({data.version})?\n\nThis will download approx 780MB from GitHub.",
+                            "Download",
+                            "Cancel");
+                    }
+                    else
+                    {
+                        Debug.Log($"[CSP] Outdated or missing binaries detected (Target: {data.version}). Starting download...");
+                    }
+
+                    if (proceed)
+                    {
+                        string tempDownloadPath = Path.Combine(Application.temporaryCachePath, "csp_binaries.tgz");
+                        
+                        using (UnityWebRequest www = UnityWebRequest.Get(data.downloadUrl))
                         {
-                            while (!operation.isDone)
-                            {
-                                bool isCanceled = EditorUtility.DisplayCancelableProgressBar(
-                                    "Downloading CSP Binaries", 
-                                    $"Fetching assets... {Mathf.RoundToInt(www.downloadProgress * 100)}%", 
-                                    www.downloadProgress);
+                            www.downloadHandler = new DownloadHandlerFile(tempDownloadPath);
+                            var operation = www.SendWebRequest();
 
-                                if (isCanceled)
+                            try
+                            {
+                                while (!operation.isDone)
                                 {
-                                    www.Abort(); 
-                                    Debug.LogWarning("[CSP] Binary download canceled by user.");
-                                    return; 
+                                    bool isCanceled = EditorUtility.DisplayCancelableProgressBar(
+                                        "Downloading CSP Binaries", 
+                                        $"Fetching assets... {Mathf.RoundToInt(www.downloadProgress * 100)}%", 
+                                        www.downloadProgress);
+
+                                    if (isCanceled)
+                                    {
+                                        www.Abort(); 
+                                        Debug.LogWarning("[CSP] Binary download canceled by user.");
+                                        return; 
+                                    }
+                                    
+                                    await Task.Delay(100);
                                 }
+
+                                EditorUtility.ClearProgressBar();
+
+                                if (www.result == UnityWebRequest.Result.Success)
+                                {
+                                    ExtractTarball(tempDownloadPath, localPluginsPath);
+                                    CleanupRedundantFiles(localPluginsPath);
+                                    File.Create(targetVersionFile).Dispose();
+
+                                    AssetDatabase.Refresh();
+                                    Debug.Log($"[CSP] Successfully installed native binaries version: {data.version}");
+                                    
+                                    if (forceManual)
+                                    {
+                                        EditorUtility.DisplayDialog("Success", $"CSP Binaries ({data.version}) successfully installed.", "OK");
+                                    }
+                                }
+                                else
+                                {
+                                    throw new LibraryInstallationException($"Network error: {www.error}");
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                throw;
+                            }
+                            finally
+                            {
+                                EditorUtility.ClearProgressBar();
                                 
-                                await Task.Delay(100);
-                            }
-
-                            EditorUtility.ClearProgressBar();
-
-                            if (www.result == UnityWebRequest.Result.Success)
-                            {
-                                ExtractTarball(tempDownloadPath, localPluginsPath);
-                                CleanupRedundantFiles(localPluginsPath);
-                                File.Create(targetVersionFile).Dispose();
-
-                                AssetDatabase.Refresh();
-                                Debug.Log($"[CSP] Successfully installed native binaries version: {data.version}");
-                                
-                                if (forceManual)
+                                if (File.Exists(tempDownloadPath)) 
                                 {
-                                    EditorUtility.DisplayDialog("Success", $"CSP Binaries ({data.version}) successfully installed.", "OK");
-                                }
-                            }
-                            else
-                            {
-                                throw new LibraryInstallationException($"Network error: {www.error}");
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            throw;
-                        }
-                        finally
-                        {
-                            EditorUtility.ClearProgressBar();
-                            
-                            if (File.Exists(tempDownloadPath)) 
-                            {
-                                try
-                                {
-                                    File.Delete(tempDownloadPath);
-                                }
-                                catch
-                                {
-                                    // Ignore cleanup errors
+                                    try
+                                    {
+                                        File.Delete(tempDownloadPath);
+                                    }
+                                    catch
+                                    {
+                                        // Ignore cleanup errors
+                                    }
                                 }
                             }
                         }
                     }
                 }
+            }
+            finally
+            {
+                // Always release the lock, even if an exception was thrown or the user canceled
+                _isWorkflowRunning = false;
             }
         }
 
