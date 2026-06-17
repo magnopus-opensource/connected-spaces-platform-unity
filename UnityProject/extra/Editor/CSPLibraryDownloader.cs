@@ -234,13 +234,13 @@ namespace Plugins.Editor
                     {
                         string tempDownloadPath = Path.Combine(Application.temporaryCachePath, "csp_binaries.tgz");
                         
-                        using (UnityWebRequest www = UnityWebRequest.Get(data.downloadUrl))
+                        try
                         {
-                            www.downloadHandler = new DownloadHandlerFile(tempDownloadPath);
-                            var operation = www.SendWebRequest();
-
-                            try
+                            using (UnityWebRequest www = UnityWebRequest.Get(data.downloadUrl))
                             {
+                                www.downloadHandler = new DownloadHandlerFile(tempDownloadPath);
+                                var operation = www.SendWebRequest();
+
                                 while (!operation.isDone)
                                 {
                                     bool isCanceled = EditorUtility.DisplayCancelableProgressBar(
@@ -258,45 +258,42 @@ namespace Plugins.Editor
                                     await Task.Delay(100);
                                 }
 
-                                EditorUtility.ClearProgressBar();
-
-                                if (www.result == UnityWebRequest.Result.Success)
-                                {
-                                    ExtractTarball(tempDownloadPath, localPluginsPath);
-                                    CleanupRedundantFiles(localPluginsPath);
-                                    File.Create(targetVersionFile).Dispose();
-
-                                    AssetDatabase.Refresh();
-                                    Debug.Log($"[CSP] Successfully installed native binaries version: {data.version}");
-                                    
-                                    if (forceManual)
-                                    {
-                                        EditorUtility.DisplayDialog("Success", $"CSP Binaries ({data.version}) successfully installed.", "OK");
-                                    }
-                                }
-                                else
+                                if (www.result != UnityWebRequest.Result.Success)
                                 {
                                     throw new LibraryInstallationException($"Network error: {www.error}");
                                 }
-                            }
-                            catch (Exception)
-                            {
-                                throw;
-                            }
-                            finally
-                            {
-                                EditorUtility.ClearProgressBar();
                                 
-                                if (File.Exists(tempDownloadPath)) 
+                                var handler = www.downloadHandler;
+                                www.downloadHandler = null;
+                                handler?.Dispose();
+                            }
+                            
+                            EditorUtility.ClearProgressBar();
+                            ExtractTarball(tempDownloadPath, localPluginsPath);
+                            CleanupRedundantFiles(localPluginsPath);
+                            File.Create(targetVersionFile).Dispose();
+
+                            AssetDatabase.Refresh();
+                            Debug.Log($"[CSP] Successfully installed native binaries version: {data.version}");
+                            
+                            if (forceManual)
+                            {
+                                EditorUtility.DisplayDialog("Success", $"CSP Binaries ({data.version}) successfully installed.", "OK");
+                            }
+                        }
+                        finally
+                        {
+                            EditorUtility.ClearProgressBar();
+                            
+                            if (File.Exists(tempDownloadPath)) 
+                            {
+                                try
                                 {
-                                    try
-                                    {
-                                        File.Delete(tempDownloadPath);
-                                    }
-                                    catch
-                                    {
-                                        // Ignore cleanup errors
-                                    }
+                                    File.Delete(tempDownloadPath);
+                                }
+                                catch
+                                {
+                                    // Ignore cleanup errors
                                 }
                             }
                         }
@@ -305,7 +302,7 @@ namespace Plugins.Editor
             }
             finally
             {
-                // Always release the lock, even if an exception was thrown or the user canceled
+                // Always release the mutual exclusion lock
                 _isWorkflowRunning = false;
             }
         }
