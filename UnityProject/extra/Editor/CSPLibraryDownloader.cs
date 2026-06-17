@@ -93,6 +93,9 @@ namespace Plugins.Editor
                     {
                         using (HttpClient client = new HttpClient())
                         {
+                            // Disable the default 100-second timeout for large artifact downloads
+                            client.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
+
                             using (HttpResponseMessage response = await client.GetAsync(data.downloadUrl, HttpCompletionOption.ResponseHeadersRead))
                             {
                                 response.EnsureSuccessStatusCode();
