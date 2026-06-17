@@ -19,12 +19,13 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
     guid = get_guid(rel_path_str)
 
     if is_directory:
+        # Empty string quotes added to prevent Git whitespace stripping
         body = ("folderAsset: yes\n"
                 "DefaultImporter:\n"
                 "  externalObjects: {}\n"
-                "  userData: \n"
-                "  assetBundleName: \n"
-                "  assetBundleVariant: ")
+                "  userData: ''\n"
+                "  assetBundleName: ''\n"
+                "  assetBundleVariant: ''")
     elif file_path.suffix == '.cs':
         body = ("MonoImporter:\n"
                 "  externalObjects: {}\n"
@@ -47,7 +48,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  validateReferences: 1\n"
                 "  platformData:\n"
                 "  - first:\n"
-                "      Any: \n"
+                "      Any: ''\n"
                 "    second:\n"
                 "      enabled: 0\n"
                 "      settings:\n"
@@ -62,9 +63,9 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "      enabled: 1\n"
                 "      settings:\n"
                 "        CPU: ARM64\n"
-                "  userData: \n"
-                "  assetBundleName: \n"
-                "  assetBundleVariant: ")
+                "  userData: ''\n"
+                "  assetBundleName: ''\n"
+                "  assetBundleVariant: ''")
     elif file_path.suffix == '.a' and 'visionOS' in file_path.parts:
         # Determine if this binary is for the Simulator or Device based on its folder
         sdk_target = 'Simulator' if 'Simulator' in file_path.parts else 'Device'
@@ -81,7 +82,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  validateReferences: 1\n"
                 "  platformData:\n"
                 "  - first:\n"
-                "      Any: \n"
+                "      Any: ''\n"
                 "    second:\n"
                 "      enabled: 0\n"
                 "      settings:\n"
@@ -97,15 +98,16 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "      settings:\n"
                 "        CPU: ARM64\n"
                 f"        SDK: {sdk_target}\n"
-                "  userData: \n"
-                "  assetBundleName: \n"
-                "  assetBundleVariant: ")
+                "  userData: ''\n"
+                "  assetBundleName: ''\n"
+                "  assetBundleVariant: ''")
     else:
+        # Empty string quotes added to prevent Git whitespace stripping
         body = ("DefaultImporter:\n"
                 "  externalObjects: {}\n"
-                "  userData: \n"
-                "  assetBundleName: \n"
-                "  assetBundleVariant: ")
+                "  userData: ''\n"
+                "  assetBundleName: ''\n"
+                "  assetBundleVariant: ''")
 
     content = f"fileFormatVersion: 2\nguid: {guid}\n{body}\n"
 
