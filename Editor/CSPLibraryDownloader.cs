@@ -262,10 +262,6 @@ namespace Plugins.Editor
                                 {
                                     throw new LibraryInstallationException($"Network error: {www.error}");
                                 }
-                                
-                                var handler = www.downloadHandler;
-                                www.downloadHandler = null;
-                                handler?.Dispose();
                             }
                             
                             EditorUtility.ClearProgressBar();
