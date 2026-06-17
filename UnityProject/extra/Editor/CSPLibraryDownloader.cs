@@ -86,39 +86,52 @@ namespace Plugins.Editor
                 Debug.Log($"[CSP-CI] Missing binaries (Target: {data.version}). Starting download...");
                 string tempDownloadPath = Path.Combine(Application.temporaryCachePath, "csp_binaries.tgz");
 
-                // Isolate ONLY the HTTP network stream to a background thread to prevent Unity API deadlocks
-                Task.Run(async () =>
+                try
                 {
-                    using (HttpClient client = new HttpClient())
+                    // Isolate ONLY the HTTP network stream to a background thread to prevent Unity API deadlocks
+                    Task.Run(async () =>
                     {
-                        using (HttpResponseMessage response = await client.GetAsync(data.downloadUrl, HttpCompletionOption.ResponseHeadersRead))
+                        using (HttpClient client = new HttpClient())
                         {
-                            response.EnsureSuccessStatusCode();
-                            
-                            using (Stream contentStream = await response.Content.ReadAsStreamAsync())
+                            using (HttpResponseMessage response = await client.GetAsync(data.downloadUrl, HttpCompletionOption.ResponseHeadersRead))
                             {
-                                using (Stream fileStream = new FileStream(tempDownloadPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                                response.EnsureSuccessStatusCode();
+                                
+                                using (Stream contentStream = await response.Content.ReadAsStreamAsync())
                                 {
-                                    await contentStream.CopyToAsync(fileStream);
+                                    using (Stream fileStream = new FileStream(tempDownloadPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                                    {
+                                        await contentStream.CopyToAsync(fileStream);
+                                    }
                                 }
                             }
                         }
-                    }
-                }).GetAwaiter().GetResult();
+                    }).GetAwaiter().GetResult();
 
-                Debug.Log("[CSP-CI] Download complete. Processing...");
-                
-                // Back on the Main Thread safely: Extract and call Unity APIs
-                ExtractTarball(tempDownloadPath, localPluginsPath);
-                CleanupRedundantFiles(localPluginsPath);
-                File.Create(targetVersionFile).Dispose();
+                    Debug.Log("[CSP-CI] Download complete. Processing...");
+                    
+                    // Back on the Main Thread safely: Extract and call Unity APIs
+                    ExtractTarball(tempDownloadPath, localPluginsPath);
+                    CleanupRedundantFiles(localPluginsPath);
+                    File.Create(targetVersionFile).Dispose();
 
-                AssetDatabase.Refresh();
-                Debug.Log($"[CSP-CI] Successfully installed native binaries version: {data.version}");
-
-                if (File.Exists(tempDownloadPath))
+                    AssetDatabase.Refresh();
+                    Debug.Log($"[CSP-CI] Successfully installed native binaries version: {data.version}");
+                }
+                finally
                 {
-                    File.Delete(tempDownloadPath);
+                    // Ensure cleanup happens on all success and failure paths
+                    if (File.Exists(tempDownloadPath))
+                    {
+                        try
+                        {
+                            File.Delete(tempDownloadPath);
+                        }
+                        catch
+                        {
+                            // Ignore cleanup errors to prevent masking the original exception
+                        }
+                    }
                 }
             }
         }
