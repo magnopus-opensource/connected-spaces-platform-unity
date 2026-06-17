@@ -19,7 +19,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
     guid = get_guid(rel_path_str)
 
     if is_directory:
-        # Empty string quotes added to prevent Git whitespace stripping
+        # Use explicit empty strings to avoid trailing whitespace and YAML empty-scalar warnings
         body = ("folderAsset: yes\n"
                 "DefaultImporter:\n"
                 "  externalObjects: {}\n"
@@ -102,7 +102,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  assetBundleName: ''\n"
                 "  assetBundleVariant: ''")
     else:
-        # Empty string quotes added to prevent Git whitespace stripping
+        # Use explicit empty strings to avoid trailing whitespace and YAML empty-scalar warnings
         body = ("DefaultImporter:\n"
                 "  externalObjects: {}\n"
                 "  userData: ''\n"

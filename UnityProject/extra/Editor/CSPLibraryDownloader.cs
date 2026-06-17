@@ -46,8 +46,18 @@ namespace Plugins.Editor
             }
             else
             {
-                // Safely fire-and-forget in the background without freezing the UI.
-                EditorApplication.delayCall += () => _ = RunEditorWorkflowAsync(false);
+                // Safely await the workflow inside an async lambda so exceptions are observed
+                EditorApplication.delayCall += async () =>
+                {
+                    try
+                    {
+                        await RunEditorWorkflowAsync(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[CSP] Automatic binary download failed during editor initialization: {ex.Message}\n{ex.StackTrace}");
+                    }
+                };
             }
         }
 
@@ -169,7 +179,7 @@ namespace Plugins.Editor
             {
                 if (forceManual)
                 {
-                    Debug.LogError($"Metadata not found at {metadataPath}. Ensure package is installed.");
+                    throw new LibraryInstallationException($"Metadata not found at {metadataPath}. Ensure package is installed.");
                 }
 
                 return;
@@ -245,13 +255,12 @@ namespace Plugins.Editor
                             }
                             else
                             {
-                                Debug.LogError($"[CSP] Network error: {www.error}");
-                                EditorUtility.DisplayDialog("Download Failed", www.error, "OK");
+                                throw new LibraryInstallationException($"Network error: {www.error}");
                             }
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
-                            Debug.LogException(e);
+                            throw;
                         }
                         finally
                         {
