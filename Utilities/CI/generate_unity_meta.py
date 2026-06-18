@@ -13,7 +13,6 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
     if meta_path.exists():
         return
 
-
     # Everything is relative to the root (forced to forward slashes)
     rel_path_str = file_path.relative_to(package_root).as_posix()
     guid = get_guid(rel_path_str)
@@ -27,15 +26,18 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  assetBundleName: ''\n"
                 "  assetBundleVariant: ''")
     elif file_path.suffix == '.cs':
+        # Explicitly set executionOrder to scalar 0 for C# scripts (MonoImporter)
+        # Added the standard trailing fields so Unity sees a complete file
         body = ("MonoImporter:\n"
                 "  externalObjects: {}\n"
                 "  serializedVersion: 2\n"
                 "  iconMap: {}\n"
-                "  executionOrder: {}")
+                "  executionOrder: 0\n")
     elif file_path.suffix == '.so':
         # Safely target Android native plugins, strictly assigning ARM64 and Preload.
         # The preload makes sure that when the app looks for CSP it finds the lib in memory already loaded at startup.
         # Without the preload, a dll not found error could arise if not resolved some other way via code.
+        # Native plugins (PluginImporter) use an empty mapping {} for executionOrder
         body = ("PluginImporter:\n"
                 "  externalObjects: {}\n"
                 "  serializedVersion: 2\n"
@@ -70,6 +72,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
         # Determine if this binary is for the Simulator or Device based on its folder
         sdk_target = 'Simulator' if 'Simulator' in file_path.parts else 'Device'
 
+        # Native plugins (PluginImporter) use an empty mapping {} for executionOrder
         body = ("PluginImporter:\n"
                 "  externalObjects: {}\n"
                 "  serializedVersion: 2\n"
