@@ -31,7 +31,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  externalObjects: {}\n"
                 "  serializedVersion: 2\n"
                 "  iconMap: {}\n"
-                "  executionOrder: 0")
+                "  executionOrder: {}")
     elif file_path.suffix == '.so':
         # Safely target Android native plugins, strictly assigning ARM64 and Preload.
         # The preload makes sure that when the app looks for CSP it finds the lib in memory already loaded at startup.
@@ -40,7 +40,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  externalObjects: {}\n"
                 "  serializedVersion: 2\n"
                 "  iconMap: {}\n"
-                "  executionOrder: 0\n"
+                "  executionOrder: {}\n"
                 "  defineConstraints: []\n"
                 "  isPreloaded: 1\n"
                 "  isOverridable: 0\n"
@@ -74,7 +74,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  externalObjects: {}\n"
                 "  serializedVersion: 2\n"
                 "  iconMap: {}\n"
-                "  executionOrder: 0\n"
+                "  executionOrder: {}\n"
                 "  defineConstraints: []\n"
                 "  isPreloaded: 0\n"
                 "  isOverridable: 0\n"
