@@ -340,12 +340,12 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         public string GetValidAuthToken()
         {
             FoundationCommon.LoginState result = userSystem.GetLoginState();
-            if (result == null || result.State == FoundationCommon.ELoginState.Error)
+            if (result == null || result.GetLoginStateValue() == FoundationCommon.ELoginState.Error)
             {
                 throw new CspResultEndpointException("Did not get auth token, endpoint result experienced an error.", HttpStatusCode.InternalServerError);
             }
 
-            return result.AccessToken;
+            return result.GetAccessToken();
         }
 
         /// <summary>
