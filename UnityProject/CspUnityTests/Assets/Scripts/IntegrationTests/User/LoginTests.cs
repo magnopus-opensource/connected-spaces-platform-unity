@@ -131,7 +131,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
 
                 // Assert:
                 Assert.AreEqual((ushort)value.ExpectedCode, loginResult.ReturnCode);
-                Assert.AreEqual(!string.IsNullOrWhiteSpace(loginResult.ReturnData?.UserId), value.ExpectedReturnValue);
+                Assert.AreEqual(!string.IsNullOrWhiteSpace(loginResult.ReturnData?.GetUserId()), value.ExpectedReturnValue);
 
                 // Min wait between endpoint calls
                 await Task.Delay(ConfigSettings.MinWaitBetweenEndpointsMilliseconds);
@@ -169,7 +169,7 @@ namespace Magnopus.Foundation.Unity.Tests.Integration.User
 
                 // Assert:
                 Assert.AreEqual((ushort)value.ExpectedCode, loginResult.ReturnCode);
-                Assert.AreEqual(!string.IsNullOrWhiteSpace(loginResult.ReturnData?.UserId), value.ExpectedReturnValue);
+                Assert.AreEqual(!string.IsNullOrWhiteSpace(loginResult.ReturnData?.GetUserId()), value.ExpectedReturnValue);
 
                 // Min wait between endpoint calls
                 await Task.Delay(ConfigSettings.MinWaitBetweenEndpointsMilliseconds);
