@@ -41,7 +41,10 @@
 
 /* Multiplayer Top Level */
 %include "CSP/Multiplayer/ComponentBase.i"
+%include "CSP/Multiplayer/ComponentProperty.i"
+%include "CSP/Multiplayer/ComponentSchema.i"
 %include "CSP/Multiplayer/CSPSceneDescription.i"
+%include "CSP/Multiplayer/IComponentSchemaRegistry.i"
 %include "CSP/Multiplayer/MultiplayerConnection.i"
 %include "CSP/Multiplayer/NetworkEventBus.i"
 %include "CSP/Multiplayer/OfflineRealtimeEngine.i"
