@@ -1262,6 +1262,17 @@ MAKE_AWAITABLE(csp::systems::UserSystem,
            ARGLIST(thirdPartyToken, thirdPartyStateId, createMultiplayerConnection, userHasVerifiedAge, tokenOptions)
 )
 
+MAKE_AWAITABLE(csp::systems::UserSystem,
+           FederatedLogin,
+           LoginStateResultCallback,
+           LoginStateResultCallbackAdapter,
+           ARGLIST(csp.systems.LoginStateResult result),
+           ARGLIST(csp.systems.LoginStateResult),
+           ARGLIST(result),
+           ARGLIST(string federatedLoginDetailsJson, bool createMultiplayerConnection),
+           ARGLIST(federatedLoginDetailsJson, createMultiplayerConnection)
+)
+
 MAKE_AWAITABLE_ZERO(csp::systems::UserSystem,
                 Logout,
                 NullResultCallback,
