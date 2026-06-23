@@ -43,6 +43,7 @@ def LineEndSignifiesEndOfNoExportDeclaration(line: str) -> bool:
              or line.endswith("override;")
              or line.endswith("override ;")
              or line.endswith("= 0;")
+             or line.endswith("= default;")
            )
 
 IFNDEF = "#ifndef SWIG"
