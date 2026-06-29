@@ -1262,6 +1262,17 @@ MAKE_AWAITABLE(csp::systems::UserSystem,
            ARGLIST(thirdPartyToken, thirdPartyStateId, createMultiplayerConnection, userHasVerifiedAge, tokenOptions)
 )
 
+MAKE_AWAITABLE(csp::systems::UserSystem, 
+           LoginToThirdPartyAuthenticationProviderWithToken, 
+           LoginStateResultCallback,
+           LoginStateResultCallbackAdapter,
+           ARGLIST(csp.systems.LoginStateResult result),
+           ARGLIST(csp.systems.LoginStateResult),
+           ARGLIST(result),
+           ARGLIST(csp.systems.EThirdPartyAuthenticationProviders authProvider, string thirdPartyToken, csp.systems.EThirdPartyPlatform? clientType, bool createMultiplayerConnection, bool? userHasVerifiedAge),
+           ARGLIST(authProvider, thirdPartyToken, clientType, createMultiplayerConnection, userHasVerifiedAge)
+)
+
 MAKE_AWAITABLE(csp::systems::UserSystem,
            FederatedLogin,
            LoginStateResultCallback,
