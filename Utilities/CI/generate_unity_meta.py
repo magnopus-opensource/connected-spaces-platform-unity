@@ -13,33 +13,36 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
     if meta_path.exists():
         return
 
-
     # Everything is relative to the root (forced to forward slashes)
     rel_path_str = file_path.relative_to(package_root).as_posix()
     guid = get_guid(rel_path_str)
 
     if is_directory:
+        # Use explicit empty strings to avoid trailing whitespace and YAML empty-scalar warnings
         body = ("folderAsset: yes\n"
                 "DefaultImporter:\n"
                 "  externalObjects: {}\n"
-                "  userData: \n"
-                "  assetBundleName: \n"
-                "  assetBundleVariant: ")
+                "  userData: ''\n"
+                "  assetBundleName: ''\n"
+                "  assetBundleVariant: ''")
     elif file_path.suffix == '.cs':
+        # Explicitly set executionOrder to scalar 0 for C# scripts (MonoImporter)
+        # Added the standard trailing fields so Unity sees a complete file
         body = ("MonoImporter:\n"
                 "  externalObjects: {}\n"
                 "  serializedVersion: 2\n"
                 "  iconMap: {}\n"
-                "  executionOrder: 0")
+                "  executionOrder: 0\n")
     elif file_path.suffix == '.so':
         # Safely target Android native plugins, strictly assigning ARM64 and Preload.
         # The preload makes sure that when the app looks for CSP it finds the lib in memory already loaded at startup.
         # Without the preload, a dll not found error could arise if not resolved some other way via code.
+        # Native plugins (PluginImporter) use an empty mapping {} for executionOrder
         body = ("PluginImporter:\n"
                 "  externalObjects: {}\n"
                 "  serializedVersion: 2\n"
                 "  iconMap: {}\n"
-                "  executionOrder: 0\n"
+                "  executionOrder: {}\n"
                 "  defineConstraints: []\n"
                 "  isPreloaded: 1\n"
                 "  isOverridable: 0\n"
@@ -47,7 +50,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  validateReferences: 1\n"
                 "  platformData:\n"
                 "  - first:\n"
-                "      Any: \n"
+                "      Any: ''\n"
                 "    second:\n"
                 "      enabled: 0\n"
                 "      settings:\n"
@@ -62,18 +65,19 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "      enabled: 1\n"
                 "      settings:\n"
                 "        CPU: ARM64\n"
-                "  userData: \n"
-                "  assetBundleName: \n"
-                "  assetBundleVariant: ")
+                "  userData: ''\n"
+                "  assetBundleName: ''\n"
+                "  assetBundleVariant: ''")
     elif file_path.suffix == '.a' and 'visionOS' in file_path.parts:
         # Determine if this binary is for the Simulator or Device based on its folder
         sdk_target = 'Simulator' if 'Simulator' in file_path.parts else 'Device'
 
+        # Native plugins (PluginImporter) use an empty mapping {} for executionOrder
         body = ("PluginImporter:\n"
                 "  externalObjects: {}\n"
                 "  serializedVersion: 2\n"
                 "  iconMap: {}\n"
-                "  executionOrder: 0\n"
+                "  executionOrder: {}\n"
                 "  defineConstraints: []\n"
                 "  isPreloaded: 0\n"
                 "  isOverridable: 0\n"
@@ -81,7 +85,7 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  validateReferences: 1\n"
                 "  platformData:\n"
                 "  - first:\n"
-                "      Any: \n"
+                "      Any: ''\n"
                 "    second:\n"
                 "      enabled: 0\n"
                 "      settings:\n"
@@ -97,15 +101,16 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "      settings:\n"
                 "        CPU: ARM64\n"
                 f"        SDK: {sdk_target}\n"
-                "  userData: \n"
-                "  assetBundleName: \n"
-                "  assetBundleVariant: ")
+                "  userData: ''\n"
+                "  assetBundleName: ''\n"
+                "  assetBundleVariant: ''")
     else:
+        # Use explicit empty strings to avoid trailing whitespace and YAML empty-scalar warnings
         body = ("DefaultImporter:\n"
                 "  externalObjects: {}\n"
-                "  userData: \n"
-                "  assetBundleName: \n"
-                "  assetBundleVariant: ")
+                "  userData: ''\n"
+                "  assetBundleName: ''\n"
+                "  assetBundleVariant: ''")
 
     content = f"fileFormatVersion: 2\nguid: {guid}\n{body}\n"
 
