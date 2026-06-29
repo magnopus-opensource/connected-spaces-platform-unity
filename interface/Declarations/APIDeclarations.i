@@ -41,8 +41,10 @@
 
 /* Multiplayer Top Level */
 %include "CSP/Multiplayer/ComponentBase.i"
-%include "CSP/Multiplayer/ComponentProperty.i"
-%include "CSP/Multiplayer/ComponentSchema.i"
+// We do not expose ComponentProperty and ComponentSchema for the moment due to a linking
+// issue in CSP 6.44.0 for Windows libs.
+//%include "CSP/Multiplayer/ComponentProperty.i"
+//%include "CSP/Multiplayer/ComponentSchema.i"
 %include "CSP/Multiplayer/CSPSceneDescription.i"
 %include "CSP/Multiplayer/IComponentSchemaRegistry.i"
 %include "CSP/Multiplayer/MultiplayerConnection.i"
