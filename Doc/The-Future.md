@@ -221,7 +221,7 @@ Much of this can just be vibed once you have added the api declaration by runnin
 
 - If it is a completely new file, add a new `.i` file to `interface/CSP`. Use the same pattern as the other `.i` files, these are almost all identical.
     - If the file contains a type that is an interface, declare that in the `.i` file using `%interface_impl(csp::namespace::IMyType);`
-    - If the file contains more than one type, remember to declare `ADD_OUTER_OBJECT_PIN_SLOT` for each type.
+    - Remember to declare `ADD_OUTER_OBJECT_PIN_SLOT` for each type contained inside the file. This is important for lifetime management of the underlying C++ objects. (e.g. if ClassX.h has ClassX only, declare the outer macro for it. If ClassX.h has ClassX and ClassY, declare the outer macro for both. Etc.)
     - If the file inherits from a type in a namespace other than its own, add the using directive for it in the `.i` file. (This is annoying, i'd like if there was a better solve for this.) 
     ```c
     //This type inherits from a type in another namespace (common, IRealtimeEngine), so we need the using directive
