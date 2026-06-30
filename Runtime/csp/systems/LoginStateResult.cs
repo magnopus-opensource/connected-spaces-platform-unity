@@ -60,6 +60,10 @@ public class LoginStateResult : csp.systems.ResultBase {
   return ret;
 }
 
+  public LoginStateResult(csp.common.LoginState LoginState) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_systems_LoginStateResult((LoginState != null && csp.common.LoginState.getCPtr(LoginState).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("LoginState", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.LoginState.getCPtr(LoginState)), true) {
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.
   public object OuterObjectPin { private get; set; }

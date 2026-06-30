@@ -73,124 +73,46 @@ public class LoginState : global::System.IDisposable {
     return ret;
   }
 
-  public csp.common.ELoginState State {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_State_set(swigCPtr, (int)value);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      csp.common.ELoginState ret = (csp.common.ELoginState)ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_State_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
+  public string GetUserId() {
+    string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_GetUserId(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
-  public string AccessToken {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_AccessToken_set(swigCPtr, value);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_AccessToken_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
+  public string GetDeviceId() {
+    string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_GetDeviceId(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
-  public string AccessTokenExpiryLength {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_AccessTokenExpiryLength_set(swigCPtr, value);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_AccessTokenExpiryLength_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
+  public string GetAccessToken() {
+    string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_GetAccessToken(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
-  public string RefreshToken {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_RefreshToken_set(swigCPtr, value);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_RefreshToken_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
+  public string GetRefreshToken() {
+    string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_GetRefreshToken(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
-  public string RefreshTokenExpiryLength {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_RefreshTokenExpiryLength_set(swigCPtr, value);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_RefreshTokenExpiryLength_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
+  public csp.common.ELoginState GetLoginStateValue() {
+    csp.common.ELoginState ret = (csp.common.ELoginState)ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_GetLoginStateValue(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
-  public string UserId {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_UserId_set(swigCPtr, value);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_UserId_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
+  public csp.common.ApplicationSettingsList GetDefaultApplicationSettings() {
+    csp.common.ApplicationSettingsList ret = new csp.common.ApplicationSettingsList(ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_GetDefaultApplicationSettings(swigCPtr), true);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
-  public string DeviceId {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_DeviceId_set(swigCPtr, value);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_DeviceId_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
-  }
-
-  public csp.common.ApplicationSettingsList DefaultApplicationSettings {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_DefaultApplicationSettings_set(swigCPtr, (value != null && csp.common.ApplicationSettingsList.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.ApplicationSettingsList.getCPtr(value));
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_DefaultApplicationSettings_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      csp.common.ApplicationSettingsList ret = null;
-      if (cPtr != global::System.IntPtr.Zero) {
-        ret = new csp.common.ApplicationSettingsList(cPtr, false);
-        ret.OuterObjectPin = this;
-      }
-      return ret;
-    }
-
-  }
-
-  public csp.common.SettingsCollectionList DefaultSettings {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_DefaultSettings_set(swigCPtr, (value != null && csp.common.SettingsCollectionList.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.SettingsCollectionList.getCPtr(value));
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_DefaultSettings_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      csp.common.SettingsCollectionList ret = null;
-      if (cPtr != global::System.IntPtr.Zero) {
-        ret = new csp.common.SettingsCollectionList(cPtr, false);
-        ret.OuterObjectPin = this;
-      }
-      return ret;
-    }
-
+  public csp.common.SettingsCollectionList GetDefaultSettings() {
+    csp.common.SettingsCollectionList ret = new csp.common.SettingsCollectionList(ConnectedSpacesPlatformDotNetPINVOKE.csp_common_LoginState_GetDefaultSettings(swigCPtr), true);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
   // Any time this object is returned from an outer C++ object via reference, this is set

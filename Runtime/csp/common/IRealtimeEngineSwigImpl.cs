@@ -180,6 +180,13 @@ public class IRealtimeEngineSwigImpl : IRealtimeEngine, global::System.IDisposab
     return ret;
   }
 
+  public virtual csp.multiplayer.IComponentSchemaRegistry GetComponentSchemaRegistry() {
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_IRealtimeEngineSwigImpl_GetComponentSchemaRegistry(swigCPtr);
+    csp.multiplayer.IComponentSchemaRegistry ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.multiplayer.IComponentSchemaRegistry(cPtr, false);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
 }
 
 }

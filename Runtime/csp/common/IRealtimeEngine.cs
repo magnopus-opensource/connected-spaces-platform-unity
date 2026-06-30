@@ -33,6 +33,7 @@ public interface IRealtimeEngine {
   csp.common.SpaceEntityPtrList GetRootHierarchyEntities();
   void SetEntityFetchCompleteCallback(UInt32CallbackAdapter Callback);
   csp.multiplayer.ModifiableStatus IsEntityModifiable(csp.multiplayer.SpaceEntity SpaceEntity);
+  csp.multiplayer.IComponentSchemaRegistry GetComponentSchemaRegistry();
 }
 
 }
