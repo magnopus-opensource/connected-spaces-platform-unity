@@ -315,6 +315,13 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
     return ret;
   }
 
+  public csp.multiplayer.ComponentBase AddComponentByTypeId(ulong TypeId) {
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_SpaceEntity_AddComponentByTypeId(swigCPtr, TypeId);
+    csp.multiplayer.ComponentBase ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.multiplayer.ComponentBase(cPtr, false);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public bool RemoveComponent(ushort Key) {
     bool ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_SpaceEntity_RemoveComponent(swigCPtr, Key);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();

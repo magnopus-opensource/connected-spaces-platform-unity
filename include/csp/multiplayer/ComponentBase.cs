@@ -75,6 +75,12 @@ public class ComponentBase : global::System.IDisposable {
     return ret;
   }
 
+  public ulong GetTypeId() {
+    ulong ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ComponentBase_GetTypeId(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public csp.common.UInt32ReplicatedValueDict GetProperties() {
     global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ComponentBase_GetProperties(swigCPtr);
     csp.common.UInt32ReplicatedValueDict ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.common.UInt32ReplicatedValueDict(cPtr, false);
@@ -112,6 +118,18 @@ public class ComponentBase : global::System.IDisposable {
 
   public void SetComponentName(string Value) {
     ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ComponentBase_SetComponentName(swigCPtr, Value);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public csp.common.ReplicatedValue GetSchemaProperty(ushort Key) {
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ComponentBase_GetSchemaProperty(swigCPtr, Key);
+    csp.common.ReplicatedValue ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.common.ReplicatedValue(cPtr, false);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public void SetSchemaProperty(ushort Key, csp.common.ReplicatedValue Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ComponentBase_SetSchemaProperty(swigCPtr, Key, csp.common.ReplicatedValue.getCPtr(Value));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 

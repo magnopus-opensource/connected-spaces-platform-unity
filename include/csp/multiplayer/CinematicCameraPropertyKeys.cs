@@ -24,6 +24,8 @@ public enum CinematicCameraPropertyKeys : ushort {
   Aperture,
   IsViewerCamera,
   ThirdPartyComponentRef,
+  FocusDistance,
+  DepthOfFieldEnabled,
   Num
 }
 

@@ -222,6 +222,28 @@ public class CinematicCameraSpaceComponent : csp.multiplayer.ComponentBase, IThi
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public float GetFocusDistance() {
+    float ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CinematicCameraSpaceComponent_GetFocusDistance(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public void SetFocusDistance(float Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CinematicCameraSpaceComponent_SetFocusDistance(swigCPtr, Value);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public bool GetDepthOfFieldEnabled() {
+    bool ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CinematicCameraSpaceComponent_GetDepthOfFieldEnabled(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public void SetDepthOfFieldEnabled(bool Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CinematicCameraSpaceComponent_SetDepthOfFieldEnabled(swigCPtr, Value);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public bool GetIsViewerCamera() {
     bool ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_CinematicCameraSpaceComponent_GetIsViewerCamera(swigCPtr);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();

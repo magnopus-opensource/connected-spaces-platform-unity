@@ -64,7 +64,15 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
     return new global::System.Runtime.InteropServices.HandleRef(this, ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_IRealtimeEngine_GetInterfaceCPtr(swigCPtr.Handle));
   }
 
-  public OnlineRealtimeEngine(csp.multiplayer.MultiplayerConnection InMultiplayerConnection, csp.common.LogSystem LogSystem, csp.multiplayer.NetworkEventBus NetworkEventBus, csp.common.IJSScriptRunner RemoteScriptRunner) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OnlineRealtimeEngine(csp.multiplayer.MultiplayerConnection.getCPtr(InMultiplayerConnection), csp.common.LogSystem.getCPtr(LogSystem), csp.multiplayer.NetworkEventBus.getCPtr(NetworkEventBus), RemoteScriptRunner.GetInterfaceCPtr()), true) {
+  public OnlineRealtimeEngine(csp.multiplayer.MultiplayerConnection InMultiplayerConnection, csp.common.LogSystem LogSystem, csp.multiplayer.NetworkEventBus NetworkEventBus, csp.common.IJSScriptRunner RemoteScriptRunner) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OnlineRealtimeEngine__SWIG_0(csp.multiplayer.MultiplayerConnection.getCPtr(InMultiplayerConnection), csp.common.LogSystem.getCPtr(LogSystem), csp.multiplayer.NetworkEventBus.getCPtr(NetworkEventBus), RemoteScriptRunner.GetInterfaceCPtr()), true) {
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public OnlineRealtimeEngine(csp.multiplayer.MultiplayerConnection InMultiplayerConnection, csp.common.LogSystem LogSystem, csp.multiplayer.NetworkEventBus NetworkEventBus, csp.common.IJSScriptRunner RemoteScriptRunner, SWIGTYPE_p_csp__common__ArrayT_csp__multiplayer__ComponentSchema_t AdditionalComponents) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OnlineRealtimeEngine__SWIG_1(csp.multiplayer.MultiplayerConnection.getCPtr(InMultiplayerConnection), csp.common.LogSystem.getCPtr(LogSystem), csp.multiplayer.NetworkEventBus.getCPtr(NetworkEventBus), RemoteScriptRunner.GetInterfaceCPtr(), SWIGTYPE_p_csp__common__ArrayT_csp__multiplayer__ComponentSchema_t.getCPtr(AdditionalComponents)), true) {
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public OnlineRealtimeEngine(csp.multiplayer.MultiplayerConnection InMultiplayerConnection, csp.common.LogSystem LogSystem, csp.multiplayer.NetworkEventBus NetworkEventBus, csp.common.IJSScriptRunner RemoteScriptRunner, csp.common.StringList JsonSchemas) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OnlineRealtimeEngine__SWIG_2(csp.multiplayer.MultiplayerConnection.getCPtr(InMultiplayerConnection), csp.common.LogSystem.getCPtr(LogSystem), csp.multiplayer.NetworkEventBus.getCPtr(NetworkEventBus), RemoteScriptRunner.GetInterfaceCPtr(), csp.common.StringList.getCPtr(JsonSchemas)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -175,6 +183,13 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
 
   public virtual csp.multiplayer.ModifiableStatus IsEntityModifiable(csp.multiplayer.SpaceEntity SpaceEntity) {
     csp.multiplayer.ModifiableStatus ret = (csp.multiplayer.ModifiableStatus)ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_IsEntityModifiable(swigCPtr, (SpaceEntity != null && csp.multiplayer.SpaceEntity.getCPtr(SpaceEntity).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("SpaceEntity", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.multiplayer.SpaceEntity.getCPtr(SpaceEntity));
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public virtual csp.multiplayer.IComponentSchemaRegistry GetComponentSchemaRegistry() {
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OnlineRealtimeEngine_GetComponentSchemaRegistry(swigCPtr);
+    csp.multiplayer.IComponentSchemaRegistry ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.multiplayer.IComponentSchemaRegistry(cPtr, false);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

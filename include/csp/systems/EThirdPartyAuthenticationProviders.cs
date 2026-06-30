@@ -14,6 +14,7 @@ public enum EThirdPartyAuthenticationProviders {
   Google = 0,
   Discord,
   Apple,
+  Netflix,
   Num,
   Invalid = Num
 }

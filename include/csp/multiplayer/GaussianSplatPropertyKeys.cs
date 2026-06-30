@@ -19,7 +19,7 @@ public enum GaussianSplatPropertyKeys : ushort {
   Scale,
   IsVisible,
   IsARVisible,
-  IsShadowCaster,
+  IsShadowCaster_DEPRECATED,
   Tint,
   IsVirtualVisible,
   Num
