@@ -68,6 +68,9 @@
 
     // Single native action adapter instance for this event
     private ConnectedSpacesPlatformDotNet.##ACTION_ADAPTER_TYPENAME##? _##EVENT_NAME##Adapter;
+    
+    // Persistent dummy wrapper instance to safely unregister without native crashes
+    private static ConnectedSpacesPlatformDotNet.##ACTION_ADAPTER_TYPENAME##? _##EVENT_NAME##SafeNullAdapter;
 
     /// <summary>
     /// C# event exposing the native callback.
@@ -118,10 +121,17 @@
 
             if (!_##EVENT_NAME##Adapter.HasSubscribers)
             {
-                // Unregister from native code
-                NATIVE_SETTER(null);
+                // Instead of NATIVE_SETTER(null) which causes a native SIGSEGV crash,
+                // we lazy-instantiate a permanent blank wrapper structure.
+                if (_##EVENT_NAME##SafeNullAdapter == null)
+                {
+                    _##EVENT_NAME##SafeNullAdapter = new ConnectedSpacesPlatformDotNet.##ACTION_ADAPTER_TYPENAME##(delegate { });
+                }
 
-                // No more subscribers, clean up adapter
+                // Register the safe blank adapter with native code to flush out the old listener
+                NATIVE_SETTER(_##EVENT_NAME##SafeNullAdapter);
+
+                // No more user subscribers, clean up active adapter
                 _##EVENT_NAME##Adapter = null;
             }
         }
