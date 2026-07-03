@@ -29,10 +29,10 @@ jobs:
         # If an input is provided, parse it. Otherwise, default to building with Unity extensions enabled.
         build_with_unity_extensions: ${{ fromJSON(inputs.unity_ext_matrix || '[true]') }}
 
-
     runs-on: ${{ matrix.os }}
     env:
       GH_TOKEN: ${{ github.token }}
+      TARGET_NDK_VERSION: "21.4.7075529" # NDK r21d (Matches Clang 9.0.8)
 
     steps:
       - name: Checkout
@@ -40,7 +40,25 @@ jobs:
 
       - uses: ilammy/msvc-dev-cmd@v1 # VS Developer Cmd Prompt. We need this for NMake Makefiles (Ninja would also work)
 
+
+      # INSTALL THE MATCHING NDK VIA ANDROID SDKMANAGER
+      - name: Install Aligned Android NDK (r21d)
+        run: |
+          echo "Installing NDK version ${{ env.TARGET_NDK_VERSION }}..."
+          & "$env:ANDROID_HOME\cmdline-tools\latest\bin\sdkmanager.bat" --install "ndk;${{ env.TARGET_NDK_VERSION }}"
+          
+          # Explicitly redirect our environment variable to point to the newly downloaded folder
+          echo "ANDROID_NDK_HOME=$env:ANDROID_HOME\ndk\${{ env.TARGET_NDK_VERSION }}" >> $env:GITHUB_ENV
+        shell: pwsh
+
+      # VERIFY THE TOOLCHAIN
+      - name: Verify Clang Compiler Version
+        run: |
+          & "$env:ANDROID_NDK_HOME\toolchains\llvm\prebuilt\windows-x86_64\bin\clang.exe" --version
+        shell: pwsh
+
       - name: Configure
+        # This will now safely consume the r21d toolchain file we set in GITHUB_ENV
         run: cmake -G "NMake Makefiles" -DCMAKE_TOOLCHAIN_FILE="$env:ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake" -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_SHARED_LIBS=ON -S . -B build -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }} -DENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
 
       - name: Build
