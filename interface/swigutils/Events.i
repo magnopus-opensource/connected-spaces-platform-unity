@@ -77,6 +77,24 @@
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(EVENT_NAME);
+%}
+#ifdef SWIG_UNITY_EXTENSIONS
+%proxycode %{
+                UnityEngine.Debug.LogError($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+%}
+#else
+%proxycode %{
+                System.Console.Error.WriteLine($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+%}
+#endif
+%proxycode %{
+                return;
+            }
+
             if (_##EVENT_NAME##Adapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
