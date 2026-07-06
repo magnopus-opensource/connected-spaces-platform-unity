@@ -107,7 +107,7 @@ public sealed class ACTION_ADAPTER_TYPENAME : CALLBACKT
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(ACTION_TYPELIST_WITH_NAMES)
         => _invoked?.Invoke(ACTION_TYPELIST_ONLY_NAMES);
