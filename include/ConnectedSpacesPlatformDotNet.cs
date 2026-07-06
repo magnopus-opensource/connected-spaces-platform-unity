@@ -117,12 +117,12 @@ public sealed class LogCallback : LogCallbackHandlerAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.common.LogLevel,string>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -143,7 +143,7 @@ public sealed class LogCallback : LogCallbackHandlerAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.common.LogLevel logLevel,string message)
         => _invoked?.Invoke(logLevel,message);
@@ -173,12 +173,12 @@ public sealed class EventCallback : EventCallbackHandlerAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<string>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -199,7 +199,7 @@ public sealed class EventCallback : EventCallbackHandlerAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(string eventMessage)
         => _invoked?.Invoke(eventMessage);
@@ -229,12 +229,12 @@ public sealed class BeginMarkerCallback : BeginMarkerCallbackHandlerAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<string>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -255,7 +255,7 @@ public sealed class BeginMarkerCallback : BeginMarkerCallbackHandlerAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(string beginMarker)
         => _invoked?.Invoke(beginMarker);
@@ -285,12 +285,12 @@ public sealed class EndMarkerCallback : EndMarkerCallbackHandlerAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<System.IntPtr>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -311,7 +311,7 @@ public sealed class EndMarkerCallback : EndMarkerCallbackHandlerAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(System.IntPtr irrelevant)
         => _invoked?.Invoke(irrelevant);
@@ -341,12 +341,12 @@ public sealed class UpdateCallback : SpaceEntityUpdatedCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.SpaceEntity,csp.multiplayer.SpaceEntityUpdateFlags,csp.common.ComponentUpdateInfoArray>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -367,7 +367,7 @@ public sealed class UpdateCallback : SpaceEntityUpdatedCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.SpaceEntity spaceEntity,csp.multiplayer.SpaceEntityUpdateFlags updateFlags,csp.common.ComponentUpdateInfoArray componentUpdateInfos)
         => _invoked?.Invoke(spaceEntity,updateFlags,componentUpdateInfos);
@@ -397,12 +397,12 @@ public sealed class DestroyCallback : BoolCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<bool>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -423,7 +423,7 @@ public sealed class DestroyCallback : BoolCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(bool destroyed)
         => _invoked?.Invoke(destroyed);
@@ -453,12 +453,12 @@ public sealed class PatchSentCallback : BoolCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<bool>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -479,7 +479,7 @@ public sealed class PatchSentCallback : BoolCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(bool patchSent)
         => _invoked?.Invoke(patchSent);
@@ -509,12 +509,12 @@ public sealed class DisconnectionCallback : StringCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<string>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -535,7 +535,7 @@ public sealed class DisconnectionCallback : StringCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(string disconnectReason)
         => _invoked?.Invoke(disconnectReason);
@@ -565,12 +565,12 @@ public sealed class ConnectionCallback : StringCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<string>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -591,7 +591,7 @@ public sealed class ConnectionCallback : StringCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(string connectionStatus)
         => _invoked?.Invoke(connectionStatus);
@@ -621,12 +621,12 @@ public sealed class NetworkInterruptionCallback : StringCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<string>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -647,7 +647,7 @@ public sealed class NetworkInterruptionCallback : StringCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(string interruptReason)
         => _invoked?.Invoke(interruptReason);
@@ -677,12 +677,12 @@ public sealed class RemoteEntityCreatedCallback : EntityCreatedCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.SpaceEntity>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -703,7 +703,7 @@ public sealed class RemoteEntityCreatedCallback : EntityCreatedCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.SpaceEntity spaceEntity)
         => _invoked?.Invoke(spaceEntity);
@@ -733,12 +733,12 @@ public sealed class ScriptLeaderReadyCallback : BoolCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<bool>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -759,7 +759,7 @@ public sealed class ScriptLeaderReadyCallback : BoolCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(bool ready)
         => _invoked?.Invoke(ready);
@@ -789,12 +789,12 @@ public sealed class ScopeLeaderCallback : StringStringCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<string,string>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -815,7 +815,7 @@ public sealed class ScopeLeaderCallback : StringStringCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(string scopeId,string userId)
         => _invoked?.Invoke(scopeId,userId);
@@ -845,12 +845,12 @@ public sealed class EntityFetchCompleteCallback : UInt32CallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<uint>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -871,7 +871,7 @@ public sealed class EntityFetchCompleteCallback : UInt32CallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(uint numEntitiesFetched)
         => _invoked?.Invoke(numEntitiesFetched);
@@ -901,12 +901,12 @@ public sealed class ConversationNetworkEventCallback : ConversationNetworkEventC
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.common.ConversationNetworkEventData>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -927,7 +927,7 @@ public sealed class ConversationNetworkEventCallback : ConversationNetworkEventC
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.common.ConversationNetworkEventData eventData)
         => _invoked?.Invoke(eventData);
@@ -957,12 +957,12 @@ public sealed class ProgressCallback : ProgressCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<float>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -983,7 +983,7 @@ public sealed class ProgressCallback : ProgressCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(float progress)
         => _invoked?.Invoke(progress);
@@ -1013,12 +1013,12 @@ public sealed class EntityActionHandler : EntityActionCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.ComponentBase,string,string>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1039,7 +1039,7 @@ public sealed class EntityActionHandler : EntityActionCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.ComponentBase component,string actionName,string actionParams)
         => _invoked?.Invoke(component,actionName,actionParams);
@@ -1069,12 +1069,12 @@ public sealed class AssetDetailBlobChangedCallback : AssetDetailBlobChangedCallb
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.common.AssetDetailBlobChangedNetworkEventData>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1095,7 +1095,7 @@ public sealed class AssetDetailBlobChangedCallback : AssetDetailBlobChangedCallb
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.common.AssetDetailBlobChangedNetworkEventData eventData)
         => _invoked?.Invoke(eventData);
@@ -1125,12 +1125,12 @@ public sealed class MaterialChangedCallback : MaterialChangedCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.common.MaterialChangedParams>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1151,7 +1151,7 @@ public sealed class MaterialChangedCallback : MaterialChangedCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.common.MaterialChangedParams materialParams)
         => _invoked?.Invoke(materialParams);
@@ -1181,12 +1181,12 @@ public sealed class AsyncCallCompletedCallback : AsyncCallCompletedCallbackAdapt
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.common.AsyncCallCompletedEventData>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1207,7 +1207,7 @@ public sealed class AsyncCallCompletedCallback : AsyncCallCompletedCallbackAdapt
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.common.AsyncCallCompletedEventData eventData)
         => _invoked?.Invoke(eventData);
@@ -1237,12 +1237,12 @@ public sealed class LoginTokenInfoCallback : LoginTokenInfoResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.LoginTokenInfoResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1263,7 +1263,7 @@ public sealed class LoginTokenInfoCallback : LoginTokenInfoResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.LoginTokenInfoResult result)
         => _invoked?.Invoke(result);
@@ -1293,12 +1293,12 @@ public sealed class UserPermissionsChangedCallback : UserPermissionsChangedCallb
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.common.AccessControlChangedNetworkEventData>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1319,7 +1319,7 @@ public sealed class UserPermissionsChangedCallback : UserPermissionsChangedCallb
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.common.AccessControlChangedNetworkEventData eventData)
         => _invoked?.Invoke(eventData);
@@ -1349,12 +1349,12 @@ public sealed class SequenceChangedCallback : SequenceChangedCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.common.SequenceChangedNetworkEventData>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1375,7 +1375,7 @@ public sealed class SequenceChangedCallback : SequenceChangedCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.common.SequenceChangedNetworkEventData eventData)
         => _invoked?.Invoke(eventData);
@@ -1405,12 +1405,12 @@ public sealed class HotspotSequenceChangedCallback : SequenceChangedCallbackAdap
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.common.SequenceChangedNetworkEventData>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1431,7 +1431,7 @@ public sealed class HotspotSequenceChangedCallback : SequenceChangedCallbackAdap
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.common.SequenceChangedNetworkEventData eventData)
         => _invoked?.Invoke(eventData);
@@ -1461,12 +1461,12 @@ public sealed class NetworkEventCallback : NetworkEventCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.common.NetworkEventData>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1487,7 +1487,7 @@ public sealed class NetworkEventCallback : NetworkEventCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.common.NetworkEventData networkEventData)
         => _invoked?.Invoke(networkEventData);
@@ -1517,12 +1517,12 @@ public sealed class EntityCreatedCallback : EntityCreatedCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.SpaceEntity>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1543,7 +1543,7 @@ public sealed class EntityCreatedCallback : EntityCreatedCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.SpaceEntity spaceEntity)
         => _invoked?.Invoke(spaceEntity);
@@ -1573,12 +1573,12 @@ public sealed class ErrorCodeCallback : ErrorCodeCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.ErrorCode>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1599,7 +1599,7 @@ public sealed class ErrorCodeCallback : ErrorCodeCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.ErrorCode errorCode)
         => _invoked?.Invoke(errorCode);
@@ -1629,12 +1629,12 @@ public sealed class StringResultCallback : StringResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.StringResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1655,7 +1655,7 @@ public sealed class StringResultCallback : StringResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.StringResult result)
         => _invoked?.Invoke(result);
@@ -1685,12 +1685,12 @@ public sealed class NullResultCallback : NullResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.NullResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1711,7 +1711,7 @@ public sealed class NullResultCallback : NullResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.NullResult result)
         => _invoked?.Invoke(result);
@@ -1741,12 +1741,12 @@ public sealed class MessageResultCallback : MessageResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.MessageResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1767,7 +1767,7 @@ public sealed class MessageResultCallback : MessageResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.MessageResult result)
         => _invoked?.Invoke(result);
@@ -1797,12 +1797,12 @@ public sealed class MessageCollectionResultCallback : MessageCollectionResultCal
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.MessageCollectionResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1823,7 +1823,7 @@ public sealed class MessageCollectionResultCallback : MessageCollectionResultCal
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.MessageCollectionResult result)
         => _invoked?.Invoke(result);
@@ -1853,12 +1853,12 @@ public sealed class ConversationResultCallback : ConversationResultCallbackAdapt
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.ConversationResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1879,7 +1879,7 @@ public sealed class ConversationResultCallback : ConversationResultCallbackAdapt
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.ConversationResult result)
         => _invoked?.Invoke(result);
@@ -1909,12 +1909,12 @@ public sealed class NumberOfRepliesResultCallback : NumberOfRepliesResultCallbac
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.NumberOfRepliesResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1935,7 +1935,7 @@ public sealed class NumberOfRepliesResultCallback : NumberOfRepliesResultCallbac
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.NumberOfRepliesResult result)
         => _invoked?.Invoke(result);
@@ -1965,12 +1965,12 @@ public sealed class AnnotationResultCallback : AnnotationResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.AnnotationResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -1991,7 +1991,7 @@ public sealed class AnnotationResultCallback : AnnotationResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.AnnotationResult result)
         => _invoked?.Invoke(result);
@@ -2021,12 +2021,12 @@ public sealed class AnnotationThumbnailCollectionResultCallback : AnnotationThum
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.multiplayer.AnnotationThumbnailCollectionResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2047,7 +2047,7 @@ public sealed class AnnotationThumbnailCollectionResultCallback : AnnotationThum
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.multiplayer.AnnotationThumbnailCollectionResult result)
         => _invoked?.Invoke(result);
@@ -2077,12 +2077,12 @@ public sealed class AssetCollectionResultCallback : AssetCollectionResultCallbac
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AssetCollectionResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2103,7 +2103,7 @@ public sealed class AssetCollectionResultCallback : AssetCollectionResultCallbac
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AssetCollectionResult result)
         => _invoked?.Invoke(result);
@@ -2133,12 +2133,12 @@ public sealed class AssetCollectionsResultCallback : AssetCollectionsResultCallb
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AssetCollectionsResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2159,7 +2159,7 @@ public sealed class AssetCollectionsResultCallback : AssetCollectionsResultCallb
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AssetCollectionsResult result)
         => _invoked?.Invoke(result);
@@ -2189,12 +2189,12 @@ public sealed class AssetCollectionCountResultCallback : AssetCollectionCountRes
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AssetCollectionCountResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2215,7 +2215,7 @@ public sealed class AssetCollectionCountResultCallback : AssetCollectionCountRes
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AssetCollectionCountResult result)
         => _invoked?.Invoke(result);
@@ -2245,12 +2245,12 @@ public sealed class AssetResultCallback : AssetResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AssetResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2271,7 +2271,7 @@ public sealed class AssetResultCallback : AssetResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AssetResult result)
         => _invoked?.Invoke(result);
@@ -2301,12 +2301,12 @@ public sealed class AssetsResultCallback : AssetsResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AssetsResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2327,7 +2327,7 @@ public sealed class AssetsResultCallback : AssetsResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AssetsResult result)
         => _invoked?.Invoke(result);
@@ -2357,12 +2357,12 @@ public sealed class UriResultCallback : UriResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.UriResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2383,7 +2383,7 @@ public sealed class UriResultCallback : UriResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.UriResult result)
         => _invoked?.Invoke(result);
@@ -2413,12 +2413,12 @@ public sealed class AssetDataResultCallback : AssetDataResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AssetDataResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2439,7 +2439,7 @@ public sealed class AssetDataResultCallback : AssetDataResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AssetDataResult result)
         => _invoked?.Invoke(result);
@@ -2469,12 +2469,12 @@ public sealed class UInt64ResultCallback : UInt64ResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.UInt64Result>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2495,7 +2495,7 @@ public sealed class UInt64ResultCallback : UInt64ResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.UInt64Result result)
         => _invoked?.Invoke(result);
@@ -2525,12 +2525,12 @@ public sealed class LODChainResultCallback : LODChainResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.LODChainResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2551,7 +2551,7 @@ public sealed class LODChainResultCallback : LODChainResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.LODChainResult result)
         => _invoked?.Invoke(result);
@@ -2581,12 +2581,12 @@ public sealed class MaterialResultCallback : MaterialResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.MaterialResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2607,7 +2607,7 @@ public sealed class MaterialResultCallback : MaterialResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.MaterialResult result)
         => _invoked?.Invoke(result);
@@ -2637,12 +2637,12 @@ public sealed class MaterialsResultCallback : MaterialsResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.MaterialsResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2663,7 +2663,7 @@ public sealed class MaterialsResultCallback : MaterialsResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.MaterialsResult result)
         => _invoked?.Invoke(result);
@@ -2693,12 +2693,12 @@ public sealed class SpaceResultCallback : SpaceResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.SpaceResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2719,7 +2719,7 @@ public sealed class SpaceResultCallback : SpaceResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.SpaceResult result)
         => _invoked?.Invoke(result);
@@ -2749,12 +2749,12 @@ public sealed class BasicSpaceResultCallback : BasicSpaceResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.BasicSpaceResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2775,7 +2775,7 @@ public sealed class BasicSpaceResultCallback : BasicSpaceResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.BasicSpaceResult result)
         => _invoked?.Invoke(result);
@@ -2805,12 +2805,12 @@ public sealed class SpacesResultCallback : SpacesResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.SpacesResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2831,7 +2831,7 @@ public sealed class SpacesResultCallback : SpacesResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.SpacesResult result)
         => _invoked?.Invoke(result);
@@ -2861,12 +2861,12 @@ public sealed class BasicSpacesResultCallback : BasicSpacesResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.BasicSpacesResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2887,7 +2887,7 @@ public sealed class BasicSpacesResultCallback : BasicSpacesResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.BasicSpacesResult result)
         => _invoked?.Invoke(result);
@@ -2917,12 +2917,12 @@ public sealed class PendingInvitesResultCallback : PendingInvitesResultCallbackA
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.PendingInvitesResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2943,7 +2943,7 @@ public sealed class PendingInvitesResultCallback : PendingInvitesResultCallbackA
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.PendingInvitesResult result)
         => _invoked?.Invoke(result);
@@ -2973,12 +2973,12 @@ public sealed class AcceptedInvitesResultCallback : AcceptedInvitesResultCallbac
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AcceptedInvitesResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -2999,7 +2999,7 @@ public sealed class AcceptedInvitesResultCallback : AcceptedInvitesResultCallbac
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AcceptedInvitesResult result)
         => _invoked?.Invoke(result);
@@ -3029,12 +3029,12 @@ public sealed class SiteResultCallback : SiteResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.SiteResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3055,7 +3055,7 @@ public sealed class SiteResultCallback : SiteResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.SiteResult result)
         => _invoked?.Invoke(result);
@@ -3085,12 +3085,12 @@ public sealed class SitesCollectionResultCallback : SitesCollectionResultCallbac
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.SitesCollectionResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3111,7 +3111,7 @@ public sealed class SitesCollectionResultCallback : SitesCollectionResultCallbac
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.SitesCollectionResult result)
         => _invoked?.Invoke(result);
@@ -3141,12 +3141,12 @@ public sealed class UserRoleCollectionCallback : UserRoleCollectionCallbackAdapt
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.UserRoleCollectionResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3167,7 +3167,7 @@ public sealed class UserRoleCollectionCallback : UserRoleCollectionCallbackAdapt
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.UserRoleCollectionResult result)
         => _invoked?.Invoke(result);
@@ -3197,12 +3197,12 @@ public sealed class SpacesMetadataResultCallback : SpacesMetadataResultCallbackA
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.SpacesMetadataResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3223,7 +3223,7 @@ public sealed class SpacesMetadataResultCallback : SpacesMetadataResultCallbackA
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.SpacesMetadataResult result)
         => _invoked?.Invoke(result);
@@ -3253,12 +3253,12 @@ public sealed class SpaceMetadataResultCallback : SpaceMetadataResultCallbackAda
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.SpaceMetadataResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3279,7 +3279,7 @@ public sealed class SpaceMetadataResultCallback : SpaceMetadataResultCallbackAda
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.SpaceMetadataResult result)
         => _invoked?.Invoke(result);
@@ -3309,12 +3309,12 @@ public sealed class SpaceGeoLocationResultCallback : SpaceGeoLocationResultCallb
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.SpaceGeoLocationResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3335,7 +3335,7 @@ public sealed class SpaceGeoLocationResultCallback : SpaceGeoLocationResultCallb
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.SpaceGeoLocationResult result)
         => _invoked?.Invoke(result);
@@ -3365,12 +3365,12 @@ public sealed class LoginStateResultCallback : LoginStateResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.LoginStateResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3391,7 +3391,7 @@ public sealed class LoginStateResultCallback : LoginStateResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.LoginStateResult result)
         => _invoked?.Invoke(result);
@@ -3421,12 +3421,12 @@ public sealed class ProfileResultCallback : ProfileResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.ProfileResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3447,7 +3447,7 @@ public sealed class ProfileResultCallback : ProfileResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.ProfileResult result)
         => _invoked?.Invoke(result);
@@ -3477,12 +3477,12 @@ public sealed class BasicProfilesResultCallback : BasicProfilesResultCallbackAda
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.BasicProfilesResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3503,7 +3503,7 @@ public sealed class BasicProfilesResultCallback : BasicProfilesResultCallbackAda
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.BasicProfilesResult result)
         => _invoked?.Invoke(result);
@@ -3533,12 +3533,12 @@ public sealed class BooleanResultCallback : BooleanResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.BooleanResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3559,7 +3559,7 @@ public sealed class BooleanResultCallback : BooleanResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.BooleanResult result)
         => _invoked?.Invoke(result);
@@ -3589,12 +3589,12 @@ public sealed class StringArrayResultCallback : StringArrayResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.StringArrayResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3615,7 +3615,7 @@ public sealed class StringArrayResultCallback : StringArrayResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.StringArrayResult result)
         => _invoked?.Invoke(result);
@@ -3645,12 +3645,12 @@ public sealed class AvatarInfoResultCallback : AvatarInfoResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AvatarInfoResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3671,7 +3671,7 @@ public sealed class AvatarInfoResultCallback : AvatarInfoResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AvatarInfoResult result)
         => _invoked?.Invoke(result);
@@ -3701,12 +3701,12 @@ public sealed class ApplicationSettingsResultCallback : ApplicationSettingsResul
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.ApplicationSettingsResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3727,7 +3727,7 @@ public sealed class ApplicationSettingsResultCallback : ApplicationSettingsResul
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.ApplicationSettingsResult result)
         => _invoked?.Invoke(result);
@@ -3757,12 +3757,12 @@ public sealed class FeatureLimitCallback : FeatureLimitCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.FeatureLimitResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3783,7 +3783,7 @@ public sealed class FeatureLimitCallback : FeatureLimitCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.FeatureLimitResult featureLimitResult)
         => _invoked?.Invoke(featureLimitResult);
@@ -3813,12 +3813,12 @@ public sealed class FeaturesLimitCallback : FeaturesLimitCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.FeaturesLimitResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3839,7 +3839,7 @@ public sealed class FeaturesLimitCallback : FeaturesLimitCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.FeaturesLimitResult result)
         => _invoked?.Invoke(result);
@@ -3869,12 +3869,12 @@ public sealed class UserTierCallback : UserTierCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.UserTierResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3895,7 +3895,7 @@ public sealed class UserTierCallback : UserTierCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.UserTierResult result)
         => _invoked?.Invoke(result);
@@ -3925,12 +3925,12 @@ public sealed class FeatureQuotaCallback : FeatureQuotaCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.FeatureQuotaResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -3951,7 +3951,7 @@ public sealed class FeatureQuotaCallback : FeatureQuotaCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.FeatureQuotaResult result)
         => _invoked?.Invoke(result);
@@ -3981,12 +3981,12 @@ public sealed class FeaturesQuotaCallback : FeaturesQuotaCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.FeaturesQuotaResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4007,7 +4007,7 @@ public sealed class FeaturesQuotaCallback : FeaturesQuotaCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.FeaturesQuotaResult result)
         => _invoked?.Invoke(result);
@@ -4037,12 +4037,12 @@ public sealed class ProductInfoResultCallback : ProductInfoResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.ProductInfoResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4063,7 +4063,7 @@ public sealed class ProductInfoResultCallback : ProductInfoResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.ProductInfoResult result)
         => _invoked?.Invoke(result);
@@ -4093,12 +4093,12 @@ public sealed class ProductInfoCollectionResultCallback : ProductInfoCollectionR
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.ProductInfoCollectionResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4119,7 +4119,7 @@ public sealed class ProductInfoCollectionResultCallback : ProductInfoCollectionR
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.ProductInfoCollectionResult result)
         => _invoked?.Invoke(result);
@@ -4149,12 +4149,12 @@ public sealed class CheckoutInfoResultCallback : CheckoutInfoResultCallbackAdapt
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.CheckoutInfoResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4175,7 +4175,7 @@ public sealed class CheckoutInfoResultCallback : CheckoutInfoResultCallbackAdapt
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.CheckoutInfoResult result)
         => _invoked?.Invoke(result);
@@ -4205,12 +4205,12 @@ public sealed class CartInfoResultCallback : CartInfoResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.CartInfoResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4231,7 +4231,7 @@ public sealed class CartInfoResultCallback : CartInfoResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.CartInfoResult result)
         => _invoked?.Invoke(result);
@@ -4261,12 +4261,12 @@ public sealed class GetShopifyStoresResultCallback : GetShopifyStoresResultCallb
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.GetShopifyStoresResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4287,7 +4287,7 @@ public sealed class GetShopifyStoresResultCallback : GetShopifyStoresResultCallb
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.GetShopifyStoresResult result)
         => _invoked?.Invoke(result);
@@ -4317,12 +4317,12 @@ public sealed class AddShopifyStoreResultCallback : AddShopifyStoreResultCallbac
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AddShopifyStoreResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4343,7 +4343,7 @@ public sealed class AddShopifyStoreResultCallback : AddShopifyStoreResultCallbac
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AddShopifyStoreResult result)
         => _invoked?.Invoke(result);
@@ -4373,12 +4373,12 @@ public sealed class ValidateShopifyStoreResultCallback : ValidateShopifyStoreRes
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.ValidateShopifyStoreResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4399,7 +4399,7 @@ public sealed class ValidateShopifyStoreResultCallback : ValidateShopifyStoreRes
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.ValidateShopifyStoreResult result)
         => _invoked?.Invoke(result);
@@ -4429,12 +4429,12 @@ public sealed class TicketedEventResultCallback : TicketedEventResultCallbackAda
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.TicketedEventResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4455,7 +4455,7 @@ public sealed class TicketedEventResultCallback : TicketedEventResultCallbackAda
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.TicketedEventResult result)
         => _invoked?.Invoke(result);
@@ -4485,12 +4485,12 @@ public sealed class TicketedEventCollectionResultCallback : TicketedEventCollect
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.TicketedEventCollectionResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4511,7 +4511,7 @@ public sealed class TicketedEventCollectionResultCallback : TicketedEventCollect
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.TicketedEventCollectionResult result)
         => _invoked?.Invoke(result);
@@ -4541,12 +4541,12 @@ public sealed class EventTicketResultCallback : EventTicketResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.EventTicketResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4567,7 +4567,7 @@ public sealed class EventTicketResultCallback : EventTicketResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.EventTicketResult result)
         => _invoked?.Invoke(result);
@@ -4597,12 +4597,12 @@ public sealed class TicketedEventVendorAuthorizeInfoCallback : TicketedEventVend
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.TicketedEventVendorAuthInfoResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4623,7 +4623,7 @@ public sealed class TicketedEventVendorAuthorizeInfoCallback : TicketedEventVend
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.TicketedEventVendorAuthInfoResult result)
         => _invoked?.Invoke(result);
@@ -4653,12 +4653,12 @@ public sealed class SpaceIsTicketedResultCallback : SpaceIsTicketedResultCallbac
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.SpaceIsTicketedResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4679,7 +4679,7 @@ public sealed class SpaceIsTicketedResultCallback : SpaceIsTicketedResultCallbac
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.SpaceIsTicketedResult result)
         => _invoked?.Invoke(result);
@@ -4709,12 +4709,12 @@ public sealed class MaintenanceInfoCallback : MaintenanceInfoCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.MaintenanceInfoResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4735,7 +4735,7 @@ public sealed class MaintenanceInfoCallback : MaintenanceInfoCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.MaintenanceInfoResult result)
         => _invoked?.Invoke(result);
@@ -4765,12 +4765,12 @@ public sealed class GraphQLReceivedCallback : GraphQLReceivedCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.GraphQLResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4791,7 +4791,7 @@ public sealed class GraphQLReceivedCallback : GraphQLReceivedCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.GraphQLResult result)
         => _invoked?.Invoke(result);
@@ -4821,12 +4821,12 @@ public sealed class POIResultCallback : POIResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.POIResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4847,7 +4847,7 @@ public sealed class POIResultCallback : POIResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.POIResult result)
         => _invoked?.Invoke(result);
@@ -4877,12 +4877,12 @@ public sealed class POICollectionResultCallback : POICollectionResultCallbackAda
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.POICollectionResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4903,7 +4903,7 @@ public sealed class POICollectionResultCallback : POICollectionResultCallbackAda
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.POICollectionResult result)
         => _invoked?.Invoke(result);
@@ -4933,12 +4933,12 @@ public sealed class AnchorResultCallback : AnchorResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AnchorResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -4959,7 +4959,7 @@ public sealed class AnchorResultCallback : AnchorResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AnchorResult result)
         => _invoked?.Invoke(result);
@@ -4989,12 +4989,12 @@ public sealed class AnchorCollectionResultCallback : AnchorCollectionResultCallb
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AnchorCollectionResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -5015,7 +5015,7 @@ public sealed class AnchorCollectionResultCallback : AnchorCollectionResultCallb
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AnchorCollectionResult result)
         => _invoked?.Invoke(result);
@@ -5045,12 +5045,12 @@ public sealed class AnchorResolutionResultCallback : AnchorResolutionResultCallb
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.AnchorResolutionResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -5071,7 +5071,7 @@ public sealed class AnchorResolutionResultCallback : AnchorResolutionResultCallb
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.AnchorResolutionResult result)
         => _invoked?.Invoke(result);
@@ -5101,12 +5101,12 @@ public sealed class SequenceResultCallback : SequenceResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.SequenceResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -5127,7 +5127,7 @@ public sealed class SequenceResultCallback : SequenceResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.SequenceResult result)
         => _invoked?.Invoke(result);
@@ -5157,12 +5157,12 @@ public sealed class SequencesResultCallback : SequencesResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.SequencesResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -5183,7 +5183,7 @@ public sealed class SequencesResultCallback : SequencesResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.SequencesResult result)
         => _invoked?.Invoke(result);
@@ -5213,12 +5213,12 @@ public sealed class HotspotGroupResultCallback : HotspotGroupResultCallbackAdapt
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.HotspotGroupResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -5239,7 +5239,7 @@ public sealed class HotspotGroupResultCallback : HotspotGroupResultCallbackAdapt
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.HotspotGroupResult result)
         => _invoked?.Invoke(result);
@@ -5269,12 +5269,12 @@ public sealed class HotspotGroupsResultCallback : HotspotGroupsResultCallbackAda
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<csp.systems.HotspotGroupsResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -5295,7 +5295,7 @@ public sealed class HotspotGroupsResultCallback : HotspotGroupsResultCallbackAda
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(csp.systems.HotspotGroupsResult result)
         => _invoked?.Invoke(result);
@@ -5342,12 +5342,12 @@ public sealed class TestBooleanResultCallback : TestBooleanResultCallbackAdapter
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<extra.test.TestBooleanResult>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
@@ -5368,7 +5368,7 @@ public sealed class TestBooleanResultCallback : TestBooleanResultCallbackAdapter
         }
     }
 
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length == 0;
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
 
     public override void Call(extra.test.TestBooleanResult result)
         => _invoked?.Invoke(result);

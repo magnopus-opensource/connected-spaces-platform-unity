@@ -579,6 +579,16 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnUpdate);
+
+                System.Console.Error.WriteLine($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnUpdateAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
@@ -632,6 +642,16 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnDestroy);
+
+                System.Console.Error.WriteLine($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnDestroyAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.

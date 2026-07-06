@@ -2693,6 +2693,16 @@ public class AssetSystem : csp.systems.SystemBase {
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnAssetDetailBlobChanged);
+
+                System.Console.Error.WriteLine($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnAssetDetailBlobChangedAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
@@ -2746,6 +2756,16 @@ public class AssetSystem : csp.systems.SystemBase {
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnMaterialChanged);
+
+                System.Console.Error.WriteLine($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnMaterialChangedAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
