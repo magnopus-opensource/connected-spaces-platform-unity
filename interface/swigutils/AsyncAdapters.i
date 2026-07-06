@@ -81,12 +81,12 @@ public sealed class ACTION_ADAPTER_TYPENAME : CALLBACKT
 
             if (_invoked == null)
             {
-                // First subscriber, create action. Note that this automatically subscribes the passed value.
-                _invoked = new System.Action<ACTION_TYPELIST_WITHOUT_NAMES>(value);
+                // First subscriber.
+                _invoked = value;
             }
             else
             {
-                // We already had an action existing, just subscribe to it.
+                // We already have a subscriber. Add the new one to the invocation list.
                 _invoked += value;
             }
         }
