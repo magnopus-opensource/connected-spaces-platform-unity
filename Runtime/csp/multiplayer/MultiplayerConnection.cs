@@ -206,6 +206,16 @@ public class MultiplayerConnection : global::System.IDisposable {
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnConnection);
+
+                UnityEngine.Debug.LogError($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnConnectionAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
@@ -259,6 +269,16 @@ public class MultiplayerConnection : global::System.IDisposable {
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnDisconnection);
+
+                UnityEngine.Debug.LogError($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnDisconnectionAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
@@ -312,6 +332,16 @@ public class MultiplayerConnection : global::System.IDisposable {
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnNetworkInterruption);
+
+                UnityEngine.Debug.LogError($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnNetworkInterruptionAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.

@@ -1734,6 +1734,16 @@ public class ConversationSpaceComponent : csp.multiplayer.ComponentBase, IPositi
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnConversationUpdate);
+
+                UnityEngine.Debug.LogError($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnConversationUpdateAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.

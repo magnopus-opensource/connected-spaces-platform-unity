@@ -2179,6 +2179,16 @@ public class UserSystem : csp.systems.SystemBase {
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnNewLoginTokenReceived);
+
+                UnityEngine.Debug.LogError($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnNewLoginTokenReceivedAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
@@ -2232,6 +2242,16 @@ public class UserSystem : csp.systems.SystemBase {
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnUserPermissionsChanged);
+
+                UnityEngine.Debug.LogError($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnUserPermissionsChangedAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.

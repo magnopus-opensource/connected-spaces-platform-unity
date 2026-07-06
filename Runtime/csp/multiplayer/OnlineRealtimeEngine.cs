@@ -529,6 +529,16 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnRemoteEntityCreated);
+
+                UnityEngine.Debug.LogError($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnRemoteEntityCreatedAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
@@ -582,6 +592,16 @@ public class OnlineRealtimeEngine : IRealtimeEngine, global::System.IDisposable 
     {
         add
         {
+            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
+            if (swigCPtr.Handle == global::System.IntPtr.Zero)
+            {
+                var eventName = nameof(OnEntityFetchComplete);
+
+                UnityEngine.Debug.LogError($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                return;
+            }
+
             if (_OnEntityFetchCompleteAdapter == null)
             {
                 // First subscriber, create adapter. Note that this automatically subscribes the passed value.
