@@ -31,6 +31,12 @@
                 responseBody = this.GetResponseBody();
                 failureReason = this.GetFailureReason();
             }
+            else
+            {
+                throw new System.InvalidOperationException(
+                    $"{callingMethodName} failed. Native poitner has already been disposed."
+                );
+            }
 
             throw new Magnopus.Extra.Exceptions.CspResultEndpointException(
               $"{callingMethodName} failed.", statusCode, responseBody: responseBody, 
