@@ -59,15 +59,15 @@ public class IComponentSchemaRegistry : global::System.IDisposable {
     }
   }
 
-  public virtual SWIGTYPE_p_csp__common__ArrayT_csp__multiplayer__ComponentSchema_t GetAll() {
-    SWIGTYPE_p_csp__common__ArrayT_csp__multiplayer__ComponentSchema_t ret = new SWIGTYPE_p_csp__common__ArrayT_csp__multiplayer__ComponentSchema_t(ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_IComponentSchemaRegistry_GetAll(swigCPtr), true);
+  public virtual csp.common.ComponentSchemaTypeArray GetAll() {
+    csp.common.ComponentSchemaTypeArray ret = new csp.common.ComponentSchemaTypeArray(ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_IComponentSchemaRegistry_GetAll(swigCPtr), true);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public virtual SWIGTYPE_p_csp__multiplayer__ComponentSchema Find(ulong TypeId) {
+  public virtual csp.multiplayer.ComponentSchema Find(ulong TypeId) {
     global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_IComponentSchemaRegistry_Find(swigCPtr, TypeId);
-    SWIGTYPE_p_csp__multiplayer__ComponentSchema ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_csp__multiplayer__ComponentSchema(cPtr, false);
+    csp.multiplayer.ComponentSchema ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.multiplayer.ComponentSchema(cPtr, false);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

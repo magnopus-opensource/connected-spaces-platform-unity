@@ -72,7 +72,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public OfflineRealtimeEngine(csp.common.LogSystem LogSystem, csp.common.IJSScriptRunner RemoteScriptRunner, SWIGTYPE_p_csp__common__ArrayT_csp__multiplayer__ComponentSchema_t AdditionalComponents) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OfflineRealtimeEngine__SWIG_2(csp.common.LogSystem.getCPtr(LogSystem), RemoteScriptRunner.GetInterfaceCPtr(), SWIGTYPE_p_csp__common__ArrayT_csp__multiplayer__ComponentSchema_t.getCPtr(AdditionalComponents)), true) {
+  public OfflineRealtimeEngine(csp.common.LogSystem LogSystem, csp.common.IJSScriptRunner RemoteScriptRunner, csp.common.ComponentSchemaTypeArray AdditionalComponents) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OfflineRealtimeEngine__SWIG_2(csp.common.LogSystem.getCPtr(LogSystem), RemoteScriptRunner.GetInterfaceCPtr(), csp.common.ComponentSchemaTypeArray.getCPtr(AdditionalComponents)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
