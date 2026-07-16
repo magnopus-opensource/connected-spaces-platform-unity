@@ -19,7 +19,7 @@
     /// <param name="callingMethodName"> The name of the method that called this extension method. It is used to help log the message of the exception if there is one. </param>
     public void ThrowOnFailure(string callingMethodName)
     {
-        if (swigCPtr == null || swigCPtr.Handle == System.IntPtr.Zero)
+        if (swigCPtr.Handle == System.IntPtr.Zero)
         {
             throw new System.InvalidOperationException(
                 $"{callingMethodName} failed. Native poitner has already been disposed."
