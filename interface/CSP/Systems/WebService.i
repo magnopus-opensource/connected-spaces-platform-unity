@@ -19,24 +19,19 @@
     /// <param name="callingMethodName"> The name of the method that called this extension method. It is used to help log the message of the exception if there is one. </param>
     public void ThrowOnFailure(string callingMethodName)
     {
-        var resultCode = GetResultCode();
-        if (resultCode == EResultCode.Failed || swigCPtr.Handle == System.IntPtr.Zero)
+        if (swigCPtr == null || swigCPtr.Handle == System.IntPtr.Zero)
         {
-            ushort statusCode = 500;
-            string responseBody = null;
-            ERequestFailureReason failureReason = 0;
-            if (swigCPtr.Handle != System.IntPtr.Zero)
-            {
-                statusCode = this.GetHttpResultCode();
-                responseBody = this.GetResponseBody();
-                failureReason = this.GetFailureReason();
-            }
-            else
-            {
-                throw new System.InvalidOperationException(
-                    $"{callingMethodName} failed. Native poitner has already been disposed."
-                );
-            }
+            throw new System.InvalidOperationException(
+                $"{callingMethodName} failed. Native poitner has already been disposed."
+            );
+        }
+
+        var resultCode = GetResultCode();
+        if (resultCode == EResultCode.Failed)
+        {
+            ushort statusCode = this.GetHttpResultCode();
+            string responseBody = this.GetResponseBody();
+            ERequestFailureReason failureReason = this.GetFailureReason();
 
             throw new Magnopus.Extra.Exceptions.CspResultEndpointException(
               $"{callingMethodName} failed.", statusCode, responseBody: responseBody, 
