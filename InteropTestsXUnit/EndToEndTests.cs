@@ -189,7 +189,7 @@ public class EndToEndTests : IDisposable
         });
 
         const string NETWORK_EVENT_ID = "CSharpTestNetworkEvent";
-        eventBus.ListenNetworkEvent(new NetworkEventRegistration("me", NETWORK_EVENT_ID), networkEventCallback);
+        eventBus.ListenCustomNetworkEvent("me", NETWORK_EVENT_ID, networkEventCallback);
 
         //Send a message to ourselves
         const string MESSAGE_PAYLOAD = "Test message";
