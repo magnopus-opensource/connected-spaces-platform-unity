@@ -49,6 +49,24 @@ public class AlphaVideoMaterial : csp.systems.Material {
     }
   }
 
+
+  // Returns null on failure.
+  public static csp.systems.AlphaVideoMaterial? TryFromBaseCast(csp.systems.Material baseObj)
+  {
+    return NativeFromBaseCast(baseObj);
+  }
+
+  // Throws ArgumentException on failure.
+  public static csp.systems.AlphaVideoMaterial FromBaseCast(csp.systems.Material baseObj)
+  {
+    csp.systems.AlphaVideoMaterial? derived = TryFromBaseCast(baseObj);
+    if (derived == null){
+      throw new System.ArgumentException("Failed to cast " + nameof(csp.systems.Material) + " to " + nameof(csp.systems.AlphaVideoMaterial), "baseObj");
+    }
+    return derived;
+  }
+
+
   public void SetColorTexture(csp.systems.TextureInfo Texture) {
     ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_AlphaVideoMaterial_SetColorTexture(swigCPtr, csp.systems.TextureInfo.getCPtr(Texture));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
@@ -180,6 +198,13 @@ public class AlphaVideoMaterial : csp.systems.Material {
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.
   public object OuterObjectPin { private get; set; }
+
+  internal static csp.systems.AlphaVideoMaterial NativeFromBaseCast(csp.systems.Material baseObj) {
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_AlphaVideoMaterial_NativeFromBaseCast((baseObj != null && csp.systems.Material.getCPtr(baseObj).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("baseObj", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.Material.getCPtr(baseObj));
+    csp.systems.AlphaVideoMaterial ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.systems.AlphaVideoMaterial(cPtr, false);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
 
 }
 

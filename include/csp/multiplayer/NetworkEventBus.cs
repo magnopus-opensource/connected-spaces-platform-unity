@@ -103,7 +103,7 @@ public class NetworkEventBus : global::System.IDisposable {
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.ErrorCodeCallback callback =
         new ConnectedSpacesPlatformDotNet.ErrorCodeCallback();
 
@@ -188,7 +188,7 @@ public class NetworkEventBus : global::System.IDisposable {
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.ErrorCodeCallback callback =
         new ConnectedSpacesPlatformDotNet.ErrorCodeCallback();
 

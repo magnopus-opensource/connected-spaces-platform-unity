@@ -10285,6 +10285,9 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_systems_AlphaVideoMaterial__SWIG_1")]
   public static extern global::System.IntPtr new_csp_systems_AlphaVideoMaterial__SWIG_1();
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_AlphaVideoMaterial_NativeFromBaseCast")]
+  public static extern global::System.IntPtr csp_systems_AlphaVideoMaterial_NativeFromBaseCast(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_systems_Asset__SWIG_0")]
   public static extern global::System.IntPtr new_csp_systems_Asset__SWIG_0();
 
@@ -10815,6 +10818,9 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_systems_GLTFMaterial__SWIG_1")]
   public static extern global::System.IntPtr new_csp_systems_GLTFMaterial__SWIG_1();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_GLTFMaterial_NativeFromBaseCast")]
+  public static extern global::System.IntPtr csp_systems_GLTFMaterial_NativeFromBaseCast(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_systems_CurrencyInfo")]
   public static extern global::System.IntPtr new_csp_systems_CurrencyInfo();
