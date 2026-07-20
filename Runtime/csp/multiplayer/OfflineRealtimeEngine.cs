@@ -215,7 +215,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EntityCreatedCallback callback =
         new ConnectedSpacesPlatformDotNet.EntityCreatedCallback();
 
@@ -300,7 +300,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EntityCreatedCallback callback =
         new ConnectedSpacesPlatformDotNet.EntityCreatedCallback();
 
@@ -385,7 +385,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     System.Threading.Tasks.TaskCompletionSource<bool> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<bool>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.DestroyCallback callback =
         new ConnectedSpacesPlatformDotNet.DestroyCallback();
 

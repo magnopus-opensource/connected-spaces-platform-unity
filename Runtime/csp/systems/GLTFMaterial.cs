@@ -49,6 +49,24 @@ public class GLTFMaterial : csp.systems.Material {
     }
   }
 
+
+  // Returns null on failure.
+  public static csp.systems.GLTFMaterial? TryFromBaseCast(csp.systems.Material baseObj)
+  {
+    return NativeFromBaseCast(baseObj);
+  }
+
+  // Throws ArgumentException on failure.
+  public static csp.systems.GLTFMaterial FromBaseCast(csp.systems.Material baseObj)
+  {
+    csp.systems.GLTFMaterial? derived = TryFromBaseCast(baseObj);
+    if (derived == null){
+      throw new System.ArgumentException("Failed to cast " + nameof(csp.systems.Material) + " to " + nameof(csp.systems.GLTFMaterial), "baseObj");
+    }
+    return derived;
+  }
+
+
   public void SetAlphaMode(csp.systems.EAlphaMode Mode) {
     ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_GLTFMaterial_SetAlphaMode(swigCPtr, (int)Mode);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
@@ -238,6 +256,13 @@ public class GLTFMaterial : csp.systems.Material {
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.
   public object OuterObjectPin { private get; set; }
+
+  internal static csp.systems.GLTFMaterial NativeFromBaseCast(csp.systems.Material baseObj) {
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_GLTFMaterial_NativeFromBaseCast((baseObj != null && csp.systems.Material.getCPtr(baseObj).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("baseObj", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.systems.Material.getCPtr(baseObj));
+    csp.systems.GLTFMaterial ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.systems.GLTFMaterial(cPtr, false);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
 
 }
 
