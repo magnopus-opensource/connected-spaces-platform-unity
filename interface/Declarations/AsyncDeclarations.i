@@ -170,8 +170,8 @@ MAKE_ACTION_ADAPTER(HotspotSequenceChangedCallback,
                      ARGLIST(eventData));
 
 /* NetworkEventBus Action Adapters */
-MAKE_ACTION_ADAPTER(NetworkEventCallback,
-                     NetworkEventCallbackAdapter,
+MAKE_ACTION_ADAPTER(CustomNetworkEventCallback,
+                     CustomNetworkEventCallbackAdapter,
                      ARGLIST(csp.common.NetworkEventData networkEventData),
                      ARGLIST(csp.common.NetworkEventData),
                      ARGLIST(networkEventData));

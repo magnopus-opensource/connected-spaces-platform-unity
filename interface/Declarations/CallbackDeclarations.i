@@ -453,8 +453,8 @@ MAKE_CALLBACK(csp::multiplayer::MultiplayerConnection::NetworkInterruptionCallba
                       ARGLIST(interruptReason))
 
 //NetworkEventBus
-MAKE_CALLBACK(csp::multiplayer::NetworkEventCallback,
-                      NetworkEventCallbackAdapter,
+MAKE_CALLBACK(csp::multiplayer::CustomNetworkEventCallback,
+                      CustomNetworkEventCallbackAdapter,
                       ARGLIST(csp::common::NetworkEventData networkEventData),
                       ARGLIST(networkEventData))
 MAKE_CALLBACK(csp::multiplayer::NetworkEventBus::ErrorCodeCallbackHandler,
