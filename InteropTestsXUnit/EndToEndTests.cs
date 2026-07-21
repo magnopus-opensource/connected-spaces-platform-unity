@@ -183,13 +183,13 @@ public class EndToEndTests : IDisposable
 
         //Start Listening
         TaskCompletionSource<NetworkEventData> networkEventDataTCS = new TaskCompletionSource<NetworkEventData>(TaskCreationOptions.RunContinuationsAsynchronously);
-        ConnectedSpacesPlatformDotNet.NetworkEventCallback networkEventCallback = new ConnectedSpacesPlatformDotNet.NetworkEventCallback((x) =>
+        ConnectedSpacesPlatformDotNet.CustomNetworkEventCallback customNetworkEventCallback = new ConnectedSpacesPlatformDotNet.CustomNetworkEventCallback((x) =>
         {
             networkEventDataTCS.SetResult(x); ;
         });
 
         const string NETWORK_EVENT_ID = "CSharpTestNetworkEvent";
-        eventBus.ListenCustomNetworkEvent("me", NETWORK_EVENT_ID, networkEventCallback);
+        eventBus.ListenCustomNetworkEvent("me", NETWORK_EVENT_ID, customNetworkEventCallback);
 
         //Send a message to ourselves
         const string MESSAGE_PAYLOAD = "Test message";
