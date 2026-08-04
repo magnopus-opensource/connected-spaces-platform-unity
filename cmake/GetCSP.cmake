@@ -49,7 +49,7 @@ if(NOT DEFINED CSP_ROOT_DIR)
   endif()
 
   # Specify the CSP version we want to use for the SWIG build
-  set(CSP_TARGET_VERSION "v6.45.0" CACHE STRING "The CSP release version to download")
+  set(CSP_TARGET_VERSION "v6.46.0" CACHE STRING "The CSP release version to download")
   message(STATUS "Downloading CSP release version: '${CSP_TARGET_VERSION}'")
 
   # Download specific CSP version using a Git tag
