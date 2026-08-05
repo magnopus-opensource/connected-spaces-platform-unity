@@ -223,6 +223,11 @@ public class SystemsManager : global::System.IDisposable {
     return ret;
   }
 
+  public void __SetWAFBypass(string Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SystemsManager___SetWAFBypass(swigCPtr, Value);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.
   public object OuterObjectPin { private get; set; }

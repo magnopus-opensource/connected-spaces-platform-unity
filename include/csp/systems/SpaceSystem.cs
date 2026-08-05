@@ -258,11 +258,6 @@ public class SpaceSystem : csp.systems.SystemBase {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void SetAsyncCallCompletedCallback(AsyncCallCompletedCallbackAdapter Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SpaceSystem_SetAsyncCallCompletedCallback(swigCPtr, AsyncCallCompletedCallbackAdapter.getCPtr(Callback));
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-  }
-
 
   public System.Threading.Tasks.Task<csp.systems.SpaceResult> EnterSpaceAsync(string spaceId,csp.common.IRealtimeEngine realtimeEngine, System.Action<float>? progressCallback = null)
   {
@@ -3235,69 +3230,6 @@ public class SpaceSystem : csp.systems.SystemBase {
 
     return tcs.Task;
   }
-
-
-    // Single native action adapter instance for this event
-    private ConnectedSpacesPlatformDotNet.AsyncCallCompletedCallback? _OnAsyncCallCompletedAdapter;
-
-    /// <summary>
-    /// C# event exposing the native callback.
-    /// Subscribers are automatically registered/unregistered with native code.
-    /// </summary>
-    public event System.Action<csp.common.AsyncCallCompletedEventData> OnAsyncCallCompleted
-    {
-        add
-        {
-            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
-            if (swigCPtr.Handle == global::System.IntPtr.Zero)
-            {
-                var eventName = nameof(OnAsyncCallCompleted);
-
-                System.Console.Error.WriteLine($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
-
-                return;
-            }
-
-            if (_OnAsyncCallCompletedAdapter == null)
-            {
-                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
-                _OnAsyncCallCompletedAdapter = new ConnectedSpacesPlatformDotNet.AsyncCallCompletedCallback(value);
-                // Register with native code
-                SetAsyncCallCompletedCallback(_OnAsyncCallCompletedAdapter);
-            }
-            else
-            {
-                // We already had an adapter existing, just subscribe to the event.
-                _OnAsyncCallCompletedAdapter!.Invoked += value;
-                // Note: we should not need to call the SetAsyncCallCompletedCallback again since it was supposed to be set on adapter creation.
-            }
-        }
-        remove
-        {
-            if (_OnAsyncCallCompletedAdapter == null)
-            {
-                // This should not happen
-                var eventNameAdapter = nameof(_OnAsyncCallCompletedAdapter);
-                var eventName = nameof(OnAsyncCallCompleted);
-
-                System.Console.Error.WriteLine($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
-
-                return;
-            }
-
-            _OnAsyncCallCompletedAdapter.Invoked -= value;
-
-            if (!_OnAsyncCallCompletedAdapter.HasSubscribers)
-            {
-                // Unregister from native code
-                SetAsyncCallCompletedCallback(null);
-
-                // No more subscribers, clean up adapter
-                _OnAsyncCallCompletedAdapter = null;
-            }
-        }
-    }
-
 
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.

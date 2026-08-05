@@ -11,20 +11,20 @@
 
 #nullable enable
 
-public class NetworkEventCallbackAdapter : global::System.IDisposable {
+public class CustomNetworkEventCallbackAdapter : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 
-  internal NetworkEventCallbackAdapter(global::System.IntPtr cPtr, bool cMemoryOwn) {
+  internal CustomNetworkEventCallbackAdapter(global::System.IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(NetworkEventCallbackAdapter obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(CustomNetworkEventCallbackAdapter obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef swigRelease(NetworkEventCallbackAdapter obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef swigRelease(CustomNetworkEventCallbackAdapter obj) {
     if (obj != null) {
       if (!obj.swigCMemOwn)
         throw new global::System.ApplicationException("Cannot release ownership as memory is not owned");
@@ -36,9 +36,9 @@ public class NetworkEventCallbackAdapter : global::System.IDisposable {
       return new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
     }
   }
-  private static System.Collections.Concurrent.ConcurrentDictionary<global::System.IntPtr, global::System.WeakReference<NetworkEventCallbackAdapter>> IL2CPPInstances = new();
+  private static System.Collections.Concurrent.ConcurrentDictionary<global::System.IntPtr, global::System.WeakReference<CustomNetworkEventCallbackAdapter>> IL2CPPInstances = new();
 
-  ~NetworkEventCallbackAdapter() {
+  ~CustomNetworkEventCallbackAdapter() {
     Dispose(false);
   }
 
@@ -52,7 +52,7 @@ public class NetworkEventCallbackAdapter : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          ConnectedSpacesPlatformDotNetPINVOKE.delete_NetworkEventCallbackAdapter(swigCPtr);
+          ConnectedSpacesPlatformDotNetPINVOKE.delete_CustomNetworkEventCallbackAdapter(swigCPtr);
         }
         var key = swigCPtr.Handle;
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
@@ -62,20 +62,20 @@ public class NetworkEventCallbackAdapter : global::System.IDisposable {
   }
 
   public virtual void Call(csp.common.NetworkEventData networkEventData) {
-    ConnectedSpacesPlatformDotNetPINVOKE.NetworkEventCallbackAdapter_Call(swigCPtr, csp.common.NetworkEventData.getCPtr(networkEventData));
+    ConnectedSpacesPlatformDotNetPINVOKE.CustomNetworkEventCallbackAdapter_Call(swigCPtr, csp.common.NetworkEventData.getCPtr(networkEventData));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public NetworkEventCallbackAdapter() : this(ConnectedSpacesPlatformDotNetPINVOKE.new_NetworkEventCallbackAdapter(), true) {
+  public CustomNetworkEventCallbackAdapter() : this(ConnectedSpacesPlatformDotNetPINVOKE.new_CustomNetworkEventCallbackAdapter(), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     SwigDirectorConnect();
   }
 
   private void SwigDirectorConnect() {
     if (SwigDerivedClassHasMethod("Call", swigMethodTypes0))
-      swigDelegate0 = new SwigDelegateNetworkEventCallbackAdapter_0(SwigDirectorMethodCall);
-    IL2CPPInstances[swigCPtr.Handle] = new global::System.WeakReference<NetworkEventCallbackAdapter>(this);
-    ConnectedSpacesPlatformDotNetPINVOKE.NetworkEventCallbackAdapter_director_connect(swigCPtr, swigDelegate0);
+      swigDelegate0 = new SwigDelegateCustomNetworkEventCallbackAdapter_0(SwigDirectorMethodCall);
+    IL2CPPInstances[swigCPtr.Handle] = new global::System.WeakReference<CustomNetworkEventCallbackAdapter>(this);
+    ConnectedSpacesPlatformDotNetPINVOKE.CustomNetworkEventCallbackAdapter_director_connect(swigCPtr, swigDelegate0);
   }
 
   private bool SwigDerivedClassHasMethod(string methodName, global::System.Type[] methodTypes) {
@@ -103,7 +103,7 @@ public class NetworkEventCallbackAdapter : global::System.IDisposable {
       if (!parametersMatch)
         continue;
 
-      if (methodInfo.IsVirtual && (methodInfo.DeclaringType.IsSubclassOf(typeof(NetworkEventCallbackAdapter))) &&
+      if (methodInfo.IsVirtual && (methodInfo.DeclaringType.IsSubclassOf(typeof(CustomNetworkEventCallbackAdapter))) &&
         methodInfo.DeclaringType != methodInfo.GetBaseDefinition().DeclaringType) {
         return true;
       }
@@ -113,7 +113,7 @@ public class NetworkEventCallbackAdapter : global::System.IDisposable {
   }
 
 #if !UNITY_EDITOR && ENABLE_IL2CPP
-  [AOT.MonoPInvokeCallback (typeof (SwigDelegateNetworkEventCallbackAdapter_0))]
+  [AOT.MonoPInvokeCallback (typeof (SwigDelegateCustomNetworkEventCallbackAdapter_0))]
 #endif
   private static void SwigDirectorMethodCall(global::System.IntPtr networkEventData, global::System.IntPtr ObjectData) {
     if (IL2CPPInstances.TryGetValue(ObjectData, out var wr) && wr.TryGetTarget(out var self))
@@ -122,9 +122,9 @@ public class NetworkEventCallbackAdapter : global::System.IDisposable {
     }
   }
 
-  public delegate void SwigDelegateNetworkEventCallbackAdapter_0(global::System.IntPtr networkEventData, global::System.IntPtr ObjectData);
+  public delegate void SwigDelegateCustomNetworkEventCallbackAdapter_0(global::System.IntPtr networkEventData, global::System.IntPtr ObjectData);
 
-  private SwigDelegateNetworkEventCallbackAdapter_0 swigDelegate0;
+  private SwigDelegateCustomNetworkEventCallbackAdapter_0 swigDelegate0;
 
   private static global::System.Type[] swigMethodTypes0 = new global::System.Type[] { typeof(csp.common.NetworkEventData) };
 }

@@ -1438,11 +1438,11 @@ public sealed class HotspotSequenceChangedCallback : SequenceChangedCallbackAdap
 }
 
 
-public sealed class NetworkEventCallback : NetworkEventCallbackAdapter
+public sealed class CustomNetworkEventCallback : CustomNetworkEventCallbackAdapter
 {
-    public NetworkEventCallback(){}
+    public CustomNetworkEventCallback(){}
 
-    public NetworkEventCallback(System.Action<csp.common.NetworkEventData> callbackAction) 
+    public CustomNetworkEventCallback(System.Action<csp.common.NetworkEventData> callbackAction) 
     {
         Invoked += callbackAction;
     }

@@ -1438,17 +1438,17 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_StringCallbackAdapter_director_connect")]
   public static extern void StringCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, StringCallbackAdapter.SwigDelegateStringCallbackAdapter_0 delegate0);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_NetworkEventCallbackAdapter")]
-  public static extern void delete_NetworkEventCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_CustomNetworkEventCallbackAdapter")]
+  public static extern void delete_CustomNetworkEventCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_NetworkEventCallbackAdapter_Call")]
-  public static extern void NetworkEventCallbackAdapter_Call(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_CustomNetworkEventCallbackAdapter_Call")]
+  public static extern void CustomNetworkEventCallbackAdapter_Call(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_NetworkEventCallbackAdapter")]
-  public static extern global::System.IntPtr new_NetworkEventCallbackAdapter();
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_CustomNetworkEventCallbackAdapter")]
+  public static extern global::System.IntPtr new_CustomNetworkEventCallbackAdapter();
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_NetworkEventCallbackAdapter_director_connect")]
-  public static extern void NetworkEventCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, NetworkEventCallbackAdapter.SwigDelegateNetworkEventCallbackAdapter_0 delegate0);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_CustomNetworkEventCallbackAdapter_director_connect")]
+  public static extern void CustomNetworkEventCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, CustomNetworkEventCallbackAdapter.SwigDelegateCustomNetworkEventCallbackAdapter_0 delegate0);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_EntityActionCallbackAdapter")]
   public static extern void delete_EntityActionCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -7165,11 +7165,11 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentBase_SetComponentName")]
   public static extern void csp_multiplayer_ComponentBase_SetComponentName(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentBase_GetSchemaProperty")]
-  public static extern global::System.IntPtr csp_multiplayer_ComponentBase_GetSchemaProperty(global::System.Runtime.InteropServices.HandleRef jarg1, ushort jarg2);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentBase_GetProperty")]
+  public static extern global::System.IntPtr csp_multiplayer_ComponentBase_GetProperty(global::System.Runtime.InteropServices.HandleRef jarg1, ushort jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentBase_SetSchemaProperty")]
-  public static extern void csp_multiplayer_ComponentBase_SetSchemaProperty(global::System.Runtime.InteropServices.HandleRef jarg1, ushort jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentBase_SetProperty")]
+  public static extern void csp_multiplayer_ComponentBase_SetProperty(global::System.Runtime.InteropServices.HandleRef jarg1, ushort jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentProperty_Key_set")]
   public static extern void csp_multiplayer_ComponentProperty_Key_set(global::System.Runtime.InteropServices.HandleRef jarg1, ushort jarg2);
@@ -7294,11 +7294,41 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_SendNetworkEventToClient")]
   public static extern void csp_multiplayer_NetworkEventBus_SendNetworkEventToClient(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, ulong jarg4, global::System.Runtime.InteropServices.HandleRef jarg5);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_ListenNetworkEvent")]
-  public static extern void csp_multiplayer_NetworkEventBus_ListenNetworkEvent(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_ListenCustomNetworkEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_ListenCustomNetworkEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_StopListenNetworkEvent")]
-  public static extern void csp_multiplayer_NetworkEventBus_StopListenNetworkEvent(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_ListenAccessControlChangedEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_ListenAccessControlChangedEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_ListenAssetDetailBlobChangedEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_ListenAssetDetailBlobChangedEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_ListenAsyncCallCompletedEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_ListenAsyncCallCompletedEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_ListenConversationEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_ListenConversationEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_ListenSequenceChangedEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_ListenSequenceChangedEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_StopListenCustomNetworkEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_StopListenCustomNetworkEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_StopListenAccessControlChangedEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_StopListenAccessControlChangedEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_StopListenAssetDetailBlobChangedEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_StopListenAssetDetailBlobChangedEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_StopListenAsyncCallCompletedEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_StopListenAsyncCallCompletedEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_StopListenConversationEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_StopListenConversationEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_StopListenSequenceChangedEvent")]
+  public static extern void csp_multiplayer_NetworkEventBus_StopListenSequenceChangedEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_NetworkEventBus_StopListenAllNetworkEvents")]
   public static extern void csp_multiplayer_NetworkEventBus_StopListenAllNetworkEvents(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
@@ -10096,6 +10126,9 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_SystemsManager_GetEventBus")]
   public static extern global::System.IntPtr csp_systems_SystemsManager_GetEventBus(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_SystemsManager___SetWAFBypass")]
+  public static extern void csp_systems_SystemsManager___SetWAFBypass(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_AnalyticsSystem_QueueAnalyticsEvent")]
   public static extern void csp_systems_AnalyticsSystem_QueueAnalyticsEvent(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, string jarg4, string jarg5, global::System.Runtime.InteropServices.HandleRef jarg6);
 
@@ -12348,9 +12381,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_SpaceSystem_DuplicateSpaceAsync")]
   public static extern void csp_systems_SpaceSystem_DuplicateSpaceAsync(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, int jarg4, global::System.Runtime.InteropServices.HandleRef jarg5, bool jarg6, global::System.Runtime.InteropServices.HandleRef jarg7);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_SpaceSystem_SetAsyncCallCompletedCallback")]
-  public static extern void csp_systems_SpaceSystem_SetAsyncCallCompletedCallback(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_systems_OlyAnchorPosition__SWIG_0")]
   public static extern global::System.IntPtr new_csp_systems_OlyAnchorPosition__SWIG_0();

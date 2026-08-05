@@ -121,15 +121,15 @@ public class ComponentBase : global::System.IDisposable {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public csp.common.ReplicatedValue GetSchemaProperty(ushort Key) {
-    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ComponentBase_GetSchemaProperty(swigCPtr, Key);
+  public csp.common.ReplicatedValue GetProperty(ushort Key) {
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ComponentBase_GetProperty(swigCPtr, Key);
     csp.common.ReplicatedValue ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.common.ReplicatedValue(cPtr, false);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public void SetSchemaProperty(ushort Key, csp.common.ReplicatedValue Value) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ComponentBase_SetSchemaProperty(swigCPtr, Key, csp.common.ReplicatedValue.getCPtr(Value));
+  public void SetProperty(ushort Key, csp.common.ReplicatedValue Value) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_ComponentBase_SetProperty(swigCPtr, Key, csp.common.ReplicatedValue.getCPtr(Value));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
