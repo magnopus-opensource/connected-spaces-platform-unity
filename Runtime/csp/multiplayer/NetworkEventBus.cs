@@ -69,13 +69,63 @@ public class NetworkEventBus : global::System.IDisposable {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void ListenNetworkEvent(csp.multiplayer.NetworkEventRegistration Registration, NetworkEventCallbackAdapter Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenNetworkEvent(swigCPtr, csp.multiplayer.NetworkEventRegistration.getCPtr(Registration), NetworkEventCallbackAdapter.getCPtr(Callback));
+  public void ListenCustomNetworkEvent(string EventReceiverId, string EventName, CustomNetworkEventCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenCustomNetworkEvent(swigCPtr, EventReceiverId, EventName, CustomNetworkEventCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void StopListenNetworkEvent(csp.multiplayer.NetworkEventRegistration Registration) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_StopListenNetworkEvent(swigCPtr, csp.multiplayer.NetworkEventRegistration.getCPtr(Registration));
+  public void ListenAccessControlChangedEvent(string EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__AccessControlChangedNetworkEventData_const_RF_t Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenAccessControlChangedEvent(swigCPtr, EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__AccessControlChangedNetworkEventData_const_RF_t.getCPtr(Callback));
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void ListenAssetDetailBlobChangedEvent(string EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__AssetDetailBlobChangedNetworkEventData_const_RF_t Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenAssetDetailBlobChangedEvent(swigCPtr, EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__AssetDetailBlobChangedNetworkEventData_const_RF_t.getCPtr(Callback));
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void ListenAsyncCallCompletedEvent(string EventReceiverId, string OperationName, SWIGTYPE_p_std__functionT_void_fcsp__common__AsyncCallCompletedEventData_const_RF_t Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenAsyncCallCompletedEvent(swigCPtr, EventReceiverId, OperationName, SWIGTYPE_p_std__functionT_void_fcsp__common__AsyncCallCompletedEventData_const_RF_t.getCPtr(Callback));
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void ListenConversationEvent(string EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__ConversationNetworkEventData_const_RF_t Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenConversationEvent(swigCPtr, EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__ConversationNetworkEventData_const_RF_t.getCPtr(Callback));
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void ListenSequenceChangedEvent(string EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__SequenceChangedNetworkEventData_const_RF_t Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenSequenceChangedEvent(swigCPtr, EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__SequenceChangedNetworkEventData_const_RF_t.getCPtr(Callback));
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void StopListenCustomNetworkEvent(string EventReceiverId, string EventName) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_StopListenCustomNetworkEvent(swigCPtr, EventReceiverId, EventName);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void StopListenAccessControlChangedEvent(string EventReceiverId) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_StopListenAccessControlChangedEvent(swigCPtr, EventReceiverId);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void StopListenAssetDetailBlobChangedEvent(string EventReceiverId) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_StopListenAssetDetailBlobChangedEvent(swigCPtr, EventReceiverId);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void StopListenAsyncCallCompletedEvent(string EventReceiverId, string OperationName) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_StopListenAsyncCallCompletedEvent(swigCPtr, EventReceiverId, OperationName);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void StopListenConversationEvent(string EventReceiverId) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_StopListenConversationEvent(swigCPtr, EventReceiverId);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void StopListenSequenceChangedEvent(string EventReceiverId) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_StopListenSequenceChangedEvent(swigCPtr, EventReceiverId);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -103,7 +153,7 @@ public class NetworkEventBus : global::System.IDisposable {
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.ErrorCodeCallback callback =
         new ConnectedSpacesPlatformDotNet.ErrorCodeCallback();
 
@@ -188,7 +238,7 @@ public class NetworkEventBus : global::System.IDisposable {
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.ErrorCode>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.ErrorCodeCallback callback =
         new ConnectedSpacesPlatformDotNet.ErrorCodeCallback();
 

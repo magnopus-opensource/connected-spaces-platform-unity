@@ -258,11 +258,6 @@ public class SpaceSystem : csp.systems.SystemBase {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void SetAsyncCallCompletedCallback(AsyncCallCompletedCallbackAdapter Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SpaceSystem_SetAsyncCallCompletedCallback(swigCPtr, AsyncCallCompletedCallbackAdapter.getCPtr(Callback));
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-  }
-
 
   public System.Threading.Tasks.Task<csp.systems.SpaceResult> EnterSpaceAsync(string spaceId,csp.common.IRealtimeEngine realtimeEngine, System.Action<float>? progressCallback = null)
   {
@@ -270,7 +265,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceResultCallback();
 
@@ -354,7 +349,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -439,7 +434,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceResultCallback();
 
@@ -524,7 +519,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceResultCallback();
 
@@ -609,7 +604,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.BasicSpaceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.BasicSpaceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.BasicSpaceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.BasicSpaceResultCallback();
 
@@ -694,7 +689,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -778,7 +773,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpacesResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpacesResultCallback();
 
@@ -863,7 +858,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.BasicSpacesResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.BasicSpacesResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.BasicSpacesResultCallback callback =
         new ConnectedSpacesPlatformDotNet.BasicSpacesResultCallback();
 
@@ -948,7 +943,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpacesResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpacesResultCallback();
 
@@ -1033,7 +1028,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpacesResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpacesResultCallback();
 
@@ -1118,7 +1113,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceResultCallback();
 
@@ -1203,7 +1198,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -1288,7 +1283,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -1373,7 +1368,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.PendingInvitesResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.PendingInvitesResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.PendingInvitesResultCallback callback =
         new ConnectedSpacesPlatformDotNet.PendingInvitesResultCallback();
 
@@ -1458,7 +1453,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AcceptedInvitesResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AcceptedInvitesResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AcceptedInvitesResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AcceptedInvitesResultCallback();
 
@@ -1543,7 +1538,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -1628,7 +1623,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceResultCallback();
 
@@ -1713,7 +1708,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SiteResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SiteResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SiteResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SiteResultCallback();
 
@@ -1798,7 +1793,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -1883,7 +1878,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SitesCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SitesCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SitesCollectionResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SitesCollectionResultCallback();
 
@@ -1968,7 +1963,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -2053,7 +2048,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UserRoleCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.UserRoleCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.UserRoleCollectionCallback callback =
         new ConnectedSpacesPlatformDotNet.UserRoleCollectionCallback();
 
@@ -2138,7 +2133,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -2223,7 +2218,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesMetadataResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpacesMetadataResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpacesMetadataResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpacesMetadataResultCallback();
 
@@ -2308,7 +2303,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceMetadataResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceMetadataResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceMetadataResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceMetadataResultCallback();
 
@@ -2393,7 +2388,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -2478,7 +2473,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -2563,7 +2558,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UriResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.UriResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.UriResultCallback callback =
         new ConnectedSpacesPlatformDotNet.UriResultCallback();
 
@@ -2648,7 +2643,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -2733,7 +2728,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -2818,7 +2813,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceGeoLocationResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceGeoLocationResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceGeoLocationResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceGeoLocationResultCallback();
 
@@ -2903,7 +2898,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceGeoLocationResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceGeoLocationResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceGeoLocationResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceGeoLocationResultCallback();
 
@@ -2988,7 +2983,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -3073,7 +3068,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceResultCallback();
 
@@ -3158,7 +3153,7 @@ public class SpaceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -3235,69 +3230,6 @@ public class SpaceSystem : csp.systems.SystemBase {
 
     return tcs.Task;
   }
-
-
-    // Single native action adapter instance for this event
-    private ConnectedSpacesPlatformDotNet.AsyncCallCompletedCallback? _OnAsyncCallCompletedAdapter;
-
-    /// <summary>
-    /// C# event exposing the native callback.
-    /// Subscribers are automatically registered/unregistered with native code.
-    /// </summary>
-    public event System.Action<csp.common.AsyncCallCompletedEventData> OnAsyncCallCompleted
-    {
-        add
-        {
-            // Prevent registration into unassigned or dead memory slots (e.g., during hot restarts)
-            if (swigCPtr.Handle == global::System.IntPtr.Zero)
-            {
-                var eventName = nameof(OnAsyncCallCompleted);
-
-                UnityEngine.Debug.LogError($"[CSP] Cannot subscribe to {eventName}: The underlying native C++ instance handle is unassigned or has been destroyed.");
-
-                return;
-            }
-
-            if (_OnAsyncCallCompletedAdapter == null)
-            {
-                // First subscriber, create adapter. Note that this automatically subscribes the passed value.
-                _OnAsyncCallCompletedAdapter = new ConnectedSpacesPlatformDotNet.AsyncCallCompletedCallback(value);
-                // Register with native code
-                SetAsyncCallCompletedCallback(_OnAsyncCallCompletedAdapter);
-            }
-            else
-            {
-                // We already had an adapter existing, just subscribe to the event.
-                _OnAsyncCallCompletedAdapter!.Invoked += value;
-                // Note: we should not need to call the SetAsyncCallCompletedCallback again since it was supposed to be set on adapter creation.
-            }
-        }
-        remove
-        {
-            if (_OnAsyncCallCompletedAdapter == null)
-            {
-                // This should not happen
-                var eventNameAdapter = nameof(_OnAsyncCallCompletedAdapter);
-                var eventName = nameof(OnAsyncCallCompleted);
-
-                UnityEngine.Debug.LogError($"{eventNameAdapter} is null when trying to remove subscriber from {eventName}.");
-
-                return;
-            }
-
-            _OnAsyncCallCompletedAdapter.Invoked -= value;
-
-            if (!_OnAsyncCallCompletedAdapter.HasSubscribers)
-            {
-                // Unregister from native code
-                SetAsyncCallCompletedCallback(null);
-
-                // No more subscribers, clean up adapter
-                _OnAsyncCallCompletedAdapter = null;
-            }
-        }
-    }
-
 
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.
