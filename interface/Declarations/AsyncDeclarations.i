@@ -170,8 +170,8 @@ MAKE_ACTION_ADAPTER(CustomNetworkEventCallback,
                      ARGLIST(networkEventData));
 MAKE_ACTION_ADAPTER(AccessControlChangedEventCallback,
                      AccessControlChangedEventCallbackAdapter,
-                     ARGLIST(csp.common.AccessControlChangedEventData eventData),
-                     ARGLIST(csp.common.AccessControlChangedEventData),
+                     ARGLIST(csp.common.AccessControlChangedNetworkEventData eventData),
+                     ARGLIST(csp.common.AccessControlChangedNetworkEventData),
                      ARGLIST(eventData));
 MAKE_ACTION_ADAPTER(AssetDetailBlobChangedEventCallback,
                      AssetDetailBlobChangedEventCallbackAdapter,
@@ -185,13 +185,13 @@ MAKE_ACTION_ADAPTER(AsyncCallCompletedEventCallback,
                      ARGLIST(eventData));
 MAKE_ACTION_ADAPTER(ConversationEventCallback,
                      ConversationEventCallbackAdapter,
-                     ARGLIST(csp.common.ConversationEventData eventData),
-                     ARGLIST(csp.common.ConversationEventData),
+                     ARGLIST(csp.common.ConversationNetworkEventData eventData),
+                     ARGLIST(csp.common.ConversationNetworkEventData),
                      ARGLIST(eventData));
 MAKE_ACTION_ADAPTER(SequenceChangedEventCallback,
                      SequenceChangedEventCallbackAdapter,
-                     ARGLIST(csp.common.SequenceChangedEventData eventData),
-                     ARGLIST(csp.common.SequenceChangedEventData),
+                     ARGLIST(csp.common.SequenceChangedNetworkEventData eventData),
+                     ARGLIST(csp.common.SequenceChangedNetworkEventData),
                      ARGLIST(eventData));
 
 /* 
