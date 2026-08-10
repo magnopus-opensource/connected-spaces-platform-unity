@@ -1450,6 +1450,66 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_CustomNetworkEventCallbackAdapter_director_connect")]
   public static extern void CustomNetworkEventCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, CustomNetworkEventCallbackAdapter.SwigDelegateCustomNetworkEventCallbackAdapter_0 delegate0);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_AccessControlChangedEventCallbackAdapter")]
+  public static extern void delete_AccessControlChangedEventCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_AccessControlChangedEventCallbackAdapter_Call")]
+  public static extern void AccessControlChangedEventCallbackAdapter_Call(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_AccessControlChangedEventCallbackAdapter")]
+  public static extern global::System.IntPtr new_AccessControlChangedEventCallbackAdapter();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_AccessControlChangedEventCallbackAdapter_director_connect")]
+  public static extern void AccessControlChangedEventCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, AccessControlChangedEventCallbackAdapter.SwigDelegateAccessControlChangedEventCallbackAdapter_0 delegate0);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_AssetDetailBlobChangedEventCallbackAdapter")]
+  public static extern void delete_AssetDetailBlobChangedEventCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_AssetDetailBlobChangedEventCallbackAdapter_Call")]
+  public static extern void AssetDetailBlobChangedEventCallbackAdapter_Call(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_AssetDetailBlobChangedEventCallbackAdapter")]
+  public static extern global::System.IntPtr new_AssetDetailBlobChangedEventCallbackAdapter();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_AssetDetailBlobChangedEventCallbackAdapter_director_connect")]
+  public static extern void AssetDetailBlobChangedEventCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, AssetDetailBlobChangedEventCallbackAdapter.SwigDelegateAssetDetailBlobChangedEventCallbackAdapter_0 delegate0);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_AsyncCallCompletedEventCallbackAdapter")]
+  public static extern void delete_AsyncCallCompletedEventCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_AsyncCallCompletedEventCallbackAdapter_Call")]
+  public static extern void AsyncCallCompletedEventCallbackAdapter_Call(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_AsyncCallCompletedEventCallbackAdapter")]
+  public static extern global::System.IntPtr new_AsyncCallCompletedEventCallbackAdapter();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_AsyncCallCompletedEventCallbackAdapter_director_connect")]
+  public static extern void AsyncCallCompletedEventCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, AsyncCallCompletedEventCallbackAdapter.SwigDelegateAsyncCallCompletedEventCallbackAdapter_0 delegate0);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_ConversationEventCallbackAdapter")]
+  public static extern void delete_ConversationEventCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_ConversationEventCallbackAdapter_Call")]
+  public static extern void ConversationEventCallbackAdapter_Call(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_ConversationEventCallbackAdapter")]
+  public static extern global::System.IntPtr new_ConversationEventCallbackAdapter();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_ConversationEventCallbackAdapter_director_connect")]
+  public static extern void ConversationEventCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, ConversationEventCallbackAdapter.SwigDelegateConversationEventCallbackAdapter_0 delegate0);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_SequenceChangedEventCallbackAdapter")]
+  public static extern void delete_SequenceChangedEventCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_SequenceChangedEventCallbackAdapter_Call")]
+  public static extern void SequenceChangedEventCallbackAdapter_Call(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_SequenceChangedEventCallbackAdapter")]
+  public static extern global::System.IntPtr new_SequenceChangedEventCallbackAdapter();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_SequenceChangedEventCallbackAdapter_director_connect")]
+  public static extern void SequenceChangedEventCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, SequenceChangedEventCallbackAdapter.SwigDelegateSequenceChangedEventCallbackAdapter_0 delegate0);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_EntityActionCallbackAdapter")]
   public static extern void delete_EntityActionCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
 

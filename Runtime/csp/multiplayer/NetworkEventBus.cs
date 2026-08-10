@@ -74,28 +74,28 @@ public class NetworkEventBus : global::System.IDisposable {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void ListenAccessControlChangedEvent(string EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__AccessControlChangedNetworkEventData_const_RF_t Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenAccessControlChangedEvent(swigCPtr, EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__AccessControlChangedNetworkEventData_const_RF_t.getCPtr(Callback));
+  public void ListenAccessControlChangedEvent(string EventReceiverId, AccessControlChangedEventCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenAccessControlChangedEvent(swigCPtr, EventReceiverId, AccessControlChangedEventCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void ListenAssetDetailBlobChangedEvent(string EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__AssetDetailBlobChangedNetworkEventData_const_RF_t Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenAssetDetailBlobChangedEvent(swigCPtr, EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__AssetDetailBlobChangedNetworkEventData_const_RF_t.getCPtr(Callback));
+  public void ListenAssetDetailBlobChangedEvent(string EventReceiverId, AssetDetailBlobChangedEventCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenAssetDetailBlobChangedEvent(swigCPtr, EventReceiverId, AssetDetailBlobChangedEventCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void ListenAsyncCallCompletedEvent(string EventReceiverId, string OperationName, SWIGTYPE_p_std__functionT_void_fcsp__common__AsyncCallCompletedEventData_const_RF_t Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenAsyncCallCompletedEvent(swigCPtr, EventReceiverId, OperationName, SWIGTYPE_p_std__functionT_void_fcsp__common__AsyncCallCompletedEventData_const_RF_t.getCPtr(Callback));
+  public void ListenAsyncCallCompletedEvent(string EventReceiverId, string OperationName, AsyncCallCompletedEventCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenAsyncCallCompletedEvent(swigCPtr, EventReceiverId, OperationName, AsyncCallCompletedEventCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void ListenConversationEvent(string EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__ConversationNetworkEventData_const_RF_t Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenConversationEvent(swigCPtr, EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__ConversationNetworkEventData_const_RF_t.getCPtr(Callback));
+  public void ListenConversationEvent(string EventReceiverId, ConversationEventCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenConversationEvent(swigCPtr, EventReceiverId, ConversationEventCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void ListenSequenceChangedEvent(string EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__SequenceChangedNetworkEventData_const_RF_t Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenSequenceChangedEvent(swigCPtr, EventReceiverId, SWIGTYPE_p_std__functionT_void_fcsp__common__SequenceChangedNetworkEventData_const_RF_t.getCPtr(Callback));
+  public void ListenSequenceChangedEvent(string EventReceiverId, SequenceChangedEventCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_NetworkEventBus_ListenSequenceChangedEvent(swigCPtr, EventReceiverId, SequenceChangedEventCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
