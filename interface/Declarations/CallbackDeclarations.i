@@ -463,24 +463,24 @@ MAKE_CALLBACK(csp::multiplayer::NetworkEventBus::ErrorCodeCallbackHandler,
                       ARGLIST(errorCode))
 MAKE_CALLBACK(csp::multiplayer::AccessControlChangedEventCallback,
                       AccessControlChangedEventCallbackAdapter,
-                      ARGLIST(csp::common::AccessControlChangedNetworkEventData accessControlChangedNetworkEventData),
-                      ARGLIST(accessControlChangedNetworkEventData))
+                      ARGLIST(csp::common::AccessControlChangedNetworkEventData eventData),
+                      ARGLIST(eventData))
 MAKE_CALLBACK(csp::multiplayer::AssetDetailBlobChangedEventCallback,
                       AssetDetailBlobChangedEventCallbackAdapter,
-                      ARGLIST(csp::common::AssetDetailBlobChangedNetworkEventData assetDetailBlobChangedNetworkEventData),
-                      ARGLIST(assetDetailBlobChangedNetworkEventData))
+                      ARGLIST(csp::common::AssetDetailBlobChangedNetworkEventData eventData),
+                      ARGLIST(eventData))
 MAKE_CALLBACK(csp::multiplayer::AsyncCallCompletedEventCallback,
                       AsyncCallCompletedEventCallbackAdapter,
-                      ARGLIST(csp::common::AsyncCallCompletedEventData asyncCallCompletedEventData),
-                      ARGLIST(asyncCallCompletedEventData))
+                      ARGLIST(csp::common::AsyncCallCompletedEventData eventData),
+                      ARGLIST(eventData))
 MAKE_CALLBACK(csp::multiplayer::ConversationEventCallback,
                       ConversationEventCallbackAdapter,
-                      ARGLIST(csp::common::ConversationNetworkEventData conversationNetworkEventData),
-                      ARGLIST(conversationNetworkEventData))
+                      ARGLIST(csp::common::ConversationNetworkEventData eventData),
+                      ARGLIST(eventData))
 MAKE_CALLBACK(csp::multiplayer::SequenceChangedEventCallback,
                       SequenceChangedEventCallbackAdapter,
-                      ARGLIST(csp::common::SequenceChangedNetworkEventData sequenceChangedNetworkEventData),
-                      ARGLIST(sequenceChangedNetworkEventData))
+                      ARGLIST(csp::common::SequenceChangedNetworkEventData eventData),
+                      ARGLIST(eventData))
 
 //ComponentBase
 MAKE_CALLBACK(csp::multiplayer::ComponentBase::EntityActionHandler,
