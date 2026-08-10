@@ -135,13 +135,6 @@ MAKE_ACTION_ADAPTER(MaterialChangedCallback,
                      ARGLIST(csp.common.MaterialChangedParams),
                      ARGLIST(materialParams));
 
-/* SpaceSystem Action Adapters */
-MAKE_ACTION_ADAPTER(AsyncCallCompletedCallback,
-                     AsyncCallCompletedCallbackAdapter,
-                     ARGLIST(csp.common.AsyncCallCompletedEventData eventData),
-                     ARGLIST(csp.common.AsyncCallCompletedEventData),
-                     ARGLIST(eventData));
-
 /* UserSystem Action Adapters */
 MAKE_ACTION_ADAPTER(LoginTokenInfoCallback,
                      LoginTokenInfoResultCallbackAdapter,
@@ -175,7 +168,31 @@ MAKE_ACTION_ADAPTER(CustomNetworkEventCallback,
                      ARGLIST(csp.common.NetworkEventData networkEventData),
                      ARGLIST(csp.common.NetworkEventData),
                      ARGLIST(networkEventData));
-
+MAKE_ACTION_ADAPTER(AccessControlChangedEventCallback,
+                     AccessControlChangedEventCallbackAdapter,
+                     ARGLIST(csp.common.AccessControlChangedEventData eventData),
+                     ARGLIST(csp.common.AccessControlChangedEventData),
+                     ARGLIST(eventData));
+MAKE_ACTION_ADAPTER(AssetDetailBlobChangedEventCallback,
+                     AssetDetailBlobChangedEventCallbackAdapter,
+                     ARGLIST(csp.common.AssetDetailBlobChangedNetworkEventData eventData),
+                     ARGLIST(csp.common.AssetDetailBlobChangedNetworkEventData),
+                     ARGLIST(eventData));
+MAKE_ACTION_ADAPTER(AsyncCallCompletedEventCallback,
+                     AsyncCallCompletedEventCallbackAdapter,
+                     ARGLIST(csp.common.AsyncCallCompletedEventData eventData),
+                     ARGLIST(csp.common.AsyncCallCompletedEventData),
+                     ARGLIST(eventData));
+MAKE_ACTION_ADAPTER(ConversationEventCallback,
+                     ConversationEventCallbackAdapter,
+                     ARGLIST(csp.common.ConversationEventData eventData),
+                     ARGLIST(csp.common.ConversationEventData),
+                     ARGLIST(eventData));
+MAKE_ACTION_ADAPTER(SequenceChangedEventCallback,
+                     SequenceChangedEventCallbackAdapter,
+                     ARGLIST(csp.common.SequenceChangedEventData eventData),
+                     ARGLIST(csp.common.SequenceChangedEventData),
+                     ARGLIST(eventData));
 
 /* 
  * Now stamp out Async adapters.
