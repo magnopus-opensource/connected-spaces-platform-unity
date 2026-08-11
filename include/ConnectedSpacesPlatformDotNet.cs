@@ -1158,62 +1158,6 @@ public sealed class MaterialChangedCallback : MaterialChangedCallbackAdapter
 }
 
 
-public sealed class AsyncCallCompletedCallback : AsyncCallCompletedCallbackAdapter
-{
-    public AsyncCallCompletedCallback(){}
-
-    public AsyncCallCompletedCallback(System.Action<csp.common.AsyncCallCompletedEventData> callbackAction) 
-    {
-        Invoked += callbackAction;
-    }
-
-    private System.Action<csp.common.AsyncCallCompletedEventData>? _invoked;
-
-    public event System.Action<csp.common.AsyncCallCompletedEventData> Invoked
-    {
-        add 
-        {
-            // Make sure we keep the callback in memory, since we now have a subscriber that needs to use it.
-            if(!ConnectedSpacesPlatformDotNet.AsyncLifetime.IsRooted(this))
-            {
-                ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(this);
-            }
-
-            if (_invoked == null)
-            {
-                // First subscriber.
-                _invoked = value;
-            }
-            else
-            {
-                // We already have a subscriber. Add the new one to the invocation list.
-                _invoked += value;
-            }
-        }
-        remove
-        {
-            if (_invoked == null)
-            {
-                // Nothing to do, we are trying to unsubscribe when the action is already unavailable.
-                return;
-            }
-
-            _invoked -= value;
-            if (!HasSubscribers)
-            {
-                // No subscriber left, so we remove the callback from the root to avoid memory leaks.
-                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(this);
-            }
-        }
-    }
-
-    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
-
-    public override void Call(csp.common.AsyncCallCompletedEventData eventData)
-        => _invoked?.Invoke(eventData);
-}
-
-
 public sealed class LoginTokenInfoCallback : LoginTokenInfoResultCallbackAdapter
 {
     public LoginTokenInfoCallback(){}
@@ -1491,6 +1435,286 @@ public sealed class CustomNetworkEventCallback : CustomNetworkEventCallbackAdapt
 
     public override void Call(csp.common.NetworkEventData networkEventData)
         => _invoked?.Invoke(networkEventData);
+}
+
+
+public sealed class AccessControlChangedEventCallback : AccessControlChangedEventCallbackAdapter
+{
+    public AccessControlChangedEventCallback(){}
+
+    public AccessControlChangedEventCallback(System.Action<csp.common.AccessControlChangedNetworkEventData> callbackAction) 
+    {
+        Invoked += callbackAction;
+    }
+
+    private System.Action<csp.common.AccessControlChangedNetworkEventData>? _invoked;
+
+    public event System.Action<csp.common.AccessControlChangedNetworkEventData> Invoked
+    {
+        add 
+        {
+            // Make sure we keep the callback in memory, since we now have a subscriber that needs to use it.
+            if(!ConnectedSpacesPlatformDotNet.AsyncLifetime.IsRooted(this))
+            {
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(this);
+            }
+
+            if (_invoked == null)
+            {
+                // First subscriber.
+                _invoked = value;
+            }
+            else
+            {
+                // We already have a subscriber. Add the new one to the invocation list.
+                _invoked += value;
+            }
+        }
+        remove
+        {
+            if (_invoked == null)
+            {
+                // Nothing to do, we are trying to unsubscribe when the action is already unavailable.
+                return;
+            }
+
+            _invoked -= value;
+            if (!HasSubscribers)
+            {
+                // No subscriber left, so we remove the callback from the root to avoid memory leaks.
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(this);
+            }
+        }
+    }
+
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
+
+    public override void Call(csp.common.AccessControlChangedNetworkEventData eventData)
+        => _invoked?.Invoke(eventData);
+}
+
+
+public sealed class AssetDetailBlobChangedEventCallback : AssetDetailBlobChangedEventCallbackAdapter
+{
+    public AssetDetailBlobChangedEventCallback(){}
+
+    public AssetDetailBlobChangedEventCallback(System.Action<csp.common.AssetDetailBlobChangedNetworkEventData> callbackAction) 
+    {
+        Invoked += callbackAction;
+    }
+
+    private System.Action<csp.common.AssetDetailBlobChangedNetworkEventData>? _invoked;
+
+    public event System.Action<csp.common.AssetDetailBlobChangedNetworkEventData> Invoked
+    {
+        add 
+        {
+            // Make sure we keep the callback in memory, since we now have a subscriber that needs to use it.
+            if(!ConnectedSpacesPlatformDotNet.AsyncLifetime.IsRooted(this))
+            {
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(this);
+            }
+
+            if (_invoked == null)
+            {
+                // First subscriber.
+                _invoked = value;
+            }
+            else
+            {
+                // We already have a subscriber. Add the new one to the invocation list.
+                _invoked += value;
+            }
+        }
+        remove
+        {
+            if (_invoked == null)
+            {
+                // Nothing to do, we are trying to unsubscribe when the action is already unavailable.
+                return;
+            }
+
+            _invoked -= value;
+            if (!HasSubscribers)
+            {
+                // No subscriber left, so we remove the callback from the root to avoid memory leaks.
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(this);
+            }
+        }
+    }
+
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
+
+    public override void Call(csp.common.AssetDetailBlobChangedNetworkEventData eventData)
+        => _invoked?.Invoke(eventData);
+}
+
+
+public sealed class AsyncCallCompletedEventCallback : AsyncCallCompletedEventCallbackAdapter
+{
+    public AsyncCallCompletedEventCallback(){}
+
+    public AsyncCallCompletedEventCallback(System.Action<csp.common.AsyncCallCompletedEventData> callbackAction) 
+    {
+        Invoked += callbackAction;
+    }
+
+    private System.Action<csp.common.AsyncCallCompletedEventData>? _invoked;
+
+    public event System.Action<csp.common.AsyncCallCompletedEventData> Invoked
+    {
+        add 
+        {
+            // Make sure we keep the callback in memory, since we now have a subscriber that needs to use it.
+            if(!ConnectedSpacesPlatformDotNet.AsyncLifetime.IsRooted(this))
+            {
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(this);
+            }
+
+            if (_invoked == null)
+            {
+                // First subscriber.
+                _invoked = value;
+            }
+            else
+            {
+                // We already have a subscriber. Add the new one to the invocation list.
+                _invoked += value;
+            }
+        }
+        remove
+        {
+            if (_invoked == null)
+            {
+                // Nothing to do, we are trying to unsubscribe when the action is already unavailable.
+                return;
+            }
+
+            _invoked -= value;
+            if (!HasSubscribers)
+            {
+                // No subscriber left, so we remove the callback from the root to avoid memory leaks.
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(this);
+            }
+        }
+    }
+
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
+
+    public override void Call(csp.common.AsyncCallCompletedEventData eventData)
+        => _invoked?.Invoke(eventData);
+}
+
+
+public sealed class ConversationEventCallback : ConversationEventCallbackAdapter
+{
+    public ConversationEventCallback(){}
+
+    public ConversationEventCallback(System.Action<csp.common.ConversationNetworkEventData> callbackAction) 
+    {
+        Invoked += callbackAction;
+    }
+
+    private System.Action<csp.common.ConversationNetworkEventData>? _invoked;
+
+    public event System.Action<csp.common.ConversationNetworkEventData> Invoked
+    {
+        add 
+        {
+            // Make sure we keep the callback in memory, since we now have a subscriber that needs to use it.
+            if(!ConnectedSpacesPlatformDotNet.AsyncLifetime.IsRooted(this))
+            {
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(this);
+            }
+
+            if (_invoked == null)
+            {
+                // First subscriber.
+                _invoked = value;
+            }
+            else
+            {
+                // We already have a subscriber. Add the new one to the invocation list.
+                _invoked += value;
+            }
+        }
+        remove
+        {
+            if (_invoked == null)
+            {
+                // Nothing to do, we are trying to unsubscribe when the action is already unavailable.
+                return;
+            }
+
+            _invoked -= value;
+            if (!HasSubscribers)
+            {
+                // No subscriber left, so we remove the callback from the root to avoid memory leaks.
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(this);
+            }
+        }
+    }
+
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
+
+    public override void Call(csp.common.ConversationNetworkEventData eventData)
+        => _invoked?.Invoke(eventData);
+}
+
+
+public sealed class SequenceChangedEventCallback : SequenceChangedEventCallbackAdapter
+{
+    public SequenceChangedEventCallback(){}
+
+    public SequenceChangedEventCallback(System.Action<csp.common.SequenceChangedNetworkEventData> callbackAction) 
+    {
+        Invoked += callbackAction;
+    }
+
+    private System.Action<csp.common.SequenceChangedNetworkEventData>? _invoked;
+
+    public event System.Action<csp.common.SequenceChangedNetworkEventData> Invoked
+    {
+        add 
+        {
+            // Make sure we keep the callback in memory, since we now have a subscriber that needs to use it.
+            if(!ConnectedSpacesPlatformDotNet.AsyncLifetime.IsRooted(this))
+            {
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(this);
+            }
+
+            if (_invoked == null)
+            {
+                // First subscriber.
+                _invoked = value;
+            }
+            else
+            {
+                // We already have a subscriber. Add the new one to the invocation list.
+                _invoked += value;
+            }
+        }
+        remove
+        {
+            if (_invoked == null)
+            {
+                // Nothing to do, we are trying to unsubscribe when the action is already unavailable.
+                return;
+            }
+
+            _invoked -= value;
+            if (!HasSubscribers)
+            {
+                // No subscriber left, so we remove the callback from the root to avoid memory leaks.
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(this);
+            }
+        }
+    }
+
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
+
+    public override void Call(csp.common.SequenceChangedNetworkEventData eventData)
+        => _invoked?.Invoke(eventData);
 }
 
 
