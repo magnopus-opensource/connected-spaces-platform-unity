@@ -64,8 +64,6 @@ DEFINE_TEMPLATE(VariantOptionInfoArray, csp::common::Array<csp::systems::Variant
 DEFINE_TEMPLATE(VersionMetadataArray, csp::common::Array<csp::systems::VersionMetadata>)
 DEFINE_TEMPLATE(EAssetTypeArray, csp::common::Array<csp::systems::EAssetType>)
 DEFINE_TEMPLATE(EAssetCollectionTypeArray, csp::common::Array<csp::systems::EAssetCollectionType>)
-DEFINE_TEMPLATE(ComponentPropertyTypeArray, csp::common::Array<csp::multiplayer::ComponentProperty>)
-DEFINE_TEMPLATE(ComponentSchemaTypeArray, csp::common::Array<csp::multiplayer::ComponentSchema>)
 
 // ========== Maps ==========
 DEFINE_TEMPLATE(StringDict, %arg(csp::common::Map<csp::common::String, csp::common::String>))
