@@ -6568,18 +6568,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_AsyncCallCompletedEventData_OperationName_get")]
   public static extern string csp_common_AsyncCallCompletedEventData_OperationName_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_AsyncCallCompletedEventData_ReferenceId_set")]
-  public static extern void csp_common_AsyncCallCompletedEventData_ReferenceId_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_AsyncCallCompletedEventData_ReferenceId_get")]
-  public static extern string csp_common_AsyncCallCompletedEventData_ReferenceId_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_AsyncCallCompletedEventData_ReferenceType_set")]
-  public static extern void csp_common_AsyncCallCompletedEventData_ReferenceType_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_AsyncCallCompletedEventData_ReferenceType_get")]
-  public static extern string csp_common_AsyncCallCompletedEventData_ReferenceType_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_AsyncCallCompletedEventData_References_set")]
   public static extern void csp_common_AsyncCallCompletedEventData_References_set(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
