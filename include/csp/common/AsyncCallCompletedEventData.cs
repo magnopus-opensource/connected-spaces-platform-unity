@@ -61,30 +61,6 @@ public class AsyncCallCompletedEventData : csp.common.NetworkEventData {
     } 
   }
 
-  public string ReferenceId {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_AsyncCallCompletedEventData_ReferenceId_set(swigCPtr, value);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_AsyncCallCompletedEventData_ReferenceId_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
-  }
-
-  public string ReferenceType {
-    set {
-      ConnectedSpacesPlatformDotNetPINVOKE.csp_common_AsyncCallCompletedEventData_ReferenceType_set(swigCPtr, value);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      string ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_AsyncCallCompletedEventData_ReferenceType_get(swigCPtr);
-      if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
-  }
-
   public csp.common.StringDict References {
     set {
       ConnectedSpacesPlatformDotNetPINVOKE.csp_common_AsyncCallCompletedEventData_References_set(swigCPtr, (value != null && csp.common.StringDict.getCPtr(value).Handle == global::System.IntPtr.Zero) ? throw new global::System.ObjectDisposedException("value", "Passed a disposed C# SWIG wrapper (null native handle) to C++. This indicates an object lifecycle bug needing investigation. Note: This does not detect C++-side deletions.") : csp.common.StringDict.getCPtr(value));
