@@ -40,7 +40,7 @@ jobs:
   build-desktop:
     needs: check-branch
     uses: ./.github/workflows/build-desktop.yml
-    with: { unity_ext_matrix: '[false]' }
+    with: { unity_ext_matrix: '[false]', csp_version: "999.999.999" }
   build-ios:
     needs: check-branch
     uses: ./.github/workflows/build-ios.yml

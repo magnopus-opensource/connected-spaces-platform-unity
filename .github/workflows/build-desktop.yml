@@ -21,6 +21,10 @@ on:
         type: string
         required: false
         default: ''
+      csp_version: # The version of csp to download if csp_branch is not specified
+        type: string
+        required: false
+        default: ''
   workflow_call: # Allows other workflows to call this one and wait for its artifacts
     inputs:
       unity_ext_matrix:
@@ -36,6 +40,10 @@ on:
         required: false
         default: ''
       binding_repo_branch: # Branch of this (.net bindings) repo to check out. Required when called from another repo so the local actions resolve correctly. Leave empty when running this workflow natively.
+        type: string
+        required: false
+        default: ''
+      csp_version: # The version of csp to download if csp_branch is not specified
         type: string
         required: false
         default: ''
@@ -77,6 +85,62 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: Download CSP draft (Windows)
+        if: env.BUILDING_FROM_BRANCH == 'false' && runner.os == 'Windows'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.CSP_TOKEN }}
+          CSP_VERSION: ${{ inputs.csp_version || '999.999.9999' }}
+          CSP_BUILD_TYPE: ${{ matrix.build_type == 'Debug' && 'relwithdebinfo' || 'release' }}
+        run: |
+          $ReleaseName = "CSP $env:CSP_VERSION"
+          $AssetName = "windows-$env:CSP_BUILD_TYPE-shared.zip"
+          $AssetPath = "./ThirdParty/CSP/$AssetName"
+          $InstallPath = "./ThirdParty/CSP/install"
+
+          $Releases = gh api `
+            "repos/magnopus-opensource/connected-spaces-platform/releases?per_page=100" |
+            ConvertFrom-Json
+
+          $Release = $Releases |
+            Where-Object { $_.draft -eq $true -and $_.name -eq $ReleaseName } |
+            Select-Object -First 1
+
+          if (-not $Release) {
+            throw "Draft release '$ReleaseName' not found"
+          }
+
+          $Asset = $Release.assets |
+            Where-Object { $_.name -eq $AssetName } |
+            Select-Object -First 1
+
+          if (-not $Asset) {
+            throw "Asset '$AssetName' not found"
+          }
+
+          New-Item -ItemType Directory -Force -Path "./ThirdParty/CSP" | Out-Null
+
+          gh api `
+            "repos/magnopus-opensource/connected-spaces-platform/releases/assets/$($Asset.id)" `
+            -H "Accept: application/octet-stream" `
+            > $AssetPath
+
+          New-Item -ItemType Directory -Force -Path $InstallPath | Out-Null
+          Expand-Archive -Path $AssetPath -DestinationPath $InstallPath
+
+      - name: Download CSP (Mac)
+        if: env.BUILDING_FROM_BRANCH == 'false' && runner.os == 'macOS'
+        shell: cmd
+        run: |
+          gh release download v%CSP_VERSION% ^
+            --repo magnopus-opensource/connected-spaces-platform ^
+            --pattern "macos-%CSP_BUILD_TYPE%-shared.zip" ^
+            --dir ./ThirdParty/CSP
+        env:
+          GH_TOKEN: ${{ secrets.CSP_TOKEN }}
+          CSP_VERSION: ${{ inputs.csp_version || '999.999.999' }}
+          CSP_BUILD_TYPE: ${{ matrix.build_type == 'Debug' && 'relwithdebinfo' || 'release' }}
+
       - name: Build CSP (Windows)
         if: env.BUILDING_FROM_BRANCH == 'true' && runner.os == 'Windows'
         uses: ./.github/actions/build-csp-windows
@@ -91,20 +155,14 @@ jobs:
           csp_branch: ${{inputs.csp_branch}}
           build_type: ${{ matrix.build_type }}
 
-      - name: Install CSP Consumer Dependencies (temp) # We shouldn't need to do this forever, the new CSP build system is just under development and we haven't properly expunged public symbols yet.
-        if: env.BUILDING_FROM_BRANCH == 'true'
-        run: |
-          pip install "conan==2.27.0"
-          conan install . --output-folder=build --build=missing -s build_type=${{ matrix.build_type }};
-
       - name: Configure
         run: >
           cmake -S . -B build
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
-          ${{ env.BUILDING_FROM_BRANCH == 'true' && '-DLEGACY_BUILD_SYSTEM=Off' || '' }}
-          ${{ env.BUILDING_FROM_BRANCH == 'true' && format('-DCMAKE_PREFIX_PATH={0}/CSP/install', github.workspace) || '' }}
-          ${{ env.BUILDING_FROM_BRANCH == 'true' && '-DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake"' || '' }}
+          -DCMAKE_PREFIX_PATH=${{ env.BUILDING_FROM_BRANCH == 'true'
+            && format('{0}/CSP/install', github.workspace)
+            || format('{0}/ThirdParty/CSP/install', github.workspace) }}
 
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }} 
