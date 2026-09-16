@@ -155,11 +155,18 @@ jobs:
           csp_branch: ${{inputs.csp_branch}}
           build_type: ${{ matrix.build_type }}
 
+      - name: Install CSP Consumer Dependencies (temp) # We shouldn't need to do this forever, the new CSP build system is just under development and we haven't properly expunged public symbols yet.
+        run: |
+          pip install "conan==2.27.0"
+          conan profile detect
+          conan install . --output-folder=build --build=missing -s build_type=${{ matrix.build_type }};
+
       - name: Configure
         run: >
           cmake -S . -B build
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
+          -DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake"
           -DCMAKE_PREFIX_PATH=${{ env.BUILDING_FROM_BRANCH == 'true'
             && format('{0}/CSP/install', github.workspace)
             || format('{0}/ThirdParty/CSP/install', github.workspace) }}
