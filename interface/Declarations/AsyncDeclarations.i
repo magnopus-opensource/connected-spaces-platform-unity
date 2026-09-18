@@ -1020,8 +1020,8 @@ MAKE_AWAITABLE(csp::systems::SpaceSystem,
            ARGLIST(csp.systems.SiteResult result),
            ARGLIST(csp.systems.SiteResult),
            ARGLIST(result),
-           ARGLIST(string spaceId, csp.systems.Site siteInfo),
-           ARGLIST(spaceId, siteInfo)
+           ARGLIST(csp.systems.Site siteInfo),
+           ARGLIST(siteInfo)
 )
 
 MAKE_AWAITABLE(csp::systems::SpaceSystem,
@@ -1031,8 +1031,8 @@ MAKE_AWAITABLE(csp::systems::SpaceSystem,
            ARGLIST(csp.systems.NullResult result),
            ARGLIST(csp.systems.NullResult),
            ARGLIST(result),
-           ARGLIST(string spaceId, csp.systems.Site siteInfo),
-           ARGLIST(spaceId, siteInfo)
+           ARGLIST(csp.systems.Site siteInfo),
+           ARGLIST(siteInfo)
 )
 
 MAKE_AWAITABLE(csp::systems::SpaceSystem,
