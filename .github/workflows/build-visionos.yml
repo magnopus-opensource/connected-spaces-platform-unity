@@ -53,7 +53,10 @@ jobs:
 
       - name: Configure
         run: cmake -S . -B build -G Xcode -DCMAKE_SYSTEM_NAME=visionOS -DCMAKE_OSX_SYSROOT=${{ matrix.target_sdk }} -DCMAKE_OSX_ARCHITECTURES="arm64" -DBUILD_SHARED_LIBS=OFF -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
-
+        env:
+          # This is here temporarily so we can test using draft csp builds
+          GH_TOKEN: ${{ secrets.CSP_TOKEN }}
+          
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }}
         env:

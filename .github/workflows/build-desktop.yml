@@ -92,19 +92,27 @@ jobs:
           build_type: ${{ matrix.build_type }}
 
       - name: Install CSP Consumer Dependencies (temp) # We shouldn't need to do this forever, the new CSP build system is just under development and we haven't properly expunged public symbols yet.
-        if: env.BUILDING_FROM_BRANCH == 'true'
         run: |
           pip install "conan==2.27.0"
+          conan profile detect --force
           conan install . --output-folder=build --build=missing -s build_type=${{ matrix.build_type }};
+        env:
+          CMAKE_POLICY_VERSION_MINIMUM: "3.5"
 
       - name: Configure
-        run: >
-          cmake -S . -B build
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
-          ${{ env.BUILDING_FROM_BRANCH == 'true' && '-DLEGACY_BUILD_SYSTEM=Off' || '' }}
-          ${{ env.BUILDING_FROM_BRANCH == 'true' && format('-DCMAKE_PREFIX_PATH={0}/CSP/install', github.workspace) || '' }}
-          ${{ env.BUILDING_FROM_BRANCH == 'true' && '-DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake"' || '' }}
+        run: |
+          Write-Host "Toolchain:"
+          Get-Item "${{ github.workspace }}/build/conan_toolchain.cmake"
+
+          cmake -S . -B build `
+            "-DCMAKE_BUILD_TYPE=${{ matrix.build_type }}" `
+            "-DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}" `
+            ${{ env.BUILDING_FROM_BRANCH == 'true' && '-DCSP_USE_SYSTEM_PACKAGE=ON' || '-DCSP_USE_SYSTEM_PACKAGE=OFF' }} `
+            ${{ env.BUILDING_FROM_BRANCH == 'true' && format('-DCMAKE_PREFIX_PATH={0}/CSP/install', github.workspace) || '' }} `
+            "-DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/build/conan_toolchain.cmake"
+        env:
+          # This is here temporarily so we can test using draft csp builds
+          GH_TOKEN: ${{ secrets.CSP_TOKEN }}
 
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }} 

@@ -60,6 +60,9 @@ jobs:
       - name: Configure
         # This will now safely consume the r21d toolchain file we set in GITHUB_ENV
         run: cmake -G "NMake Makefiles" -DCMAKE_TOOLCHAIN_FILE="$env:ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake" -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_SHARED_LIBS=ON -S . -B build -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }} -DENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON
+        env:
+          # This is here temporarily so we can test using draft csp builds
+          GH_TOKEN: ${{ secrets.CSP_TOKEN }}
 
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }}
