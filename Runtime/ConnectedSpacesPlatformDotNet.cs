@@ -5536,6 +5536,12 @@ public sealed class HotspotGroupsResultCallback : HotspotGroupsResultCallbackAda
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public static string GetComponentSchemasJson() {
+    string ret = ConnectedSpacesPlatformDotNetPINVOKE.GetComponentSchemasJson();
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public static SWIGTYPE_p_std__string ErrorCodeToString(csp.multiplayer.ErrorCode ErrorCode) {
     SWIGTYPE_p_std__string ret = new SWIGTYPE_p_std__string(ConnectedSpacesPlatformDotNetPINVOKE.ErrorCodeToString((int)ErrorCode), true);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();

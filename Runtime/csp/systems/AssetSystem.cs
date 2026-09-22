@@ -223,7 +223,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetCollectionResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetCollectionResultCallback();
 
@@ -308,7 +308,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -393,7 +393,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -478,7 +478,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionsResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionsResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetCollectionsResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetCollectionsResultCallback();
 
@@ -563,7 +563,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetCollectionResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetCollectionResultCallback();
 
@@ -648,7 +648,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetCollectionResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetCollectionResultCallback();
 
@@ -733,7 +733,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionsResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionsResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetCollectionsResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetCollectionsResultCallback();
 
@@ -818,7 +818,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetCollectionResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetCollectionResultCallback();
 
@@ -903,7 +903,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionCountResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetCollectionCountResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetCollectionCountResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetCollectionCountResultCallback();
 
@@ -988,7 +988,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetResultCallback();
 
@@ -1073,7 +1073,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetResultCallback();
 
@@ -1158,7 +1158,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -1243,7 +1243,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetsResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetsResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetsResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetsResultCallback();
 
@@ -1328,7 +1328,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetResultCallback();
 
@@ -1413,7 +1413,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetsResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetsResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetsResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetsResultCallback();
 
@@ -1498,7 +1498,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetsResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetsResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetsResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetsResultCallback();
 
@@ -1583,7 +1583,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UriResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.UriResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.UriResultCallback callback =
         new ConnectedSpacesPlatformDotNet.UriResultCallback();
 
@@ -1668,7 +1668,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UriResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.UriResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.UriResultCallback callback =
         new ConnectedSpacesPlatformDotNet.UriResultCallback();
 
@@ -1753,7 +1753,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetDataResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetDataResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetDataResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetDataResultCallback();
 
@@ -1838,7 +1838,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetDataResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetDataResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetDataResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetDataResultCallback();
 
@@ -1923,7 +1923,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UInt64Result> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.UInt64Result>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.UInt64ResultCallback callback =
         new ConnectedSpacesPlatformDotNet.UInt64ResultCallback();
 
@@ -2008,7 +2008,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.LODChainResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.LODChainResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.LODChainResultCallback callback =
         new ConnectedSpacesPlatformDotNet.LODChainResultCallback();
 
@@ -2093,7 +2093,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.AssetResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.AssetResultCallback callback =
         new ConnectedSpacesPlatformDotNet.AssetResultCallback();
 
@@ -2178,7 +2178,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.MaterialResultCallback callback =
         new ConnectedSpacesPlatformDotNet.MaterialResultCallback();
 
@@ -2263,7 +2263,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -2348,7 +2348,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -2433,7 +2433,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialsResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialsResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.MaterialsResultCallback callback =
         new ConnectedSpacesPlatformDotNet.MaterialsResultCallback();
 
@@ -2518,7 +2518,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.MaterialResultCallback callback =
         new ConnectedSpacesPlatformDotNet.MaterialResultCallback();
 
@@ -2603,7 +2603,7 @@ public class AssetSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.MaterialResultCallback callback =
         new ConnectedSpacesPlatformDotNet.MaterialResultCallback();
 

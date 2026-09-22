@@ -72,15 +72,11 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public OfflineRealtimeEngine(csp.common.LogSystem LogSystem, csp.common.IJSScriptRunner RemoteScriptRunner, csp.common.ComponentSchemaTypeArray AdditionalComponents) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OfflineRealtimeEngine__SWIG_2(csp.common.LogSystem.getCPtr(LogSystem), RemoteScriptRunner.GetInterfaceCPtr(), csp.common.ComponentSchemaTypeArray.getCPtr(AdditionalComponents)), true) {
+  public OfflineRealtimeEngine(csp.common.LogSystem LogSystem, csp.common.IJSScriptRunner RemoteScriptRunner, csp.common.StringList JsonSchemas) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OfflineRealtimeEngine__SWIG_2(csp.common.LogSystem.getCPtr(LogSystem), RemoteScriptRunner.GetInterfaceCPtr(), csp.common.StringList.getCPtr(JsonSchemas)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public OfflineRealtimeEngine(csp.common.LogSystem LogSystem, csp.common.IJSScriptRunner RemoteScriptRunner, csp.common.StringList JsonSchemas) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OfflineRealtimeEngine__SWIG_3(csp.common.LogSystem.getCPtr(LogSystem), RemoteScriptRunner.GetInterfaceCPtr(), csp.common.StringList.getCPtr(JsonSchemas)), true) {
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-  }
-
-  public OfflineRealtimeEngine(csp.multiplayer.CSPSceneDescription SceneDescription, csp.common.LogSystem LogSystem, csp.common.IJSScriptRunner RemoteScriptRunner, csp.common.StringList JsonSchemas) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OfflineRealtimeEngine__SWIG_4(csp.multiplayer.CSPSceneDescription.getCPtr(SceneDescription), csp.common.LogSystem.getCPtr(LogSystem), RemoteScriptRunner.GetInterfaceCPtr(), csp.common.StringList.getCPtr(JsonSchemas)), true) {
+  public OfflineRealtimeEngine(csp.multiplayer.CSPSceneDescription SceneDescription, csp.common.LogSystem LogSystem, csp.common.IJSScriptRunner RemoteScriptRunner, csp.common.StringList JsonSchemas) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_multiplayer_OfflineRealtimeEngine__SWIG_3(csp.multiplayer.CSPSceneDescription.getCPtr(SceneDescription), csp.common.LogSystem.getCPtr(LogSystem), RemoteScriptRunner.GetInterfaceCPtr(), csp.common.StringList.getCPtr(JsonSchemas)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -195,13 +191,6 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     return ret;
   }
 
-  public virtual csp.multiplayer.IComponentSchemaRegistry GetComponentSchemaRegistry() {
-    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OfflineRealtimeEngine_GetComponentSchemaRegistry(swigCPtr);
-    csp.multiplayer.IComponentSchemaRegistry ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.multiplayer.IComponentSchemaRegistry(cPtr, false);
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
   public static ulong LocalClientId() {
     ulong ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_multiplayer_OfflineRealtimeEngine_LocalClientId();
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
@@ -215,7 +204,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EntityCreatedCallback callback =
         new ConnectedSpacesPlatformDotNet.EntityCreatedCallback();
 
@@ -300,7 +289,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EntityCreatedCallback callback =
         new ConnectedSpacesPlatformDotNet.EntityCreatedCallback();
 
@@ -385,7 +374,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     System.Threading.Tasks.TaskCompletionSource<bool> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<bool>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.DestroyCallback callback =
         new ConnectedSpacesPlatformDotNet.DestroyCallback();
 

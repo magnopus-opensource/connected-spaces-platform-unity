@@ -1816,6 +1816,9 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_Free")]
   public static extern void Free(global::System.IntPtr jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_GetComponentSchemasJson")]
+  public static extern string GetComponentSchemasJson();
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_CancellationToken")]
   public static extern global::System.IntPtr new_csp_common_CancellationToken();
 
@@ -7012,9 +7015,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_IRealtimeEngineSwigImpl_IsEntityModifiable")]
   public static extern int csp_common_IRealtimeEngineSwigImpl_IsEntityModifiable(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_IRealtimeEngineSwigImpl_GetComponentSchemaRegistry")]
-  public static extern global::System.IntPtr csp_common_IRealtimeEngineSwigImpl_GetComponentSchemaRegistry(global::System.Runtime.InteropServices.HandleRef jarg1);
-
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_common_IScriptBindingSwigImpl")]
   public static extern void delete_csp_common_IScriptBindingSwigImpl(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -7219,54 +7219,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentBase_SetProperty")]
   public static extern void csp_multiplayer_ComponentBase_SetProperty(global::System.Runtime.InteropServices.HandleRef jarg1, ushort jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentProperty_Key_set")]
-  public static extern void csp_multiplayer_ComponentProperty_Key_set(global::System.Runtime.InteropServices.HandleRef jarg1, ushort jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentProperty_Key_get")]
-  public static extern ushort csp_multiplayer_ComponentProperty_Key_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentProperty_Name_set")]
-  public static extern void csp_multiplayer_ComponentProperty_Name_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentProperty_Name_get")]
-  public static extern string csp_multiplayer_ComponentProperty_Name_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentProperty_DefaultValue_set")]
-  public static extern void csp_multiplayer_ComponentProperty_DefaultValue_set(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentProperty_DefaultValue_get")]
-  public static extern global::System.IntPtr csp_multiplayer_ComponentProperty_DefaultValue_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_multiplayer_ComponentProperty")]
-  public static extern global::System.IntPtr new_csp_multiplayer_ComponentProperty();
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_multiplayer_ComponentProperty")]
-  public static extern void delete_csp_multiplayer_ComponentProperty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentSchema_TypeId_set")]
-  public static extern void csp_multiplayer_ComponentSchema_TypeId_set(global::System.Runtime.InteropServices.HandleRef jarg1, ulong jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentSchema_TypeId_get")]
-  public static extern ulong csp_multiplayer_ComponentSchema_TypeId_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentSchema_Name_set")]
-  public static extern void csp_multiplayer_ComponentSchema_Name_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentSchema_Name_get")]
-  public static extern string csp_multiplayer_ComponentSchema_Name_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentSchema_Properties_set")]
-  public static extern void csp_multiplayer_ComponentSchema_Properties_set(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_ComponentSchema_Properties_get")]
-  public static extern global::System.IntPtr csp_multiplayer_ComponentSchema_Properties_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_multiplayer_ComponentSchema")]
-  public static extern global::System.IntPtr new_csp_multiplayer_ComponentSchema();
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_multiplayer_ComponentSchema")]
-  public static extern void delete_csp_multiplayer_ComponentSchema(global::System.Runtime.InteropServices.HandleRef jarg1);
-
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_multiplayer_CSPSceneDescription__SWIG_0")]
   public static extern global::System.IntPtr new_csp_multiplayer_CSPSceneDescription__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -7275,15 +7227,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_multiplayer_CSPSceneDescription")]
   public static extern void delete_csp_multiplayer_CSPSceneDescription(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_multiplayer_IComponentSchemaRegistry")]
-  public static extern void delete_csp_multiplayer_IComponentSchemaRegistry(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IComponentSchemaRegistry_GetAll")]
-  public static extern global::System.IntPtr csp_multiplayer_IComponentSchemaRegistry_GetAll(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_IComponentSchemaRegistry_Find")]
-  public static extern global::System.IntPtr csp_multiplayer_IComponentSchemaRegistry_Find(global::System.Runtime.InteropServices.HandleRef jarg1, ulong jarg2);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_MultiplayerConnection_SetDisconnectionCallback")]
   public static extern void csp_multiplayer_MultiplayerConnection_SetDisconnectionCallback(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
@@ -7400,10 +7343,7 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   public static extern global::System.IntPtr new_csp_multiplayer_OfflineRealtimeEngine__SWIG_2(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_multiplayer_OfflineRealtimeEngine__SWIG_3")]
-  public static extern global::System.IntPtr new_csp_multiplayer_OfflineRealtimeEngine__SWIG_3(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_multiplayer_OfflineRealtimeEngine__SWIG_4")]
-  public static extern global::System.IntPtr new_csp_multiplayer_OfflineRealtimeEngine__SWIG_4(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
+  public static extern global::System.IntPtr new_csp_multiplayer_OfflineRealtimeEngine__SWIG_3(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_multiplayer_OfflineRealtimeEngine")]
   public static extern void delete_csp_multiplayer_OfflineRealtimeEngine(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -7459,9 +7399,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_OfflineRealtimeEngine_IsEntityModifiable")]
   public static extern int csp_multiplayer_OfflineRealtimeEngine_IsEntityModifiable(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_OfflineRealtimeEngine_GetComponentSchemaRegistry")]
-  public static extern global::System.IntPtr csp_multiplayer_OfflineRealtimeEngine_GetComponentSchemaRegistry(global::System.Runtime.InteropServices.HandleRef jarg1);
-
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_OfflineRealtimeEngine_LocalClientId")]
   public static extern ulong csp_multiplayer_OfflineRealtimeEngine_LocalClientId();
 
@@ -7473,9 +7410,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_multiplayer_OnlineRealtimeEngine__SWIG_1")]
   public static extern global::System.IntPtr new_csp_multiplayer_OnlineRealtimeEngine__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, global::System.Runtime.InteropServices.HandleRef jarg4, global::System.Runtime.InteropServices.HandleRef jarg5);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_multiplayer_OnlineRealtimeEngine__SWIG_2")]
-  public static extern global::System.IntPtr new_csp_multiplayer_OnlineRealtimeEngine__SWIG_2(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, global::System.Runtime.InteropServices.HandleRef jarg4, global::System.Runtime.InteropServices.HandleRef jarg5);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_OnlineRealtimeEngine_GetRealtimeEngineType")]
   public static extern int csp_multiplayer_OnlineRealtimeEngine_GetRealtimeEngineType(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -7527,9 +7461,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_OnlineRealtimeEngine_IsEntityModifiable")]
   public static extern int csp_multiplayer_OnlineRealtimeEngine_IsEntityModifiable(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_OnlineRealtimeEngine_GetComponentSchemaRegistry")]
-  public static extern global::System.IntPtr csp_multiplayer_OnlineRealtimeEngine_GetComponentSchemaRegistry(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_multiplayer_OnlineRealtimeEngine_QueueEntityUpdate")]
   public static extern void csp_multiplayer_OnlineRealtimeEngine_QueueEntityUpdate(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
@@ -14643,72 +14574,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_common_EAssetCollectionTypeArray")]
   public static extern void delete_csp_common_EAssetCollectionTypeArray(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ComponentPropertyTypeArray__SWIG_0")]
-  public static extern global::System.IntPtr new_csp_common_ComponentPropertyTypeArray__SWIG_0();
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ComponentPropertyTypeArray__SWIG_1")]
-  public static extern global::System.IntPtr new_csp_common_ComponentPropertyTypeArray__SWIG_1(uint jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentPropertyTypeArray_Size")]
-  public static extern uint csp_common_ComponentPropertyTypeArray_Size(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentPropertyTypeArray_IsEmpty")]
-  public static extern bool csp_common_ComponentPropertyTypeArray_IsEmpty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentPropertyTypeArray_getitemcopy")]
-  public static extern global::System.IntPtr csp_common_ComponentPropertyTypeArray_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentPropertyTypeArray_getitem")]
-  public static extern global::System.IntPtr csp_common_ComponentPropertyTypeArray_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentPropertyTypeArray_setitem")]
-  public static extern void csp_common_ComponentPropertyTypeArray_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentPropertyTypeArray_Reverse__SWIG_0")]
-  public static extern void csp_common_ComponentPropertyTypeArray_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentPropertyTypeArray_Reverse__SWIG_1")]
-  public static extern void csp_common_ComponentPropertyTypeArray_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentPropertyTypeArray_Fill")]
-  public static extern void csp_common_ComponentPropertyTypeArray_Fill(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_common_ComponentPropertyTypeArray")]
-  public static extern void delete_csp_common_ComponentPropertyTypeArray(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ComponentSchemaTypeArray__SWIG_0")]
-  public static extern global::System.IntPtr new_csp_common_ComponentSchemaTypeArray__SWIG_0();
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ComponentSchemaTypeArray__SWIG_1")]
-  public static extern global::System.IntPtr new_csp_common_ComponentSchemaTypeArray__SWIG_1(uint jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentSchemaTypeArray_Size")]
-  public static extern uint csp_common_ComponentSchemaTypeArray_Size(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentSchemaTypeArray_IsEmpty")]
-  public static extern bool csp_common_ComponentSchemaTypeArray_IsEmpty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentSchemaTypeArray_getitemcopy")]
-  public static extern global::System.IntPtr csp_common_ComponentSchemaTypeArray_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentSchemaTypeArray_getitem")]
-  public static extern global::System.IntPtr csp_common_ComponentSchemaTypeArray_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentSchemaTypeArray_setitem")]
-  public static extern void csp_common_ComponentSchemaTypeArray_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentSchemaTypeArray_Reverse__SWIG_0")]
-  public static extern void csp_common_ComponentSchemaTypeArray_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentSchemaTypeArray_Reverse__SWIG_1")]
-  public static extern void csp_common_ComponentSchemaTypeArray_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ComponentSchemaTypeArray_Fill")]
-  public static extern void csp_common_ComponentSchemaTypeArray_Fill(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_common_ComponentSchemaTypeArray")]
-  public static extern void delete_csp_common_ComponentSchemaTypeArray(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_StringDict__SWIG_0")]
   public static extern global::System.IntPtr new_csp_common_StringDict__SWIG_0();
