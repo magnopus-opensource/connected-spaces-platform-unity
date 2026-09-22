@@ -1,8 +1,0 @@
-[generators]
-CMakeDeps
-CMakeToolchain
-
-[requires]
-fmt/12.1.0
-rapidjson/cci.20250205
-asyncplusplus/1.2

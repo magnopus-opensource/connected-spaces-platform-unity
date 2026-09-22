@@ -38,8 +38,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install Conan
+        run: |
+          pip install "conan==2.27.0"
+          mkdir -p "$HOME/.conan2/profiles"
+
+          cat > "$HOME/.conan2/profiles/macos_ci" <<'EOF'
+          [settings]
+          os=Macos
+          arch=armv8
+          build_type=${{ matrix.build_type }}
+          compiler=apple-clang
+          compiler.version=17
+          compiler.cppstd=17
+          compiler.libcxx=libc++
+          EOF
+
+          cat "$HOME/.conan2/profiles/macos_ci"
+          conan install . \
+          --output-folder=build \
+          --build=missing \
+          -s build_type=${{ matrix.build_type }} \
+          --profile:build=macos_ci \
+          --profile:host=profiles/host/ios_arm64 
+        env:
+          CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
       - name: Configure
-        run: cmake -S . -B build -G Xcode -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_SYSROOT=iphoneos -DCMAKE_OSX_ARCHITECTURES="arm64" -DBUILD_SHARED_LIBS=OFF -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
+        run: cmake -S . -B build -G Xcode -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_SYSROOT=iphoneos -DCMAKE_OSX_ARCHITECTURES="arm64" -DBUILD_SHARED_LIBS=OFF -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }} -DCSP_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
         env:
           # This is here temporarily so we can test using draft csp builds
           GH_TOKEN: ${{ secrets.CSP_TOKEN }}
