@@ -101,7 +101,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureLimitResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureLimitResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.FeatureLimitCallback callback =
         new ConnectedSpacesPlatformDotNet.FeatureLimitCallback();
 
@@ -186,7 +186,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeaturesLimitResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.FeaturesLimitResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.FeaturesLimitCallback callback =
         new ConnectedSpacesPlatformDotNet.FeaturesLimitCallback();
 
@@ -271,7 +271,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeaturesLimitResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.FeaturesLimitResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.FeaturesLimitCallback callback =
         new ConnectedSpacesPlatformDotNet.FeaturesLimitCallback();
 
@@ -356,7 +356,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UserTierResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.UserTierResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.UserTierCallback callback =
         new ConnectedSpacesPlatformDotNet.UserTierCallback();
 
@@ -440,7 +440,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.UserTierResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.UserTierResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.UserTierCallback callback =
         new ConnectedSpacesPlatformDotNet.UserTierCallback();
 
@@ -525,7 +525,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureQuotaResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureQuotaResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.FeatureQuotaCallback callback =
         new ConnectedSpacesPlatformDotNet.FeatureQuotaCallback();
 
@@ -610,7 +610,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeaturesQuotaResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.FeaturesQuotaResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.FeaturesQuotaCallback callback =
         new ConnectedSpacesPlatformDotNet.FeaturesQuotaCallback();
 
@@ -694,7 +694,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureLimitResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureLimitResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.FeatureLimitCallback callback =
         new ConnectedSpacesPlatformDotNet.FeatureLimitCallback();
 
@@ -779,7 +779,7 @@ public class QuotaSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureLimitResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.FeatureLimitResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.FeatureLimitCallback callback =
         new ConnectedSpacesPlatformDotNet.FeatureLimitCallback();
 

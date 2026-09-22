@@ -105,7 +105,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback callback =
         new ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback();
 
@@ -190,7 +190,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback callback =
         new ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback();
 
@@ -275,7 +275,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback callback =
         new ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback();
 
@@ -360,7 +360,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback callback =
         new ConnectedSpacesPlatformDotNet.HotspotGroupResultCallback();
 
@@ -444,7 +444,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupsResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.HotspotGroupsResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.HotspotGroupsResultCallback callback =
         new ConnectedSpacesPlatformDotNet.HotspotGroupsResultCallback();
 
@@ -529,7 +529,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
@@ -614,7 +614,7 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
