@@ -72,15 +72,6 @@ runs:
         path: ~/.conan2/p
         key: conan-windows-${{ inputs.build_type }}-${{ hashFiles('CSP/conanfile.py', 'CSP/profiles/host/windows_ninja') }}
 
-    - name: Install wrapper generator dependencies
-      shell: pwsh
-      run: pip install chevron==0.14.0 jinja2==3.1.2
-
-    # Run the legacy wrapper generator — its output is included directly in CSPFoundation.cpp. Should go away eventually
-    - name: Run wrapper generator
-      shell: pwsh
-      run: python CSP/Tools/WrapperGenerator/WrapperGenerator.py
-
     - name: Configure
       shell: pwsh
       working-directory: "./CSP"
