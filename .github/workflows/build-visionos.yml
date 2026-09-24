@@ -51,8 +51,56 @@ jobs:
         with:
           xcode-version: '26.3'
 
+      # Manually specify the OpenSSL configure target used by the Conan recipe,
+      # as the OpenSSL 1.1 recipe does not fully support visionOS.
+      - name: Set OpenSSL configuration for visionOS
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "CONAN_OPENSSL_CONFIGURATION=ios64-xcrun" >> "$GITHUB_ENV"
+
+      - name: Install Conan
+        run: |
+          pip install "conan==2.27.0"
+          mkdir -p "$HOME/.conan2/profiles"
+
+          cat > "$HOME/.conan2/profiles/macos_ci" <<'EOF'
+          [settings]
+          os=Macos
+          arch=armv8
+          build_type=${{ matrix.build_type }}
+          compiler=apple-clang
+          compiler.version=17
+          compiler.cppstd=17
+          compiler.libcxx=libc++
+          EOF
+
+          cat "$HOME/.conan2/profiles/macos_ci"
+          conan install . \
+          --output-folder=build \
+          --build=missing \
+          -s build_type=${{ matrix.build_type }} \
+          --profile:build=macos_ci \
+          --profile:host=profiles/host/visionos_arm64 
+        env:
+          CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
       - name: Configure
-        run: cmake -S . -B build -G Xcode -DCMAKE_SYSTEM_NAME=visionOS -DCMAKE_OSX_SYSROOT=${{ matrix.target_sdk }} -DCMAKE_OSX_ARCHITECTURES="arm64" -DBUILD_SHARED_LIBS=OFF -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
+        shell: bash
+        run: |
+          cmake -S . \
+            -B build \
+            -G Xcode \
+            -DCMAKE_SYSTEM_NAME=visionOS \
+            "-DCMAKE_OSX_SYSROOT=${{ matrix.target_sdk }}" \
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DBUILD_SHARED_LIBS=OFF \
+            "-DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}" \
+            "-DCSP_BUILD_TYPE=${{ matrix.build_type }}" \
+            -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
+        env:
+          # This is here temporarily so we can test using draft CSP builds.
+          GH_TOKEN: ${{ secrets.CSP_TOKEN }}
 
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }}

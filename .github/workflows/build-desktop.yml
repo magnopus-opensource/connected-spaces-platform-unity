@@ -91,20 +91,28 @@ jobs:
           csp_branch: ${{inputs.csp_branch}}
           build_type: ${{ matrix.build_type }}
 
-      - name: Install CSP Consumer Dependencies (temp) # We shouldn't need to do this forever, the new CSP build system is just under development and we haven't properly expunged public symbols yet.
-        if: env.BUILDING_FROM_BRANCH == 'true'
-        run: |
-          pip install "conan==2.27.0"
-          conan install . --output-folder=build --build=missing -s build_type=${{ matrix.build_type }};
-
       - name: Configure
-        run: >
-          cmake -S . -B build
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          -DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}
-          ${{ env.BUILDING_FROM_BRANCH == 'true' && '-DLEGACY_BUILD_SYSTEM=Off' || '' }}
-          ${{ env.BUILDING_FROM_BRANCH == 'true' && format('-DCMAKE_PREFIX_PATH={0}/CSP/install', github.workspace) || '' }}
-          ${{ env.BUILDING_FROM_BRANCH == 'true' && '-DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake"' || '' }}
+        shell: bash
+        env:
+          CSP_USE_SYSTEM_PACKAGE: ${{ env.BUILDING_FROM_BRANCH == 'true' && 'ON' || 'OFF' }}
+          CSP_PREFIX_PATH: ${{ env.BUILDING_FROM_BRANCH == 'true' && format('{0}/CSP/install', github.workspace) || '' }}
+           # This is here temporarily so we can test using draft csp builds
+          GH_TOKEN: ${{ secrets.CSP_TOKEN }}
+        run: |
+          cmake_args=(
+            -S .
+            -B build
+            "-DCMAKE_BUILD_TYPE=${{ matrix.build_type }}"
+            "-DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}"
+            "-DCSP_USE_SYSTEM_PACKAGE=${CSP_USE_SYSTEM_PACKAGE}"
+            "-DCSP_BUILD_TYPE=${{ matrix.build_type }}"
+          )
+
+          if [ -n "${CSP_PREFIX_PATH}" ]; then
+            cmake_args+=("-DCMAKE_PREFIX_PATH=${CSP_PREFIX_PATH}")
+          fi
+
+          cmake "${cmake_args[@]}"
 
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }} 
