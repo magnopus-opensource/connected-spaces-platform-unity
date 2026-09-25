@@ -6,21 +6,11 @@ set(_DEPS_DIR "${CMAKE_BINARY_DIR}/_deps")
 include(FetchContent)
 include(cmake/Options.cmake)
 include(cmake/GetSwig.cmake)
+include(cmake/GetCSP.cmake)
 
-if(LEGACY_BUILD_SYSTEM)
-  include(cmake/GetCSP.cmake)
-  set(CSP_INCLUDE_DIR "${_CSP_INCLUDE_DIR}")
-  set(_CSP_TARGET_NAME "_CSP")
-  # Assume if we're building shared, then we're trying to build from a shared CSP
-  # Not technically correct, the non-legacy build system provides a mechanism
-  # to make the distinction as is proper.
-  set(CSP_BUILT_SHARED ${BUILD_SHARED_LIBS})
-else()
-  find_package(CSP CONFIG REQUIRED)
-  set(_CSP_TARGET_NAME "CSP::csp-lib")
-  get_target_property(_CSP_LIB_DIR ${_CSP_TARGET_NAME} LOCATION)
-  get_filename_component(_CSP_LIB_DIR "${_CSP_LIB_DIR}" DIRECTORY)
-endif()
+set(_CSP_TARGET_NAME "CSP::csp-lib")
+get_target_property(_CSP_LIB_DIR ${_CSP_TARGET_NAME} LOCATION)
+get_filename_component(_CSP_LIB_DIR "${_CSP_LIB_DIR}" DIRECTORY)
 
 # Global configuration. This should have RelWithDebugInfo in it also, 
 # but we don't have CSP libs for it yet. Impressed that CMake forced
@@ -145,16 +135,6 @@ else()
   add_library(${_WRAPPER_MODULE_NAME} STATIC "${_CPP_WRAPPER_OUT}")
 endif()
 
-# Force /MD (Release runtime) to match CSP DLL runtime library settings
-# This is an unexpected choice from CSP's end. I hope this changes.
-# https://github.com/magnopus-opensource/connected-spaces-platform/blob/15f530fdd7a8b1782772338eee637e989057c815/premake5_helpers.lua#L124
-if(MSVC AND LEGACY_BUILD_SYSTEM)
-  target_compile_options(${_WRAPPER_MODULE_NAME} PRIVATE
-    $<$<CONFIG:Debug>:/MD>
-    $<$<CONFIG:Release>:/MD>
-  )
-endif()
-
 if (CSP_BUILT_SHARED)
   # Pretty important, make sure we're importing symbols. 
   # Otherwise you'll get duplicate template instances and such. Bad times.
@@ -163,6 +143,15 @@ endif()
 
 # Make it so the wrapper module always builds after codegen happens
 add_dependencies(${_WRAPPER_MODULE_NAME} SWIGCodegen)
+
+# Force /MD (Release runtime) to match CSP DLL runtime library settings
+# We test against csp RelWithDebInfo builds for debug, so we need to match the runtime.
+if(MSVC)
+  target_compile_options(${_WRAPPER_MODULE_NAME} PRIVATE
+    $<$<CONFIG:Debug>:/MD>
+    $<$<CONFIG:Release>:/MD>
+  )
+endif()
 
 set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
   CXX_STANDARD 17
