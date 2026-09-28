@@ -156,6 +156,14 @@ MAKE_CALLBACK(csp::systems::MaterialsResultCallback,
                       MaterialsResultCallbackAdapter,
                       ARGLIST(csp::systems::MaterialsResult result),
                       ARGLIST(result))
+MAKE_CALLBACK(csp::systems::MaterialInfoResultCallback,
+                      MaterialInfoResultCallbackAdapter,
+                      ARGLIST(csp::systems::MaterialInfoResult result),
+                      ARGLIST(result))
+MAKE_CALLBACK(csp::systems::MaterialInfosResultCallback,
+                      MaterialInfosResultCallbackAdapter,
+                      ARGLIST(csp::systems::MaterialInfosResult result),
+                      ARGLIST(result))
 MAKE_CALLBACK(csp::systems::LODChainResultCallback,
                       LODChainResultCallbackAdapter,
                       ARGLIST(csp::systems::LODChainResult result),

@@ -48,6 +48,7 @@ DEFINE_TEMPLATE(FeatureQuotaInfoArray, csp::common::Array<csp::systems::FeatureQ
 DEFINE_TEMPLATE(GeoLocationArray, csp::common::Array<csp::systems::GeoLocation>)
 DEFINE_TEMPLATE(HotspotGroupArray, csp::common::Array<csp::systems::HotspotGroup>)
 DEFINE_TEMPLATE(LODAssetArray, csp::common::Array<csp::systems::LODAsset>)
+DEFINE_TEMPLATE(MaterialInfoArray, csp::common::Array<csp::systems::MaterialInfo>)
 DEFINE_TEMPLATE(MaterialPtrArray, csp::common::Array<csp::systems::Material*>)
 DEFINE_TEMPLATE(PointOfInterestArray, csp::common::Array<csp::systems::PointOfInterest>)
 DEFINE_TEMPLATE(ProductInfoArray, csp::common::Array<csp::systems::ProductInfo>)
