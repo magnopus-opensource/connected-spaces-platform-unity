@@ -96,8 +96,6 @@ jobs:
         env:
           CSP_USE_SYSTEM_PACKAGE: ${{ env.BUILDING_FROM_BRANCH == 'true' && 'ON' || 'OFF' }}
           CSP_PREFIX_PATH: ${{ env.BUILDING_FROM_BRANCH == 'true' && format('{0}/CSP/install', github.workspace) || '' }}
-           # This is here temporarily so we can test using draft csp builds
-          GH_TOKEN: ${{ secrets.CSP_TOKEN }}
         run: |
           cmake_args=(
             -S .

@@ -71,9 +71,6 @@ jobs:
             "-DENABLE_UNITY_EXTENSIONS=${{ matrix.build_with_unity_extensions && 'ON' || 'OFF' }}" `
             -DENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE=ON `
             "-DCSP_BUILD_TYPE=${{ matrix.build_type }}"
-        env:
-          # This is here temporarily so we can test using draft CSP builds.
-          GH_TOKEN: ${{ secrets.CSP_TOKEN }}
 
       - name: Build
         run: cmake --build build --config ${{ matrix.build_type }}
