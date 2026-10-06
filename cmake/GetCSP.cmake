@@ -13,7 +13,7 @@ if(CSP_USE_SYSTEM_PACKAGE)
     find_package(CSP CONFIG REQUIRED)
 else()
     # Specify the CSP version we want to use.
-    set(CSP_TARGET_VERSION "999.999.9999" CACHE STRING "The CSP release version to download")
+    set(CSP_TARGET_VERSION "7.0.0" CACHE STRING "The CSP release version to download")
 
     # Determine CSP platform
     if(WIN32)
