@@ -154,7 +154,7 @@ if(MSVC)
 endif()
 
 set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
-  CXX_STANDARD 17
+  CXX_STANDARD 20
   CXX_STANDARD_REQUIRED YES
   POSITION_INDEPENDENT_CODE ON
   OUTPUT_NAME "${_WRAPPER_MODULE_NAME}" # ConnectedSpacesPlatform.dll/libConnectedSpacesPlatform.so
