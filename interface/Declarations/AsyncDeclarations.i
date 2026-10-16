@@ -828,6 +828,28 @@ MAKE_AWAITABLE(csp::systems::AssetSystem,
            ARGLIST(assetCollection, assetId, uri)
 )
 
+MAKE_AWAITABLE(csp::systems::AssetSystem,
+           GetMaterialInfo,
+           MaterialInfoResultCallback,
+           MaterialInfoResultCallbackAdapter,
+           ARGLIST(csp.systems.MaterialInfoResult result),
+           ARGLIST(csp.systems.MaterialInfoResult),
+           ARGLIST(result),
+           ARGLIST(string assetCollectionId, string assetId),
+           ARGLIST(assetCollectionId, assetId)
+)
+
+MAKE_AWAITABLE(csp::systems::AssetSystem,
+           GetMaterialInfos,
+           MaterialInfosResultCallback,
+           MaterialInfosResultCallbackAdapter,
+           ARGLIST(csp.systems.MaterialInfosResult result),
+           ARGLIST(csp.systems.MaterialInfosResult),
+           ARGLIST(result),
+           ARGLIST(string spaceId),
+           ARGLIST(spaceId)
+)
+
 /* SpaceSystem Async Functions */
 
 MAKE_AWAITABLE(csp::systems::SpaceSystem,
@@ -1020,8 +1042,8 @@ MAKE_AWAITABLE(csp::systems::SpaceSystem,
            ARGLIST(csp.systems.SiteResult result),
            ARGLIST(csp.systems.SiteResult),
            ARGLIST(result),
-           ARGLIST(string spaceId, csp.systems.Site siteInfo),
-           ARGLIST(spaceId, siteInfo)
+           ARGLIST(csp.systems.Site siteInfo),
+           ARGLIST(siteInfo)
 )
 
 MAKE_AWAITABLE(csp::systems::SpaceSystem,
@@ -1031,8 +1053,8 @@ MAKE_AWAITABLE(csp::systems::SpaceSystem,
            ARGLIST(csp.systems.NullResult result),
            ARGLIST(csp.systems.NullResult),
            ARGLIST(result),
-           ARGLIST(string spaceId, csp.systems.Site siteInfo),
-           ARGLIST(spaceId, siteInfo)
+           ARGLIST(csp.systems.Site siteInfo),
+           ARGLIST(siteInfo)
 )
 
 MAKE_AWAITABLE(csp::systems::SpaceSystem,
