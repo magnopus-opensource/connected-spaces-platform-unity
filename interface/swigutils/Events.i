@@ -136,8 +136,27 @@
 
             if (!_##EVENT_NAME##Adapter.HasSubscribers)
             {
-                // Unregister from native code
-                NATIVE_SETTER(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    NATIVE_SETTER(null);
+                }
+                else
+                {
+                    var eventName = nameof(EVENT_NAME);
+%}
+#ifdef SWIG_UNITY_EXTENSIONS
+%proxycode %{
+                    UnityEngine.Debug.LogWarning($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+%}
+#else
+%proxycode %{
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+%}
+#endif
+%proxycode %{
+                }
 
                 // No more subscribers, clean up adapter
                 _##EVENT_NAME##Adapter = null;
