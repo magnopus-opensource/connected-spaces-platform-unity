@@ -2220,8 +2220,19 @@ public class UserSystem : csp.systems.SystemBase {
 
             if (!_OnNewLoginTokenReceivedAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetNewLoginTokenReceivedCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetNewLoginTokenReceivedCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnNewLoginTokenReceived);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnNewLoginTokenReceivedAdapter = null;
@@ -2283,8 +2294,19 @@ public class UserSystem : csp.systems.SystemBase {
 
             if (!_OnUserPermissionsChangedAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetUserPermissionsChangedCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetUserPermissionsChangedCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnUserPermissionsChanged);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnUserPermissionsChangedAdapter = null;

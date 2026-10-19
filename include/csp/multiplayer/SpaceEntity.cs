@@ -620,8 +620,19 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
 
             if (!_OnUpdateAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetUpdateCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetUpdateCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnUpdate);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnUpdateAdapter = null;
@@ -683,8 +694,19 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
 
             if (!_OnDestroyAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetDestroyCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetDestroyCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnDestroy);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnDestroyAdapter = null;

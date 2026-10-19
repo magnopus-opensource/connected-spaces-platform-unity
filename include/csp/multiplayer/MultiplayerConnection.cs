@@ -247,8 +247,19 @@ public class MultiplayerConnection : global::System.IDisposable {
 
             if (!_OnConnectionAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetConnectionCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetConnectionCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnConnection);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnConnectionAdapter = null;
@@ -310,8 +321,19 @@ public class MultiplayerConnection : global::System.IDisposable {
 
             if (!_OnDisconnectionAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetDisconnectionCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetDisconnectionCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnDisconnection);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnDisconnectionAdapter = null;
@@ -373,8 +395,19 @@ public class MultiplayerConnection : global::System.IDisposable {
 
             if (!_OnNetworkInterruptionAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetNetworkInterruptionCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetNetworkInterruptionCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnNetworkInterruption);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnNetworkInterruptionAdapter = null;

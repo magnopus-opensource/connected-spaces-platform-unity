@@ -742,8 +742,19 @@ public class SequenceSystem : csp.systems.SystemBase {
 
             if (!_OnSequenceChangedAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetSequenceChangedCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetSequenceChangedCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnSequenceChanged);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnSequenceChangedAdapter = null;

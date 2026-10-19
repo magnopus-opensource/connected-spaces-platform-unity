@@ -178,8 +178,19 @@ public class LogSystem : global::System.IDisposable {
 
             if (!_OnLogReceivedAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetLogCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetLogCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnLogReceived);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnLogReceivedAdapter = null;
@@ -241,8 +252,19 @@ public class LogSystem : global::System.IDisposable {
 
             if (!_OnEventAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetEventCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetEventCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnEvent);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnEventAdapter = null;
@@ -304,8 +326,19 @@ public class LogSystem : global::System.IDisposable {
 
             if (!_OnBeginMarkerAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetBeginMarkerCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetBeginMarkerCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnBeginMarker);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnBeginMarkerAdapter = null;
@@ -367,8 +400,19 @@ public class LogSystem : global::System.IDisposable {
 
             if (!_OnEndMarkerAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetEndMarkerCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetEndMarkerCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnEndMarker);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnEndMarkerAdapter = null;

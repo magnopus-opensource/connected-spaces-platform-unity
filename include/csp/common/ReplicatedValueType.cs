@@ -19,7 +19,8 @@ public enum ReplicatedValueType {
   Vector3 = 5,
   Vector4 = 6,
   Vector2 = 7,
-  StringMap = 8
+  StringMap = 8,
+  Double = 9
 }
 
 }

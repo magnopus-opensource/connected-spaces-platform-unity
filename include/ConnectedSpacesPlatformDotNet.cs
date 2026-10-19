@@ -2894,6 +2894,118 @@ public sealed class MaterialsResultCallback : MaterialsResultCallbackAdapter
 }
 
 
+public sealed class MaterialInfoResultCallback : MaterialInfoResultCallbackAdapter
+{
+    public MaterialInfoResultCallback(){}
+
+    public MaterialInfoResultCallback(System.Action<csp.systems.MaterialInfoResult> callbackAction) 
+    {
+        Invoked += callbackAction;
+    }
+
+    private System.Action<csp.systems.MaterialInfoResult>? _invoked;
+
+    public event System.Action<csp.systems.MaterialInfoResult> Invoked
+    {
+        add 
+        {
+            // Make sure we keep the callback in memory, since we now have a subscriber that needs to use it.
+            if(!ConnectedSpacesPlatformDotNet.AsyncLifetime.IsRooted(this))
+            {
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(this);
+            }
+
+            if (_invoked == null)
+            {
+                // First subscriber.
+                _invoked = value;
+            }
+            else
+            {
+                // We already have a subscriber. Add the new one to the invocation list.
+                _invoked += value;
+            }
+        }
+        remove
+        {
+            if (_invoked == null)
+            {
+                // Nothing to do, we are trying to unsubscribe when the action is already unavailable.
+                return;
+            }
+
+            _invoked -= value;
+            if (!HasSubscribers)
+            {
+                // No subscriber left, so we remove the callback from the root to avoid memory leaks.
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(this);
+            }
+        }
+    }
+
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
+
+    public override void Call(csp.systems.MaterialInfoResult result)
+        => _invoked?.Invoke(result);
+}
+
+
+public sealed class MaterialInfosResultCallback : MaterialInfosResultCallbackAdapter
+{
+    public MaterialInfosResultCallback(){}
+
+    public MaterialInfosResultCallback(System.Action<csp.systems.MaterialInfosResult> callbackAction) 
+    {
+        Invoked += callbackAction;
+    }
+
+    private System.Action<csp.systems.MaterialInfosResult>? _invoked;
+
+    public event System.Action<csp.systems.MaterialInfosResult> Invoked
+    {
+        add 
+        {
+            // Make sure we keep the callback in memory, since we now have a subscriber that needs to use it.
+            if(!ConnectedSpacesPlatformDotNet.AsyncLifetime.IsRooted(this))
+            {
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Root(this);
+            }
+
+            if (_invoked == null)
+            {
+                // First subscriber.
+                _invoked = value;
+            }
+            else
+            {
+                // We already have a subscriber. Add the new one to the invocation list.
+                _invoked += value;
+            }
+        }
+        remove
+        {
+            if (_invoked == null)
+            {
+                // Nothing to do, we are trying to unsubscribe when the action is already unavailable.
+                return;
+            }
+
+            _invoked -= value;
+            if (!HasSubscribers)
+            {
+                // No subscriber left, so we remove the callback from the root to avoid memory leaks.
+                ConnectedSpacesPlatformDotNet.AsyncLifetime.Unroot(this);
+            }
+        }
+    }
+
+    public bool HasSubscribers => _invoked != null && _invoked.GetInvocationList().Length > 0;
+
+    public override void Call(csp.systems.MaterialInfosResult result)
+        => _invoked?.Invoke(result);
+}
+
+
 public sealed class SpaceResultCallback : SpaceResultCallbackAdapter
 {
     public SpaceResultCallback(){}

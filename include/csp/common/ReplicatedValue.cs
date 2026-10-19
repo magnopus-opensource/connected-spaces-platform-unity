@@ -108,31 +108,35 @@ public class ReplicatedValue : global::System.IDisposable, System.IEquatable<Rep
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public ReplicatedValue(long InLongValue) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_3(InLongValue), true) {
+  public ReplicatedValue(double InDoubleValue) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_3(InDoubleValue), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public ReplicatedValue(string InStringValue) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_4(InStringValue), true) {
+  public ReplicatedValue(long InLongValue) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_4(InLongValue), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public ReplicatedValue(csp.common.Vector2 InVector2Value) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_5(csp.common.Vector2.getCPtr(InVector2Value)), true) {
+  public ReplicatedValue(string InStringValue) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_5(InStringValue), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public ReplicatedValue(csp.common.Vector3 InVector3Value) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_6(csp.common.Vector3.getCPtr(InVector3Value)), true) {
+  public ReplicatedValue(csp.common.Vector2 InVector2Value) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_6(csp.common.Vector2.getCPtr(InVector2Value)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public ReplicatedValue(csp.common.Vector4 InVector4Value) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_7(csp.common.Vector4.getCPtr(InVector4Value)), true) {
+  public ReplicatedValue(csp.common.Vector3 InVector3Value) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_7(csp.common.Vector3.getCPtr(InVector3Value)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public ReplicatedValue(csp.common.StringReplicatedValueDict InValue) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_8(csp.common.StringReplicatedValueDict.getCPtr(InValue)), true) {
+  public ReplicatedValue(csp.common.Vector4 InVector4Value) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_8(csp.common.Vector4.getCPtr(InVector4Value)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public ReplicatedValue(csp.common.ReplicatedValue Other) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_9(csp.common.ReplicatedValue.getCPtr(Other)), true) {
+  public ReplicatedValue(csp.common.StringReplicatedValueDict InValue) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_9(csp.common.StringReplicatedValueDict.getCPtr(InValue)), true) {
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public ReplicatedValue(csp.common.ReplicatedValue Other) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_common_ReplicatedValue__SWIG_10(csp.common.ReplicatedValue.getCPtr(Other)), true) {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -160,6 +164,17 @@ public class ReplicatedValue : global::System.IDisposable, System.IEquatable<Rep
 
   public float GetFloat() {
     float ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_ReplicatedValue_GetFloat(swigCPtr);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public void SetDouble(double InValue) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_common_ReplicatedValue_SetDouble(swigCPtr, InValue);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public double GetDouble() {
+    double ret = ConnectedSpacesPlatformDotNetPINVOKE.csp_common_ReplicatedValue_GetDouble(swigCPtr);
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

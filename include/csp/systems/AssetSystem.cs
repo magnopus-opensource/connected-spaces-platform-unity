@@ -201,6 +201,30 @@ public class AssetSystem : csp.systems.SystemBase {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public void GetMaterialInfo(string AssetCollectionId, string AssetId, MaterialInfoResultCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_AssetSystem_GetMaterialInfo(swigCPtr, AssetCollectionId, AssetId, MaterialInfoResultCallbackAdapter.getCPtr(Callback));
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public void GetMaterialInfos(string SpaceId, MaterialInfosResultCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_AssetSystem_GetMaterialInfos(swigCPtr, SpaceId, MaterialInfosResultCallbackAdapter.getCPtr(Callback));
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public csp.systems.Material ParseMaterial(csp.systems.MaterialInfo Info, csp.systems.BufferAssetDataSource MaterialData) {
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_AssetSystem_ParseMaterial(swigCPtr, csp.systems.MaterialInfo.getCPtr(Info), csp.systems.BufferAssetDataSource.getCPtr(MaterialData));
+    csp.systems.Material ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.systems.Material(cPtr, true);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public csp.systems.Material ParseMaterialFromAssetCollection(csp.systems.AssetCollection AssetCollection, string AssetId, csp.systems.BufferAssetDataSource MaterialData) {
+    global::System.IntPtr cPtr = ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_AssetSystem_ParseMaterialFromAssetCollection(swigCPtr, csp.systems.AssetCollection.getCPtr(AssetCollection), AssetId, csp.systems.BufferAssetDataSource.getCPtr(MaterialData));
+    csp.systems.Material ret = (cPtr == global::System.IntPtr.Zero) ? null : new csp.systems.Material(cPtr, true);
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public void SetAssetDetailBlobChangedCallback(AssetDetailBlobChangedCallbackAdapter Callback) {
     ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_AssetSystem_SetAssetDetailBlobChangedCallback(swigCPtr, AssetDetailBlobChangedCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
@@ -2682,6 +2706,176 @@ public class AssetSystem : csp.systems.SystemBase {
   }
 
 
+  public System.Threading.Tasks.Task<csp.systems.MaterialInfoResult> GetMaterialInfoAsync(string assetCollectionId,string assetId, System.Action<float>? progressCallback = null)
+  {
+    // Create a TaskCompletionSource to represent the async operation.
+    System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialInfoResult> tcs = 
+        new System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialInfoResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
+
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    ConnectedSpacesPlatformDotNet.MaterialInfoResultCallback callback =
+        new ConnectedSpacesPlatformDotNet.MaterialInfoResultCallback();
+
+    // Define the callback that will be called by the C++ code
+    System.Action<csp.systems.MaterialInfoResult>? handler = null;
+    handler = new ((csp.systems.MaterialInfoResult result) =>
+    {
+        try
+        {
+           /* This is a bit jank. Due to the desire to use passthrough macros between async
+            * and actions, we have this result param which yes, can be
+            * a comma separated list for action style callbacks, but in async (awaitable) functions,
+            * it's only ever a single name.
+            * It ISNT always a ResultBase type (although that would simplify things if CSP would do that...)
+            * Sometime's it's just a space entity, or a bool, or something else. */
+
+            if((object)result is csp.systems.ResultBase _result)
+            {
+                // It's a result base
+
+                // Convert the failing result to a throw if we have that option enabled
+                _result.ThrowOnFailure(nameof(GetMaterialInfoAsync));
+
+
+                // Use _result here because we need to call ResultBase api, but we still pass the fully specified type in the TrySetResult
+                // Remember that callbacks also have `init` and `inProgress` status's. We will often receive this callback more than once,
+                // only finish when we get a final status.  
+                if (_result.GetResultCode() == csp.systems.EResultCode.Success ||
+                    _result.GetResultCode() == csp.systems.EResultCode.Failed)
+                {
+                    tcs.TrySetResult(result);
+                    // Now that the callback has been invoked and returned success or failure, we no longer need to
+                    // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
+                    // Instead, if the result was still pending we would have still needed to await and keep this alive.
+                    callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
+            }
+            else
+            {
+                // It's something else
+                tcs.TrySetResult(result);
+                // Now that the callback has been invoked, we unsubscribe, so that if there is no other subscriber
+                // the callback gets automatically unrooted. We do this because we do not expect
+                // any more callbacks to come since this is not a ResultBase with pending status. This will
+                // trigger the GC of the callback safely, since we no longer await for it.
+                callback.Invoked -= handler;
+            }
+        }
+        catch (System.Exception ex)
+        {
+            // If any other exception occurs, we set it on the task completion source. Failsafe.
+            tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
+        }
+    });
+
+    // Subscribe to the callback. 
+    // Note that this will automatically root the callback since it has at least one subscriber.
+    callback.Invoked += handler;
+
+/*@SWIG@*/;
+
+    // Run the method with the provided arguments and the callback
+    // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
+    GetMaterialInfo(assetCollectionId,assetId, callback);
+
+    return tcs.Task;
+  }
+
+
+  public System.Threading.Tasks.Task<csp.systems.MaterialInfosResult> GetMaterialInfosAsync(string spaceId, System.Action<float>? progressCallback = null)
+  {
+    // Create a TaskCompletionSource to represent the async operation.
+    System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialInfosResult> tcs = 
+        new System.Threading.Tasks.TaskCompletionSource<csp.systems.MaterialInfosResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
+
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    ConnectedSpacesPlatformDotNet.MaterialInfosResultCallback callback =
+        new ConnectedSpacesPlatformDotNet.MaterialInfosResultCallback();
+
+    // Define the callback that will be called by the C++ code
+    System.Action<csp.systems.MaterialInfosResult>? handler = null;
+    handler = new ((csp.systems.MaterialInfosResult result) =>
+    {
+        try
+        {
+           /* This is a bit jank. Due to the desire to use passthrough macros between async
+            * and actions, we have this result param which yes, can be
+            * a comma separated list for action style callbacks, but in async (awaitable) functions,
+            * it's only ever a single name.
+            * It ISNT always a ResultBase type (although that would simplify things if CSP would do that...)
+            * Sometime's it's just a space entity, or a bool, or something else. */
+
+            if((object)result is csp.systems.ResultBase _result)
+            {
+                // It's a result base
+
+                // Convert the failing result to a throw if we have that option enabled
+                _result.ThrowOnFailure(nameof(GetMaterialInfosAsync));
+
+
+                // Use _result here because we need to call ResultBase api, but we still pass the fully specified type in the TrySetResult
+                // Remember that callbacks also have `init` and `inProgress` status's. We will often receive this callback more than once,
+                // only finish when we get a final status.  
+                if (_result.GetResultCode() == csp.systems.EResultCode.Success ||
+                    _result.GetResultCode() == csp.systems.EResultCode.Failed)
+                {
+                    tcs.TrySetResult(result);
+                    // Now that the callback has been invoked and returned success or failure, we no longer need to
+                    // await, so we unsubscribe, which should empty the invocation list and unroot the reference for GC. 
+                    // Instead, if the result was still pending we would have still needed to await and keep this alive.
+                    callback.Invoked -= handler;
+                }
+                else if (_result.GetResultCode() == csp.systems.EResultCode.InProgress)
+                {
+                    // Trigger the injected progress callback.
+                    progressCallback?.Invoke(_result.GetRequestProgress());
+                }
+            }
+            else
+            {
+                // It's something else
+                tcs.TrySetResult(result);
+                // Now that the callback has been invoked, we unsubscribe, so that if there is no other subscriber
+                // the callback gets automatically unrooted. We do this because we do not expect
+                // any more callbacks to come since this is not a ResultBase with pending status. This will
+                // trigger the GC of the callback safely, since we no longer await for it.
+                callback.Invoked -= handler;
+            }
+        }
+        catch (System.Exception ex)
+        {
+            // If any other exception occurs, we set it on the task completion source. Failsafe.
+            tcs.TrySetException(ex);
+
+            // Ensure the callback is safely unregistered and unpinned from the global 
+            // GCHandle registry if a validation exception interrupts the execution flow
+            callback.Invoked -= handler;
+        }
+    });
+
+    // Subscribe to the callback. 
+    // Note that this will automatically root the callback since it has at least one subscriber.
+    callback.Invoked += handler;
+
+/*@SWIG@*/;
+
+    // Run the method with the provided arguments and the callback
+    // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
+    GetMaterialInfos(spaceId, callback);
+
+    return tcs.Task;
+  }
+
+
     // Single native action adapter instance for this event
     private ConnectedSpacesPlatformDotNet.AssetDetailBlobChangedCallback? _OnAssetDetailBlobChangedAdapter;
 
@@ -2734,8 +2928,19 @@ public class AssetSystem : csp.systems.SystemBase {
 
             if (!_OnAssetDetailBlobChangedAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetAssetDetailBlobChangedCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetAssetDetailBlobChangedCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnAssetDetailBlobChanged);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnAssetDetailBlobChangedAdapter = null;
@@ -2797,8 +3002,19 @@ public class AssetSystem : csp.systems.SystemBase {
 
             if (!_OnMaterialChangedAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetMaterialChangedCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetMaterialChangedCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnMaterialChanged);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnMaterialChangedAdapter = null;

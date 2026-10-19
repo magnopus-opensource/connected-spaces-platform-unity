@@ -745,8 +745,19 @@ public class HotspotSequenceSystem : csp.systems.SystemBase {
 
             if (!_OnHotspotSequenceChangedAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetHotspotSequenceChangedCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetHotspotSequenceChangedCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnHotspotSequenceChanged);
+
+                    System.Console.Error.WriteLine($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnHotspotSequenceChangedAdapter = null;

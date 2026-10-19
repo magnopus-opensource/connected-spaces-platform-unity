@@ -165,13 +165,13 @@ public class SpaceSystem : csp.systems.SystemBase {
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void AddSiteInfo(string SpaceId, csp.systems.Site SiteInfo, SiteResultCallbackAdapter Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SpaceSystem_AddSiteInfo(swigCPtr, SpaceId, csp.systems.Site.getCPtr(SiteInfo), SiteResultCallbackAdapter.getCPtr(Callback));
+  public void AddSiteInfo(csp.systems.Site SiteInfo, SiteResultCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SpaceSystem_AddSiteInfo(swigCPtr, csp.systems.Site.getCPtr(SiteInfo), SiteResultCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void RemoveSiteInfo(string SpaceId, csp.systems.Site SiteInfo, NullResultCallbackAdapter Callback) {
-    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SpaceSystem_RemoveSiteInfo(swigCPtr, SpaceId, csp.systems.Site.getCPtr(SiteInfo), NullResultCallbackAdapter.getCPtr(Callback));
+  public void RemoveSiteInfo(csp.systems.Site SiteInfo, NullResultCallbackAdapter Callback) {
+    ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_SpaceSystem_RemoveSiteInfo(swigCPtr, csp.systems.Site.getCPtr(SiteInfo), NullResultCallbackAdapter.getCPtr(Callback));
     if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -1702,7 +1702,7 @@ public class SpaceSystem : csp.systems.SystemBase {
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.SiteResult> AddSiteInfoAsync(string spaceId,csp.systems.Site siteInfo, System.Action<float>? progressCallback = null)
+  public System.Threading.Tasks.Task<csp.systems.SiteResult> AddSiteInfoAsync(csp.systems.Site siteInfo, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SiteResult> tcs = 
@@ -1781,13 +1781,13 @@ public class SpaceSystem : csp.systems.SystemBase {
 
     // Run the method with the provided arguments and the callback
     // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
-    AddSiteInfo(spaceId,siteInfo, callback);
+    AddSiteInfo(siteInfo, callback);
 
     return tcs.Task;
   }
 
 
-  public System.Threading.Tasks.Task<csp.systems.NullResult> RemoveSiteInfoAsync(string spaceId,csp.systems.Site siteInfo, System.Action<float>? progressCallback = null)
+  public System.Threading.Tasks.Task<csp.systems.NullResult> RemoveSiteInfoAsync(csp.systems.Site siteInfo, System.Action<float>? progressCallback = null)
   {
     // Create a TaskCompletionSource to represent the async operation.
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
@@ -1866,7 +1866,7 @@ public class SpaceSystem : csp.systems.SystemBase {
 
     // Run the method with the provided arguments and the callback
     // callback is defined in MAKE_AWAITABLE_CALLBACK_BODY
-    RemoveSiteInfo(spaceId,siteInfo, callback);
+    RemoveSiteInfo(siteInfo, callback);
 
     return tcs.Task;
   }
