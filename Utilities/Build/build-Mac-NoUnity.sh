@@ -8,7 +8,7 @@ rm -rf ../../build
 rm -rf ../../install
 
 # Configure with CMake
-cmake -S ../../ -B ../../build -DENABLE_UNITY_EXTENSIONS=OFF -DCMAKE_OSX_ARCHITECTURES="arm64" -DENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE=OFF
+cmake -S ../../ -B ../../build -DENABLE_UNITY_EXTENSIONS=OFF -DCMAKE_OSX_ARCHITECTURES="arm64" -DENABLE_THROW_EXCEPTION_ON_RESULTBASE_FAILURE=OFF -DCSP_BUILD_TYPE=Debug
 
 # Build (Debug is default unless generator supports configs)
 cmake --build ../../build --config Debug
