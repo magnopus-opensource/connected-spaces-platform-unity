@@ -204,7 +204,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EntityCreatedCallback callback =
         new ConnectedSpacesPlatformDotNet.EntityCreatedCallback();
 
@@ -289,7 +289,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EntityCreatedCallback callback =
         new ConnectedSpacesPlatformDotNet.EntityCreatedCallback();
 
@@ -374,7 +374,7 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
     System.Threading.Tasks.TaskCompletionSource<bool> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<bool>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.DestroyCallback callback =
         new ConnectedSpacesPlatformDotNet.DestroyCallback();
 
@@ -505,8 +505,19 @@ public class OfflineRealtimeEngine : IRealtimeEngine, global::System.IDisposable
 
             if (!_OnEntityFetchCompleteAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetEntityFetchCompleteCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetEntityFetchCompleteCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnEntityFetchComplete);
+
+                    UnityEngine.Debug.LogWarning($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnEntityFetchCompleteAdapter = null;

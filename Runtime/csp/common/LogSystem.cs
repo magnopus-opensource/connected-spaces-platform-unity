@@ -178,8 +178,19 @@ public class LogSystem : global::System.IDisposable {
 
             if (!_OnLogReceivedAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetLogCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetLogCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnLogReceived);
+
+                    UnityEngine.Debug.LogWarning($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnLogReceivedAdapter = null;
@@ -241,8 +252,19 @@ public class LogSystem : global::System.IDisposable {
 
             if (!_OnEventAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetEventCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetEventCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnEvent);
+
+                    UnityEngine.Debug.LogWarning($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnEventAdapter = null;
@@ -304,8 +326,19 @@ public class LogSystem : global::System.IDisposable {
 
             if (!_OnBeginMarkerAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetBeginMarkerCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetBeginMarkerCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnBeginMarker);
+
+                    UnityEngine.Debug.LogWarning($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnBeginMarkerAdapter = null;
@@ -367,8 +400,19 @@ public class LogSystem : global::System.IDisposable {
 
             if (!_OnEndMarkerAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetEndMarkerCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetEndMarkerCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnEndMarker);
+
+                    UnityEngine.Debug.LogWarning($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnEndMarkerAdapter = null;
@@ -409,7 +453,7 @@ public class LogSystem : global::System.IDisposable {
     System.Threading.Tasks.TaskCompletionSource<extra.test.TestBooleanResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<extra.test.TestBooleanResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TestBooleanResultCallback callback =
         new ConnectedSpacesPlatformDotNet.TestBooleanResultCallback();
 
@@ -494,7 +538,7 @@ public class LogSystem : global::System.IDisposable {
     System.Threading.Tasks.TaskCompletionSource<extra.test.TestBooleanResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<extra.test.TestBooleanResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TestBooleanResultCallback callback =
         new ConnectedSpacesPlatformDotNet.TestBooleanResultCallback();
 
@@ -578,7 +622,7 @@ public class LogSystem : global::System.IDisposable {
     System.Threading.Tasks.TaskCompletionSource<extra.test.TestBooleanResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<extra.test.TestBooleanResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TestBooleanResultCallback callback =
         new ConnectedSpacesPlatformDotNet.TestBooleanResultCallback();
 

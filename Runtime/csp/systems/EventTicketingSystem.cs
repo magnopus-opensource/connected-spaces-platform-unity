@@ -94,7 +94,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TicketedEventResultCallback callback =
         new ConnectedSpacesPlatformDotNet.TicketedEventResultCallback();
 
@@ -179,7 +179,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TicketedEventResultCallback callback =
         new ConnectedSpacesPlatformDotNet.TicketedEventResultCallback();
 
@@ -264,7 +264,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventCollectionResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventCollectionResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TicketedEventCollectionResultCallback callback =
         new ConnectedSpacesPlatformDotNet.TicketedEventCollectionResultCallback();
 
@@ -349,7 +349,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.EventTicketResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.EventTicketResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EventTicketResultCallback callback =
         new ConnectedSpacesPlatformDotNet.EventTicketResultCallback();
 
@@ -434,7 +434,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventVendorAuthInfoResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.TicketedEventVendorAuthInfoResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.TicketedEventVendorAuthorizeInfoCallback callback =
         new ConnectedSpacesPlatformDotNet.TicketedEventVendorAuthorizeInfoCallback();
 
@@ -519,7 +519,7 @@ public class EventTicketingSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceIsTicketedResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SpaceIsTicketedResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SpaceIsTicketedResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SpaceIsTicketedResultCallback();
 

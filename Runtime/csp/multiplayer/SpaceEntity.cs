@@ -405,7 +405,7 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
     System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.multiplayer.SpaceEntity>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.EntityCreatedCallback callback =
         new ConnectedSpacesPlatformDotNet.EntityCreatedCallback();
 
@@ -489,7 +489,7 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
     System.Threading.Tasks.TaskCompletionSource<bool> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<bool>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.DestroyCallback callback =
         new ConnectedSpacesPlatformDotNet.DestroyCallback();
 
@@ -620,8 +620,19 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
 
             if (!_OnUpdateAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetUpdateCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetUpdateCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnUpdate);
+
+                    UnityEngine.Debug.LogWarning($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnUpdateAdapter = null;
@@ -683,8 +694,19 @@ public class SpaceEntity : global::System.IDisposable, System.IEquatable<SpaceEn
 
             if (!_OnDestroyAdapter.HasSubscribers)
             {
-                // Unregister from native code
-                SetDestroyCallback(null);
+                // Unregister from native code, unless the native instance is already gone (e.g. disposed before its
+                // subscribers unsubscribed). Calling into native with a null handle crashes.
+                if (swigCPtr.Handle != global::System.IntPtr.Zero)
+                {
+                    SetDestroyCallback(null);
+                }
+                else
+                {
+                    var eventName = nameof(OnDestroy);
+
+                    UnityEngine.Debug.LogWarning($"[CSP] Skipped unregistering {eventName} from native code: The underlying native C++ instance handle is unassigned or has been destroyed.");
+
+                }
 
                 // No more subscribers, clean up adapter
                 _OnDestroyAdapter = null;

@@ -742,6 +742,30 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_MaterialsResultCallbackAdapter_director_connect")]
   public static extern void MaterialsResultCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, MaterialsResultCallbackAdapter.SwigDelegateMaterialsResultCallbackAdapter_0 delegate0);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_MaterialInfoResultCallbackAdapter")]
+  public static extern void delete_MaterialInfoResultCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_MaterialInfoResultCallbackAdapter_Call")]
+  public static extern void MaterialInfoResultCallbackAdapter_Call(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_MaterialInfoResultCallbackAdapter")]
+  public static extern global::System.IntPtr new_MaterialInfoResultCallbackAdapter();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_MaterialInfoResultCallbackAdapter_director_connect")]
+  public static extern void MaterialInfoResultCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, MaterialInfoResultCallbackAdapter.SwigDelegateMaterialInfoResultCallbackAdapter_0 delegate0);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_MaterialInfosResultCallbackAdapter")]
+  public static extern void delete_MaterialInfosResultCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_MaterialInfosResultCallbackAdapter_Call")]
+  public static extern void MaterialInfosResultCallbackAdapter_Call(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_MaterialInfosResultCallbackAdapter")]
+  public static extern global::System.IntPtr new_MaterialInfosResultCallbackAdapter();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_MaterialInfosResultCallbackAdapter_director_connect")]
+  public static extern void MaterialInfosResultCallbackAdapter_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, MaterialInfosResultCallbackAdapter.SwigDelegateMaterialInfosResultCallbackAdapter_0 delegate0);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_LODChainResultCallbackAdapter")]
   public static extern void delete_LODChainResultCallbackAdapter(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -6629,13 +6653,13 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_2(float jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ReplicatedValue__SWIG_3")]
-  public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_3(long jarg1);
+  public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_3(double jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ReplicatedValue__SWIG_4")]
-  public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_4(string jarg1);
+  public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_4(long jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ReplicatedValue__SWIG_5")]
-  public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_5(global::System.Runtime.InteropServices.HandleRef jarg1);
+  public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_5(string jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ReplicatedValue__SWIG_6")]
   public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_6(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -6646,11 +6670,14 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ReplicatedValue__SWIG_8")]
   public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_8(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ReplicatedValue__SWIG_9")]
+  public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_9(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_common_ReplicatedValue")]
   public static extern void delete_csp_common_ReplicatedValue(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ReplicatedValue__SWIG_9")]
-  public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_9(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_ReplicatedValue__SWIG_10")]
+  public static extern global::System.IntPtr new_csp_common_ReplicatedValue__SWIG_10(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ReplicatedValue_GetReplicatedValueType")]
   public static extern int csp_common_ReplicatedValue_GetReplicatedValueType(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -6666,6 +6693,12 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ReplicatedValue_GetFloat")]
   public static extern float csp_common_ReplicatedValue_GetFloat(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ReplicatedValue_SetDouble")]
+  public static extern void csp_common_ReplicatedValue_SetDouble(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ReplicatedValue_GetDouble")]
+  public static extern double csp_common_ReplicatedValue_GetDouble(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_ReplicatedValue_SetInt")]
   public static extern void csp_common_ReplicatedValue_SetInt(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
@@ -10228,6 +10261,48 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_systems_MaterialsResult")]
   public static extern void delete_csp_systems_MaterialsResult(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfo_Uri_set")]
+  public static extern void csp_systems_MaterialInfo_Uri_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfo_Uri_get")]
+  public static extern string csp_systems_MaterialInfo_Uri_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfo_ShaderType_set")]
+  public static extern void csp_systems_MaterialInfo_ShaderType_set(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfo_ShaderType_get")]
+  public static extern int csp_systems_MaterialInfo_ShaderType_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfo_MaterialCollectionId_set")]
+  public static extern void csp_systems_MaterialInfo_MaterialCollectionId_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfo_MaterialCollectionId_get")]
+  public static extern string csp_systems_MaterialInfo_MaterialCollectionId_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfo_MaterialId_set")]
+  public static extern void csp_systems_MaterialInfo_MaterialId_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfo_MaterialId_get")]
+  public static extern string csp_systems_MaterialInfo_MaterialId_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_systems_MaterialInfo")]
+  public static extern global::System.IntPtr new_csp_systems_MaterialInfo();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_systems_MaterialInfo")]
+  public static extern void delete_csp_systems_MaterialInfo(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfoResult_GetMaterialInfo")]
+  public static extern global::System.IntPtr csp_systems_MaterialInfoResult_GetMaterialInfo(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_systems_MaterialInfoResult")]
+  public static extern void delete_csp_systems_MaterialInfoResult(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfosResult_GetMaterialInfos")]
+  public static extern global::System.IntPtr csp_systems_MaterialInfosResult_GetMaterialInfos(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_systems_MaterialInfosResult")]
+  public static extern void delete_csp_systems_MaterialInfosResult(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_AlphaVideoMaterial_SetColorTexture")]
   public static extern void csp_systems_AlphaVideoMaterial_SetColorTexture(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
@@ -10734,6 +10809,18 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_AssetSystem_GetMaterialFromUri")]
   public static extern void csp_systems_AssetSystem_GetMaterialFromUri(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, string jarg3, string jarg4, global::System.Runtime.InteropServices.HandleRef jarg5);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_AssetSystem_GetMaterialInfo")]
+  public static extern void csp_systems_AssetSystem_GetMaterialInfo(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_AssetSystem_GetMaterialInfos")]
+  public static extern void csp_systems_AssetSystem_GetMaterialInfos(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_AssetSystem_ParseMaterial")]
+  public static extern global::System.IntPtr csp_systems_AssetSystem_ParseMaterial(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_AssetSystem_ParseMaterialFromAssetCollection")]
+  public static extern global::System.IntPtr csp_systems_AssetSystem_ParseMaterialFromAssetCollection(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_AssetSystem_SetAssetDetailBlobChangedCallback")]
   public static extern void csp_systems_AssetSystem_SetAssetDetailBlobChangedCallback(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
@@ -12308,10 +12395,10 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   public static extern void csp_systems_SpaceSystem_AddUserToSpace(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_SpaceSystem_AddSiteInfo")]
-  public static extern void csp_systems_SpaceSystem_AddSiteInfo(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
+  public static extern void csp_systems_SpaceSystem_AddSiteInfo(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_SpaceSystem_RemoveSiteInfo")]
-  public static extern void csp_systems_SpaceSystem_RemoveSiteInfo(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
+  public static extern void csp_systems_SpaceSystem_RemoveSiteInfo(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_SpaceSystem_GetSitesInfo")]
   public static extern void csp_systems_SpaceSystem_GetSitesInfo(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
@@ -14047,6 +14134,39 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_common_LODAssetArray")]
   public static extern void delete_csp_common_LODAssetArray(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_MaterialInfoArray__SWIG_0")]
+  public static extern global::System.IntPtr new_csp_common_MaterialInfoArray__SWIG_0();
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_MaterialInfoArray__SWIG_1")]
+  public static extern global::System.IntPtr new_csp_common_MaterialInfoArray__SWIG_1(uint jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_MaterialInfoArray_Size")]
+  public static extern uint csp_common_MaterialInfoArray_Size(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_MaterialInfoArray_IsEmpty")]
+  public static extern bool csp_common_MaterialInfoArray_IsEmpty(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_MaterialInfoArray_getitemcopy")]
+  public static extern global::System.IntPtr csp_common_MaterialInfoArray_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_MaterialInfoArray_getitem")]
+  public static extern global::System.IntPtr csp_common_MaterialInfoArray_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_MaterialInfoArray_setitem")]
+  public static extern void csp_common_MaterialInfoArray_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_MaterialInfoArray_Reverse__SWIG_0")]
+  public static extern void csp_common_MaterialInfoArray_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_MaterialInfoArray_Reverse__SWIG_1")]
+  public static extern void csp_common_MaterialInfoArray_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_common_MaterialInfoArray_Fill")]
+  public static extern void csp_common_MaterialInfoArray_Fill(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_common_MaterialInfoArray")]
+  public static extern void delete_csp_common_MaterialInfoArray(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_common_MaterialPtrArray__SWIG_0")]
   public static extern global::System.IntPtr new_csp_common_MaterialPtrArray__SWIG_0();
 
@@ -15357,6 +15477,12 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialsResult_SWIGUpcast")]
   public static extern global::System.IntPtr csp_systems_MaterialsResult_SWIGUpcast(global::System.IntPtr jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfoResult_SWIGUpcast")]
+  public static extern global::System.IntPtr csp_systems_MaterialInfoResult_SWIGUpcast(global::System.IntPtr jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_MaterialInfosResult_SWIGUpcast")]
+  public static extern global::System.IntPtr csp_systems_MaterialInfosResult_SWIGUpcast(global::System.IntPtr jarg1);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_AlphaVideoMaterial_SWIGUpcast")]
   public static extern global::System.IntPtr csp_systems_AlphaVideoMaterial_SWIGUpcast(global::System.IntPtr jarg1);
