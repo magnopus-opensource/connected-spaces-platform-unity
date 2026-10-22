@@ -104,6 +104,43 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  userData: ''\n"
                 "  assetBundleName: ''\n"
                 "  assetBundleVariant: ''")
+    elif file_path.suffix == '.a' and 'iOS' in file_path.parts:
+        # Restrict the iOS static libraries to iOS. With a default importer they are enabled for every platform, so Unity also
+        # adds them to visionOS Xcode projects, where they are searched ahead of the visionOS libraries of the same name and
+        # fail to link ("building for platform=11, but linking in object file built for iOS").
+        body = ("PluginImporter:\n"
+                "  externalObjects: {}\n"
+                "  serializedVersion: 2\n"
+                "  iconMap: {}\n"
+                "  executionOrder: {}\n"
+                "  defineConstraints: []\n"
+                "  isPreloaded: 0\n"
+                "  isOverridable: 0\n"
+                "  isExplicitlyReferenced: 0\n"
+                "  validateReferences: 1\n"
+                "  platformData:\n"
+                "  - first:\n"
+                "      Any: ''\n"
+                "    second:\n"
+                "      enabled: 0\n"
+                "      settings:\n"
+                "        Exclude Editor: 1\n"
+                "        Exclude Linux64: 1\n"
+                "        Exclude macOS: 1\n"
+                "        Exclude Win: 1\n"
+                "        Exclude Win64: 1\n"
+                "  - first:\n"
+                "      iPhone: iOS\n"
+                "    second:\n"
+                "      enabled: 1\n"
+                "      settings:\n"
+                "        AddToEmbeddedBinaries: false\n"
+                "        CPU: ARM64\n"
+                "        CompileFlags: ''\n"
+                "        FrameworkDependencies: ''\n"
+                "  userData: ''\n"
+                "  assetBundleName: ''\n"
+                "  assetBundleVariant: ''")
     else:
         # Use explicit empty strings to avoid trailing whitespace and YAML empty-scalar warnings
         body = ("DefaultImporter:\n"
