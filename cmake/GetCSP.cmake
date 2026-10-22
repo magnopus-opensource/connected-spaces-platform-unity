@@ -19,8 +19,13 @@ else()
     if(WIN32)
         set(_CSP_PLATFORM "windows")
     elseif(APPLE)
+        # CMake only sets IOS for iOS, so check the system name for visionOS explicitly.
+        # Otherwise visionOS builds fall through to the macOS package, whose objects are built for the macOS platform,
+        # which the visionOS linker rejects.
         if(IOS)
             set(_CSP_PLATFORM "ios")
+        elseif(CMAKE_SYSTEM_NAME STREQUAL "visionOS")
+            set(_CSP_PLATFORM "visionos")
         else()
             set(_CSP_PLATFORM "macos")
         endif()
