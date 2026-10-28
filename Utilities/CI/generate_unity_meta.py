@@ -68,42 +68,6 @@ def generate_meta(file_path: Path, package_root: Path, is_directory: bool):
                 "  userData: ''\n"
                 "  assetBundleName: ''\n"
                 "  assetBundleVariant: ''")
-    elif file_path.suffix == '.a' and 'visionOS' in file_path.parts:
-        # Determine if this binary is for the Simulator or Device based on its folder
-        sdk_target = 'Simulator' if 'Simulator' in file_path.parts else 'Device'
-
-        # Native plugins (PluginImporter) use an empty mapping {} for executionOrder
-        body = ("PluginImporter:\n"
-                "  externalObjects: {}\n"
-                "  serializedVersion: 2\n"
-                "  iconMap: {}\n"
-                "  executionOrder: {}\n"
-                "  defineConstraints: []\n"
-                "  isPreloaded: 0\n"
-                "  isOverridable: 0\n"
-                "  isExplicitlyReferenced: 0\n"
-                "  validateReferences: 1\n"
-                "  platformData:\n"
-                "  - first:\n"
-                "      Any: ''\n"
-                "    second:\n"
-                "      enabled: 0\n"
-                "      settings:\n"
-                "        Exclude Editor: 1\n"
-                "        Exclude Linux64: 1\n"
-                "        Exclude macOS: 1\n"
-                "        Exclude Win: 1\n"
-                "        Exclude Win64: 1\n"
-                "  - first:\n"
-                "      visionOS: visionOS\n"
-                "    second:\n"
-                "      enabled: 1\n"
-                "      settings:\n"
-                "        CPU: ARM64\n"
-                f"        SDK: {sdk_target}\n"
-                "  userData: ''\n"
-                "  assetBundleName: ''\n"
-                "  assetBundleVariant: ''")
     else:
         # Use explicit empty strings to avoid trailing whitespace and YAML empty-scalar warnings
         body = ("DefaultImporter:\n"
