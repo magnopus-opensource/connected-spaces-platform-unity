@@ -53,11 +53,11 @@ public class NativePluginBuildProcessor : IPreprocessBuildWithReport
         // --- 1. Named Flags for Platform Logic ---
         // Apple-based platforms often require special handling for static libraries (.a) 
         // and framework bundling.
-        bool isApplePlatform = platform is BuildTarget.iOS or BuildTarget.StandaloneOSX or BuildTarget.VisionOS;
+        bool isApplePlatform = platform is BuildTarget.iOS or BuildTarget.StandaloneOSX;
         
-        // Specifically iOS and VisionOS use IL2CPP with static linking, which is 
+        // Specifically iOS uses IL2CPP with static linking, which is 
         // prone to aggressive symbol stripping.
-        bool requiresForceLoadLinkerFlag = platform is BuildTarget.iOS or BuildTarget.VisionOS;
+        bool requiresForceLoadLinkerFlag = platform == BuildTarget.iOS;
 
         bool isDevelopmentBuild = options.HasFlag(BuildOptions.Development);
         bool isDebugBinary = assetPath.EndsWith($"_D{extension}");
@@ -66,22 +66,10 @@ public class NativePluginBuildProcessor : IPreprocessBuildWithReport
         
         if (isApplePlatform)
         {
-            if (platform == BuildTarget.VisionOS)
-            {
-                // Explicitly check if the user is building for the Vision Pro or the Simulator
-                bool isSimulatorBuild = PlayerSettings.VisionOS.sdkVersion == UnityEditor.VisionOSSdkVersion.Simulator;
-                bool isSimulatorPlugin = assetPath.Contains("Simulator");
-                
-                // Only include the plugin if the SDK target perfectly matches the folder it came from
-                importer.SetIncludeInBuildDelegate((_) => isSimulatorBuild == isSimulatorPlugin);
-            }
-            else
-            {
-                // TODO: Remove this hack that always includes iOS and macOS binaries.
-                // This exists because we currently only provide release binaries for these platforms 
-                // to keep the SDK package size manageable.
-                importer.SetIncludeInBuildDelegate((_) => true);
-            }
+            // TODO: Remove this hack that always includes iOS and macOS binaries.
+            // This exists because we currently only provide release binaries for these platforms 
+            // to keep the SDK package size manageable.
+            importer.SetIncludeInBuildDelegate((_) => true);
         }
         else
         {
@@ -103,7 +91,7 @@ public class NativePluginBuildProcessor : IPreprocessBuildWithReport
     /// Adds specific linker arguments to the IL2CPP build pipeline.
     /// 
     /// WHY THIS IS NECESSARY:
-    /// On iOS and VisionOS, the native linker (ld) performs dead-code stripping. 
+    /// On iOS, the native linker (ld) performs dead-code stripping. 
     /// Because our C# code interfaces with the 'ConnectedSpacesPlatform' library via P/Invoke, 
     /// the linker often fails to see these "soft" references. It assumes the static library 
     /// is unused and strips its symbols, leading to "Entry point not found" crashes at runtime.

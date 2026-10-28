@@ -163,8 +163,8 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
 # Add CSP Target to our output library, this produces a final API that can use CSP.
 target_link_libraries(${_WRAPPER_MODULE_NAME} PRIVATE ${_CSP_TARGET_NAME})
 
-if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "visionOS")
-    # Additionally, on iOS and visionOS we have to force load the CSP static library because the dynamic lookup doesn't 
+if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+    # Additionally, on iOS we have to force load the CSP static library because the dynamic lookup doesn't 
     # work with static libraries, and we don't have a choice but to use static libs on iOS.
     target_link_options(${_WRAPPER_MODULE_NAME} PRIVATE "-Wl,-force_load,$<TARGET_FILE:${_CSP_TARGET_NAME}>")
 endif()
@@ -192,7 +192,7 @@ include(cmake/PackageInstall.cmake)
 # Do not remove this install directive.
 # Removing this causes Xcode "Undefined symbols for architecture arm64".
 if(APPLE)
-    if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "visionOS")
+    if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
         # Copy the original CSP libraries alongside the one we created via SWIG
         install(DIRECTORY "${_CSP_LIB_DIR}/"
                 DESTINATION "${INSTALL_DIR}/lib")
