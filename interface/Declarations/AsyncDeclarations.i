@@ -325,7 +325,7 @@ MAKE_AWAITABLE(csp::multiplayer::NetworkEventBus,
            ARGLIST(csp.multiplayer.ErrorCode errorCode),
            ARGLIST(csp.multiplayer.ErrorCode),
            ARGLIST(errorCode),
-           ARGLIST(string eventName, csp.common.ReplicatedValueArray args, ulong targetClientId),
+           ARGLIST(string eventName, csp.common.ReplicatedValueArray args, uint targetClientId),
            ARGLIST(eventName, args, targetClientId)
 )
 
