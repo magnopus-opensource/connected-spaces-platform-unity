@@ -55,6 +55,11 @@ else()
     if(_CSP_CONSUMER_BUILD_TYPE STREQUAL "Debug")
         # Unity cannot consume CSP built with the debug C++ runtime.
         set(_CSP_BUILD_TYPE "relwithdebinfo")
+
+        if(MSVC)
+            # This package uses the release MSVC runtime library, anything linking it needs to match.
+            set(CSP_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
+        endif()
     elseif(_CSP_CONSUMER_BUILD_TYPE STREQUAL "RelWithDebInfo")
         set(_CSP_BUILD_TYPE "relwithdebinfo")
     elseif(_CSP_CONSUMER_BUILD_TYPE STREQUAL "Release")
