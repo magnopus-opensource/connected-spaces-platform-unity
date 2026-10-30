@@ -41,9 +41,6 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         Task ForgotPasswordAsync(string email, string emailLinkUrl, string redirectUrl, bool useTokenChangePasswordUrl);
         Task UpdateUserDisplayNameAsync(string userId, string newUserDisplayName);
         EThirdPartyAuthenticationProvidersArray GetSupportedThirdPartyAuthenticationProviders();
-        Task<string> GetThirdPartyProviderAuthorizeUrlAsync(FoundationSystems.EThirdPartyAuthenticationProviders authProvider, string redirectURL);
-        Task<LoginInfo> LoginToThirdPartyAuthenticationProviderAsync(string thirdPartyToken, 
-            string thirdPartyStateId, bool createMultiplayerConnection, bool? userHasVerifiedAge, FoundationSystems.TokenOptions? tokenOptions);
         Task<string> GetAgoraUserTokenAsync(AgoraUserTokenParams tokenParams);
         Task<string> GetCustomerPortalUrlAsync(string userId);
         Task<string> GetCheckoutSessionUrlAsync(FoundationSystems.TierNames tierName);

@@ -325,7 +325,7 @@ MAKE_AWAITABLE(csp::multiplayer::NetworkEventBus,
            ARGLIST(csp.multiplayer.ErrorCode errorCode),
            ARGLIST(csp.multiplayer.ErrorCode),
            ARGLIST(errorCode),
-           ARGLIST(string eventName, csp.common.ReplicatedValueArray args, ulong targetClientId),
+           ARGLIST(string eventName, csp.common.ReplicatedValueArray args, uint targetClientId),
            ARGLIST(eventName, args, targetClientId)
 )
 
@@ -1277,28 +1277,6 @@ MAKE_AWAITABLE(csp::systems::UserSystem,
            ARGLIST(result),
            ARGLIST(bool? userHasVerifiedAge),
            ARGLIST(userHasVerifiedAge)
-)
-
-MAKE_AWAITABLE(csp::systems::UserSystem,
-           GetThirdPartyProviderAuthorizeURL,
-           StringResultCallback,
-           StringResultCallbackAdapter,
-           ARGLIST(csp.systems.StringResult result),
-           ARGLIST(csp.systems.StringResult),
-           ARGLIST(result),
-           ARGLIST(csp.systems.EThirdPartyAuthenticationProviders authProvider, string redirectURL, csp.systems.EThirdPartyPlatform? clientType),
-           ARGLIST(authProvider, redirectURL, clientType)
-)
-
-MAKE_AWAITABLE(csp::systems::UserSystem,
-           LoginToThirdPartyAuthenticationProvider,
-           LoginStateResultCallback,
-           LoginStateResultCallbackAdapter,
-           ARGLIST(csp.systems.LoginStateResult result),
-           ARGLIST(csp.systems.LoginStateResult),
-           ARGLIST(result),
-           ARGLIST(string thirdPartyToken, string thirdPartyStateId, bool createMultiplayerConnection, bool? userHasVerifiedAge, csp.systems.TokenOptions? tokenOptions),
-           ARGLIST(thirdPartyToken, thirdPartyStateId, createMultiplayerConnection, userHasVerifiedAge, tokenOptions)
 )
 
 MAKE_AWAITABLE(csp::systems::UserSystem, 
