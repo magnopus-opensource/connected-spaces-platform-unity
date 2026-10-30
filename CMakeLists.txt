@@ -144,13 +144,9 @@ endif()
 # Make it so the wrapper module always builds after codegen happens
 add_dependencies(${_WRAPPER_MODULE_NAME} SWIGCodegen)
 
-# Force /MD (Release runtime) to match CSP DLL runtime library settings
-# We test against csp RelWithDebInfo builds for debug, so we need to match the runtime.
-if(MSVC)
-  target_compile_options(${_WRAPPER_MODULE_NAME} PRIVATE
-    $<$<CONFIG:Debug>:/MD>
-    $<$<CONFIG:Release>:/MD>
-  )
+# Use CSP's MSVC runtime library if one is specified, see GetCSP.cmake.
+if(CSP_MSVC_RUNTIME_LIBRARY)
+  set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY "${CSP_MSVC_RUNTIME_LIBRARY}")
 endif()
 
 set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
