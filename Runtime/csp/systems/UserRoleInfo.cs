@@ -59,14 +59,6 @@ public class UserRoleInfo : global::System.IDisposable {
     }
   }
 
-  public UserRoleInfo() : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_systems_UserRoleInfo__SWIG_0(), true) {
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-  }
-
-  public UserRoleInfo(csp.systems.UserRoleInfo Other) : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_systems_UserRoleInfo__SWIG_1(csp.systems.UserRoleInfo.getCPtr(Other)), true) {
-    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
-  }
-
   public string UserId {
     set {
       ConnectedSpacesPlatformDotNetPINVOKE.csp_systems_UserRoleInfo_UserId_set(swigCPtr, value);
@@ -94,6 +86,10 @@ public class UserRoleInfo : global::System.IDisposable {
   // Any time this object is returned from an outer C++ object via reference, this is set
   // to prevent premature garbage collection causing premature C++ memory deallocation.
   public object OuterObjectPin { private get; set; }
+
+  public UserRoleInfo() : this(ConnectedSpacesPlatformDotNetPINVOKE.new_csp_systems_UserRoleInfo(), true) {
+    if (ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Pending) throw ConnectedSpacesPlatformDotNetPINVOKE.SWIGPendingException.Retrieve();
+  }
 
 }
 

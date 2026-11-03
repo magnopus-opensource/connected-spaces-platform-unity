@@ -270,7 +270,7 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
 
   public const string LibName = 
-#if (UNITY_IOS || UNITY_VISIONOS) && !UNITY_EDITOR
+#if UNITY_IOS && !UNITY_EDITOR
     "__Internal";
 #else
     "ConnectedSpacesPlatformDotNet";
@@ -12031,12 +12031,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_systems_OlyRotation")]
   public static extern void delete_csp_systems_OlyRotation(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_systems_UserRoleInfo__SWIG_0")]
-  public static extern global::System.IntPtr new_csp_systems_UserRoleInfo__SWIG_0();
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_systems_UserRoleInfo__SWIG_1")]
-  public static extern global::System.IntPtr new_csp_systems_UserRoleInfo__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
-
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserRoleInfo_UserId_set")]
   public static extern void csp_systems_UserRoleInfo_UserId_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
@@ -12048,6 +12042,9 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserRoleInfo_UserRole_get")]
   public static extern int csp_systems_UserRoleInfo_UserRole_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_new_csp_systems_UserRoleInfo")]
+  public static extern global::System.IntPtr new_csp_systems_UserRoleInfo();
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_delete_csp_systems_UserRoleInfo")]
   public static extern void delete_csp_systems_UserRoleInfo(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -12972,12 +12969,6 @@ class ConnectedSpacesPlatformDotNetPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_GetSupportedThirdPartyAuthenticationProviders")]
   public static extern global::System.IntPtr csp_systems_UserSystem_GetSupportedThirdPartyAuthenticationProviders(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_GetThirdPartyProviderAuthorizeURL")]
-  public static extern void csp_systems_UserSystem_GetThirdPartyProviderAuthorizeURL(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4, global::System.Runtime.InteropServices.HandleRef jarg5);
-
-  [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_LoginToThirdPartyAuthenticationProvider")]
-  public static extern void csp_systems_UserSystem_LoginToThirdPartyAuthenticationProvider(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, bool jarg4, global::System.Runtime.InteropServices.HandleRef jarg5, global::System.Runtime.InteropServices.HandleRef jarg6, global::System.Runtime.InteropServices.HandleRef jarg7);
 
   [global::System.Runtime.InteropServices.DllImport(ConnectedSpacesPlatformDotNetPINVOKE.LibName, EntryPoint="CSharp_csp_systems_UserSystem_LoginToThirdPartyAuthenticationProviderWithToken")]
   public static extern void csp_systems_UserSystem_LoginToThirdPartyAuthenticationProviderWithToken(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3, global::System.Runtime.InteropServices.HandleRef jarg4, bool jarg5, global::System.Runtime.InteropServices.HandleRef jarg6, global::System.Runtime.InteropServices.HandleRef jarg7);

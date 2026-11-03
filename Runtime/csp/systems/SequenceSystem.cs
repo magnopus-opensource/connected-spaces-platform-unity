@@ -101,7 +101,7 @@ public class SequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SequenceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SequenceResultCallback();
 
@@ -186,7 +186,7 @@ public class SequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SequenceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SequenceResultCallback();
 
@@ -271,7 +271,7 @@ public class SequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SequenceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SequenceResultCallback();
 
@@ -356,7 +356,7 @@ public class SequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequencesResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SequencesResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SequencesResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SequencesResultCallback();
 
@@ -441,7 +441,7 @@ public class SequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequencesResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SequencesResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SequencesResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SequencesResultCallback();
 
@@ -526,7 +526,7 @@ public class SequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.SequenceResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.SequenceResultCallback callback =
         new ConnectedSpacesPlatformDotNet.SequenceResultCallback();
 
@@ -611,7 +611,7 @@ public class SequenceSystem : csp.systems.SystemBase {
     System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult> tcs = 
         new System.Threading.Tasks.TaskCompletionSource<csp.systems.NullResult>(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
 
-    /*@SWIG:/Users/runner/work/connected-spaces-platform-unity/connected-spaces-platform-unity/interface/swigutils/AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
+    /*@SWIG:D:\a\connected-spaces-platform-unity\connected-spaces-platform-unity\interface\swigutils\AsyncAdapters.i,129,MAKE_ROOTED_ASYNC_CALLBACK_BODY@*/
     ConnectedSpacesPlatformDotNet.NullResultCallback callback =
         new ConnectedSpacesPlatformDotNet.NullResultCallback();
 
