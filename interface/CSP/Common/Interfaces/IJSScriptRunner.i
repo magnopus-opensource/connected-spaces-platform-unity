@@ -28,7 +28,7 @@ namespace csp
 
             void* GetModule(int64_t /*ContextID*/, const csp::common::String& /*ModuleName*/) override {return nullptr;}
 
-            bool CreateContext(int64_t /*ContextID*/) override {return true;}
+            bool CreateContext(int64_t /*ContextID*/, csp::common::IJSScriptRunner::ScriptNameProvider /*ScriptNameProvider*/) override {return true;}
             bool DestroyContext(int64_t /*ContextID*/) override {return true;}
 
             void SetModuleSource(csp::common::String /*ModuleUrl*/, csp::common::String /*Source*/) override {}
