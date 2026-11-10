@@ -919,7 +919,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         /// </summary>
         /// <param name="tierName"> The tier for which to retrieve the checkout session Url. </param>
         /// <returns> The tier's checkout session URL</returns>
-        public async Task<string> GetCheckoutSessionUrlAsync(FoundationSystems.TierNames tierName)
+        public async Task<string> GetCheckoutSessionUrlAsync(string tierName)
         {
             Debug.Log($"Getting Checkout Session Url for {tierName} ...");
 

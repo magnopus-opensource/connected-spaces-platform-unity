@@ -9,8 +9,6 @@
 #include "CSP/Common/Systems/Log/LogSystem.h"
 #include "CSP/Systems/SystemsResult.h"
 #include "CSP/Common/SharedEnums.h"
-#include "CSP/Systems/Quota/Quota.h"
-#include "CSP/Systems/Quota/QuotaSystem.h"
 #include "CSP/Systems/SystemsResult.h"
 #include "CSP/Common/NetworkEventData.h"
 #include "CSP/Multiplayer/MultiplayerConnection.h"
@@ -71,10 +69,6 @@ namespace extra
  * The namespacing for these callbacks can be a mess. CSP needs to do some housecleaning */
 
 /* General/Top-Level Systems Callback Typemaps */
-MAKE_CALLBACK(csp::systems::FeatureLimitCallback,
-                      FeatureLimitCallbackAdapter,
-                      ARGLIST(csp::systems::FeatureLimitResult result),
-                      ARGLIST(result))
 MAKE_CALLBACK(csp::systems::NullResultCallback,
                       NullResultCallbackAdapter,
                       ARGLIST(csp::systems::NullResult result),
@@ -261,24 +255,6 @@ MAKE_CALLBACK(csp::systems::ApplicationSettingsResultCallback,
 MAKE_CALLBACK(csp::systems::AvatarInfoResultCallback,
                       AvatarInfoResultCallbackAdapter,
                       ARGLIST(csp::systems::AvatarInfoResult result),
-                      ARGLIST(result))
-
-/* Quota Callback Typemaps */
-MAKE_CALLBACK(csp::systems::FeaturesLimitCallback,
-                      FeaturesLimitCallbackAdapter,
-                      ARGLIST(csp::systems::FeaturesLimitResult result),
-                      ARGLIST(result))
-MAKE_CALLBACK(csp::systems::UserTierCallback,
-                      UserTierCallbackAdapter,
-                      ARGLIST(csp::systems::UserTierResult result),
-                      ARGLIST(result))
-MAKE_CALLBACK(csp::systems::FeatureQuotaCallback,
-                      FeatureQuotaCallbackAdapter,
-                      ARGLIST(csp::systems::FeatureQuotaResult result),
-                      ARGLIST(result))
-MAKE_CALLBACK(csp::systems::FeaturesQuotaCallback,
-                      FeaturesQuotaCallbackAdapter,
-                      ARGLIST(csp::systems::FeaturesQuotaResult result),
                       ARGLIST(result))
 
 /* ECommerce Callback Typemaps */
