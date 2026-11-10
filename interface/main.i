@@ -72,10 +72,6 @@
    don't export free function symbols as a rule. */
 %ignore ToJson;
 %ignore FromJson;
-%ignore TierNameEnumToString;
-%ignore TierFeatureEnumToString;
-%ignore StringToTierNameEnum;
-%ignore StringToTierFeatureEnum;
 %ignore ConvertDTOAssetDetailType;
 %ignore ConvertStringToAssetPlatform;
 %ignore ConvertAssetPlatformToString;
