@@ -171,6 +171,3 @@
 %include "CSP/Systems/Users/Profile.i"
 %include "CSP/Systems/Users/ThirdPartyAuthentication.i"
 %include "CSP/Systems/Users/UserSystem.i"
-
-/* Voip */
-%include "CSP/Systems/Voip/VoipSystem.i"
