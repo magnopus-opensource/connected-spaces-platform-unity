@@ -43,7 +43,7 @@ namespace Magnopus.Foundation.Unity.Runtime.User
         EThirdPartyAuthenticationProvidersArray GetSupportedThirdPartyAuthenticationProviders();
         Task<string> GetAgoraUserTokenAsync(AgoraUserTokenParams tokenParams);
         Task<string> GetCustomerPortalUrlAsync(string userId);
-        Task<string> GetCheckoutSessionUrlAsync(FoundationSystems.TierNames tierName);
+        Task<string> GetCheckoutSessionUrlAsync(string tierName);
         Task ResendVerificationEmail(string inEmail, string inRedirectUrl);
         Task<string> PostServiceProxy(TokenInfoParams tokenParams);
     }
