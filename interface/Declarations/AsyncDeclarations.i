@@ -135,6 +135,13 @@ MAKE_ACTION_ADAPTER(MaterialChangedCallback,
                      ARGLIST(csp.common.MaterialChangedParams),
                      ARGLIST(materialParams));
 
+/* ScriptSystem Action Adapters */
+MAKE_ACTION_ADAPTER(ScriptErrorCallback,
+                     ScriptErrorCallbackAdapter,
+                     ARGLIST(csp.systems.ScriptErrorData errorData),
+                     ARGLIST(csp.systems.ScriptErrorData),
+                     ARGLIST(errorData));
+
 /* UserSystem Action Adapters */
 MAKE_ACTION_ADAPTER(LoginTokenInfoCallback,
                      LoginTokenInfoResultCallbackAdapter,
@@ -325,7 +332,7 @@ MAKE_AWAITABLE(csp::multiplayer::NetworkEventBus,
            ARGLIST(csp.multiplayer.ErrorCode errorCode),
            ARGLIST(csp.multiplayer.ErrorCode),
            ARGLIST(errorCode),
-           ARGLIST(string eventName, csp.common.ReplicatedValueArray args, ulong targetClientId),
+           ARGLIST(string eventName, csp.common.ReplicatedValueArray args, uint targetClientId),
            ARGLIST(eventName, args, targetClientId)
 )
 
@@ -1456,8 +1463,8 @@ MAKE_AWAITABLE(csp::systems::UserSystem,
            ARGLIST(csp.systems.StringResult result),
            ARGLIST(csp.systems.StringResult),
            ARGLIST(result),
-           ARGLIST(csp.systems.TierNames tier),
-           ARGLIST(tier)
+           ARGLIST(string tierName),
+           ARGLIST(tierName)
 )
 
 /* SettingsSystem Async Functions */
@@ -1646,103 +1653,6 @@ MAKE_AWAITABLE(csp::systems::ApplicationSettingsSystem,
            ARGLIST(result),
            ARGLIST(string tenant, string applicationName, string context, csp.common.StringArray? keys),
            ARGLIST(tenant, applicationName, context, keys)
-)
-
-/* QuotaSystem Async Functions  */
-
-MAKE_AWAITABLE(csp::systems::QuotaSystem,
-           GetTotalSpaceSizeInKilobytes,
-           FeatureLimitCallback,
-           FeatureLimitCallbackAdapter,
-           ARGLIST(csp.systems.FeatureLimitResult featureLimitResult),
-           ARGLIST(csp.systems.FeatureLimitResult),
-           ARGLIST(featureLimitResult),
-           ARGLIST(string spaceId),
-           ARGLIST(spaceId)
-)
-
-MAKE_AWAITABLE(csp::systems::QuotaSystem,
-           GetTierFeatureProgressForUser,
-           FeaturesLimitCallback,
-           FeaturesLimitCallbackAdapter,
-           ARGLIST(csp.systems.FeaturesLimitResult result),
-           ARGLIST(csp.systems.FeaturesLimitResult),
-           ARGLIST(result),
-           ARGLIST(csp.common.TierFeaturesArray featureNames),
-           ARGLIST(featureNames)
-)
-
-MAKE_AWAITABLE(csp::systems::QuotaSystem,
-           GetTierFeatureProgressForSpace,
-           FeaturesLimitCallback,
-           FeaturesLimitCallbackAdapter,
-           ARGLIST(csp.systems.FeaturesLimitResult result),
-           ARGLIST(csp.systems.FeaturesLimitResult),
-           ARGLIST(result),
-           ARGLIST(string spaceId, csp.common.TierFeaturesArray featureNames),
-           ARGLIST(spaceId, featureNames)
-)
-
-MAKE_AWAITABLE(csp::systems::QuotaSystem,
-           SetUserTier,
-           UserTierCallback,
-           UserTierCallbackAdapter,
-           ARGLIST(csp.systems.UserTierResult result),
-           ARGLIST(csp.systems.UserTierResult),
-           ARGLIST(result),
-           ARGLIST(csp.systems.TierNames tier, string userId),
-           ARGLIST(tier, userId)
-)
-
-MAKE_AWAITABLE_ZERO(csp::systems::QuotaSystem,
-                GetCurrentUserTier,
-                UserTierCallback,
-                UserTierCallbackAdapter,
-                ARGLIST(csp.systems.UserTierResult result),
-                ARGLIST(csp.systems.UserTierResult),
-                ARGLIST(result)
-)
-
-MAKE_AWAITABLE(csp::systems::QuotaSystem,
-           GetTierFeatureQuota,
-           FeatureQuotaCallback,
-           FeatureQuotaCallbackAdapter,
-           ARGLIST(csp.systems.FeatureQuotaResult result),
-           ARGLIST(csp.systems.FeatureQuotaResult),
-           ARGLIST(result),
-           ARGLIST(csp.systems.TierNames tierName, csp.systems.TierFeatures featureName),
-           ARGLIST(tierName, featureName)
-)
-
-MAKE_AWAITABLE(csp::systems::QuotaSystem,
-           GetTierFeaturesQuota,
-           FeaturesQuotaCallback,
-           FeaturesQuotaCallbackAdapter,
-           ARGLIST(csp.systems.FeaturesQuotaResult result),
-           ARGLIST(csp.systems.FeaturesQuotaResult),
-           ARGLIST(result),
-           ARGLIST(csp.systems.TierNames tierName),
-           ARGLIST(tierName)
-)
-
-MAKE_AWAITABLE_ZERO(csp::systems::QuotaSystem,
-                GetTotalSpacesOwnedByUser,
-                FeatureLimitCallback,
-                FeatureLimitCallbackAdapter,
-                ARGLIST(csp.systems.FeatureLimitResult featureLimitResult),
-                ARGLIST(csp.systems.FeatureLimitResult),
-                ARGLIST(featureLimitResult)
-)
-
-MAKE_AWAITABLE(csp::systems::QuotaSystem,
-           GetConcurrentUsersInSpace,
-           FeatureLimitCallback,
-           FeatureLimitCallbackAdapter,
-           ARGLIST(csp.systems.FeatureLimitResult featureLimitResult),
-           ARGLIST(csp.systems.FeatureLimitResult),
-           ARGLIST(featureLimitResult),
-           ARGLIST(string spaceID),
-           ARGLIST(spaceID)
 )
 
 /* ECommerceSystem Async Functions */

@@ -136,10 +136,6 @@
 %include "CSP/Systems/Maintenance/Maintenance.i"
 %include "CSP/Systems/Maintenance/MaintenanceSystem.i"
 
-/* Quota */
-%include "CSP/Systems/Quota/Quota.i"
-%include "CSP/Systems/Quota/QuotaSystem.i"
-
 /* Analytics */
 %include "CSP/Systems/Script/ScriptSystem.i"
 
@@ -176,5 +172,3 @@
 %include "CSP/Systems/Users/ThirdPartyAuthentication.i"
 %include "CSP/Systems/Users/UserSystem.i"
 
-/* Voip */
-%include "CSP/Systems/Voip/VoipSystem.i"
