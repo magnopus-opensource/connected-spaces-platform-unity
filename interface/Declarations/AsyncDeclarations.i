@@ -325,7 +325,7 @@ MAKE_AWAITABLE(csp::multiplayer::NetworkEventBus,
            ARGLIST(csp.multiplayer.ErrorCode errorCode),
            ARGLIST(csp.multiplayer.ErrorCode),
            ARGLIST(errorCode),
-           ARGLIST(string eventName, csp.common.ReplicatedValueArray args, ulong targetClientId),
+           ARGLIST(string eventName, csp.common.ReplicatedValueArray args, uint targetClientId),
            ARGLIST(eventName, args, targetClientId)
 )
 
@@ -1456,8 +1456,8 @@ MAKE_AWAITABLE(csp::systems::UserSystem,
            ARGLIST(csp.systems.StringResult result),
            ARGLIST(csp.systems.StringResult),
            ARGLIST(result),
-           ARGLIST(csp.systems.TierNames tier),
-           ARGLIST(tier)
+           ARGLIST(string tierName),
+           ARGLIST(tierName)
 )
 
 /* SettingsSystem Async Functions */

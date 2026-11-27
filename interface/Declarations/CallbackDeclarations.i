@@ -69,10 +69,6 @@ namespace extra
  * The namespacing for these callbacks can be a mess. CSP needs to do some housecleaning */
 
 /* General/Top-Level Systems Callback Typemaps */
-MAKE_CALLBACK(csp::systems::FeatureLimitCallback,
-                      FeatureLimitCallbackAdapter,
-                      ARGLIST(csp::systems::FeatureLimitResult result),
-                      ARGLIST(result))
 MAKE_CALLBACK(csp::systems::NullResultCallback,
                       NullResultCallbackAdapter,
                       ARGLIST(csp::systems::NullResult result),
