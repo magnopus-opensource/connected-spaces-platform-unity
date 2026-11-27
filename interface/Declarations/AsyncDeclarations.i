@@ -135,6 +135,13 @@ MAKE_ACTION_ADAPTER(MaterialChangedCallback,
                      ARGLIST(csp.common.MaterialChangedParams),
                      ARGLIST(materialParams));
 
+/* ScriptSystem Action Adapters */
+MAKE_ACTION_ADAPTER(ScriptErrorCallback,
+                     ScriptErrorCallbackAdapter,
+                     ARGLIST(csp.systems.ScriptErrorData errorData),
+                     ARGLIST(csp.systems.ScriptErrorData),
+                     ARGLIST(errorData));
+
 /* UserSystem Action Adapters */
 MAKE_ACTION_ADAPTER(LoginTokenInfoCallback,
                      LoginTokenInfoResultCallbackAdapter,

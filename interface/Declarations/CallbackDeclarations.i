@@ -38,6 +38,7 @@
 #include "CSP/Systems/Maintenance/Maintenance.h"
 #include "CSP/Systems/GraphQL/GraphQL.h"
 #include "CSP/Systems/Spatial/PointOfInterest.h"
+#include "CSP/Systems/Script/ScriptSystem.h"
 #include "CSP/Systems/Spatial/Anchor.h"
 #include "CSP/Systems/Sequence/Sequence.h"
 #include "CSP/Systems/Sequence/SequenceSystem.h"
@@ -346,6 +347,12 @@ MAKE_CALLBACK(csp::systems::AnchorResolutionResultCallback,
                       AnchorResolutionResultCallbackAdapter,
                       ARGLIST(csp::systems::AnchorResolutionResult result),
                       ARGLIST(result))
+
+/* Script Callback Typemaps */
+MAKE_CALLBACK(csp::systems::ScriptErrorCallbackHandler,
+                      ScriptErrorCallbackAdapter,
+                      ARGLIST(csp::systems::ScriptErrorData errorData),
+                      ARGLIST(errorData))
 
 /* Sequence Callback Typemaps */
 MAKE_CALLBACK(csp::systems::SequenceResultCallback,

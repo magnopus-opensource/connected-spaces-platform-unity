@@ -152,6 +152,16 @@ MAKE_EVENT_FOR_CALLBACK(
     csp::systems::HotspotSequenceSystem
 )
 
+/* csp::systems::ScriptSystem events */
+
+MAKE_EVENT_FOR_CALLBACK(
+    OnScriptError,
+    ScriptErrorCallback,
+    SetScriptErrorCallback,
+    csp.systems.ScriptErrorData,
+    csp::systems::ScriptSystem
+)
+
 /* csp::systems::SequenceSystem events */
 
 MAKE_EVENT_FOR_CALLBACK(
